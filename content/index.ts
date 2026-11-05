@@ -10,12 +10,18 @@ import { boardBringUpChecklist } from "./lessons/board-bring-up-checklist";
 import { writingATrustworthyTestCase } from "./lessons/writing-a-trustworthy-test-case";
 import { rootCauseAnalysis } from "./lessons/root-cause-analysis";
 import { interfaceControlAndIntegrationFaults } from "./lessons/interface-control-and-integration-faults";
+import { fromResetVectorToMain } from "./lessons/from-reset-vector-to-main";
+import { priorityInversion } from "./lessons/priority-inversion";
+import { isrToTaskHandoff } from "./lessons/isr-to-task-handoff";
+import { bootloadersImagesAndRecovery } from "./lessons/bootloaders-images-and-recovery";
+import { embeddedLinuxBootChain } from "./lessons/embedded-linux-boot-chain";
 import { freshBoardNoSignOfLife } from "./missions/fresh-board-no-sign-of-life";
 import { theSensorThatNeverAnswers } from "./missions/the-sensor-that-never-answers";
 import { theUartThatPrintsGarbage } from "./missions/the-uart-that-prints-garbage";
 import { theBoardThatResetsEverySecond } from "./missions/the-board-that-resets-every-second";
 import { theRequirementNobodyCouldTest } from "./missions/the-requirement-nobody-could-test";
 import { twoBoardsOneBusNoAgreement } from "./missions/two-boards-one-bus-no-agreement";
+import { theTaskThatNeverRuns } from "./missions/the-task-that-never-runs";
 import type { Lesson, Mission } from "@/lib/content/schema";
 
 /**
@@ -38,6 +44,11 @@ export const lessons: Lesson[] = [
   boardBringUpChecklist,
   interfaceControlAndIntegrationFaults,
   writingATrustworthyTestCase,
+  fromResetVectorToMain,
+  priorityInversion,
+  isrToTaskHandoff,
+  bootloadersImagesAndRecovery,
+  embeddedLinuxBootChain,
 ];
 
 export const missions: Mission[] = [
@@ -47,6 +58,7 @@ export const missions: Mission[] = [
   theUartThatPrintsGarbage,
   twoBoardsOneBusNoAgreement,
   theRequirementNobodyCouldTest,
+  theTaskThatNeverRuns,
 ];
 
 export { curriculum } from "./curriculum";

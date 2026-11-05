@@ -37,6 +37,8 @@ export const visualIdSchema = z.enum([
   "iwdg-timeout",
   "aliasing",
   "traceability",
+  "startup-sequence",
+  "priority-inversion",
 ]);
 export type VisualId = z.infer<typeof visualIdSchema>;
 

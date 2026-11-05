@@ -95,7 +95,11 @@ export const curriculum: CurriculumModule[] = [
     title: "Firmware architecture and drivers",
     priority: "P1",
     summary: "Startup, bootloader, HAL, BSP, polling/interrupt/DMA, peripherals, JTAG/SWD, GDB and update/recovery.",
-    lessons: [{ title: "From reset vector to main(): what startup code does", status: "planned" }],
+    lessons: [
+      { title: "From reset vector to main(): what startup code does", status: "published", slug: "from-reset-vector-to-main" },
+      { title: "Bootloaders, images and recovery paths", status: "published", slug: "bootloaders-images-and-recovery" },
+      { title: "Polling, interrupts and DMA: choosing the driver model", status: "planned" },
+    ],
   },
   {
     id: "rtos",
@@ -105,9 +109,10 @@ export const curriculum: CurriculumModule[] = [
     priority: "P0",
     summary: "Tasks, priorities, deadlines, scheduling, mutex/semaphore/queue, priority inversion, deadlocks and FreeRTOS basics.",
     lessons: [
-      { title: "Why the high-priority task starved: priority inversion", status: "planned" },
-      { title: "Queues vs shared buffers in ISR-to-task handoff", status: "planned" },
+      { title: "Why the high-priority task starved: priority inversion", status: "published", slug: "priority-inversion" },
+      { title: "Queues vs shared buffers in ISR-to-task handoff", status: "published", slug: "isr-to-task-handoff" },
     ],
+    missions: [{ title: "The task that never runs", status: "published", slug: "the-task-that-never-runs" }],
   },
   {
     id: "embedded-linux",
@@ -116,7 +121,7 @@ export const curriculum: CurriculumModule[] = [
     title: "Embedded Linux",
     priority: "P1",
     summary: "Shell, filesystem, processes, boot, device tree, kernel vs user space, driver basics, Git, build tools, logs and GDB.",
-    lessons: [{ title: "Boot chain and device tree, from bootloader to login", status: "planned" }],
+    lessons: [{ title: "Boot chain and device tree, from bootloader to login", status: "published", slug: "embedded-linux-boot-chain" }],
   },
   {
     id: "instrumentation",

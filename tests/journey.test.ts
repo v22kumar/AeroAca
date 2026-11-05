@@ -25,8 +25,8 @@ describe("journey content", () => {
     });
   });
 
-  it("days 1 to 15 are fully published and every published lesson and mission appears in them", () => {
-    const first10 = journey.slice(0, 15);
+  it("days 1 to 20 are fully published and every published lesson and mission appears in them", () => {
+    const first10 = journey.slice(0, 20);
     for (const d of first10) expect(d.items.some((i) => i.kind === "planned"), `day ${d.day}`).toBe(false);
     const used = new Set(first10.flatMap((d) => d.items.flatMap((i) => (i.kind === "lesson" || i.kind === "mission" ? [i.slug] : []))));
     for (const l of lessons) expect(used.has(l.slug), l.slug).toBe(true);
@@ -87,7 +87,7 @@ describe("journey progression", () => {
     expect(after.days[14]!.items.find((i) => i.item.kind === "interview")?.done).toBe(false);
     // Days that only have planned content plus a review can be exhausted but never complete.
     expect(after.days[15]!.complete).toBe(false);
-    expect(after.lastFullyPublishedDay).toBe(15);
+    expect(after.lastFullyPublishedDay).toBe(20);
     s.setApplyDone(applyKey(1, "bringup-card"), false);
     expect(journeyState(s.getState(), now()).currentDay).toBe(1);
   });
@@ -95,7 +95,7 @@ describe("journey progression", () => {
   it("planned items never count as done and cannot block a day with available work", () => {
     const s = new ProgressStore(null, now);
     const js = journeyState(s.getState(), now());
-    const day11 = js.days[15]!;
+    const day11 = js.days[20]!;
     expect(day11.plannedCount).toBeGreaterThan(0);
     expect(day11.items.filter((i) => i.status === "planned").every((i) => !i.done && !i.available)).toBe(true);
     expect(day11.availableCount).toBeGreaterThan(0);
