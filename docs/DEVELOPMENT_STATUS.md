@@ -5,9 +5,9 @@ Progress report against `docs/PRODUCT_ROADMAP.md`. Updated at the end of every i
 ## Current state (2026-11-05)
 
 - **Production:** Release 0.1 at https://aeroaca.vercel.app (Vercel deployment `dpl_DzDWiodmXiHacxUGqJCM5EaCSTjo`, `main` at `3c9c722`). Vercel Authentication protects previews only. Rollback via Vercel "Promote to Production" or `git revert -m 1 3c9c722`.
-- **Open PRs:** #2 Release 0.2 first increment (`feat/release-0.2` → `main`): CI green, preview re-verified after review fixes (`34fcb79`), awaiting Product Owner approval. #3 Release 0.3 (`feat/release-0.3` → `feat/release-0.2`, stacked): block 3 content, preview verified (`734ee74`). #4 Release 0.4 (`feat/release-0.4` → `feat/release-0.3`, stacked): block 4 content, preview verified (`2115f7a`). #5 Release 0.5 (`feat/release-0.5` → `feat/release-0.4`, stacked): block 5 content, preview verified (`5ac4afc`). #6 Release 0.6 (`feat/release-0.6` → `feat/release-0.5`, stacked): block 6 content; all 30 days published; preview verified (`8abfc72`). #7 Release 0.7 (`feat/release-0.7` → `feat/release-0.6`, stacked): the portfolio track; preview verified (`8ed4f7c`). #8 Release 0.8 (`feat/release-0.8` → `feat/release-0.7`, stacked): curriculum depth. Each retargets to the next base as the one below merges.
+- **Open PRs:** #2 Release 0.2 first increment (`feat/release-0.2` → `main`): CI green, preview re-verified after review fixes (`34fcb79`), awaiting Product Owner approval. #3 Release 0.3 (`feat/release-0.3` → `feat/release-0.2`, stacked): block 3 content, preview verified (`734ee74`). #4 Release 0.4 (`feat/release-0.4` → `feat/release-0.3`, stacked): block 4 content, preview verified (`2115f7a`). #5 Release 0.5 (`feat/release-0.5` → `feat/release-0.4`, stacked): block 5 content, preview verified (`5ac4afc`). #6 Release 0.6 (`feat/release-0.6` → `feat/release-0.5`, stacked): block 6 content; all 30 days published; preview verified (`8abfc72`). #7 Release 0.7 (`feat/release-0.7` → `feat/release-0.6`, stacked): the portfolio track; preview verified (`8ed4f7c`). #8 Release 0.8 (`feat/release-0.8` → `feat/release-0.7`, stacked): curriculum depth. #9 Release 0.9 (`feat/release-0.9` → `feat/release-0.8`, stacked): learning intelligence. Each retargets to the next base as the one below merges.
 - **Published content (0.8 branch):** 37 lessons, 10 missions, 1 portfolio project (7 stages, 19 deliverables, in-browser fault-injection lab), 42 interview questions (35 with industry notes), 211 glossary terms, 19 interactive visuals, timed mock-interview mode, all 30 journey days complete, every module with published content.
-- **Quality gates (0.8 branch):** lint 0/0, typecheck clean, 46 unit tests, 124 browser tests (Pixel 7 + desktop, incl. axe WCAG 2.0 A/AA), all routes static.
+- **Quality gates (0.9 branch):** lint 0/0, typecheck clean, 53 unit tests (incl. a Release 0.1 backup migration test), 130 browser tests (Pixel 7 + desktop, incl. axe WCAG 2.0 A/AA), all routes static, visuals code-split.
 
 ## Done
 
@@ -21,10 +21,11 @@ Progress report against `docs/PRODUCT_ROADMAP.md`. Updated at the end of every i
 | 0.6 | Journey days 26–30: avionics/automotive and medical/industrial standards as scope (interactive standards map), cross-industry transfer, portfolio presentation, telling a debugging story; timed mock-interview mode; 3 interview questions; 22 glossary terms; all 30 days published | PR #6; `docs/RELEASE_0.6_REPORT.md` |
 | 0.7 | Portfolio track: STM32 sensor monitor in 7 stages and 19 deliverables, simulation and hardware paths recorded separately, in-browser fault-injection lab, evidence table derived from the learner's ticks; ADR-12 | PR #7; `docs/RELEASE_0.7_REPORT.md` |
 | 0.8 | Curriculum depth: 11 lessons (power tree, op-amps, ADC, schematic review, datasheet triage, NVIC, CAN, pointers to hardware, RAII, driver models, logic analysers), 2 missions, 4 interactives (ADC, CAN arbitration, PWM timer, NVIC), 11 interview questions, 32 glossary terms | PR #8; `docs/RELEASE_0.8_REPORT.md` |
+| 0.9 | Learning intelligence: evidence-based recommendations on Today and Progress, explained readiness by module, Release 0.1 backup migration test, on-demand visuals; ADR-13, ADR-14 | PR #9; `docs/RELEASE_0.9_REPORT.md` |
 
 ## In flight
 
-- 0.9 (learning intelligence): prerequisite recommendations from wrong answers and weak skills, targeted retries scheduled into days, an explained readiness view with no fabricated percentages, progress-store migration test, performance pass. Next on a branch stacked on `feat/release-0.8`.
+- 1.0 gates: documented content review (a second technical reader per block), real-learner feedback incorporated, final quality gates. The remaining gates need people: a technical reviewer and a learner.
 
 ## Known gaps and blockers
 
@@ -36,5 +37,5 @@ Progress report against `docs/PRODUCT_ROADMAP.md`. Updated at the end of every i
 
 ## Decisions needed from the Product Owner
 
-1. Approve and merge PR #2 (Release 0.2 first increment), then PRs #3 to #8 (0.3 to 0.8) in order as each is retargeted to `main`.
+1. Approve and merge PR #2 (Release 0.2 first increment), then PRs #3 to #9 (0.3 to 0.9) in order as each is retargeted to `main`.
 2. Whether production should be protected (currently public by URL, as requested for a working production link).

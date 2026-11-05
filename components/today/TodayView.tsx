@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { InstallHint } from "@/components/pwa/InstallHint";
 import { JourneyDayChecklist } from "@/components/journey/JourneyDayCard";
+import { Recommendations } from "@/components/progress/Recommendations";
 
 function greeting(hour: number) {
   if (hour < 5) return "Late session";
@@ -137,6 +138,8 @@ export function TodayView() {
               </div>
             </Card>
           </section>
+
+          <Recommendations limit={3} heading="Retry and reinforce, from your own evidence" />
 
           <section aria-labelledby="week-heading" className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <SectionTitle className="sr-only">
