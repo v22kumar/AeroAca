@@ -9,13 +9,14 @@ const items: { href: string; label: string; icon: IconName; match: (p: string) =
   { href: "/curriculum", label: "Learn", icon: "book", match: (p) => p.startsWith("/curriculum") || p.startsWith("/lessons") || p.startsWith("/missions") },
   { href: "/interview", label: "Interview", icon: "mic", match: (p) => p.startsWith("/interview") },
   { href: "/progress", label: "Progress", icon: "chart", match: (p) => p.startsWith("/progress") || p.startsWith("/review") },
+  { href: "/glossary", label: "Terms", icon: "search", match: (p) => p.startsWith("/glossary") },
 ];
 
 export function BottomNav() {
   const pathname = usePathname() ?? "/";
   return (
     <nav aria-label="Primary" className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 backdrop-blur pb-safe md:hidden">
-      <ul className="mx-auto grid max-w-2xl grid-cols-4">
+      <ul className="mx-auto grid max-w-2xl grid-cols-5">
         {items.map((it) => {
           const active = it.match(pathname);
           return (

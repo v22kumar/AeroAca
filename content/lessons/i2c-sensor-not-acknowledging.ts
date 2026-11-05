@@ -6,6 +6,7 @@ export const i2cSensorNotAcknowledging: Lesson = {
   title: "I2C sensor not acknowledging",
   summary: "A NACK is the bus telling you exactly one thing. Learn to read it, and to separate supply, pull-up, address, timing and firmware causes with a meter and a scope.",
   durationMinutes: 10,
+  whyItMatters: "Almost every product has a sensor on I2C, and almost every engineer has lost a day to one that would not answer. Being the person who finds it in ten minutes with a meter and one capture is a reputation worth having.",
   objectives: [
     "Explain how an I2C transaction is built, including the address byte and the acknowledge bit.",
     "Distinguish a wiring or pull-up fault from an addressing or firmware fault using idle levels and one scope capture.",

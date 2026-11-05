@@ -8,7 +8,8 @@ async function expectNoHorizontalOverflow(page: Page) {
 test.describe("Today and navigation", () => {
   test("shows one next action and navigates through the bottom nav", async ({ page, isMobile }) => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("One useful step");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("One good step");
+    await expect(page.getByText(/, Sushmita$/)).toBeVisible();
     const cta = page.getByTestId("next-action-cta");
     await expect(cta).toHaveText(/Start lesson/);
     await expectNoHorizontalOverflow(page);
@@ -198,6 +199,36 @@ test.describe("PWA", () => {
       return reg.active ? "active" : "pending";
     });
     expect(["active", "pending"]).toContain(registered);
+  });
+});
+
+test.describe("Glossary", () => {
+  test("terms inside a lesson open a definition sheet; the glossary page searches", async ({ page }) => {
+    await page.goto("/lessons/mcu-board-does-not-boot");
+    const term = page.locator("button.term").first();
+    await expect(term).toBeVisible();
+    await term.click();
+    const sheet = page.getByTestId("term-sheet");
+    await expect(sheet).toBeVisible();
+    await expect(sheet.getByText("Why it matters")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(sheet).toHaveCount(0);
+
+    await page.goto("/glossary");
+    await page.getByTestId("glossary-search").fill("pull-up");
+    const list = page.getByTestId("glossary-list");
+    await expect(list.locator("summary", { hasText: /^pull-up$/ })).toHaveCount(1);
+    expect(await list.locator("li").count()).toBeLessThan(10);
+    await page.getByTestId("glossary-search").fill("zzzz");
+    await expect(page.getByText("No term matches")).toBeVisible();
+  });
+
+  test("the greeting uses a custom name after it is saved", async ({ page }) => {
+    await page.goto("/progress");
+    await page.getByTestId("name-input").fill("Sush");
+    await page.getByTestId("name-input").blur();
+    await page.goto("/");
+    await expect(page.getByText(/, Sush$/)).toBeVisible();
   });
 });
 

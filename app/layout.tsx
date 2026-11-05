@@ -4,6 +4,7 @@ import "./globals.css";
 import { AppShell } from "@/components/shell/AppShell";
 import { ProgressProvider } from "@/lib/progress/ProgressProvider";
 import { ServiceWorkerRegistrar } from "@/components/pwa/ServiceWorkerRegistrar";
+import { GlossaryProvider } from "@/components/glossary/GlossaryProvider";
 
 export const metadata: Metadata = {
   title: { default: "AeroAca", template: "%s · AeroAca" },
@@ -20,8 +21,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f4ef" },
-    { media: "(prefers-color-scheme: dark)", color: "#0f1317" },
+    { media: "(prefers-color-scheme: light)", color: "#fbf6f3" },
+    { media: "(prefers-color-scheme: dark)", color: "#171116" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -33,7 +34,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body className="bg-paper text-ink">
         <ProgressProvider>
-          <AppShell>{children}</AppShell>
+          <GlossaryProvider>
+            <AppShell>{children}</AppShell>
+          </GlossaryProvider>
           <ServiceWorkerRegistrar />
         </ProgressProvider>
       </body>

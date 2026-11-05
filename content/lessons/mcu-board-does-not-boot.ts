@@ -6,6 +6,7 @@ export const mcuBoardDoesNotBoot: Lesson = {
   title: "MCU board does not boot",
   summary: "A silent board is a power, reset, clock or boot-configuration problem far more often than a firmware one. Learn the order that finds it fastest.",
   durationMinutes: 9,
+  whyItMatters: "'Walk me through bringing up a dead board' is asked in nearly every hardware and firmware interview. Answering it in a calm, measured order is one of the fastest ways to sound like the engineer they want to hire.",
   objectives: [
     "Check power, reset, clock and boot configuration in an order that eliminates the most likely causes first.",
     "Explain what the debugger can and cannot tell you when a core is held in reset or running from the wrong memory.",

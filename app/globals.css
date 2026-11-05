@@ -7,53 +7,57 @@
   Light and dark are both first-class (prefers-color-scheme).
 */
 :root {
-  --c-paper: #f5f4ef;
+  --c-paper: #fbf6f3;
   --c-surface: #ffffff;
-  --c-surface-2: #eeece5;
-  --c-ink: #1a1f26;
-  --c-ink-2: #4b5563;
-  --c-ink-3: #78818d;
-  --c-line: #dcd8ce;
-  --c-line-2: #c9c4b8;
-  --c-accent: #0f766e;
-  --c-accent-strong: #0b5d57;
+  --c-surface-2: #f5ebec;
+  --c-ink: #2a2026;
+  --c-ink-2: #5f5259;
+  --c-ink-3: #8c7f86;
+  --c-line: #ead9dd;
+  --c-line-2: #d9c3c9;
+  --c-accent: #b2416f;
+  --c-accent-strong: #93315a;
   --c-on-accent: #ffffff;
-  --c-accent-soft: #dcefeb;
-  --c-amber: #a85a0a;
-  --c-amber-soft: #fbe8cf;
+  --c-accent-soft: #f9e4ec;
+  --c-amber: #b4650f;
+  --c-amber-soft: #fcebd3;
   --c-danger: #b42318;
   --c-danger-soft: #fde2df;
-  --c-ok: #15803d;
-  --c-ok-soft: #dcf3e3;
-  --c-code-bg: #1e242c;
-  --c-code-ink: #e6e9ee;
-  --c-focus: #0f766e;
+  --c-ok: #2f7d4f;
+  --c-ok-soft: #dff3e6;
+  --c-code-bg: #2b2029;
+  --c-code-ink: #f1e8ec;
+  --c-focus: #b2416f;
+  --c-glow-a: #fbe3ec;
+  --c-glow-b: #fff1d8;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --c-paper: #0f1317;
-    --c-surface: #171c22;
-    --c-surface-2: #1f262e;
-    --c-ink: #e7e9ec;
-    --c-ink-2: #aeb6c0;
-    --c-ink-3: #7f8893;
-    --c-line: #2a323c;
-    --c-line-2: #3a434e;
-    --c-accent: #3cc8b4;
-    --c-accent-strong: #5fd9c7;
-    --c-on-accent: #05211c;
-    --c-accent-soft: #11302c;
-    --c-amber: #f0a73f;
-    --c-amber-soft: #3a2a10;
+    --c-paper: #171116;
+    --c-surface: #211922;
+    --c-surface-2: #2b212c;
+    --c-ink: #f1e9ee;
+    --c-ink-2: #bfb1b9;
+    --c-ink-3: #8f818a;
+    --c-line: #3a2d39;
+    --c-line-2: #4d3c4b;
+    --c-accent: #f08cb3;
+    --c-accent-strong: #f6a8c6;
+    --c-on-accent: #2a0d1a;
+    --c-accent-soft: #3b1f2d;
+    --c-amber: #f0b35a;
+    --c-amber-soft: #3c2a12;
     --c-danger: #ff7b70;
     --c-danger-soft: #3d1a17;
-    --c-ok: #58c77c;
-    --c-ok-soft: #10301b;
-    --c-code-bg: #0b0f13;
-    --c-code-ink: #dfe4ea;
-    --c-focus: #3cc8b4;
+    --c-ok: #6fcf93;
+    --c-ok-soft: #14321f;
+    --c-code-bg: #120c11;
+    --c-code-ink: #ebe2e7;
+    --c-focus: #f08cb3;
+    --c-glow-a: #3b1f2d;
+    --c-glow-b: #3a2a16;
     color-scheme: dark;
   }
 }
@@ -84,8 +88,11 @@
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
-  --radius-card: 14px;
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px rgb(0 0 0 / 0.04);
+  --color-glow-a: var(--c-glow-a);
+  --color-glow-b: var(--c-glow-b);
+
+  --radius-card: 16px;
+  --shadow-card: 0 1px 2px rgb(60 20 40 / 0.05), 0 6px 20px rgb(60 20 40 / 0.06);
 }
 
 html {
@@ -237,6 +244,32 @@ body {
 }
 .pt-safe {
   padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Soft hero glow used on the Today card */
+.hero-glow {
+  background:
+    radial-gradient(120% 90% at 100% 0%, var(--c-glow-a) 0%, transparent 55%),
+    radial-gradient(90% 80% at 0% 100%, var(--c-glow-b) 0%, transparent 60%),
+    var(--c-surface);
+}
+
+/* Tappable glossary term */
+.term {
+  text-decoration: underline dotted;
+  text-decoration-color: var(--c-accent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: help;
+  border-radius: 4px;
+}
+.term:hover {
+  background: var(--c-accent-soft);
 }
 
 /* Subtle entrance for step content */

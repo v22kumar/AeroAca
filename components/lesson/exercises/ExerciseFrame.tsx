@@ -53,7 +53,10 @@ export function ExerciseFrame({
   );
 }
 
+const praise = ["Correct", "Nicely reasoned", "That is it", "Exactly right"];
+
 export function FeedbackPanel({ result }: { result: GradeResult }) {
+  const label = result.correct ? praise[result.feedback.length % praise.length] : "Not yet. Here is why";
   return (
     <div
       role="status"
@@ -64,7 +67,7 @@ export function FeedbackPanel({ result }: { result: GradeResult }) {
     >
       <p className={`mb-1 flex items-center gap-2 text-sm font-bold ${result.correct ? "text-ok" : "text-amber"}`}>
         <Icon name={result.correct ? "check" : "info"} size={16} />
-        {result.correct ? "Correct" : "Not yet"}
+        {label}
       </p>
       <Markdown size="sm">{result.feedback}</Markdown>
     </div>

@@ -206,6 +206,8 @@ export const lessonSchema = z
     /** One sentence hook shown in lists. */
     summary: z.string(),
     durationMinutes: z.number().int().positive(),
+    /** One or two sentences on what this unlocks for her work or interviews. */
+    whyItMatters: z.string().min(20),
     objectives: z.array(z.string()).min(2),
     prerequisites: z.array(slug).optional(),
     steps: z.array(lessonStepSchema).min(5),
@@ -307,6 +309,7 @@ export const missionSchema = z
     durationMinutes: z.number().int().positive(),
     /** Simulated time budget a lead would expect for first isolation. */
     budgetMinutes: z.number().int().positive(),
+    whyItMatters: z.string().min(20),
     scenario: markdown,
     /** What a correct outcome looks like, shown as the mission goal. */
     goal: markdown,

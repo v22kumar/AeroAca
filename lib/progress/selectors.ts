@@ -121,6 +121,12 @@ export function skillLabel(skill: string): string {
   return skillLabels[skill] ?? skill;
 }
 
+export const DEFAULT_NAME = "Sushmita";
+
+export function learnerName(state: ProgressState): string {
+  return state.profile?.name?.trim() || DEFAULT_NAME;
+}
+
 export function overallStats(state: ProgressState, now = Date.now()) {
   const path = learningPath();
   const completed = path.filter((p) => itemStatus(state, p) === "completed").length;

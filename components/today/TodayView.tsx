@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { curriculum, learningPath, lessons, missions } from "@/lib/content";
 import { useProgress } from "@/lib/progress/ProgressProvider";
-import { itemStatus, nextAction, overallStats, type NextAction } from "@/lib/progress/selectors";
+import { itemStatus, learnerName, nextAction, overallStats, type NextAction } from "@/lib/progress/selectors";
 import { Card, SectionTitle } from "@/components/ui/Card";
 import { LinkButton } from "@/components/ui/Button";
 import { StatusPill } from "@/components/ui/StatusPill";
@@ -78,15 +78,18 @@ export function TodayView() {
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-6">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">{greeting(hour)}</p>
-        <h1 className="mt-1 text-[26px] font-bold leading-tight tracking-tight md:text-3xl">One useful step today.</h1>
+        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">
+          {greeting(hour)}
+          {hydrated ? `, ${learnerName(state)}` : ""}
+        </p>
+        <h1 className="mt-1 text-[26px] font-bold leading-tight tracking-tight md:text-3xl">One good step today.</h1>
         <p className="mt-2 text-[15px] text-ink-2">
-          Short, problem-led engineering practice for an associate avionics engineer moving into electronics R&amp;D and embedded roles.
+          Short, problem-led practice that builds the reasoning interviewers listen for. Ten minutes, one real engineering problem, your own answers.
         </p>
       </div>
 
       {hydrated ? (
-        <Card className="relative overflow-hidden p-5" data-testid="next-action">
+        <Card className="hero-glow relative overflow-hidden p-5" data-testid="next-action">
           <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-accent-soft opacity-60" aria-hidden />
           <p className="relative text-xs font-semibold uppercase tracking-[0.12em] text-accent">{d.eyebrow}</p>
           <h2 className="relative mt-1 pr-6 text-xl font-bold leading-snug">{d.title}</h2>
@@ -186,6 +189,17 @@ export function TodayView() {
           </p>
         </Card>
       </section>
+
+      <Link href="/glossary" className="flex items-center gap-3 rounded-card border border-line bg-surface p-4 hover:bg-surface-2">
+        <span className="text-accent">
+          <Icon name="search" size={20} />
+        </span>
+        <span className="min-w-0 flex-1 text-sm">
+          <span className="block font-semibold">Not sure what a word means?</span>
+          <span className="block text-ink-2">Every technical term in the lessons is tappable, and the full glossary lives here.</span>
+        </span>
+        <Icon name="chevron-right" size={18} className="text-ink-3" />
+      </Link>
 
       <InstallHint />
 

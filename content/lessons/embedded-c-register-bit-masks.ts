@@ -6,6 +6,7 @@ export const embeddedCRegisterBitMasks: Lesson = {
   title: "Register bit masks: read, modify, write safely",
   summary: "Every peripheral is configured by bits in memory-mapped registers. Learn to read a bit-field definition, change exactly the bits you mean to, and know when a read-modify-write is not safe.",
   durationMinutes: 10,
+  whyItMatters: "Register bit manipulation and the meaning of volatile come up in nearly every embedded C interview, often as a short coding exercise. Mastering them also makes datasheets and HAL source code readable instead of intimidating.",
   objectives: [
     "Set, clear, toggle and test individual bits and multi-bit fields with masks, without disturbing neighbouring bits.",
     "Explain what `volatile` guarantees for a hardware register and what it does not.",

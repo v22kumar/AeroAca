@@ -26,6 +26,7 @@ Other scripts: `npm run build`, `npm start`, `npm test` (Vitest), `npm run icons
 | Interview | `/interview` | Questions that probe reasoning, a strong/weak rubric, follow-up probes, a sample answer, honest self-rating |
 | Progress | `/progress` | Only real completions, attempts, weak skills, interview ratings; export/import/reset of device-local data |
 | Review | `/review` | Spaced recall of recap cards from completed lessons (Leitner-style boxes) |
+| Terms | `/glossary` | Searchable glossary of every technical term; inside lessons, missions and interview text the first occurrence of each term is tappable and opens the same definition |
 
 ### Published content
 
@@ -47,8 +48,8 @@ All mission readings are simulated and labelled as such in the UI.
 ```
 app/            Next.js 16 App Router pages (all prerendered static HTML)
 components/     UI: shell, ui primitives, visuals (SVG), lesson player + exercises, mission player, interview, progress, review, pwa
-content/        Learning content as typed data: lessons/, missions/, curriculum.ts, interview.ts, index.ts (registry)
-lib/content/    zod schemas + loaders (lesson/mission/curriculum/interview, learning path)
+content/        Learning content as typed data: lessons/, missions/, curriculum.ts, interview.ts, glossary.ts, index.ts (registry)
+lib/content/    zod schemas + loaders (lesson/mission/curriculum/interview, learning path), glossary matcher (remark plugin)
 lib/learning/   Pure grading functions and the mission state machine
 lib/progress/   Device-local store (localStorage, versioned, zod-validated), React provider, selectors
 public/         manifest icons, service worker (sw.js)
@@ -63,6 +64,8 @@ Key decisions, with reasoning, are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.m
 - **Content is typed data, not MDX.** Lessons are step sequences with structured exercises, validated by zod at test time. Prose fields are Markdown. See [docs/CONTENT_AUTHORING.md](docs/CONTENT_AUTHORING.md).
 - **Progress is device-local** (localStorage, schema-versioned). The UI says so wherever it matters and offers export/import.
 - **Grading and mission logic are pure functions** with unit tests; the UI only renders their results.
+- **Definitions on demand.** A remark plugin links the first occurrence of each glossary term per block of Markdown; a shared bottom sheet shows a plain-language definition, the precise detail, why it matters for her work, related terms and the lesson it comes from.
+- **Personal, warm, adult.** Greeting by name (editable on Progress), "why this matters for your next role" on every lesson and mission, encouraging feedback copy. No badges, streaks or confetti.
 
 ## Adding a lesson or mission
 
@@ -75,7 +78,7 @@ No page or component changes are needed. Full guide: [docs/CONTENT_AUTHORING.md]
 
 ## Testing
 
-- `npm test`: 29 unit tests across content validation, grading, mission engine and progress store.
+- `npm test`: unit tests across content validation, grading, mission engine, progress store, learner profile and the glossary matcher.
 - `npm run test:e2e`: Playwright flows on a Pixel 7 profile and desktop Chrome: navigation, planned-content gating, a full lesson completion with wrong-then-right answers and reload persistence, register-exercise grading, mission branching (wrong path vs. evidence-backed path) with persistence, PWA manifest/icons/service-worker checks, keyboard access to the primary action.
 - CI (`.github/workflows/ci.yml`) runs lint, typecheck, unit tests, build and e2e on every push and pull request.
 

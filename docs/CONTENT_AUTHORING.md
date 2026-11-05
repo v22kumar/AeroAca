@@ -56,6 +56,14 @@ Fixes: exactly one `quality: "best"`, others `acceptable` or `wrong`, each with 
 
 The tests check that `optimalPath` is reachable in order, collects all required evidence, and fits within `budgetMinutes`.
 
+## Glossary
+
+`content/glossary.ts` holds every technical term. Each entry has `term`, optional `aliases`, `short` (one plain sentence), `detail` (precision), `why` (what it means for her work or an interview) and optional `relatedLesson`.
+
+Terms are matched automatically in rendered Markdown by `lib/content/glossary-matcher.ts`: the first occurrence per block becomes tappable. Aliases written in capitals (ACK, START, CAN) match case-sensitively so ordinary words stay plain; everything else is case-insensitive. Code, links and headings are never matched. Exercise option labels are deliberately not matched so a tap selects the option.
+
+When you introduce a new technical word in a lesson, add it to the glossary in the same change. The test suite checks ids and aliases are unique and that every lesson contains tappable terms.
+
 ## Interview questions
 
 `content/interview.ts`: `id`, `moduleId`, `topic`, `question`, `probes`, `rubric.strong`, `rubric.weak`, `sampleAnswer`, optional `relatedLesson`. Questions should probe reasoning; the rubric should be specific enough that a learner can self-grade honestly.

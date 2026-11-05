@@ -21,6 +21,10 @@ export function CurriculumView() {
         <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">Curriculum</p>
         <h1 className="mt-1 text-[26px] font-bold leading-tight tracking-tight md:text-3xl">16 modules, built in the order you need them.</h1>
         <p className="mt-2 text-[15px] text-ink-2">
+          <Link href="/glossary" className="font-semibold text-accent underline underline-offset-2">
+            Glossary of every technical term
+          </Link>
+          {" · "}
           {published} items are published and playable. {planned} are planned and shown as coming soon so you can see the shape of the whole programme. Nothing unbuilt is ever marked complete.
         </p>
       </div>

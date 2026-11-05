@@ -7,6 +7,7 @@ export const freshBoardNoSignOfLife: Mission = {
   summary: "First unit of a new revision is back from assembly and the debugger cannot see the MCU. Isolate the fault with the fewest bench minutes.",
   durationMinutes: 12,
   budgetMinutes: 45,
+  whyItMatters: "This is the mission version of the most common bring-up interview question. Practising the order here means you can tell the story with real measurements in it.",
   relatedLesson: "mcu-board-does-not-boot",
   scenario: `**Board:** rev B of an STM32F405 sensor node. 5 V in from the bench supply, a 3.3 V LDO, an external reset supervisor (U3), 8 MHz crystal, SWD header, one status LED on PA5.
 

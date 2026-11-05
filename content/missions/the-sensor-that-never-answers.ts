@@ -7,6 +7,7 @@ export const theSensorThatNeverAnswers: Mission = {
   summary: "A temperature sensor NACKs every transaction. Use idle levels, one capture and a bus scan to find out why, without swapping a single part.",
   durationMinutes: 10,
   budgetMinutes: 30,
+  whyItMatters: "Address mismatches are a real production fault, and the habit this mission builds, looking at the wire before touching parts, is what senior engineers notice first.",
   relatedLesson: "i2c-sensor-not-acknowledging",
   scenario: `**Board:** an STM32-based sensor node with a TMP102 temperature sensor on I2C1 (PB8 = SCL, PB9 = SDA), 4.7 kΩ pull-ups to 3.3 V, bus at 100 kHz.
 

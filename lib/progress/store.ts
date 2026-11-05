@@ -193,6 +193,15 @@ export class ProgressStore {
     });
   }
 
+  /* ---------- Profile ---------- */
+
+  setName(name: string) {
+    const trimmed = name.trim().slice(0, 40);
+    this.update((d) => {
+      d.profile = { ...(d.profile ?? {}), name: trimmed || undefined };
+    });
+  }
+
   /* ---------- Maintenance ---------- */
 
   exportJson(): string {

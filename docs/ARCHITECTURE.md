@@ -50,6 +50,14 @@ Short records of the decisions that shape the codebase, in the style of ADRs.
 
 **Why.** The audience is an adult engineer. The design has to be calm, legible on a phone in one hand, and fast. No badges, streaks or confetti.
 
+## ADR-9: Definitions on demand through a remark plugin
+
+**Decision.** A glossary (`content/glossary.ts`) is matched into rendered Markdown by a small remark plugin (`lib/content/glossary-matcher.ts`) that links the first occurrence of each term per block to `term:<id>`; `react-markdown` renders those links as buttons that open one shared definition sheet.
+
+**Why.** The learner should never have to leave a lesson to find out what a word means, and authors should not have to hand-annotate every term. Matching at render time keeps content plain Markdown; one sheet keeps the DOM small and the behaviour consistent. Capitalised aliases match case-sensitively so prose words such as "can" and "start" stay plain.
+
+**Consequences.** Adding a term is one object literal; it lights up everywhere at once. Option labels in exercises are excluded so taps select answers.
+
 ## ADR-8: PWA without a framework
 
 **Decision.** Next's `app/manifest.ts` generates the manifest; `public/sw.js` is a small hand-written service worker (precache of the app shell, network-first navigations with cache fallback, cache-first hashed assets). Icons are rendered from one SVG with Playwright (`npm run icons`).

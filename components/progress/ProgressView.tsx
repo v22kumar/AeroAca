@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { interviewQuestions, lessons, missions } from "@/lib/content";
 import { useProgress } from "@/lib/progress/ProgressProvider";
-import { lessonSolvedCount, lessonStatus, missionBest, missionStatus, overallStats, skillLabel, weakSkills } from "@/lib/progress/selectors";
+import { DEFAULT_NAME, lessonSolvedCount, lessonStatus, missionBest, missionStatus, overallStats, skillLabel, weakSkills } from "@/lib/progress/selectors";
 import { Card, SectionTitle } from "@/components/ui/Card";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { StatusPill } from "@/components/ui/StatusPill";
@@ -188,6 +188,18 @@ export function ProgressView() {
           <span id="data-heading">Your data</span>
         </SectionTitle>
         <Card className="flex flex-col gap-3 p-4 text-sm">
+          <label className="flex flex-col gap-1">
+            <span className="text-xs font-semibold text-ink-2">How should AeroAca greet you?</span>
+            <input
+              type="text"
+              defaultValue={state.profile?.name ?? ""}
+              placeholder={DEFAULT_NAME}
+              maxLength={40}
+              onBlur={(e) => store.setName(e.target.value)}
+              className="min-h-11 rounded-lg border border-line bg-surface px-3 text-[15px] text-ink placeholder:text-ink-3"
+              data-testid="name-input"
+            />
+          </label>
           <p className="text-ink-2">
             Progress is stored only in this browser on this device. It does not sync anywhere and is never sent to a server. Clearing site data deletes it, so export a backup if it matters.
           </p>

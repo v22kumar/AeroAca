@@ -16,6 +16,8 @@ Date: 2026-11-05. Branch `feat/release-0.1`.
 - Review page: spaced recall with Again / Got it and growing intervals.
 - Progress survives reload (step position, solved exercises, completions, mission runs, ratings, review schedule).
 - PWA: manifest with 192/512/maskable icons, apple-touch-icon, service worker registered in production, offline fallback for visited pages, install hint when the browser signals installability (and written instructions on iOS).
+- Glossary: 69 technical terms with a plain-language sentence, precise detail and "why it matters". The first occurrence of each term in any lesson, mission or interview text is tappable and opens a definition sheet (bottom sheet on phones, dialog on desktop, keyboard-closable, focus returned). A searchable Glossary page is in the main navigation.
+- Warmth and motivation: greeting by name (editable on Progress, device-local), a soft warm palette in light and dark, a "why this matters for your next role" callout on every lesson and mission, encouraging but adult feedback copy.
 - Accessibility: skip link, visible focus rings, labelled controls, `aria-live` feedback, keyboard operation of every exercise (no drag-and-drop), reduced-motion respected, no horizontal overflow at phone width.
 
 ## Test and build evidence
@@ -24,9 +26,9 @@ Date: 2026-11-05. Branch `feat/release-0.1`.
 |---|---|
 | `npm run lint` (ESLint 9, eslint-config-next incl. React Compiler rules) | 0 errors, 0 warnings |
 | `npm run typecheck` (strict TS, `noUncheckedIndexedAccess`) | clean |
-| `npm test` (Vitest) | 4 files, 29 tests passed |
-| `npm run build` (Next 16) | 13 routes, all prerendered static |
-| `npm run test:e2e` (Playwright 1.63, Pixel 7 + Desktop Chrome) | 14 passed |
+| `npm test` (Vitest) | 6 files, 36 tests passed |
+| `npm run build` (Next 16) | 14 routes, all prerendered static |
+| `npm run test:e2e` (Playwright 1.63, Pixel 7 + Desktop Chrome) | 18 passed |
 
 Unit tests cover: schema validity of all content, curriculum cross-references, interview links, unique ids, mission reachability/evidence/budget, grading of every exercise kind including misconceptions and protected bits, mission engine gating/scoring/reset, store persistence/corruption handling/no-storage mode/completion rules/review scheduling/next-action/export-import.
 
@@ -40,7 +42,7 @@ See the pull request description and `docs/DEPLOYMENT.md`. The Vercel project `a
 
 - Progress is per browser profile; no sync. Export/import is manual.
 - A mission run that is interrupted by a reload restarts; finished runs are saved.
-- 3 lessons, 2 missions, 10 interview questions, 14 review cards. The remaining curriculum is planned.
+- 3 lessons, 2 missions, 10 interview questions, 14 review cards, 69 glossary terms. The remaining curriculum is planned.
 - Install behaviour on physical iOS/Android devices has not been confirmed by hand yet; automated checks cover manifest, icons and service worker registration.
 - Offline support is best-effort (visited pages).
 - The review scheduler is a simple Leitner ladder (10 min, 1, 3, 7, 14, 30 days), not an SM-2 style algorithm.

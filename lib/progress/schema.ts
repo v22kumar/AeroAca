@@ -61,6 +61,7 @@ export const progressStateSchema = z.object({
   review: z.record(z.string(), reviewEntrySchema),
   /** ISO dates (YYYY-MM-DD, local) with any learning activity. */
   activeDays: z.array(z.string()),
+  profile: z.object({ name: z.string().max(40).optional() }).optional(),
 });
 export type ProgressState = z.infer<typeof progressStateSchema>;
 

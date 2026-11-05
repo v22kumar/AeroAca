@@ -147,7 +147,8 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
           </LinkButton>
         )}
       </div>
-      {!canAdvance && <p className="mt-2 text-center text-xs text-ink-3">Solve this exercise to unlock the next step. You can retry as often as you like.</p>}
+      {!canAdvance && <p className="mt-2 text-center text-xs text-ink-3">Solve this exercise to unlock the next step. Retry as often as you like; every attempt is practice, not a penalty.</p>}
+      {index === 0 && <p className="mt-2 text-center text-xs text-ink-3">Dotted words open a plain-language definition. Tap any of them when something is unclear.</p>}
     </div>
   );
 }
@@ -185,7 +186,16 @@ function StepBody({
         <section>
           <h2 className="mb-3 text-xl font-bold">{step.title}</h2>
           <Markdown>{step.body}</Markdown>
-          <div className="mt-5 rounded-xl border border-line bg-surface-2/60 p-3 text-sm">
+          <div className="mt-5 flex gap-3 rounded-xl border border-accent/25 bg-accent-soft/60 p-3 text-sm">
+            <span className="mt-0.5 shrink-0 text-accent" aria-hidden>
+              <Icon name="spark" size={18} />
+            </span>
+            <div>
+              <p className="font-semibold text-accent">Why this matters for your next role</p>
+              <p className="mt-0.5 text-ink">{lesson.whyItMatters}</p>
+            </div>
+          </div>
+          <div className="mt-3 rounded-xl border border-line bg-surface-2/60 p-3 text-sm">
             <p className="font-semibold">In this lesson you will be able to</p>
             <ul className="mt-1 list-disc space-y-1 pl-5 text-ink-2">
               {lesson.objectives.map((o) => (
@@ -259,10 +269,10 @@ function StepBody({
           {allSolved ? (
             <Card className="border-ok/40 bg-ok-soft/40 p-4" data-testid="lesson-complete">
               <p className="flex items-center gap-2 text-base font-bold text-ok">
-                <Icon name="check" size={18} /> Lesson complete
+                <Icon name="check" size={18} /> Lesson complete. Nicely reasoned.
               </p>
               <p className="mt-1 text-sm text-ink-2">
-                All {exerciseTotal} exercises solved. {lessonCards(lesson).length} review cards from this lesson are now in your spaced review queue.
+                All {exerciseTotal} exercises solved, every one of them by working it out. {lessonCards(lesson).length} review cards from this lesson are now in your spaced review queue.
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {nextHref && nextTitle && (

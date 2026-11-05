@@ -114,6 +114,12 @@ export function MissionPlayer({ mission }: { mission: Mission }) {
           {performed.length === 0 ? (
             <Card className="p-4">
               <Markdown>{mission.scenario}</Markdown>
+              <p className="mt-3 flex gap-2 text-sm text-ink-2">
+                <span className="mt-0.5 shrink-0 text-accent" aria-hidden>
+                  <Icon name="spark" size={16} />
+                </span>
+                <span>{mission.whyItMatters}</span>
+              </p>
               <div className="mt-3 rounded-lg bg-accent-soft/60 px-3 py-2 text-sm">
                 <span className="font-semibold text-accent">Goal · </span>
                 <Markdown size="sm" className="inline">
