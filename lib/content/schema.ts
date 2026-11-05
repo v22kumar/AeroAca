@@ -43,6 +43,10 @@ export const visualIdSchema = z.enum([
   "fmea-worksheet",
   "standards-map",
   "sensor-monitor-lab",
+  "adc-quantisation",
+  "can-arbitration",
+  "pwm-timer",
+  "nvic-priorities",
 ]);
 export type VisualId = z.infer<typeof visualIdSchema>;
 

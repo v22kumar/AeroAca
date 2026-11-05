@@ -27,7 +27,7 @@ Authoritative plan toward AeroAca 1.0. Updated at the end of every increment; se
 | 0.5 | Days 21–25: PyVISA/SCPI with a simulated SCPI console, serial automation and test logs, SIL/HIL, FMEA with an interactive worksheet, block review; Python code-reading exercises; 1 mission | In PR (#5) |
 | 0.6 | Days 26–30: standards (DO-178C/DO-254, ISO 26262, IEC 62304/60601/61508) as scope not slogans with an interactive standards map; cross-industry transfer; portfolio presentation; debugging-story lesson; timed mock-interview mode | In PR (#6) |
 | 0.7 | Portfolio track: STM32 sensor monitoring and fault detection, requirements → architecture → interfaces → firmware → tests → fault injection → report; simulation and hardware paths recorded separately; in-browser fault-injection lab | In PR (#7) |
-| 0.8 | Remaining curriculum depth: electronics fundamentals (circuit laws, op-amps, ADC), schematics/PCB, CAN frame interpretation, ADC/PWM/interrupt exercises, Embedded C++ | Planned |
+| 0.8 | Remaining curriculum depth: electronics fundamentals (power tree, op-amps, ADC), schematics/PCB, CAN arbitration and bus-off, NVIC, pointers to hardware, Embedded C++ RAII, driver models with PWM arithmetic, logic analysers; 2 missions; 4 interactives | In PR (#8) |
 | 0.9 | Learning intelligence: prerequisite recommendations, targeted retries scheduled into days, explained readiness view; progress migrations; performance pass | Planned |
 | 1.0 | Documented content review, real-learner feedback incorporated, final gates | Planned |
 
@@ -35,16 +35,16 @@ Authoritative plan toward AeroAca 1.0. Updated at the end of every increment; se
 
 | # | Module | Lessons target | Missions target | Status |
 |---|---|---|---|---|
-| 1 | Electronic engineering fundamentals | 3 | 1 | planned (0.8) |
-| 2 | Circuit design, schematics and PCB | 2 | 1 | planned (0.8) |
-| 3 | Microcontrollers, processors and ARM | 4 | 2 | 2 lessons, 2 missions published |
-| 4 | Communication interfaces | 4 | 3 | 3 lessons, 2 missions published; CAN planned |
-| 5 | Embedded C | 3 | 1 | 2 lessons published |
-| 6 | Embedded C++ | 2 | 0 | planned (0.8) |
-| 7 | Firmware architecture and drivers | 2 | 1 | 2 lessons published (0.4) |
+| 1 | Electronic engineering fundamentals | 3 | 1 | 3 lessons, 1 mission published (0.8) |
+| 2 | Circuit design, schematics and PCB | 2 | 1 | 2 lessons, 1 mission published (0.8) |
+| 3 | Microcontrollers, processors and ARM | 4 | 2 | 3 lessons, 2 missions published; low-power lesson planned |
+| 4 | Communication interfaces | 4 | 3 | 4 lessons published (0.8 adds CAN) |
+| 5 | Embedded C | 3 | 1 | 3 lessons published (0.8 adds pointers) |
+| 6 | Embedded C++ | 2 | 0 | 1 lesson published (0.8) |
+| 7 | Firmware architecture and drivers | 2 | 1 | 3 lessons published (0.4, 0.8) |
 | 8 | RTOS and real-time systems | 2 | 1 | 2 lessons, 1 mission published (0.4) |
 | 9 | Embedded Linux | 1 | 0 | 1 lesson published (0.4) |
-| 10 | Instrumentation and fault diagnosis | 2 | 1 | 1 lesson published |
+| 10 | Instrumentation and fault diagnosis | 2 | 1 | 3 lessons, 1 mission published (0.2, 0.3, 0.8) |
 | 11 | System integration and product engineering | 2 | 1 | 2 lessons, 1 mission published (0.3) |
 | 12 | Verification, reliability and qualification | 3 | 1 | 3 lessons, 1 mission published (0.3, 0.5) |
 | 13 | Python and test automation | 2 | 1 | 2 lessons, 1 mission published (0.5) |
