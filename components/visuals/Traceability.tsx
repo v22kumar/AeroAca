@@ -41,7 +41,7 @@ export function Traceability() {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
         <table className="w-full border-collapse text-xs" aria-label="Requirements to tests traceability matrix">
           <thead>
             <tr>
