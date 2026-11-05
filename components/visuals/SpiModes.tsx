@@ -51,17 +51,16 @@ export function SpiModes() {
   let cur = bits[0]!;
   const yOf = (b: number) => (b ? dHi : dLo);
   if (cpha === 0) {
-    data = `M10 ${yOf(cur)} H${left}`;
-    for (let i = 0; i < 8; i++) {
-      const x0 = left + i * bitW;
+    // Data is valid before the first (sampling) edge and changes on the second edge of the
+    // previous bit, i.e. half a clock before the next sampling edge.
+    data = `M10 ${yOf(cur)}`;
+    for (let i = 1; i < 8; i++) {
       const b = bits[i]!;
       if (b !== cur) {
-        data += ` V${yOf(b)}`;
+        const xChange = left + i * bitW - bitW / 2;
+        data += ` H${xChange} V${yOf(b)}`;
         cur = b;
       }
-      data += ` H${x0 + bitW / 2 + 2}`;
-      // change at second edge → hold until next bit's first edge region
-      data += ` H${x0 + bitW}`;
     }
     data += ` H${W - 10}`;
   } else {

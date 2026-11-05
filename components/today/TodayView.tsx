@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { journeyBlocks, lessons, missions } from "@/lib/content";
 import { useProgress } from "@/lib/progress/ProgressProvider";
 import { learnerName, overallStats } from "@/lib/progress/selectors";
@@ -42,7 +42,7 @@ export function TodayView() {
   const [now] = useState(() => Date.now());
   const stats = overallStats(state, now);
   const hour = new Date(now).getHours();
-  const js = hydrated ? journeyState(state, now) : null;
+  const js = useMemo(() => (hydrated ? journeyState(state, now) : null), [hydrated, state, now]);
   const current = js ? js.days[js.currentDay - 1] : null;
   const next = js ? nextItem(js) : null;
   const block = current ? journeyBlocks[current.day.block] : null;

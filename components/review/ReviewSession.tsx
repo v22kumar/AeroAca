@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useQueryParam } from "@/lib/hooks/useQueryParam";
+import { journeyState, reviewKey } from "@/lib/progress/journey";
 import { useProgress } from "@/lib/progress/ProgressProvider";
 import { dueCards, enrolledCards } from "@/lib/progress/selectors";
 import { targetedReview } from "@/lib/progress/targeted";
@@ -26,6 +28,18 @@ export function ReviewSession() {
   const [pos, setPos] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [done, setDone] = useState<{ good: number; again: number }>({ good: 0, again: 0 });
+  const targets = useMemo(() => targetedReview(state), [state]);
+  const dayParam = Number(useQueryParam("day"));
+
+  // A review session counts for the journey once the queue is empty with cards enrolled:
+  // either the learner answered every due card, or checked in when nothing was due.
+  useEffect(() => {
+    if (!hydrated) return;
+    if (enrolledCards(state).length === 0 || queue[pos]) return;
+    const js = journeyState(state, sessionStart);
+    const day = dayParam || js.currentDay;
+    if (js.days[day - 1]?.items.some((i) => i.item.kind === "review")) store.setJourneyDone(reviewKey(day));
+  }, [hydrated, state, queue, pos, dayParam, sessionStart, store]);
 
   if (!hydrated) {
     return (
@@ -38,7 +52,6 @@ export function ReviewSession() {
 
   const enrolled = enrolledCards(state).length;
   const current = queue[pos];
-  const targets = targetedReview(state);
 
   const header = (
     <div>

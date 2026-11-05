@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { useQueryParam } from "@/lib/hooks/useQueryParam";
+import { interviewKey } from "@/lib/progress/journey";
 import { interviewQuestions, getLesson } from "@/lib/content";
 import { useProgress } from "@/lib/progress/ProgressProvider";
 import { Card } from "@/components/ui/Card";
@@ -15,14 +16,22 @@ const filters = [
 ] as const;
 
 export function InterviewView() {
-  const { state, hydrated } = useProgress();
+  const { state, hydrated, store } = useProgress();
   const [filter, setFilter] = useState<(typeof filters)[number]["id"]>("all");
   const [topic, setTopic] = useState<string>("all");
   const topics = useMemo(() => [...new Set(interviewQuestions.map((q) => q.topic))], []);
-  const params = useSearchParams();
-  const requested = useMemo(() => new Set((params.get("q") ?? "").split(",").filter(Boolean)), [params]);
+  const qParam = useQueryParam("q");
+  const dayParam = Number(useQueryParam("day"));
+  const requested = useMemo(() => new Set((qParam ?? "").split(",").filter(Boolean)), [qParam]);
   const [showAll, setShowAll] = useState(false);
   const focusSet = requested.size > 0 && !showAll ? requested : null;
+  // Opened-at marks this visit: the day's rehearsal counts only when every focus question is rated during it.
+  const [openedAt] = useState(() => Date.now());
+  useEffect(() => {
+    if (!hydrated || !dayParam || requested.size === 0) return;
+    const allRatedNow = [...requested].every((id) => (state.interview[id]?.ratedAt ?? 0) >= openedAt);
+    if (allRatedNow) store.setJourneyDone(interviewKey(dayParam));
+  }, [hydrated, dayParam, requested, state.interview, openedAt, store]);
 
   const visible = interviewQuestions.filter((q) => {
     if (focusSet && !focusSet.has(q.id)) return false;
@@ -54,7 +63,8 @@ export function InterviewView() {
       {focusSet && (
         <div className="flex items-center justify-between gap-3 rounded-xl border border-accent/30 bg-accent-soft/50 px-3 py-2 text-sm" data-testid="interview-focus">
           <span>
-            Today’s {focusSet.size} question{focusSet.size > 1 ? "s" : ""} from the journey.
+            {dayParam ? `Day ${dayParam}: ` : ""}
+            {focusSet.size} question{focusSet.size > 1 ? "s" : ""} from the journey. Rate each one to complete the item.
           </span>
           <button type="button" onClick={() => setShowAll(true)} className="shrink-0 font-semibold text-accent underline underline-offset-2">
             Show all

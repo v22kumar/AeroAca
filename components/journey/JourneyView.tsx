@@ -6,12 +6,13 @@ import { journeyState } from "@/lib/progress/journey";
 import { Card } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { JourneyDayChecklist } from "./JourneyDayCard";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 
 export function JourneyView() {
   const { state, hydrated } = useProgress();
   const [now] = useState(() => Date.now());
+  const js = useMemo(() => journeyState(state, now), [state, now]);
   if (!hydrated) {
     return (
       <div className="mx-auto max-w-2xl" aria-busy="true">
@@ -20,7 +21,6 @@ export function JourneyView() {
       </div>
     );
   }
-  const js = journeyState(state, now);
   const blocks = [1, 2, 3, 4, 5, 6] as const;
   const daysWithPlanned = js.days.filter((d) => d.plannedCount > 0).length;
 
@@ -32,7 +32,9 @@ export function JourneyView() {
         <p className="mt-2 text-[15px] text-ink-2">
           Each day is a 20 to 40 minute session built around interview readiness. You are on day {js.currentDay}; {js.completedDays} day{js.completedDays === 1 ? "" : "s"} complete. Days with content still to be published are marked, and their lessons are never counted as done.
         </p>
-        <p className="mt-1 text-xs text-ink-3">Days 1 to 10 are fully published. {daysWithPlanned} of 30 days still reference lessons that are being written.</p>
+        <p className="mt-1 text-xs text-ink-3">
+          {js.lastFullyPublishedDay >= 30 ? "All 30 days are fully published." : `Days 1 to ${js.lastFullyPublishedDay} are fully published. ${daysWithPlanned} of 30 days still reference lessons that are being written.`}
+        </p>
       </div>
       {blocks.map((b) => {
         const days = js.days.filter((d) => d.day.block === b);

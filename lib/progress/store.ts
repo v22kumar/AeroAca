@@ -220,6 +220,14 @@ export class ProgressStore {
     });
   }
 
+  /** Record a journey review or interview item as done. Idempotent. */
+  setJourneyDone(key: string) {
+    if (this.state.journeyDone?.[key]) return;
+    this.update((d) => {
+      d.journeyDone = { ...(d.journeyDone ?? {}), [key]: this.now() };
+    });
+  }
+
   /* ---------- Profile ---------- */
 
   setName(name: string) {

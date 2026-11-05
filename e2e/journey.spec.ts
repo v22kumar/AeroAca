@@ -19,7 +19,15 @@ test.describe("30-day journey", () => {
     await expect(page.getByText("16 of 30 days still reference lessons that are being written")).toBeVisible();
   });
 
-  test("journey interview items open a focused question set", async ({ page }) => {
+  test("journey interview items open a focused question set and complete the day item when all are rated", async ({ page }) => {
+    await page.goto("/interview?q=mcu-no-boot-walkthrough,swd-vs-crystal&day=3");
+    await expect(page.getByTestId("interview-focus")).toContainText("Day 3: 2 questions");
+    await page.getByTestId("interview-mcu-no-boot-walkthrough").getByTestId("reveal-rubric").click();
+    await page.getByTestId("interview-mcu-no-boot-walkthrough").getByTestId("rate-shaky").click();
+    await page.getByTestId("interview-swd-vs-crystal").getByTestId("reveal-rubric").click();
+    await page.getByTestId("interview-swd-vs-crystal").getByTestId("rate-confident").click();
+    await page.goto("/journey");
+    await expect(page.getByTestId("journey-day-3")).toContainText("1/3 done");
     await page.goto("/interview?q=mcu-no-boot-walkthrough,swd-vs-crystal");
     await expect(page.getByTestId("interview-focus")).toContainText("2 questions");
     await expect(page.getByTestId("interview-mcu-no-boot-walkthrough")).toBeVisible();
@@ -28,7 +36,7 @@ test.describe("30-day journey", () => {
     await page.getByRole("button", { name: "Show all" }).click();
     await expect(page.getByTestId("interview-i2c-nack-systematic")).toBeVisible();
     await page.getByTestId("interview-mcu-no-boot-walkthrough").getByTestId("reveal-rubric").click();
-    await expect(page.getByText("The same question in other industries")).toBeVisible();
+    await expect(page.getByText("The same question in other industries").first()).toBeVisible();
   });
 });
 

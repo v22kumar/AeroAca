@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { journey, lessons, missions, interviewQuestions } from "@/content";
 import { journeyDaySchema } from "@/lib/content/schema";
 import { ProgressStore } from "@/lib/progress/store";
-import { journeyState, nextItem, applyKey } from "@/lib/progress/journey";
+import { journeyState, nextItem, applyKey, interviewKey, reviewKey } from "@/lib/progress/journey";
 import { targetedReview } from "@/lib/progress/targeted";
 import { lessonCards, lessonExerciseIds } from "@/lib/content";
 
@@ -60,7 +60,11 @@ describe("journey progression", () => {
     expect(js.currentDay).toBe(1);
     expect(nextItem(js)?.item.item).toMatchObject({ kind: "interview" });
 
+    // Rating alone is not enough: the rehearsal must happen in the day's context.
     s.rateInterview("mcu-no-boot-walkthrough", "shaky");
+    js = journeyState(s.getState(), now());
+    expect(nextItem(js)?.item.item).toMatchObject({ kind: "interview" });
+    s.setJourneyDone(interviewKey(1));
     js = journeyState(s.getState(), now());
     expect(nextItem(js)?.item.item).toMatchObject({ kind: "apply", id: "bringup-card" });
     expect(js.completedDays).toBe(0);
@@ -69,14 +73,21 @@ describe("journey progression", () => {
     js = journeyState(s.getState(), now());
     expect(js.completedDays).toBe(1);
     expect(js.currentDay).toBe(2);
-    // Day 2's review item: cards from day 1's lesson are due now
+    // Day 2's review item is not done until a session is recorded for day 2, and stays done afterwards
+    // even when cards come due again.
     const day2 = js.days[1]!;
     expect(day2.items.find((i) => i.item.kind === "review")?.done).toBe(false);
-    // Days that only have planned content plus a review can be exhausted but never complete.
     for (const c of lessonCards(lesson)) s.reviewCard(c.id, "good");
-    const after = journeyState(s.getState(), now());
+    expect(journeyState(s.getState(), now()).days[1]!.items.find((i) => i.item.kind === "review")?.done).toBe(false);
+    s.setJourneyDone(reviewKey(2));
+    const later = now() + 3 * 24 * 3600 * 1000; // cards due again
+    const after = journeyState(s.getState(), later);
     expect(after.days[1]!.items.find((i) => i.item.kind === "review")?.done).toBe(true);
+    // A question rated on day 1 does not pre-complete day 15's rehearsal of the same question.
+    expect(after.days[14]!.items.find((i) => i.item.kind === "interview")?.done).toBe(false);
+    // Days that only have planned content plus a review can be exhausted but never complete.
     expect(after.days[15]!.complete).toBe(false);
+    expect(after.lastFullyPublishedDay).toBe(10);
     s.setApplyDone(applyKey(1, "bringup-card"), false);
     expect(journeyState(s.getState(), now()).currentDay).toBe(1);
   });

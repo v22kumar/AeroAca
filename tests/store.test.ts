@@ -3,7 +3,8 @@ import { ProgressStore, REVIEW_INTERVALS_MS, type StorageLike } from "@/lib/prog
 import { STORAGE_KEY } from "@/lib/progress/schema";
 import { lessons } from "@/content";
 import { lessonCards, lessonExerciseIds } from "@/lib/content";
-import { lessonStatus, nextAction, weakSkills, dueCards } from "@/lib/progress/selectors";
+import { lessonStatus, weakSkills, dueCards } from "@/lib/progress/selectors";
+import { journeyState, nextItem } from "@/lib/progress/journey";
 
 class MemoryStorage implements StorageLike {
   map = new Map<string, string>();
@@ -98,11 +99,11 @@ describe("progress store", () => {
     expect(s.getState().review.c1?.due).toBe(now() + REVIEW_INTERVALS_MS[0]!);
   });
 
-  it("next action resumes in-progress work, then starts the next item", () => {
+  it("the journey's next step is the first lesson, and shows in-progress once started", () => {
     const s = new ProgressStore(storage, now);
-    expect(nextAction(s.getState(), now())).toMatchObject({ kind: "start", item: { slug: lesson.slug } });
+    expect(nextItem(journeyState(s.getState(), now()))?.item).toMatchObject({ item: { slug: lesson.slug }, status: "todo" });
     s.startLesson(lesson.slug);
-    expect(nextAction(s.getState(), now())).toMatchObject({ kind: "resume", item: { slug: lesson.slug } });
+    expect(nextItem(journeyState(s.getState(), now()))?.item).toMatchObject({ item: { slug: lesson.slug }, status: "in-progress" });
   });
 
   it("export, import and reset round-trip", () => {

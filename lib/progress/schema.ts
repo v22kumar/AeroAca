@@ -78,6 +78,8 @@ export const progressStateSchema = z.object({
   activeRuns: z.record(z.string(), activeMissionRunSchema).optional(),
   /** Journey career actions ticked by the learner, keyed "d<day>:<id>" → timestamp. */
   applyDone: z.record(z.string(), z.number()).optional(),
+  /** Journey review/interview items completed in context, keyed "d<day>:review" or "d<day>:interview" → timestamp. */
+  journeyDone: z.record(z.string(), z.number()).optional(),
 });
 export type ProgressState = z.infer<typeof progressStateSchema>;
 

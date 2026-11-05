@@ -33,15 +33,25 @@ export type DayState = {
 export function applyKey(day: number, id: string) {
   return `d${day}:${id}`;
 }
+export function reviewKey(day: number) {
+  return `d${day}:review`;
+}
+export function interviewKey(day: number) {
+  return `d${day}:interview`;
+}
 
-export function itemState(state: ProgressState, day: JourneyDay, item: JourneyItem, index: number, now: number): ItemState {
+/** Facts shared by every item of a journey evaluation; computed once per call. */
+type Facts = { due: number; enrolled: number };
+
+export function itemState(state: ProgressState, day: JourneyDay, item: JourneyItem, index: number, facts: Facts): ItemState {
+  const key = `${day.day}-${index}`;
   switch (item.kind) {
     case "lesson": {
       const lesson = getLesson(item.slug);
       const st = lesson ? lessonStatus(state, lesson) : "not-started";
       return {
         item,
-        key: `${day.day}-${index}`,
+        key,
         kindLabel: "Lesson",
         title: lesson?.title ?? item.slug,
         href: `/lessons/${item.slug}`,
@@ -56,7 +66,7 @@ export function itemState(state: ProgressState, day: JourneyDay, item: JourneyIt
       const st = mission ? missionStatus(state, mission) : "not-started";
       return {
         item,
-        key: `${day.day}-${index}`,
+        key,
         kindLabel: "Mission",
         title: mission?.title ?? item.slug,
         href: `/missions/${item.slug}`,
@@ -67,34 +77,41 @@ export function itemState(state: ProgressState, day: JourneyDay, item: JourneyIt
       };
     }
     case "interview": {
+      // Done only when rehearsed in this day's context (recorded by the Interview page or a lesson's
+      // interview step), so a question repeated on a later day must be rehearsed again.
       const qs = item.questionIds.map((id) => getInterviewQuestion(id)).filter(Boolean);
-      const rated = item.questionIds.filter((id) => state.interview[id]).length;
-      const done = rated === item.questionIds.length;
+      const done = Boolean(state.journeyDone?.[interviewKey(day.day)]);
       const n = item.questionIds.length;
       return {
         item,
-        key: `${day.day}-${index}`,
+        key,
         kindLabel: "Interview",
         title: n === 1 ? `Rehearse: ${qs[0]?.topic ?? "question"}` : `Rehearse ${n} interview questions`,
         detail: qs.map((q) => q?.topic).filter(Boolean).join(" · "),
-        href: `/interview?q=${item.questionIds.join(",")}`,
+        href: `/interview?q=${item.questionIds.join(",")}&day=${day.day}`,
         minutes: 5 * n,
         available: true,
         done,
-        status: done ? "done" : rated > 0 ? "in-progress" : "todo",
+        status: done ? "done" : "todo",
       };
     }
     case "review": {
-      const due = dueCards(state, now).length;
-      const enrolled = enrolledCards(state).length;
-      // Nothing enrolled means no review has happened yet; that is not "done".
-      const done = enrolled > 0 && due === 0;
+      // Done when a review session was completed on this day (recorded by the Review page),
+      // not whenever the live queue happens to be empty, so finished days stay finished.
+      const done = Boolean(state.journeyDone?.[reviewKey(day.day)]);
+      const { due, enrolled } = facts;
       return {
         item,
-        key: `${day.day}-${index}`,
+        key,
         kindLabel: "Review",
-        title: enrolled === 0 ? "Spaced review: complete a lesson first" : due === 0 ? "Spaced review: nothing due" : `Spaced review: ${due} card${due > 1 ? "s" : ""} due`,
-        href: "/review",
+        title: done
+          ? "Spaced review done"
+          : enrolled === 0
+            ? "Spaced review: complete a lesson first"
+            : due === 0
+              ? "Spaced review: nothing due, check in"
+              : `Spaced review: ${due} card${due > 1 ? "s" : ""} due`,
+        href: `/review?day=${day.day}`,
         minutes: Math.max(3, Math.min(10, due)),
         available: true,
         done,
@@ -105,7 +122,7 @@ export function itemState(state: ProgressState, day: JourneyDay, item: JourneyIt
       const done = Boolean(state.applyDone?.[applyKey(day.day, item.id)]);
       return {
         item,
-        key: `${day.day}-${index}`,
+        key,
         kindLabel: "Career action",
         title: item.title,
         detail: item.detail,
@@ -118,7 +135,7 @@ export function itemState(state: ProgressState, day: JourneyDay, item: JourneyIt
     case "planned":
       return {
         item,
-        key: `${day.day}-${index}`,
+        key,
         kindLabel: "Coming soon",
         title: item.title,
         minutes: item.minutes,
@@ -129,8 +146,8 @@ export function itemState(state: ProgressState, day: JourneyDay, item: JourneyIt
   }
 }
 
-export function dayState(state: ProgressState, day: JourneyDay, now: number): DayState {
-  const items = day.items.map((it, i) => itemState(state, day, it, i, now));
+export function dayState(state: ProgressState, day: JourneyDay, facts: Facts): DayState {
+  const items = day.items.map((it, i) => itemState(state, day, it, i, facts));
   const available = items.filter((i) => i.available);
   const doneCount = available.filter((i) => i.done).length;
   const exhausted = available.length > 0 && doneCount === available.length;
@@ -149,21 +166,26 @@ export function dayState(state: ProgressState, day: JourneyDay, now: number): Da
 
 export type JourneyState = {
   days: DayState[];
-  /** 1-based index of the day the learner is on: the first incomplete day. */
+  /** 1-based index of the day the learner is on: the first day with something left to do. */
   currentDay: number;
   completedDays: number;
   finished: boolean;
+  /** Index of the last day (1-based) before any day that still references planned content; 0 if none. */
+  lastFullyPublishedDay: number;
 };
 
 export function journeyState(state: ProgressState, now = Date.now()): JourneyState {
-  const days = journey.map((d) => dayState(state, d, now));
+  const facts: Facts = { due: dueCards(state, now).length, enrolled: enrolledCards(state).length };
+  const days = journey.map((d) => dayState(state, d, facts));
   const firstOpen = days.findIndex((d) => !d.exhausted);
   const finished = firstOpen === -1;
+  const firstPlanned = days.findIndex((d) => d.plannedCount > 0);
   return {
     days,
     currentDay: finished ? journey.length : firstOpen + 1,
     completedDays: days.filter((d) => d.complete).length,
     finished,
+    lastFullyPublishedDay: firstPlanned === -1 ? days.length : firstPlanned,
   };
 }
 
@@ -173,4 +195,10 @@ export function nextItem(js: JourneyState): { day: DayState; item: ItemState } |
   if (!day) return null;
   const item = day.items.find((i) => i.available && !i.done);
   return item ? { day, item } : null;
+}
+
+/** The interview item of a given day, if it contains this question (used by lesson interview steps). */
+export function interviewItemFor(js: JourneyState, day: number, questionId: string): ItemState | undefined {
+  const d = js.days[day - 1];
+  return d?.items.find((i) => i.item.kind === "interview" && i.item.questionIds.includes(questionId));
 }

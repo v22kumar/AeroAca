@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { getLesson, lessons } from "@/lib/content";
 import { LessonPlayer } from "@/components/lesson/LessonPlayer";
 
@@ -20,9 +19,5 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
   const { slug } = await params;
   const lesson = getLesson(slug);
   if (!lesson) notFound();
-  return (
-    <Suspense fallback={null}>
-      <LessonPlayer lesson={lesson} />
-    </Suspense>
-  );
+  return <LessonPlayer lesson={lesson} />;
 }

@@ -15,7 +15,7 @@ const confidenceOptions: { value: Confidence; label: string; hint: string }[] = 
   { value: "confident", label: "Confident", hint: "I covered the strong-answer points in order" },
 ];
 
-export function InterviewCard({ question, compact = false }: { question: InterviewQuestion; compact?: boolean }) {
+export function InterviewCard({ question, compact = false, journeyKey, onRated }: { question: InterviewQuestion; compact?: boolean; journeyKey?: string; onRated?: (questionId: string) => void }) {
   const { state, store, hydrated } = useProgress();
   const [revealed, setRevealed] = useState(false);
   const rating = hydrated ? state.interview[question.id]?.confidence : undefined;
@@ -87,7 +87,11 @@ export function InterviewCard({ question, compact = false }: { question: Intervi
                     key={o.value}
                     type="button"
                     aria-pressed={active}
-                    onClick={() => store.rateInterview(question.id, o.value)}
+                    onClick={() => {
+                      store.rateInterview(question.id, o.value);
+                      if (journeyKey) store.setJourneyDone(journeyKey);
+                      onRated?.(question.id);
+                    }}
                     className={`flex min-h-12 flex-col items-start justify-center rounded-xl border px-3 py-2 text-left transition-colors ${
                       active ? "border-accent bg-accent-soft text-accent" : "border-line bg-surface hover:bg-surface-2"
                     }`}

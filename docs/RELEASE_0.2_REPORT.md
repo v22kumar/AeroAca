@@ -45,6 +45,17 @@ Branch `feat/release-0.2`, built on the production Release 0.1 (`main` at `3c9c7
 
 Two content defects were caught by the new tests and fixed before the PR: a watchdog exercise whose tolerance accepted the "forgot the +1" misconception as correct, and a journey rule that let days consisting only of a review auto-complete on a fresh profile.
 
+## Independent code review (before approval)
+
+A review of the PR diff found ten issues; all were fixed in the follow-up commit:
+
+- Journey review items were derived from the live due-card queue, so finished days flipped back to "to do" whenever cards came due again. Review completion is now recorded per day when a session finishes (or the learner checks in with nothing due).
+- Interview items counted as done if the question had ever been rated, so later days repeating a question completed early. Completion is now recorded per day when every focus question is rated during that visit (or rated inside a lesson that belongs to the current day).
+- The SPI mode-0 diagram drew the data transition on the sampling edge; it now changes on the previous second edge, as the lesson teaches.
+- `useSearchParams` had forced lesson and interview pages out of static prerendering; replaced by a small external-store hook that reads the URL after hydration, so lesson HTML is complete again.
+- Lesson and mission "Next" buttons now follow the journey rather than curriculum order, so they agree with Today.
+- Duplicate checklist markup, a hard-coded "days 1 to 10" sentence, dead selectors (`nextAction`, `itemStatus`) and two per-render recomputations were removed or memoised.
+
 ## Known gaps
 
 - Days 11–30 reference 20 planned lessons and missions; those days can be worked through (review, interview, career actions) but never count as complete until the content ships.
