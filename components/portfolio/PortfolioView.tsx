@@ -142,7 +142,7 @@ export function PortfolioView() {
       <Card className="p-4" data-testid="evidence-table">
         <h2 className="text-lg font-bold">Your evidence table: simulated versus hardware</h2>
         <p className="mt-1 text-sm text-ink-2">Derived only from the boxes you ticked above. The app never fills this in. Copy it into the stage-7 report as it stands.</p>
-        <div className="mt-3 overflow-x-auto">
+        <div className="mt-3 overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
           <table className="w-full border-collapse text-xs">
             <thead>
               <tr>
