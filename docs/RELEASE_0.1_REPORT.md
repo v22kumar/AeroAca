@@ -36,7 +36,13 @@ E2E tests cover: navigation, planned-content gating, full I2C lesson completion 
 
 ## Deployment status
 
-See the pull request description and `docs/DEPLOYMENT.md`. The Vercel project `aeroaca` exists under the `aero-aca` team. A live URL is only reported once a deployment has been verified.
+The Vercel project `aeroaca` (team `aero-aca`) is linked to the GitHub repository; every push builds automatically.
+
+- **Preview of this branch: verified.** Stable alias `https://aeroaca-git-feat-release-01-aero-aca.vercel.app` (latest deployment `dpl_EHg1zWxHKe2ZsvDYS5jEuEpomePL`, commit `5cce7f0`, state READY). Verified through Vercel's authenticated fetch: `/`, `/lessons/i2c-sensor-not-acknowledging`, `/missions/fresh-board-no-sign-of-life`, `/glossary`, `/manifest.webmanifest` (correct JSON, maskable icon), `/icons/icon-maskable-512.png` (PNG) and `/sw.js` (`Cache-Control: no-cache`) all return 200 with the expected content, including the tappable glossary terms in server-rendered HTML.
+- **Preview access.** The project has Vercel Authentication enabled for all non-custom domains, so previews need a Vercel login or a share link (one was issued, valid for 23 hours).
+- **Production: not yet.** `aeroaca.vercel.app` still serves the docs-only `main` branch. It goes live with Release 0.1 when the pull request is merged; production then builds with the Next.js preset.
+- **Fault found and fixed during verification.** The first two preview builds succeeded but served 404 for every page: the project had been created while the repository held only docs, so its framework preset was "Other" and only `public/` was deployed. Fixed by setting the preset to Next.js on the project and pinning `"framework": "nextjs"` in `vercel.json`.
+- Interactive behaviour (answering, reload persistence, mission branching, term sheet) was verified by the Playwright suite against the same production build locally; the sandbox network does not allow a browser session against `vercel.app`, so that run was not repeated on the preview.
 
 ## Known limitations
 
