@@ -5,7 +5,7 @@ AeroAca is a static Next.js application with no environment variables, no secret
 ## One-time setup on Vercel
 
 1. Create a Vercel project from the `v22kumar/AeroAca` repository (the Vercel project `aeroaca` already exists under the `aero-aca` team).
-2. Framework preset: **Next.js** (auto-detected). Build command `npm run build`, install `npm ci`, output handled by Next. Node 22.
+2. Framework preset: **Next.js**. `vercel.json` pins `"framework": "nextjs"` because the project was first created while the repository held only docs, which left the preset at "Other" and made Vercel serve just the `public` folder (every page 404, `sw.js` fine). Build command `npm run build`, install `npm ci`. Node 22.
 3. No environment variables are required.
 4. Production branch: `main`. Pull requests get preview deployments automatically when the Git integration is enabled.
 
