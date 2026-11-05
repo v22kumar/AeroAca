@@ -158,7 +158,8 @@ export const curriculum: CurriculumModule[] = [
     summary: "Test design, traceability, integration/system/regression testing, ATE/jigs, SIL/HIL, environmental tests and FMEA.",
     lessons: [
       { title: "Writing a test case that a reviewer can trust", status: "published", slug: "writing-a-trustworthy-test-case" },
-      { title: "FMEA for a small embedded product", status: "planned" },
+      { title: "SIL, HIL and what each one proves", status: "published", slug: "sil-hil-what-each-proves" },
+      { title: "FMEA for a small embedded product", status: "published", slug: "fmea-for-a-small-embedded-product" },
     ],
     missions: [{ title: "The requirement nobody could test", status: "published", slug: "the-requirement-nobody-could-test" }],
   },
@@ -169,7 +170,11 @@ export const curriculum: CurriculumModule[] = [
     title: "Python and test automation",
     priority: "P1",
     summary: "Python basics, serial communications, SCPI/PyVISA, data acquisition, reports, pytest and reproducible testing.",
-    lessons: [{ title: "Talking to a bench instrument with PyVISA", status: "planned" }],
+    lessons: [
+      { title: "Talking to a bench instrument with PyVISA", status: "published", slug: "talking-to-an-instrument-with-pyvisa" },
+      { title: "Serial communication and test logs in Python", status: "published", slug: "serial-automation-and-test-logs" },
+    ],
+    missions: [{ title: "The flaky automated test", status: "published", slug: "the-flaky-automated-test" }],
   },
   {
     id: "standards",
