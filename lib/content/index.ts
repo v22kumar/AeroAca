@@ -1,10 +1,13 @@
-import { curriculum, interviewQuestions, journey, journeyBlocks, lessons, missions } from "@/content";
-import type { CurriculumModule, InterviewQuestion, Lesson, Mission, ReviewCard } from "./schema";
+import { curriculum, interviewQuestions, journey, journeyBlocks, lessons, missions, projects } from "@/content";
+import type { CurriculumModule, InterviewQuestion, Lesson, Mission, Project, ReviewCard } from "./schema";
 
 export function getLesson(slug: string): Lesson | undefined {
   return lessons.find((l) => l.slug === slug);
 }
 
+export function getProject(slug: string): Project | undefined {
+  return projects.find((p) => p.slug === slug);
+}
 export function getMission(slug: string): Mission | undefined {
   return missions.find((m) => m.slug === slug);
 }
@@ -56,4 +59,4 @@ export function learningPath(): PathItem[] {
   return items;
 }
 
-export { curriculum, interviewQuestions, journey, journeyBlocks, lessons, missions };
+export { curriculum, interviewQuestions, journey, journeyBlocks, lessons, missions, projects };

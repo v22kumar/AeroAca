@@ -29,6 +29,11 @@ export function JourneyDayChecklist({ ds, compact = false }: { ds: DayState; com
               {!compact && !isApply && it.detail ? ` · ${it.detail}` : ""}
             </span>
             {!compact && isApply && it.detail && <span className="mt-1 block text-sm text-ink-2">{it.detail}</span>}
+            {it.item.kind === "apply" && it.item.href && (
+              <Link href={it.item.href} className="mt-1 inline-block text-sm font-semibold text-accent underline underline-offset-2" data-testid={`apply-link-${it.item.id}`}>
+                Open the portfolio track
+              </Link>
+            )}
           </span>
         );
         const inner = (

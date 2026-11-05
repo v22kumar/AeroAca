@@ -79,3 +79,12 @@ Short records of the decisions that shape the codebase, in the style of ADRs.
 **Why.** Dependencies like next-pwa lag behind Next releases and add build complexity. Forty lines of plain JavaScript cover the need and can be read in full.
 
 **Consequences.** Offline support is best-effort: pages visited once stay available. Installability is verified in e2e by manifest, icon and registration checks; physical-device install behaviour is documented as a manual check in `docs/DEPLOYMENT.md`.
+
+## ADR-12: Portfolio evidence is the learner's own record, with simulation and hardware kept apart
+
+**Context.** The 1.0 definition of done requires a usable STM32 portfolio track with a simulation-only path and optional hardware exercises, and "verified vs simulated results clearly separated". The app cannot verify what happened on a learner's bench, and must not pretend to.
+
+**Decision.** A project is typed content (`projectSchema`): stages with deliverables, each deliverable tagged `doc`, `sim`, `hw` or `both`. A `both` deliverable has two independent records. The learner ticks what she has done; ticks are stored under the existing `applyDone` map with `project:` keys, so no progress-schema migration is needed and export/import carry them. `projectState` and `evidenceTable` derive the stage status and the simulated-versus-hardware table from those ticks only. The in-browser sensor-monitor lab is labelled a simulation in the UI and counts as simulation evidence by the learner's tick, never automatically.
+
+**Consequences.** Nothing on the portfolio page is "verified by the app"; the page says so. The evidence table can be copied into the stage-7 report as it stands, including empty hardware columns, which is the honest result for a learner without a board. Adding a second project is a content file and a registry entry.
+
