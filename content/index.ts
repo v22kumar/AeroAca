@@ -6,10 +6,16 @@ import { uartFramingAndBaud } from "./lessons/uart-framing-and-baud";
 import { spiModesAndChipSelect } from "./lessons/spi-modes-and-chip-select";
 import { oscilloscopeProbing } from "./lessons/oscilloscope-probing";
 import { fixedWidthIntegersOverflowShifts } from "./lessons/fixed-width-integers-overflow-shifts";
+import { boardBringUpChecklist } from "./lessons/board-bring-up-checklist";
+import { writingATrustworthyTestCase } from "./lessons/writing-a-trustworthy-test-case";
+import { rootCauseAnalysis } from "./lessons/root-cause-analysis";
+import { interfaceControlAndIntegrationFaults } from "./lessons/interface-control-and-integration-faults";
 import { freshBoardNoSignOfLife } from "./missions/fresh-board-no-sign-of-life";
 import { theSensorThatNeverAnswers } from "./missions/the-sensor-that-never-answers";
 import { theUartThatPrintsGarbage } from "./missions/the-uart-that-prints-garbage";
 import { theBoardThatResetsEverySecond } from "./missions/the-board-that-resets-every-second";
+import { theRequirementNobodyCouldTest } from "./missions/the-requirement-nobody-could-test";
+import { twoBoardsOneBusNoAgreement } from "./missions/two-boards-one-bus-no-agreement";
 import type { Lesson, Mission } from "@/lib/content/schema";
 
 /**
@@ -28,9 +34,20 @@ export const lessons: Lesson[] = [
   embeddedCRegisterBitMasks,
   fixedWidthIntegersOverflowShifts,
   oscilloscopeProbing,
+  rootCauseAnalysis,
+  boardBringUpChecklist,
+  interfaceControlAndIntegrationFaults,
+  writingATrustworthyTestCase,
 ];
 
-export const missions: Mission[] = [freshBoardNoSignOfLife, theBoardThatResetsEverySecond, theSensorThatNeverAnswers, theUartThatPrintsGarbage];
+export const missions: Mission[] = [
+  freshBoardNoSignOfLife,
+  theBoardThatResetsEverySecond,
+  theSensorThatNeverAnswers,
+  theUartThatPrintsGarbage,
+  twoBoardsOneBusNoAgreement,
+  theRequirementNobodyCouldTest,
+];
 
 export { curriculum } from "./curriculum";
 export { journey, journeyBlocks } from "./journey";

@@ -127,7 +127,8 @@ export const curriculum: CurriculumModule[] = [
     summary: "DMM, oscilloscope, logic analyser, bench PSU, DAQ, power/reset/clock checks, signal integrity and root-cause analysis.",
     lessons: [
       { title: "Oscilloscope probing without lying to yourself", status: "published", slug: "oscilloscope-probing" },
-      { title: "Current-limited bench supplies as a diagnostic tool", status: "planned" },
+      { title: "Root-cause analysis and the five whys that matter", status: "published", slug: "root-cause-analysis" },
+      { title: "Logic analysers: decoding a bus you did not design", status: "planned" },
     ],
   },
   {
@@ -137,7 +138,11 @@ export const curriculum: CurriculumModule[] = [
     title: "System integration and product engineering",
     priority: "P0",
     summary: "Requirements, architecture, interfaces, board bring-up, prototype integration, design reviews, changes and release.",
-    lessons: [{ title: "A board bring-up checklist that actually gets used", status: "planned" }],
+    lessons: [
+      { title: "A board bring-up checklist that actually gets used", status: "published", slug: "board-bring-up-checklist" },
+      { title: "Interface control documents and integration faults", status: "published", slug: "interface-control-and-integration-faults" },
+    ],
+    missions: [{ title: "Two boards, one bus, no agreement", status: "published", slug: "two-boards-one-bus-no-agreement" }],
   },
   {
     id: "verification",
@@ -146,7 +151,11 @@ export const curriculum: CurriculumModule[] = [
     title: "Verification, reliability and qualification",
     priority: "P0",
     summary: "Test design, traceability, integration/system/regression testing, ATE/jigs, SIL/HIL, environmental tests and FMEA.",
-    lessons: [{ title: "Writing a test case that a reviewer can trust", status: "planned" }],
+    lessons: [
+      { title: "Writing a test case that a reviewer can trust", status: "published", slug: "writing-a-trustworthy-test-case" },
+      { title: "FMEA for a small embedded product", status: "planned" },
+    ],
+    missions: [{ title: "The requirement nobody could test", status: "published", slug: "the-requirement-nobody-could-test" }],
   },
   {
     id: "python-test",

@@ -36,6 +36,7 @@ export const visualIdSchema = z.enum([
   "spi-modes",
   "iwdg-timeout",
   "aliasing",
+  "traceability",
 ]);
 export type VisualId = z.infer<typeof visualIdSchema>;
 

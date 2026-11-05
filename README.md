@@ -2,7 +2,7 @@
 
 A mobile-first engineering academy for Sushmita: short, problem-led electronics and embedded lessons, branching fault-isolation missions, interview practice with rubrics, and spaced review. Built for an **Associate Avionics Engineer** moving into electronics R&D and embedded roles across aerospace, automotive, medical, industrial and consumer electronics.
 
-**Release 0.1** (in production) shipped the vertical slice: three lessons, two missions, a ten-question interview bank, device-local progress and an installable PWA. **Release 0.2** adds the 30-day guided journey, five more lessons, two more missions, targeted revision from real mistakes, cross-industry interview notes and a larger glossary.
+**Release 0.1** (in production) shipped the vertical slice: three lessons, two missions, a ten-question interview bank, device-local progress and an installable PWA. **Release 0.2** adds the 30-day guided journey, five more lessons, two more missions, targeted revision from real mistakes, cross-industry interview notes and a larger glossary. **Release 0.3** fills journey days 11–15 with integration, verification and root-cause content, including a requirements-to-tests traceability interactive.
 
 ## Quick start
 
