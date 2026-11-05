@@ -79,7 +79,7 @@ export function StandardsMap() {
       </div>
       <div role="tabpanel" data-testid="standards-panel" className="flex flex-col gap-2">
         <p className="rounded-lg bg-surface-2 px-3 py-2 text-sm"><strong>Criticality:</strong> {ind.level}</p>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
           <table className="w-full border-collapse text-xs">
             <thead>
               <tr>
