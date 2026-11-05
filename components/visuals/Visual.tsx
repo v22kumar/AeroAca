@@ -14,6 +14,7 @@ import { StartupSequence } from "./StartupSequence";
 import { PriorityInversion } from "./PriorityInversion";
 import { ScpiConsole } from "./ScpiConsole";
 import { FmeaWorksheet } from "./FmeaWorksheet";
+import { StandardsMap } from "./StandardsMap";
 
 /** Maps a content visual id to its interactive component. Add new visuals here and in the schema enum. */
 export function Visual({ id }: { id: VisualId }) {
@@ -44,5 +45,7 @@ export function Visual({ id }: { id: VisualId }) {
       return <ScpiConsole />;
     case "fmea-worksheet":
       return <FmeaWorksheet />;
+    case "standards-map":
+      return <StandardsMap />;
   }
 }

@@ -95,6 +95,9 @@ export const skillLabels: Record<string, string> = {
   "embedded-linux": "Embedded Linux",
   "python-automation": "Python test automation",
   reliability: "Reliability and FMEA",
+  standards: "Standards and their scope",
+  applications: "Cross-industry transfer",
+  communication: "Engineering communication",
 };
 
 export function skillLabel(skill: string): string {

@@ -624,4 +624,73 @@ export const interviewQuestions: InterviewQuestion[] = [
       { sector: "industrial", note: "Functional-safety assessments under IEC 61508 start from FMEA-derived failure rates and diagnostic coverage." },
     ],
   },
+  {
+    id: "standards-scope",
+    moduleId: "standards",
+    topic: "Standards",
+    question: `Our product is developed under DO-178C and our automotive line under ISO 26262. What do those standards actually govern, and what has your involvement with either been?`,
+    probes: ["How is the level assigned?", "What changes with the level for verification?", "Are DAL, ASIL and SIL comparable?"],
+    rubric: {
+      strong: [
+        "DO-178C: software objectives by DAL A to E assigned from the ARP4761 safety assessment; requirements-based tests, traceability, structural coverage from statement at C to MC/DC at A, independence at higher levels.",
+        "ISO 26262: HARA scores severity, exposure, controllability to an ASIL QM to D; safety goals and requirements; verification rigour, hardware metrics and fault-injection evidence by ASIL; ASPICE and AUTOSAR are not safety standards.",
+        "States that the ladders are not convertible and that people are not certified.",
+        "States own involvement precisely: role, level, artefacts, boundary.",
+      ],
+      weak: ["'I am DO-178C certified.'", "Describes the standards as coding rules.", "Converts between DAL, ASIL and SIL."],
+    },
+    sampleAnswer: `DO-178C is the software process for airborne systems. The safety assessment under ARP4761 assigns each function a DAL from A, catastrophic, to E, no effect, and DO-178C lists the objectives, the evidence that has to exist, scaled by that level: requirements-based testing with traceability at every level, structural coverage rising from statement at DAL C through decision at B to MC/DC at A, and more independence as the level rises. DO-254 is the counterpart for complex hardware and DO-160 is environmental qualification. ISO 26262 is automotive functional safety: a hazard analysis scores each hazardous event on severity, exposure and controllability to give an ASIL from QM to D, each hazard gets a safety goal, and the verification methods, independence and hardware metrics scale with ASIL; HIL with fault insertion is how safety mechanisms are shown to work. ASPICE is process capability and AUTOSAR is an architecture; neither is a safety standard. The ladders aren't convertible, and nobody is certified under any of them. My own involvement: I have worked within an avionics test process executing requirements-based procedures and recording results against the trace matrix; I have not owned coverage analysis, and I have not worked on an ISO 26262 programme, though I've practised the fault-injection discipline it asks for.`,
+    relatedLesson: "avionics-and-automotive-standards-scope",
+    industries: [
+      { sector: "avionics", note: "Expect follow-ups on DER involvement, stage-of-involvement audits and tool qualification under DO-330." },
+      { sector: "automotive", note: "Expect follow-ups on the fault-tolerant time interval, diagnostic coverage and the confirmation reviews." },
+      { sector: "industrial", note: "IEC 61508's SIL is the local ladder; the same 'not convertible' answer applies." },
+    ],
+  },
+  {
+    id: "transfer-across-industries",
+    moduleId: "applications",
+    topic: "Transfer",
+    question: `You come from avionics test. Why would that be useful to us in medical devices, and what would you have to learn?`,
+    probes: ["Give a concrete example with a number.", "What is our name for that artefact?", "What have you not done?"],
+    rubric: {
+      strong: [
+        "Uses the transfer sentence: what I did, the evidence, your name for it (verification protocol in the DHF traced to a risk control).",
+        "Names what medical values that avionics does differently: risk-driven records (ISO 14971), essential performance under EMC, usability.",
+        "States the boundary honestly: standards learned, not worked under; practice labelled as practice.",
+        "Shows the instrument, automation and root-cause skills transfer unchanged.",
+      ],
+      weak: ["'The industries are basically the same.'", "Lists standards as familiarity without evidence.", "Hides the gap."],
+    },
+    sampleAnswer: `What transfers is the evidence discipline. I write test procedures whose expected results are measured with an instrument and traced to a requirement, thirty-four of them on my last board, all run on target; in your terms those are verification protocols for the design history file, traced to risk controls. I have located faults from logic-analyser captures and written them up as root-cause analyses with corrective and preventive actions, which is what your CAPA process asks for. What I'd have to learn is the risk-driven framing: ISO 14971's risk file as the source of limits rather than a safety assessment, essential performance that has to hold during EMC immunity tests, and usability engineering. I know the scope of 62304 and 60601-1 from study, I haven't worked under them, and I'd say that plainly on day one.`,
+    relatedLesson: "same-skills-different-industries",
+    industries: [
+      { sector: "medical", note: "Hiring panels check that 'risk control' and 'essential performance' are used correctly; the honest boundary is well received." },
+      { sector: "automotive", note: "The same answer with HIL, ASPICE and cycle time as the things to learn." },
+      { sector: "consumer", note: "Here the thing to learn is speed and cost; say so, with the cheapest-sufficient-evidence habit as the bridge." },
+    ],
+  },
+  {
+    id: "portfolio-honest",
+    moduleId: "interviews",
+    topic: "Portfolio",
+    question: `Walk me through your sensor-monitoring project. What runs on hardware, what is simulated, and how do you know it works?`,
+    probes: ["What does the fault detection detect?", "How many tests, and where did they run?", "What would you do next?"],
+    rubric: {
+      strong: [
+        "Follows the six headings: scope and non-scope, decisions with reasons, what was built, simulated versus hardware table, evidence with counts and measurements, what is next.",
+        "States the simulated-versus-hardware boundary before being asked.",
+        "Gives verifiable evidence: fault-injection counts and their split, measured latency with instrument and trials, a repository or CI run.",
+        "Avoids inflating phrases (production-ready, robust, fully tested).",
+      ],
+      weak: ["Describes a development board project as a product.", "'Fully tested' with no counts.", "Cannot say what was simulated."],
+    },
+    sampleAnswer: `It's a one-sensor monitor on an STM32 Nucleo board: it reads a temperature sensor over I2C at 10 Hz and asserts an alarm output within two seconds of a sensor fault. Not a product: no enclosure, no EMC, no standard behind the two-second number beyond a hazard-style argument I wrote down. The decisions that shaped it were the independent watchdog for a hung loop, a plausibility check as well as a range check so an intermittent connector shows up, and a Python sensor model so the detection logic runs in CI without hardware. What's on hardware: the I2C read, open-sensor detection by disconnecting the sensor, and the watchdog restart, which I checked with a debugger halt and the reset-cause register. What's simulation only: stuck-value detection, because I don't have a controlled heat source. Evidence: twenty-two unit tests on the detection logic, fourteen fault-injection cases on the simulator, nine of them also on hardware, and alarm latency of 310 to 360 milliseconds over fifteen injected faults on the logic analyser. Next I'd add the stuck-value case on hardware with a thermal chamber and a long-duration run.`,
+    relatedLesson: "presenting-a-portfolio-project-honestly",
+    industries: [
+      { sector: "avionics", note: "Interviewers will ask where the two-second limit came from; the honest answer is 'a hazard-style argument, not a standard'." },
+      { sector: "medical", note: "Map the detections to risk controls and the tests to verification protocols when asked." },
+      { sector: "industrial", note: "The watchdog and plausibility checks read as diagnostic coverage; say so." },
+    ],
+  },
 ];

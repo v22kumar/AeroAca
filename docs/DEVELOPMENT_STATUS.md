@@ -5,9 +5,9 @@ Progress report against `docs/PRODUCT_ROADMAP.md`. Updated at the end of every i
 ## Current state (2026-11-05)
 
 - **Production:** Release 0.1 at https://aeroaca.vercel.app (Vercel deployment `dpl_DzDWiodmXiHacxUGqJCM5EaCSTjo`, `main` at `3c9c722`). Vercel Authentication protects previews only. Rollback via Vercel "Promote to Production" or `git revert -m 1 3c9c722`.
-- **Open PRs:** #2 Release 0.2 first increment (`feat/release-0.2` → `main`): CI green, preview re-verified after review fixes (`34fcb79`), awaiting Product Owner approval. #3 Release 0.3 (`feat/release-0.3` → `feat/release-0.2`, stacked): block 3 content, preview verified (`734ee74`). #4 Release 0.4 (`feat/release-0.4` → `feat/release-0.3`, stacked): block 4 content, preview verified (`2115f7a`). #5 Release 0.5 (`feat/release-0.5` → `feat/release-0.4`, stacked): block 5 content. Each retargets to the next base as the one below merges.
-- **Published content (0.5 branch):** 21 lessons, 8 missions, 28 interview questions (21 with industry notes), 157 glossary terms, 13 interactive visuals, journey days 1–25 complete.
-- **Quality gates (0.5 branch):** lint 0/0, typecheck clean, 43 unit tests, 96 browser tests (Pixel 7 + desktop, incl. axe WCAG 2.0 A/AA), all routes static.
+- **Open PRs:** #2 Release 0.2 first increment (`feat/release-0.2` → `main`): CI green, preview re-verified after review fixes (`34fcb79`), awaiting Product Owner approval. #3 Release 0.3 (`feat/release-0.3` → `feat/release-0.2`, stacked): block 3 content, preview verified (`734ee74`). #4 Release 0.4 (`feat/release-0.4` → `feat/release-0.3`, stacked): block 4 content, preview verified (`2115f7a`). #5 Release 0.5 (`feat/release-0.5` → `feat/release-0.4`, stacked): block 5 content, preview verified (`5ac4afc`). #6 Release 0.6 (`feat/release-0.6` → `feat/release-0.5`, stacked): block 6 content; all 30 days published. Each retargets to the next base as the one below merges.
+- **Published content (0.6 branch):** 26 lessons, 8 missions, 31 interview questions (24 with industry notes), 179 glossary terms, 14 interactive visuals, timed mock-interview mode, all 30 journey days complete.
+- **Quality gates (0.6 branch):** lint 0/0, typecheck clean, 43 unit tests, 104 browser tests (Pixel 7 + desktop, incl. axe WCAG 2.0 A/AA), all routes static.
 
 ## Done
 
@@ -18,14 +18,15 @@ Progress report against `docs/PRODUCT_ROADMAP.md`. Updated at the end of every i
 | 0.3 | Journey days 11–15: bring-up checklist, test-case writing, root-cause analysis, ICD lessons; 2 missions; traceability matrix interactive; 4 interview questions; 22 glossary terms; light-mode status-colour contrast fix | PR #3; `docs/RELEASE_0.3_REPORT.md` |
 | 0.4 | Journey days 16–20: startup code, priority inversion, ISR-to-task handoff, bootloaders and recovery, embedded Linux boot chain; RTOS mission; startup-sequence and priority-inversion interactives; 5 interview questions; 19 glossary terms | PR #4; `docs/RELEASE_0.4_REPORT.md` |
 | 0.5 | Journey days 21–25: PyVISA and SCPI (simulated SCPI console), serial automation and test logs, SIL/HIL, FMEA (interactive worksheet); flaky-test mission; 4 interview questions; 17 glossary terms | PR #5; `docs/RELEASE_0.5_REPORT.md` |
+| 0.6 | Journey days 26–30: avionics/automotive and medical/industrial standards as scope (interactive standards map), cross-industry transfer, portfolio presentation, telling a debugging story; timed mock-interview mode; 3 interview questions; 22 glossary terms; all 30 days published | PR #6; `docs/RELEASE_0.6_REPORT.md` |
 
 ## In flight
 
-- 0.6 (days 26–30): standards as scope, cross-industry transfer, telling a debugging story, portfolio presentation, mock-interview tooling. Next on a branch stacked on `feat/release-0.5`.
+- 0.7 (portfolio track): STM32 sensor monitoring and fault detection, requirements → architecture → interfaces → firmware → tests → fault injection → report, with the simulation path and optional hardware path clearly separated. Next on a branch stacked on `feat/release-0.6`.
 
 ## Known gaps and blockers
 
-- Journey days 26–28 reference planned lessons (3 of 30 days).
+- No journey day references planned content any more; the curriculum still lists planned lessons beyond the 30-day path.
 - `v0.1.0` tag exists locally only: the git proxy in the build environment refuses tag pushes. **Human action:** create the tag on GitHub at `3c9c722`.
 - Physical-device PWA install was verified by the Product Owner on an iPhone; Android has not been checked.
 - No real-learner feedback incorporated yet (1.0 criterion).
@@ -33,5 +34,5 @@ Progress report against `docs/PRODUCT_ROADMAP.md`. Updated at the end of every i
 
 ## Decisions needed from the Product Owner
 
-1. Approve and merge PR #2 (Release 0.2 first increment), then PRs #3, #4 and #5 (0.3 to 0.5) in order as each is retargeted to `main`.
+1. Approve and merge PR #2 (Release 0.2 first increment), then PRs #3 to #6 (0.3 to 0.6) in order as each is retargeted to `main`.
 2. Whether production should be protected (currently public by URL, as requested for a working production link).

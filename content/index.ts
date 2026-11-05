@@ -19,6 +19,11 @@ import { talkingToAnInstrumentWithPyvisa } from "./lessons/talking-to-an-instrum
 import { serialAutomationAndTestLogs } from "./lessons/serial-automation-and-test-logs";
 import { silHilWhatEachProves } from "./lessons/sil-hil-what-each-proves";
 import { fmeaForASmallEmbeddedProduct } from "./lessons/fmea-for-a-small-embedded-product";
+import { avionicsAndAutomotiveStandardsScope } from "./lessons/avionics-and-automotive-standards-scope";
+import { medicalAndIndustrialStandardsScope } from "./lessons/medical-and-industrial-standards-scope";
+import { sameSkillsDifferentIndustries } from "./lessons/same-skills-different-industries";
+import { presentingAPortfolioProjectHonestly } from "./lessons/presenting-a-portfolio-project-honestly";
+import { tellingADebuggingStory } from "./lessons/telling-a-debugging-story";
 import { freshBoardNoSignOfLife } from "./missions/fresh-board-no-sign-of-life";
 import { theSensorThatNeverAnswers } from "./missions/the-sensor-that-never-answers";
 import { theUartThatPrintsGarbage } from "./missions/the-uart-that-prints-garbage";
@@ -58,6 +63,11 @@ export const lessons: Lesson[] = [
   serialAutomationAndTestLogs,
   silHilWhatEachProves,
   fmeaForASmallEmbeddedProduct,
+  avionicsAndAutomotiveStandardsScope,
+  medicalAndIndustrialStandardsScope,
+  sameSkillsDifferentIndustries,
+  presentingAPortfolioProjectHonestly,
+  tellingADebuggingStory,
 ];
 
 export const missions: Mission[] = [
