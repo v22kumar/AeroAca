@@ -42,7 +42,7 @@ export function CanArbitration() {
         <Button size="sm" onClick={() => setStep((s) => Math.min(11, s + 1))} data-testid="can-step">Next bit</Button>
         <Button size="sm" variant="secondary" onClick={() => setStep(0)}>Reset</Button>
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
         <table className="w-full border-collapse text-xs" aria-label="Arbitration field bit by bit">
           <thead><tr><th className="border border-line bg-surface-2 p-1 text-left">Bit</th>{Array.from({ length: 11 }, (_, i) => <th key={i} className="border border-line bg-surface-2 p-1">{10 - i}</th>)}</tr></thead>
           <tbody>
