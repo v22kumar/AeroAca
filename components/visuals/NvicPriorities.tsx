@@ -37,7 +37,7 @@ export function NvicPriorities() {
         ))}
       </div>
       <label className="flex flex-col gap-1 text-sm"><span>configMAX_SYSCALL_INTERRUPT_PRIORITY: {limit} (interrupts numbered ≥ {limit} may call the kernel)</span><input type="range" min={1} max={15} value={limit} onChange={(e) => setLimit(Number(e.target.value))} data-testid="nvic-limit" className="accent-accent" /></label>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
         <table className="w-full border-collapse text-xs">
           <thead><tr><th className="border border-line bg-surface-2 p-2 text-left">Interrupt</th><th className="border border-line bg-surface-2 p-2">Preempt / sub</th><th className="border border-line bg-surface-2 p-2 text-left">Can preempt</th><th className="border border-line bg-surface-2 p-2 text-left">Kernel API</th></tr></thead>
           <tbody>
