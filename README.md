@@ -2,7 +2,7 @@
 
 A mobile-first engineering academy for Sushmita: short, problem-led electronics and embedded lessons, branching fault-isolation missions, interview practice with rubrics, and spaced review. Built for an **Associate Avionics Engineer** moving into electronics R&D and embedded roles across aerospace, automotive, medical, industrial and consumer electronics.
 
-**Release 0.1** ships a complete vertical slice: three technically reviewed lessons, two multi-step missions, a ten-question interview bank, device-local progress and an installable PWA.
+**Release 0.1** (in production) shipped the vertical slice: three lessons, two missions, a ten-question interview bank, device-local progress and an installable PWA. **Release 0.2** adds the 30-day guided journey, five more lessons, two more missions, targeted revision from real mistakes, cross-industry interview notes and a larger glossary.
 
 ## Quick start
 
@@ -19,27 +19,37 @@ Other scripts: `npm run build`, `npm start`, `npm test` (Vitest), `npm run icons
 
 | Screen | Route | What it does |
 |---|---|---|
-| Today | `/` | One obvious next step (resume → next item → review → interview), the Release 0.1 learning path with real statuses, this week's numbers, fast-track position |
+| Today | `/` | The current journey day: one obvious next step, the day's checklist (lessons, missions, interview rehearsal, spaced review, career actions she ticks herself), realistic minutes, this week's numbers |
+| Journey | `/journey` | All 30 days in six blocks, with real statuses; days whose content is not yet published are marked and never counted as done |
 | Learn | `/curriculum` | All 16 modules from [docs/CURRICULUM.md](docs/CURRICULUM.md); published items are playable, planned ones are marked *Coming soon* and are not links |
 | Lesson | `/lessons/[slug]` | Scenario → concept → interactive visual → example → exercises → interview question → recap, with per-answer feedback. Completion requires every exercise solved |
 | Mission | `/missions/[slug]` | Fault isolation with a simulated bench: actions cost minutes, unlock other actions, and are judged; a diagnosis must be backed by evidence; a fix is graded; a debrief compares your path with an efficient one |
 | Interview | `/interview` | Questions that probe reasoning, a strong/weak rubric, follow-up probes, a sample answer, honest self-rating |
 | Progress | `/progress` | Only real completions, attempts, weak skills, interview ratings; export/import/reset of device-local data |
-| Review | `/review` | Spaced recall of recap cards from completed lessons (Leitner-style boxes) |
+| Review | `/review` | Spaced recall of recap cards from completed lessons (Leitner-style boxes), plus targeted review: every exercise answered wrongly or left unsolved, grouped by skill, with a link straight back to that step |
 | Terms | `/glossary` | Searchable glossary of every technical term; inside lessons, missions and interview text the first occurrence of each term is tappable and opens the same definition |
 
 ### Published content
 
 Lessons (module in brackets):
 
-1. **MCU board does not boot** (3 · Microcontrollers): power, reset, clock, boot pins, debugging order. Interactive boot-chain explorer; ordering, single-choice exercises.
-2. **I2C sensor not acknowledging** (4 · Interfaces): open-drain bus, address byte, ACK/NACK, pull-ups, HAL address convention. Interactive waveform; single, multi-select and numeric exercises.
-3. **Register bit masks: read, modify, write safely** (5 · Embedded C): masks and fields, `volatile`, read-modify-write hazards, write-1-to-clear. Interactive register and RMW timeline; a tap-the-bits register exercise.
+1. **MCU board does not boot** (3 · Microcontrollers): power, reset, clock, boot pins, debugging order. Interactive boot-chain explorer.
+2. **Watchdogs and reset loops** (3): IWDG/WWDG, timeout arithmetic, refresh placement, RCC_CSR reset-cause flags. Interactive timeout calculator.
+3. **I2C sensor not acknowledging** (4 · Interfaces): open-drain bus, address byte, ACK/NACK, pull-ups, HAL address convention. Interactive waveform.
+4. **UART framing and baud tolerance** (4): frame anatomy, LSB-first, baud error budget, STM32 USARTDIV, reading garbage as a clue. Interactive frame with receiver-rate error.
+5. **SPI modes, chip select and the first byte of garbage** (4): CPOL/CPHA from datasheet wording, CS framing, prescaler choice, shifted-byte diagnosis. Interactive mode/edge diagram.
+6. **Register bit masks: read, modify, write safely** (5 · Embedded C): masks and fields, `volatile`, read-modify-write hazards, write-1-to-clear. Interactive register and RMW timeline.
+7. **Fixed-width integers, overflow and shifts** (5): wrap-around, integer promotion, undefined shifts, wrap-safe elapsed time.
+8. **Oscilloscope probing without lying to yourself** (10 · Instrumentation): probe loading, compensation, ground-lead ringing, bandwidth and rise time, aliasing. Interactive aliasing simulation.
 
 Missions:
 
-1. **Fresh board, no sign of life** (3): a held reset caused by the wrong supervisor variant. Twelve actions, five diagnoses, three fixes.
-2. **The sensor that never answers** (4): an I2C address-strap mismatch. Eleven actions, five diagnoses, three fixes.
+1. **Fresh board, no sign of life** (3): a held reset caused by the wrong supervisor variant.
+2. **The board that resets every second** (3): a watchdog firing on a new blocking call; register evidence, firmware diff, fix judgement.
+3. **The sensor that never answers** (4): an I2C address-strap mismatch.
+4. **The UART that prints garbage** (4): a clock configuration inherited from the wrong board; one bit time on the scope settles it.
+
+The 30-day journey (`content/journey.ts`) uses all of this in days 1–10; days 11–30 follow the fast-track plan and reference planned content.
 
 All mission readings are simulated and labelled as such in the UI.
 
@@ -63,7 +73,7 @@ Key decisions, with reasoning, are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.m
 - **Next.js 16 + TypeScript + Tailwind v4**, fully static output, no server code, no API keys, no database.
 - **Content is typed data, not MDX.** Lessons are step sequences with structured exercises, validated by zod at test time. Prose fields are Markdown. See [docs/CONTENT_AUTHORING.md](docs/CONTENT_AUTHORING.md).
 - **Progress is device-local** (localStorage, schema-versioned). The UI says so wherever it matters and offers export/import.
-- **Grading and mission logic are pure functions** with unit tests; the UI only renders their results.
+- **Grading, mission and journey logic are pure functions** with unit tests; the UI only renders their results. Journey days complete only when every available item is genuinely done; planned items never count.
 - **Definitions on demand.** A remark plugin links the first occurrence of each glossary term per block of Markdown; a shared bottom sheet shows a plain-language definition, the precise detail, why it matters for her work, related terms and the lesson it comes from.
 - **Personal, warm, adult.** Greeting by name (editable on Progress), "why this matters for your next role" on every lesson and mission, encouraging feedback copy. No badges, streaks or confetti.
 
@@ -71,7 +81,7 @@ Key decisions, with reasoning, are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.m
 
 1. Create `content/lessons/<slug>.ts` (or `content/missions/<slug>.ts`) exporting a `Lesson` / `Mission` object. Copy an existing one as a template.
 2. Register it in `content/index.ts`.
-3. Mark it `published` with its slug in `content/curriculum.ts`.
+3. Mark it `published` with its slug in `content/curriculum.ts`, and replace the matching `planned` item in `content/journey.ts` with a `lesson` or `mission` item.
 4. `npm test` validates the schema, cross-references, exercise answer keys and mission reachability. `npm run build` prerenders the new route.
 
 No page or component changes are needed. Full guide: [docs/CONTENT_AUTHORING.md](docs/CONTENT_AUTHORING.md).
@@ -89,7 +99,7 @@ Vercel, from the GitHub repository. Steps, environment and verification checklis
 ## Limitations in 0.1
 
 - Progress lives in one browser profile; there is no account or sync. Clearing site data deletes it (export a backup from Progress).
-- Three lessons and two missions are published; the other 25 curriculum items are listed as *Coming soon*.
+- Eight lessons and four missions are published; days 1–10 of the journey are complete, days 11–30 reference content that is still planned and is shown as *Coming soon*.
 - PWA installability is verified by automated checks (manifest, icons, service worker registration); install behaviour on physical iOS and Android devices has not yet been confirmed by hand.
 - No AI tutor, no payments, no accounts, by design.
 

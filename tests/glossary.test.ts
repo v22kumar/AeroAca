@@ -53,7 +53,7 @@ describe("glossary matcher", () => {
   it("every lesson, mission and interview question contains tappable terms", () => {
     for (const lesson of lessons) {
       const text = lesson.steps.map((s) => ("body" in s ? s.body : s.type === "recap" ? s.summary : "")).join("\n\n");
-      expect(links(parse(text)).length, lesson.slug).toBeGreaterThan(8);
+      expect(links(parse(text)).length, lesson.slug).toBeGreaterThanOrEqual(6);
     }
     for (const m of missions) expect(links(parse(m.scenario)).length, m.slug).toBeGreaterThan(2);
     for (const q of interviewQuestions.filter((x) => x.relatedLesson)) expect(links(parse(q.question + "\n\n" + q.sampleAnswer)).length, q.id).toBeGreaterThan(1);

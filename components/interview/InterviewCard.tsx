@@ -65,6 +65,18 @@ export function InterviewCard({ question, compact = false }: { question: Intervi
           <Disclosure title="One way to say it">
             <Markdown size="sm">{question.sampleAnswer}</Markdown>
           </Disclosure>
+          {question.industries && question.industries.length > 0 && (
+            <Disclosure title="The same question in other industries">
+              <ul className="flex flex-col gap-2 text-sm">
+                {question.industries.map((ind) => (
+                  <li key={ind.sector} className="flex gap-2">
+                    <span className="shrink-0 rounded-full bg-surface-2 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-ink-2">{ind.sector}</span>
+                    <span className="text-ink-2">{ind.note}</span>
+                  </li>
+                ))}
+              </ul>
+            </Disclosure>
+          )}
           <fieldset>
             <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-3">How did your answer compare?</legend>
             <div className={`grid gap-2 ${compact ? "grid-cols-3" : "grid-cols-1 sm:grid-cols-3"}`}>

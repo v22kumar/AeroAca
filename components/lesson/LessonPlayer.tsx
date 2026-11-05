@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Lesson, LessonStep } from "@/lib/content/schema";
 import { getInterviewQuestion, getModule, learningPath, lessonCards, lessonExerciseIds } from "@/lib/content";
@@ -28,13 +29,16 @@ const stepLabel: Record<LessonStep["type"], string> = {
 export function LessonPlayer({ lesson }: { lesson: Lesson }) {
   const { state, store, hydrated } = useProgress();
   const steps = lesson.steps;
+  const params = useSearchParams();
+  const requestedStep = Number(params.get("step"));
+  const deepLink = Number.isInteger(requestedStep) && requestedStep >= 1 && requestedStep <= steps.length ? requestedStep - 1 : null;
   // `override` is null until the learner navigates; before that the index is
   // derived from saved progress so an in-progress lesson resumes where it was.
   const [override, setOverride] = useState<number | null>(null);
   const topRef = useRef<HTMLDivElement>(null);
   const lp = state.lessons[lesson.slug];
   const resumeIndex = hydrated && lp && !lp.completedAt ? Math.min(lp.lastStep, steps.length - 1) : 0;
-  const index = override ?? resumeIndex;
+  const index = override ?? deepLink ?? resumeIndex;
   const exerciseIds = useMemo(() => lessonExerciseIds(lesson), [lesson]);
   const cardIds = useMemo(() => lessonCards(lesson).map((c) => c.id), [lesson]);
   const mod = getModule(lesson.moduleId);

@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { curriculum, learningPath, lessons, missions } from "@/lib/content";
+import { journeyBlocks, lessons, missions } from "@/lib/content";
 import { useProgress } from "@/lib/progress/ProgressProvider";
-import { itemStatus, learnerName, nextAction, overallStats, type NextAction } from "@/lib/progress/selectors";
+import { learnerName, overallStats } from "@/lib/progress/selectors";
+import { journeyState, nextItem, type ItemState } from "@/lib/progress/journey";
 import { Card, SectionTitle } from "@/components/ui/Card";
 import { LinkButton } from "@/components/ui/Button";
-import { StatusPill } from "@/components/ui/StatusPill";
 import { Icon } from "@/components/ui/Icon";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { InstallHint } from "@/components/pwa/InstallHint";
+import { JourneyDayChecklist } from "@/components/journey/JourneyDayCard";
 
 function greeting(hour: number) {
   if (hour < 5) return "Late session";
@@ -20,48 +21,18 @@ function greeting(hour: number) {
   return "Good evening";
 }
 
-function describe(action: NextAction): { eyebrow: string; title: string; detail: string; href: string; cta: string } {
-  switch (action.kind) {
-    case "resume":
-      return {
-        eyebrow: action.item.kind === "lesson" ? "Continue lesson" : "Continue mission",
-        title: action.item.title,
-        detail: `Pick up where you left off. About ${action.item.minutes} minutes.`,
-        href: `/${action.item.kind === "lesson" ? "lessons" : "missions"}/${action.item.slug}`,
-        cta: "Continue learning",
-      };
-    case "start":
-      return {
-        eyebrow: action.item.kind === "lesson" ? "Next lesson" : "Next mission",
-        title: action.item.title,
-        detail: `${action.item.kind === "lesson" ? "Problem-led lesson" : "Fault-isolation mission"} · about ${action.item.minutes} minutes.`,
-        href: `/${action.item.kind === "lesson" ? "lessons" : "missions"}/${action.item.slug}`,
-        cta: action.item.kind === "lesson" ? "Start lesson" : "Start mission",
-      };
-    case "review":
-      return {
-        eyebrow: "Spaced review",
-        title: `${action.due} review card${action.due > 1 ? "s" : ""} due`,
-        detail: "Short recall practice on what you have already completed. Two minutes.",
-        href: "/review",
-        cta: "Review now",
-      };
+function ctaFor(it: ItemState): { eyebrow: string; cta: string } {
+  switch (it.item.kind) {
+    case "lesson":
+      return it.status === "in-progress" ? { eyebrow: "Continue lesson", cta: "Continue lesson" } : { eyebrow: "Next lesson", cta: "Start lesson" };
+    case "mission":
+      return it.status === "in-progress" ? { eyebrow: "Continue mission", cta: "Continue mission" } : { eyebrow: "Next mission", cta: "Start mission" };
     case "interview":
-      return {
-        eyebrow: "Interview practice",
-        title: "Rehearse a question out loud",
-        detail: "Rate your confidence honestly; it feeds the weak-area list.",
-        href: "/interview",
-        cta: "Practise",
-      };
-    case "done":
-      return {
-        eyebrow: "All caught up",
-        title: "You have completed everything published so far",
-        detail: "More lessons are planned. Revisit a mission or rehearse interview questions in the meantime.",
-        href: "/curriculum",
-        cta: "Browse curriculum",
-      };
+      return { eyebrow: "Interview practice", cta: "Practise" };
+    case "review":
+      return { eyebrow: "Spaced review", cta: "Review now" };
+    default:
+      return { eyebrow: "Next step", cta: "Open" };
   }
 }
 
@@ -69,11 +40,12 @@ export function TodayView() {
   const { state, hydrated } = useProgress();
   // Captured once per mount: "today" should not change mid-render.
   const [now] = useState(() => Date.now());
-  const action = nextAction(state, now);
   const stats = overallStats(state, now);
-  const path = learningPath();
   const hour = new Date(now).getHours();
-  const d = describe(action);
+  const js = hydrated ? journeyState(state, now) : null;
+  const current = js ? js.days[js.currentDay - 1] : null;
+  const next = js ? nextItem(js) : null;
+  const block = current ? journeyBlocks[current.day.block] : null;
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-6">
@@ -88,107 +60,119 @@ export function TodayView() {
         </p>
       </div>
 
-      {hydrated ? (
-        <Card className="hero-glow relative overflow-hidden p-5" data-testid="next-action">
-          <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-accent-soft opacity-60" aria-hidden />
-          <p className="relative text-xs font-semibold uppercase tracking-[0.12em] text-accent">{d.eyebrow}</p>
-          <h2 className="relative mt-1 pr-6 text-xl font-bold leading-snug">{d.title}</h2>
-          <p className="relative mt-2 text-[15px] text-ink-2">{d.detail}</p>
-          <div className="relative mt-4">
-            <LinkButton href={d.href} size="lg" data-testid="next-action-cta">
-              {d.cta}
-              <Icon name="chevron-right" size={18} />
-            </LinkButton>
-          </div>
-        </Card>
-      ) : (
+      {!hydrated || !js || !current ? (
         <Card className="p-5" aria-busy="true" aria-label="Loading your next step">
           <Skeleton className="h-3 w-24" />
           <Skeleton className="mt-3 h-6 w-3/4" />
           <Skeleton className="mt-3 h-4 w-full" />
           <Skeleton className="mt-5 h-12 w-full sm:w-40" />
         </Card>
-      )}
+      ) : (
+        <>
+          <Card className="hero-glow relative overflow-hidden p-5" data-testid="next-action">
+            <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-accent-soft opacity-60" aria-hidden />
+            {next ? (
+              <>
+                <p className="relative text-xs font-semibold uppercase tracking-[0.12em] text-accent">
+                  Day {current.day.day} of 30 · {ctaFor(next.item).eyebrow}
+                </p>
+                <h2 className="relative mt-1 pr-6 text-xl font-bold leading-snug">{next.item.title}</h2>
+                <p className="relative mt-2 text-[15px] text-ink-2">
+                  {next.item.kindLabel} · about {next.item.minutes} min. Today’s session: about {current.minutes} min in total.
+                </p>
+                <div className="relative mt-4">
+                  {next.item.href ? (
+                    <LinkButton href={next.item.href} size="lg" data-testid="next-action-cta">
+                      {ctaFor(next.item).cta}
+                      <Icon name="chevron-right" size={18} />
+                    </LinkButton>
+                  ) : (
+                    <p className="text-sm text-ink-2" data-testid="next-action-cta">
+                      Tick it off below when it is done.
+                    </p>
+                  )}
+                </div>
+              </>
+            ) : js.finished ? (
+              <>
+                <p className="relative text-xs font-semibold uppercase tracking-[0.12em] text-accent">All 30 days complete</p>
+                <h2 className="relative mt-1 text-xl font-bold leading-snug">You have finished everything published so far</h2>
+                <p className="relative mt-2 text-[15px] text-ink-2">Keep the review queue warm and rehearse interview questions until the next release.</p>
+                <div className="relative mt-4">
+                  <LinkButton href="/review" size="lg" data-testid="next-action-cta">
+                    Review now <Icon name="chevron-right" size={18} />
+                  </LinkButton>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="relative text-xs font-semibold uppercase tracking-[0.12em] text-accent">Day {current.day.day} of 30</p>
+                <h2 className="relative mt-1 text-xl font-bold leading-snug">Today’s content is still being written</h2>
+                <p className="relative mt-2 text-[15px] text-ink-2">The available parts are below. Nothing unpublished will ever be marked done.</p>
+              </>
+            )}
+          </Card>
 
-      <section aria-labelledby="path-heading">
-        <div className="mb-2 flex items-baseline justify-between">
-          <SectionTitle>
-            <span id="path-heading">Learning path · Release 0.1</span>
-          </SectionTitle>
-          {hydrated && (
-            <span className="text-xs text-ink-3">
-              {stats.pathCompleted}/{stats.pathTotal} done
-            </span>
-          )}
-        </div>
-        <Card>
-          <ol className="divide-y divide-line">
-            {path.map((item, i) => {
-              const status = hydrated ? itemStatus(state, item) : "not-started";
-              const mod = curriculum.find((m) => m.id === item.moduleId);
-              return (
-                <li key={item.slug}>
-                  <Link
-                    href={`/${item.kind === "lesson" ? "lessons" : "missions"}/${item.slug}`}
-                    className="flex items-center gap-3 px-4 py-3 hover:bg-surface-2"
-                  >
-                    <span
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-                        status === "completed" ? "bg-ok-soft text-ok" : status === "in-progress" ? "bg-amber-soft text-amber" : "bg-surface-2 text-ink-3"
-                      }`}
-                      aria-hidden
-                    >
-                      {status === "completed" ? <Icon name="check" size={16} /> : i + 1}
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate text-[15px] font-semibold">{item.title}</span>
-                      <span className="block text-xs text-ink-3">
-                        {item.kind === "mission" ? "Mission" : "Lesson"} · {mod?.title} · {item.minutes} min
-                      </span>
-                    </span>
-                    <StatusPill kind={status} />
-                  </Link>
-                </li>
-              );
-            })}
-          </ol>
-        </Card>
-        <p className="mt-2 text-xs text-ink-3">
-          {lessons.length} lessons and {missions.length} missions are published. The rest of the 16-module curriculum is listed under Learn as coming soon.
-        </p>
-      </section>
-
-      {hydrated && (
-        <section aria-labelledby="week-heading" className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <SectionTitle className="sr-only">
-            <span id="week-heading">This week</span>
-          </SectionTitle>
-          <Stat label="Lessons done" value={`${stats.lessonsDone}/${stats.lessonsTotal}`} />
-          <Stat label="Missions solved" value={`${stats.missionsDone}/${stats.missionsTotal}`} />
-          <Stat label="Cards due" value={String(stats.due)} href={stats.due > 0 ? "/review" : undefined} />
-          <Stat label="Days active, 7d" value={String(stats.activeThisWeek)} />
-        </section>
-      )}
-
-      <section aria-labelledby="plan-heading">
-        <SectionTitle className="mb-2">
-          <span id="plan-heading">30-day interview fast track</span>
-        </SectionTitle>
-        <Card className="p-4">
-          <p className="text-[15px]">
-            <strong>Days 1–10</strong> cover circuit fundamentals, MCU bring-up, measurements, Embedded C and the I2C/UART/SPI/CAN interfaces. The published lessons sit in this block.
-          </p>
-          {hydrated && (
-            <div className="mt-3">
-              <ProgressBar value={stats.pathCompleted} max={stats.pathTotal} label="Fast-track block progress" />
-              <p className="mt-1 text-xs text-ink-3">Progress is based on completed lessons and solved missions, nothing else.</p>
+          <section aria-labelledby="day-heading">
+            <div className="mb-2 flex items-baseline justify-between">
+              <SectionTitle>
+                <span id="day-heading">
+                  Day {current.day.day}: {current.day.title}
+                </span>
+              </SectionTitle>
+              <span className="text-xs text-ink-3">
+                {current.doneCount}/{current.availableCount} done
+              </span>
             </div>
+            <Card className="overflow-hidden" data-testid="day-card">
+              <p className="border-b border-line px-4 py-3 text-sm text-ink-2">{current.day.focus}</p>
+              <JourneyDayChecklist ds={current} />
+              <div className="flex items-center justify-between border-t border-line px-4 py-2 text-xs text-ink-3">
+                <span data-testid="day-progress">
+                  {current.doneCount}/{current.availableCount} done today · {js.completedDays} of 30 days complete
+                </span>
+                <Link href="/journey" className="font-semibold text-accent underline underline-offset-2">
+                  All 30 days
+                </Link>
+              </div>
+            </Card>
+          </section>
+
+          <section aria-labelledby="week-heading" className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <SectionTitle className="sr-only">
+              <span id="week-heading">This week</span>
+            </SectionTitle>
+            <Stat label="Lessons done" value={`${stats.lessonsDone}/${stats.lessonsTotal}`} />
+            <Stat label="Missions solved" value={`${stats.missionsDone}/${stats.missionsTotal}`} />
+            <Stat label="Cards due" value={String(stats.due)} href={stats.due > 0 ? "/review" : undefined} />
+            <Stat label="Days active, 7d" value={String(stats.activeThisWeek)} />
+          </section>
+
+          {block && (
+            <section aria-labelledby="plan-heading">
+              <SectionTitle className="mb-2">
+                <span id="plan-heading">30-day interview fast track</span>
+              </SectionTitle>
+              <Card className="p-4">
+                <p className="text-[15px]">
+                  <strong>Block {current.day.block}, days {block.days}:</strong> {block.focus}.
+                </p>
+                <div className="mt-3">
+                  <ProgressBar value={js.completedDays} max={30} label="Journey progress" />
+                  <p className="mt-1 text-xs text-ink-3">Progress counts completed days only: solved exercises, evidence-backed missions, rated questions and ticked actions.</p>
+                </div>
+                <p className="mt-3 text-sm text-ink-2">
+                  Apply for roles and practise interviews from day one, independently of lesson completion. Studying firmware does not create professional firmware experience; say so clearly in interviews.
+                </p>
+              </Card>
+            </section>
           )}
-          <p className="mt-3 text-sm text-ink-2">
-            Apply for roles and practise interviews from day one, independently of lesson completion. Studying firmware does not create professional firmware experience; say so clearly in interviews.
-          </p>
-        </Card>
-      </section>
+        </>
+      )}
+
+      <p className="text-xs text-ink-3">
+        {lessons.length} lessons and {missions.length} missions are published. Everything else in the 16-module curriculum is listed under Learn as coming soon.
+      </p>
 
       <Link href="/glossary" className="flex items-center gap-3 rounded-card border border-line bg-surface p-4 hover:bg-surface-2">
         <span className="text-accent">
@@ -203,9 +187,7 @@ export function TodayView() {
 
       <InstallHint />
 
-      <p className="text-xs text-ink-3">
-        Progress is stored in this browser only. Clearing site data removes it. Export a backup from the Progress page.
-      </p>
+      <p className="text-xs text-ink-3">Progress is stored in this browser only. Clearing site data removes it. Export a backup from the Progress page.</p>
     </div>
   );
 }

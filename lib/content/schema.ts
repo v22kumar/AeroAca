@@ -32,6 +32,10 @@ export const visualIdSchema = z.enum([
   "i2c-waveform",
   "register-bits",
   "rmw-hazard",
+  "uart-frame",
+  "spi-modes",
+  "iwdg-timeout",
+  "aliasing",
 ]);
 export type VisualId = z.infer<typeof visualIdSchema>;
 
@@ -150,6 +154,15 @@ export const interviewQuestionSchema = z.object({
   }),
   sampleAnswer: markdown,
   relatedLesson: slug.optional(),
+  /** How the same question plays out in other sectors, so the answer transfers. */
+  industries: z
+    .array(
+      z.object({
+        sector: z.enum(["avionics", "automotive", "medical", "industrial", "consumer"]),
+        note: z.string().min(20),
+      }),
+    )
+    .optional(),
 });
 export type InterviewQuestion = z.infer<typeof interviewQuestionSchema>;
 
@@ -369,6 +382,33 @@ export const curriculumModuleSchema = z.object({
   missions: z.array(z.object({ title: z.string(), status: z.enum(["published", "planned"]), slug: slug.optional() })).optional(),
 });
 export type CurriculumModule = z.infer<typeof curriculumModuleSchema>;
+
+/* ---------- 30-day guided journey ---------- */
+
+export const journeyItemSchema = z.discriminatedUnion("kind", [
+  z.object({ kind: z.literal("lesson"), slug }),
+  z.object({ kind: z.literal("mission"), slug }),
+  /** Rehearse these interview questions and rate yourself. */
+  z.object({ kind: z.literal("interview"), questionIds: z.array(z.string()).min(1) }),
+  /** Spaced review of due cards. Complete when nothing is due. */
+  z.object({ kind: z.literal("review") }),
+  /** A real-world career action the learner ticks off herself. */
+  z.object({ kind: z.literal("apply"), id: z.string(), title: z.string(), detail: z.string(), minutes: z.number().int().positive() }),
+  /** Content not yet published; shown as coming soon, never completable. */
+  z.object({ kind: z.literal("planned"), title: z.string(), minutes: z.number().int().positive() }),
+]);
+export type JourneyItem = z.infer<typeof journeyItemSchema>;
+
+export const journeyDaySchema = z.object({
+  day: z.number().int().min(1).max(30),
+  title: z.string(),
+  /** One sentence on what this day is for, in interview-readiness terms. */
+  focus: z.string(),
+  /** Fast-track block 1–6 (days 1–5, 6–10, ...). */
+  block: z.number().int().min(1).max(6),
+  items: z.array(journeyItemSchema).min(1),
+});
+export type JourneyDay = z.infer<typeof journeyDaySchema>;
 
 export const sectionTitles: Record<CurriculumModule["section"], string> = {
   A: "Electronics & hardware engineering",

@@ -209,6 +209,17 @@ export class ProgressStore {
     });
   }
 
+  /* ---------- Journey ---------- */
+
+  setApplyDone(key: string, done: boolean) {
+    this.update((d) => {
+      const map = { ...(d.applyDone ?? {}) };
+      if (done) map[key] = this.now();
+      else delete map[key];
+      d.applyDone = map;
+    });
+  }
+
   /* ---------- Profile ---------- */
 
   setName(name: string) {

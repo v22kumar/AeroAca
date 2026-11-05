@@ -95,7 +95,7 @@ test.describe("Lesson flow", () => {
 
     // Persisted: Today now offers the next item, Progress shows completion, review cards are due.
     await page.goto("/");
-    await expect(page.getByTestId("next-action-cta")).toHaveText(/Start (lesson|mission)/);
+    await expect(page.getByTestId("next-action-cta")).toHaveText(/Start lesson/);
     await page.goto("/progress");
     const row = page.locator("li", { hasText: "I2C sensor not acknowledging" }).first();
     await expect(row.getByText("Completed", { exact: true })).toBeVisible();

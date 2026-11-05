@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useProgress } from "@/lib/progress/ProgressProvider";
 import { dueCards, enrolledCards } from "@/lib/progress/selectors";
+import { targetedReview } from "@/lib/progress/targeted";
+import { TargetedReview } from "./TargetedReview";
 import { Card } from "@/components/ui/Card";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { Markdown } from "@/components/ui/Markdown";
@@ -36,6 +38,7 @@ export function ReviewSession() {
 
   const enrolled = enrolledCards(state).length;
   const current = queue[pos];
+  const targets = targetedReview(state);
 
   const header = (
     <div>
@@ -54,6 +57,7 @@ export function ReviewSession() {
             Go to the curriculum
           </LinkButton>
         </Card>
+        <TargetedReview groups={targets} />
       </div>
     );
   }
@@ -84,6 +88,7 @@ export function ReviewSession() {
             </LinkButton>
           </div>
         </Card>
+        <TargetedReview groups={targets} />
       </div>
     );
   }

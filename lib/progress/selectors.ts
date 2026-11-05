@@ -111,10 +111,15 @@ export const skillLabels: Record<string, string> = {
   "debug-order": "Bring-up debugging order",
   clock: "Clocks and oscillators",
   reset: "Reset behaviour",
+  watchdog: "Watchdogs",
   "i2c-addressing": "I2C addressing",
   "i2c-physical": "I2C physical layer",
+  uart: "UART framing and baud",
+  spi: "SPI modes and chip select",
   "bit-ops": "Bit masks and fields",
   volatile: "volatile and memory access",
+  integers: "Integer widths, overflow and shifts",
+  instrumentation: "Oscilloscope and probing",
 };
 
 export function skillLabel(skill: string): string {
