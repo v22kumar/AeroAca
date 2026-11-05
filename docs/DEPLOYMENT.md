@@ -35,3 +35,17 @@ Vercel keeps every production deployment and marks them as rollback candidates; 
 ## Deployment protection
 
 Vercel Authentication is enabled for **preview** deployments only (set during the 0.1 release), so the production URL `https://aeroaca.vercel.app` is reachable without a Vercel login while branch previews still require one or a share link. Switch the project's protection to "all deployments" if production should be private.
+
+## Merging the stacked release chain (0.2 to 1.0)
+
+Releases 0.2 to 1.0 were opened as a chain of stacked pull requests, each based on the previous branch so every PR shows only its own increment: #2 `feat/release-0.2` → `main`, #3 `feat/release-0.3` → `feat/release-0.2`, … #10 `feat/release-1.0` → `feat/release-0.9`. Merge them in order, lowest first:
+
+1. Review and merge #2 into `main` (merge commit, as for 0.1). Production deploys automatically from `main`; verify with the checklist above.
+2. On GitHub, change the base of #3 from `feat/release-0.2` to `main`. GitHub recomputes the diff to the increment only. CI reruns. Merge.
+3. Repeat for each following PR: retarget to `main`, let CI pass, merge.
+4. After the last merge, tag `main` (`v1.0.0`) and record the production deployment id in `docs/DEVELOPMENT_STATUS.md`.
+
+Each merge is independently revertible with `git revert -m 1 <merge-sha>`, and each production deployment is a Vercel rollback candidate. Merging a later PR before an earlier one is refused by GitHub because its base branch would be unmerged; do not force it.
+
+If a fix is needed low in the stack after review, commit it on that branch and merge the branch forward into each later branch (`git merge feat/release-0.6` on `feat/release-0.7`, and so on), as was done for the scrollable-table accessibility fix.
+

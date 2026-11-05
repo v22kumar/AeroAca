@@ -1,0 +1,24 @@
+# Release 1.0 checklist
+
+Gate-by-gate state against the 1.0 definition of done in `docs/PRODUCT_ROADMAP.md`, with the evidence for each and what still needs a person. Updated with every release; this version reflects the `feat/release-1.0` branch (all increments 0.2 to 0.9 merged forward).
+
+| # | Gate | State | Evidence | Remaining |
+|---|---|---|---|---|
+| 1 | All 16 modules have substantive published content | **Met** | 37 lessons, 10 missions; every module has at least one lesson at or above its roadmap target; each lesson has objectives, scenario, exercises with answer-specific feedback, a worked example, an interview question with rubric and references (`npm test` validates the structure) | One deliberately planned lesson (low-power modes) remains as the "coming soon" exemplar |
+| 2 | All 30 journey days completable, no placeholders | **Met** | `tests/journey.test.ts` asserts no planned items on any day and 15–45 minutes per day; Journey page reads "All 30 days are fully published" | — |
+| 3 | Meaningful exercises; interactive laboratory functional | **Met** | 118 exercises across single, multi, order, numeric and register kinds with misconception feedback; 19 interactives (boot chain, I2C, registers, RMW, UART, SPI, IWDG, aliasing, traceability, startup, priority inversion, SCPI console, FMEA, standards map, sensor-monitor lab, ADC, CAN arbitration, PWM, NVIC) each covered by a browser test | — |
+| 4 | Portfolio track usable, simulated vs hardware separated | **Met** | `/portfolio`: 7 stages, 19 deliverables tagged written / simulation / hardware / both, in-browser fault-injection lab labelled as simulation, evidence table derived from the learner's ticks only (ADR-12); unit and browser tests | No learner has completed it yet (see gate 11) |
+| 5 | Assessment and revision from real evidence; no fabricated percentages | **Met** | Targeted review from recorded attempts (ADR-11); recommendations and readiness explained in words from counts (ADR-13); browser test asserts no `%` on the readiness view | — |
+| 6 | Interview preparation integrated into the journey | **Met** | 42 questions with rubrics and probes, 35 with cross-industry notes; interview items on 19 of 30 days recorded per day; timed mock mode on day 29 | — |
+| 7 | Technical content has passed documented review | **Partly met** | `docs/CONTENT_REVIEW.md`: every item author-reviewed against cited references with automated checks in CI; `tests/content-review.test.ts` keeps the log in sync | **A second technical reader per block must sign the rows.** Priority items are listed in the log |
+| 8 | Learner data survives upgrades | **Met** | Schema-versioned, zod-validated store (ADR-3); `tests/store-migration.test.ts` imports a Release 0.1 backup, derives every later feature from it and round-trips it byte-equal; unknown versions rejected | — |
+| 9 | Works on mobile and desktop; accessibility, security, performance and automated gates | **Met with notes** | 130 browser tests on Pixel 7 and Desktop Chrome with axe WCAG 2.0 A/AA scans on every screen type; lint, typecheck, 56 unit tests and build in CI. Lighthouse 12 (mobile emulation, local `next start`, no CDN; performance / accessibility / best practices): Today 98 / 100 / 100 (was 84 before the skeleton fix), lesson 94 / 100 / 100, portfolio 75 / 100 / 100 (was 70 / 98 / 100 before lazy stage rendering and the heading fix); no backend, no secrets, no third-party scripts, `noindex` | Physical-device check on Android has not been done (iPhone was checked at 0.1); production Lighthouse on the CDN to be recorded after merge |
+| 10 | Production deployment and rollback documented and verified | **Met for 0.1; procedure for 1.0 documented** | `docs/DEPLOYMENT.md`: release steps, verification checklist, rollback via Vercel promote or `git revert -m 1`, and the stacked-merge order for PRs #2 to #10 | Execute the merge order and verify production after the last merge; create tags `v0.1.0` (at `3c9c722`) and `v1.0.0` on GitHub (the build environment's git proxy refuses tag pushes) |
+| 11 | At least one real learner completed representative lessons and missions; feedback incorporated | **Not met** | — | **Needs the learner.** Suggested representative set: days 1–3 (boot, watchdog, I2C), one mission with the wrong-path trap, one timed mock, stage 1 of the portfolio. Collect feedback as GitHub issues; incorporate in a 1.0.x patch |
+
+## Decisions and actions for the Product Owner
+
+1. Merge PRs #2 to #10 in order per `docs/DEPLOYMENT.md`; verify production after each, or at least after the last.
+2. Name a second technical reader per block and have them sign `docs/CONTENT_REVIEW.md` rows (standards and CAN/NVIC items first).
+3. Have the learner complete the representative set and record feedback; the 1.0 tag is applied after that feedback is incorporated.
+4. Create tags `v0.1.0` and, after step 3, `v1.0.0` on GitHub.
