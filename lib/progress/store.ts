@@ -1,4 +1,4 @@
-import { emptyProgress, progressStateSchema, STORAGE_KEY, type Confidence, type ProgressState } from "./schema";
+import { emptyProgress, progressStateSchema, STORAGE_KEY, type ActiveMissionRun, type Confidence, type ProgressState } from "./schema";
 
 /**
  * Device-local progress store.
@@ -171,6 +171,22 @@ export class ProgressStore {
       const mp = d.missions[slug] ?? { startedAt: run.startedAt, runs: [] };
       mp.runs = [...mp.runs, { ...run, finishedAt: this.now() }].slice(-20);
       d.missions[slug] = mp;
+      const active = d.activeRuns?.[slug];
+      if (active) active.recorded = true;
+    });
+  }
+
+  /** Persist the current in-progress run so a reload resumes it. */
+  setActiveRun(slug: string, run: ActiveMissionRun) {
+    this.update((d) => {
+      d.activeRuns = { ...(d.activeRuns ?? {}), [slug]: run };
+    });
+  }
+
+  clearActiveRun(slug: string) {
+    if (!this.state.activeRuns?.[slug]) return;
+    this.update((d) => {
+      if (d.activeRuns) delete d.activeRuns[slug];
     });
   }
 

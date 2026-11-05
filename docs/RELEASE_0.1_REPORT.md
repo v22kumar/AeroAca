@@ -26,13 +26,20 @@ Date: 2026-11-05. Branch `feat/release-0.1`.
 |---|---|
 | `npm run lint` (ESLint 9, eslint-config-next incl. React Compiler rules) | 0 errors, 0 warnings |
 | `npm run typecheck` (strict TS, `noUncheckedIndexedAccess`) | clean |
-| `npm test` (Vitest) | 6 files, 36 tests passed |
+| `npm test` (Vitest) | 6 files, 37 tests passed |
 | `npm run build` (Next 16) | 14 routes, all prerendered static |
-| `npm run test:e2e` (Playwright 1.63, Pixel 7 + Desktop Chrome) | 18 passed |
+| `npm run test:e2e` (Playwright 1.63, Pixel 7 + Desktop Chrome) | 50 passed (25 scenarios × 2 profiles) |
 
 Unit tests cover: schema validity of all content, curriculum cross-references, interview links, unique ids, mission reachability/evidence/budget, grading of every exercise kind including misconceptions and protected bits, mission engine gating/scoring/reset, store persistence/corruption handling/no-storage mode/completion rules/review scheduling/next-action/export-import.
 
-E2E tests cover: navigation, planned-content gating, full I2C lesson completion with wrong-then-right answers, mid-lesson reload resume, register exercise grading, mission wrong path vs. evidence-backed path with persistence, manifest/icons/service worker, keyboard access.
+E2E tests cover: navigation, planned-content gating, completion of all three lessons with wrong-then-right answers and per-item ordering feedback, mid-lesson reload resume, register exercise grading, both missions on a wrong path and on the efficient path, a mission run resumed after reload and recorded exactly once, interview reveal/rate/filter, spaced review session, progress reset, not-found page, manifest/icons/service worker, keyboard access, glossary sheet and search, custom greeting, and axe scans (WCAG 2.0 A/AA) of Today, Curriculum, Lesson, Mission, Interview, Progress, Review, Glossary and the open definition sheet with zero serious or critical violations in light and dark mode.
+
+## Final release checks (post Product Owner review)
+
+- **Fixed: mission run lost on reload.** The run in progress now lives in the device-local store; reloading mid-mission restores the bench log, time and unlocked actions, the debrief survives reload, and the finished run is appended to history exactly once.
+- **Fixed: colour contrast.** axe found the muted text token (3.6:1 to 3.8:1) and the accent-on-soft pairing (4.46:1) below WCAG AA for small text. Tokens adjusted in both themes; all pairings now 5.0:1 or better. Icons and theme colour regenerated to match.
+- **Added:** `e2e/release.spec.ts` (full lesson and mission walkthroughs, interview, review, reset, not-found, axe) and `@axe-core/playwright`.
+- **Not possible from this environment:** PWA installation on a physical phone. Automated checks confirm the installability prerequisites (manifest with 192/512/maskable icons, `display: standalone`, registered service worker with a fetch handler, served over HTTPS on Vercel). A manual check on a real iPhone and Android phone is the remaining step, with instructions in `docs/DEPLOYMENT.md`.
 
 ## Deployment status
 
@@ -47,7 +54,6 @@ The Vercel project `aeroaca` (team `aero-aca`) is linked to the GitHub repositor
 ## Known limitations
 
 - Progress is per browser profile; no sync. Export/import is manual.
-- A mission run that is interrupted by a reload restarts; finished runs are saved.
 - 3 lessons, 2 missions, 10 interview questions, 14 review cards, 69 glossary terms. The remaining curriculum is planned.
 - Install behaviour on physical iOS/Android devices has not been confirmed by hand yet; automated checks cover manifest, icons and service worker registration.
 - Offline support is best-effort (visited pages).

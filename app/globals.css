@@ -12,11 +12,11 @@
   --c-surface-2: #f5ebec;
   --c-ink: #2a2026;
   --c-ink-2: #5f5259;
-  --c-ink-3: #8c7f86;
+  --c-ink-3: #6b5e66;
   --c-line: #ead9dd;
   --c-line-2: #d9c3c9;
-  --c-accent: #b2416f;
-  --c-accent-strong: #93315a;
+  --c-accent: #a63a66;
+  --c-accent-strong: #8a2f55;
   --c-on-accent: #ffffff;
   --c-accent-soft: #f9e4ec;
   --c-amber: #b4650f;
@@ -27,7 +27,7 @@
   --c-ok-soft: #dff3e6;
   --c-code-bg: #2b2029;
   --c-code-ink: #f1e8ec;
-  --c-focus: #b2416f;
+  --c-focus: #a63a66;
   --c-glow-a: #fbe3ec;
   --c-glow-b: #fff1d8;
   color-scheme: light;
@@ -40,7 +40,7 @@
     --c-surface-2: #2b212c;
     --c-ink: #f1e9ee;
     --c-ink-2: #bfb1b9;
-    --c-ink-3: #8f818a;
+    --c-ink-3: #a3959e;
     --c-line: #3a2d39;
     --c-line-2: #4d3c4b;
     --c-accent: #f08cb3;

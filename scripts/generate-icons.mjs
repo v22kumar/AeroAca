@@ -19,7 +19,7 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ deviceScaleFactor: 1 });
 for (const t of targets) {
   const inner = Math.round(t.size * (1 - 2 * t.pad));
-  const html = `<!doctype html><html><body style="margin:0;background:#b2416f;width:${t.size}px;height:${t.size}px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+  const html = `<!doctype html><html><body style="margin:0;background:#a63a66;width:${t.size}px;height:${t.size}px;display:flex;align-items:center;justify-content:center;overflow:hidden">
     <div style="width:${inner}px;height:${inner}px">${svg.replace(/width="512" height="512"/, `width="${inner}" height="${inner}"`)}</div></body></html>`;
   await page.setViewportSize({ width: t.size, height: t.size });
   await page.setContent(html);

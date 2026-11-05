@@ -79,7 +79,7 @@ No page or component changes are needed. Full guide: [docs/CONTENT_AUTHORING.md]
 ## Testing
 
 - `npm test`: unit tests across content validation, grading, mission engine, progress store, learner profile and the glossary matcher.
-- `npm run test:e2e`: Playwright flows on a Pixel 7 profile and desktop Chrome: navigation, planned-content gating, a full lesson completion with wrong-then-right answers and reload persistence, register-exercise grading, mission branching (wrong path vs. evidence-backed path) with persistence, PWA manifest/icons/service-worker checks, keyboard access to the primary action.
+- `npm run test:e2e`: Playwright flows on a Pixel 7 profile and desktop Chrome: navigation, planned-content gating, completion of all three lessons with wrong-then-right answers and reload resume, both missions (wrong path, evidence-backed path, reload mid-run), interview rating and filters, spaced review, progress reset, not-found, PWA manifest/icons/service worker, keyboard access, glossary sheet and search, and axe accessibility scans (WCAG 2.0 A/AA, no serious or critical violations) of every primary screen.
 - CI (`.github/workflows/ci.yml`) runs lint, typecheck, unit tests, build and e2e on every push and pull request.
 
 ## Deployment
@@ -89,7 +89,6 @@ Vercel, from the GitHub repository. Steps, environment and verification checklis
 ## Limitations in 0.1
 
 - Progress lives in one browser profile; there is no account or sync. Clearing site data deletes it (export a backup from Progress).
-- A mission run in progress is not saved across a page reload; finished runs are.
 - Three lessons and two missions are published; the other 25 curriculum items are listed as *Coming soon*.
 - PWA installability is verified by automated checks (manifest, icons, service worker registration); install behaviour on physical iOS and Android devices has not yet been confirmed by hand.
 - No AI tutor, no payments, no accounts, by design.

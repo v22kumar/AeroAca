@@ -40,6 +40,19 @@ export const missionProgressSchema = z.object({
 });
 export type MissionProgress = z.infer<typeof missionProgressSchema>;
 
+/** A mission run in progress (or just finished), kept so a reload on a phone does not lose the bench log. */
+export const activeMissionRunSchema = z.object({
+  startedAt: z.number(),
+  phase: z.enum(["investigate", "diagnose", "fix", "debrief"]),
+  performed: z.array(z.string()),
+  minutesUsed: z.number(),
+  diagnosisId: z.string().optional(),
+  fixId: z.string().optional(),
+  /** Set once the finished run has been appended to history, so a reload cannot record it twice. */
+  recorded: z.boolean().optional(),
+});
+export type ActiveMissionRun = z.infer<typeof activeMissionRunSchema>;
+
 export const confidenceSchema = z.enum(["not-yet", "shaky", "confident"]);
 export type Confidence = z.infer<typeof confidenceSchema>;
 
@@ -62,6 +75,7 @@ export const progressStateSchema = z.object({
   /** ISO dates (YYYY-MM-DD, local) with any learning activity. */
   activeDays: z.array(z.string()),
   profile: z.object({ name: z.string().max(40).optional() }).optional(),
+  activeRuns: z.record(z.string(), activeMissionRunSchema).optional(),
 });
 export type ProgressState = z.infer<typeof progressStateSchema>;
 

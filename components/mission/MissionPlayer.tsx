@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Mission, MissionAction } from "@/lib/content/schema";
 import { getLesson, getModule, learningPath } from "@/lib/content";
 import { availableActions, collectedEvidence, evaluateMission, initialMissionState, missionReducer, type MissionEvent, type MissionState } from "@/lib/learning/mission";
@@ -33,27 +33,31 @@ const assessmentStyle: Record<MissionAction["assessment"], { label: string; cls:
 
 export function MissionPlayer({ mission }: { mission: Mission }) {
   const { store, hydrated, state: progress } = useProgress();
-  const [state, dispatch] = useReducer((s: MissionState, e: MissionEvent) => missionReducer(mission, s, e), initialMissionState);
-  const startedAt = useRef(0);
-  const recorded = useRef(false);
+  // The run in progress lives in the progress store, so a reload (common on phones) resumes it.
+  const active = hydrated ? progress.activeRuns?.[mission.slug] : undefined;
+  const state: MissionState = useMemo(
+    () =>
+      active
+        ? { phase: active.phase, performed: active.performed, minutesUsed: active.minutesUsed, diagnosisId: active.diagnosisId, fixId: active.fixId }
+        : initialMissionState,
+    [active],
+  );
   const topRef = useRef<HTMLDivElement>(null);
   const mod = getModule(mission.moduleId);
   const related = mission.relatedLesson ? getLesson(mission.relatedLesson) : undefined;
   const runs = progress.missions[mission.slug]?.runs ?? [];
 
   useEffect(() => {
-    if (!hydrated) return;
-    store.startMission(mission.slug);
-    if (startedAt.current === 0) startedAt.current = nowMs();
+    if (hydrated) store.startMission(mission.slug);
   }, [hydrated, mission.slug, store]);
 
   const outcome = useMemo(() => (state.phase === "debrief" ? evaluateMission(mission, state) : null), [mission, state]);
 
+  // Append a finished run to history exactly once, even across reloads.
   useEffect(() => {
-    if (!outcome || recorded.current || !hydrated) return;
-    recorded.current = true;
+    if (!outcome || !active || active.recorded) return;
     store.recordMissionRun(mission.slug, {
-      startedAt: startedAt.current || nowMs(),
+      startedAt: active.startedAt,
       actions: state.performed,
       minutesUsed: state.minutesUsed,
       diagnosisId: state.diagnosisId ?? "",
@@ -62,18 +66,21 @@ export function MissionPlayer({ mission }: { mission: Mission }) {
       evidenceBacked: outcome.evidenceBacked,
       score: outcome.score,
     });
-  }, [outcome, hydrated, store, mission.slug, state]);
+  }, [outcome, active, store, mission.slug, state]);
 
   const send = (e: MissionEvent) => {
-    dispatch(e);
+    if (!hydrated) return;
+    if (e.type === "reset") {
+      store.clearActiveRun(mission.slug);
+    } else {
+      const next = missionReducer(mission, state, e);
+      if (next === state) return;
+      store.setActiveRun(mission.slug, { ...next, startedAt: active?.startedAt ?? nowMs() });
+    }
     if (e.type !== "perform") requestAnimationFrame(() => topRef.current?.scrollIntoView({ block: "start" }));
   };
 
-  const restart = () => {
-    recorded.current = false;
-    startedAt.current = nowMs();
-    send({ type: "reset" });
-  };
+  const restart = () => send({ type: "reset" });
 
   const performed = state.performed.map((id) => mission.actions.find((a) => a.id === id)!).filter(Boolean);
   const available = availableActions(mission, state);

@@ -117,3 +117,20 @@ describe("progress store", () => {
     expect(s.importJson("nope")).toBe(false);
   });
 });
+
+describe("active mission runs", () => {
+  it("persists an in-progress run, records a finished run once, and clears on reset", () => {
+    const storage = new MemoryStorage();
+    const s = new ProgressStore(storage, now);
+    s.setActiveRun("m", { startedAt: now(), phase: "investigate", performed: ["a"], minutesUsed: 2 });
+    const b = new ProgressStore(storage, now);
+    b.load();
+    expect(b.getState().activeRuns?.m?.performed).toEqual(["a"]);
+    b.recordMissionRun("m", { startedAt: now(), actions: ["a"], minutesUsed: 2, diagnosisId: "d", correct: true, evidenceBacked: true, score: 100 });
+    expect(b.getState().activeRuns?.m?.recorded).toBe(true);
+    expect(b.getState().missions.m?.runs).toHaveLength(1);
+    b.clearActiveRun("m");
+    expect(b.getState().activeRuns?.m).toBeUndefined();
+    expect(b.getState().missions.m?.runs).toHaveLength(1);
+  });
+});
