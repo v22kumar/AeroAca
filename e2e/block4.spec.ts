@@ -15,11 +15,13 @@ test.describe("Block 4: startup, RTOS, bootloaders, Linux", () => {
   });
 
   test("priority inversion visual: inheritance bounds the wait; the numeric exercise names the inheritance misconception", async ({ page }) => {
-    await page.goto("/lessons/priority-inversion?step=3");
+    // 2.0 format: the interactive is step 4; the independent numeric exercise is step 9 at Apply depth (a deep link raises the depth).
+    await page.goto("/lessons/priority-inversion?step=4");
     await expect(page.getByTestId("pi-latency")).toContainText("whole of M's run");
     await page.getByTestId("pi-inherit").check();
     await expect(page.getByTestId("pi-latency")).toContainText("4.0 ms");
-    await page.goto("/lessons/priority-inversion?step=5");
+    await page.goto("/lessons/priority-inversion?step=9");
+    await expect(page.getByTestId("depth-apply")).toHaveAttribute("aria-checked", "true");
     await page.getByTestId("numeric-input").fill("6");
     await page.getByTestId("check-answer").click();
     await expect(page.getByTestId("exercise-feedback")).toHaveAttribute("data-correct", "false");

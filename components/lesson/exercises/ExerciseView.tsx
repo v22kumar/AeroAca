@@ -7,7 +7,7 @@ import { OrderExercise } from "./OrderExercise";
 import { NumericExercise } from "./NumericExercise";
 import { RegisterExerciseView } from "./RegisterExerciseView";
 
-export function ExerciseView({ exercise, onResult, solvedEarlier }: { exercise: Exercise; onResult: (correct: boolean) => void; solvedEarlier: boolean }) {
+export function ExerciseView({ exercise, onResult, solvedEarlier }: { exercise: Exercise; onResult: (correct: boolean, hints: number) => void; solvedEarlier: boolean }) {
   switch (exercise.kind) {
     case "single":
       return <SingleChoice exercise={exercise} onResult={onResult} solvedEarlier={solvedEarlier} />;

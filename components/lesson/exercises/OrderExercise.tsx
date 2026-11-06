@@ -9,7 +9,7 @@ import { Icon } from "@/components/ui/Icon";
 import { ExerciseFrame } from "./ExerciseFrame";
 
 /** Tap-to-order: tap an item in the pool to append it; tap a placed item to send it back. Works with keyboard and touch, no drag needed. */
-export function OrderExercise({ exercise, onResult, solvedEarlier }: { exercise: OrderExerciseT; onResult: (correct: boolean) => void; solvedEarlier: boolean }) {
+export function OrderExercise({ exercise, onResult, solvedEarlier }: { exercise: OrderExerciseT; onResult: (correct: boolean, hints: number) => void; solvedEarlier: boolean }) {
   // Present the pool in a deterministic shuffled order (seeded by id) so it is never already correct.
   const pool = useMemo(() => {
     const items = [...exercise.items];
@@ -24,6 +24,7 @@ export function OrderExercise({ exercise, onResult, solvedEarlier }: { exercise:
   const [placed, setPlaced] = useState<string[]>([]);
   const [result, setResult] = useState<GradeResult | null>(null);
   const [attempts, setAttempts] = useState(0);
+  const [hintsUsed, setHintsUsed] = useState(0);
   const locked = result?.correct === true;
   const remaining = pool.filter((i) => !placed.includes(i.id));
 
@@ -31,11 +32,11 @@ export function OrderExercise({ exercise, onResult, solvedEarlier }: { exercise:
     const r = gradeOrder(exercise, placed);
     setResult(r);
     setAttempts((a) => a + 1);
-    onResult(r.correct);
+    onResult(r.correct, hintsUsed);
   };
 
   return (
-    <ExerciseFrame objective={exercise.objective} prompt={exercise.prompt} context={exercise.context} hint={exercise.hint} result={result} attempts={attempts} solvedEarlier={solvedEarlier}>
+    <ExerciseFrame objective={exercise.objective} prompt={exercise.prompt} context={exercise.context} hint={exercise.hint} hints={exercise.hints} hintsUsed={hintsUsed} onHint={() => setHintsUsed((h) => h + 1)} result={result} attempts={attempts} solvedEarlier={solvedEarlier}>
       <div className="flex flex-col gap-3">
         <div>
           <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-ink-3">Your sequence</p>

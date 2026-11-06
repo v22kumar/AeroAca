@@ -46,9 +46,10 @@ Review levels:
 | lesson | `pointers-to-hardware` | Pointers to hardware: structs over memory maps | technically-reviewed | 3 | 3 | — | n/a | pending |
 | lesson | `polling-interrupts-and-dma` | Polling, interrupts and DMA: choosing the driver model | technically-reviewed | 3 | 3 | pwm-timer | n/a | pending |
 | lesson | `presenting-a-portfolio-project-honestly` | Presenting a portfolio project without inflating it | technically-reviewed | 2 | 3 | — | yes | pending |
-| lesson | `priority-inversion` | Why the high-priority task starved: priority inversion | technically-reviewed | 3 | 3 | priority-inversion | yes | pending |
+| lesson | `priority-inversion` | Why the high-priority task starved: priority inversion (2.0 format, pilot) | technically-reviewed | 3 | 4 | priority-inversion | yes | pending |
+| lesson | `mil-std-1553b-the-word-and-the-message` | MIL-STD-1553B: the word and the message (2.0 format, pilot) | technically-reviewed | 3 | 4 | mil1553-word | yes | pending |
 | lesson | `raii-for-peripherals` | RAII for peripherals and critical sections | technically-reviewed | 3 | 3 | — | n/a | pending |
-| lesson | `reading-a-power-tree` | Reading a power tree: regulators, rails and decoupling | technically-reviewed | 3 | 3 | — | yes | pending |
+| lesson | `reading-a-power-tree` | Reading a power tree: regulators, rails and decoupling (2.0 format, pilot) | technically-reviewed | 3 | 5 | rail-sag | yes | pending |
 | lesson | `reading-a-schematic-like-a-reviewer` | Reading a schematic like a reviewer | technically-reviewed | 3 | 3 | — | n/a | pending |
 | lesson | `root-cause-analysis` | Root-cause analysis and the five whys that matter | technically-reviewed | 2 | 3 | — | n/a | pending |
 | lesson | `same-skills-different-industries` | Same skills, different industries: how to talk about transfer | technically-reviewed | 2 | 3 | — | yes | pending |

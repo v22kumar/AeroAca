@@ -105,6 +105,13 @@
       "language": "c",
       "file": "stm32_arith.c",
       "command": "gcc -std=c11 -Wall -Wextra -o stm32_arith stm32_arith.c && ./stm32_arith"
+    },
+    {
+      "id": "c-1553-word",
+      "dir": "labs/c/word1553",
+      "language": "c",
+      "file": "word1553.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o word1553 word1553.c && ./word1553"
     }
   ]
 }

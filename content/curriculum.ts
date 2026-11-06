@@ -71,6 +71,7 @@ export const curriculum: CurriculumModule[] = [
       { title: "UART framing and baud tolerance", status: "published", slug: "uart-framing-and-baud" },
       { title: "SPI modes, chip select and the first byte of garbage", status: "published", slug: "spi-modes-and-chip-select" },
       { title: "CAN: arbitration, error frames and bus-off", status: "published", slug: "can-arbitration-error-frames-and-bus-off" },
+      { title: "MIL-STD-1553B: the word and the message", status: "published", slug: "mil-std-1553b-the-word-and-the-message" },
     ],
     missions: [
       { title: "The sensor that never answers", status: "published", slug: "the-sensor-that-never-answers" },

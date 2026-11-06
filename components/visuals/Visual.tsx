@@ -28,6 +28,8 @@ const NvicPriorities = dynamic(() => import("./NvicPriorities").then((m) => m.Nv
 const DividerThevenin = dynamic(() => import("./DividerThevenin").then((m) => m.DividerThevenin), { loading });
 const RcStep = dynamic(() => import("./RcStep").then((m) => m.RcStep), { loading });
 const ClockTree = dynamic(() => import("./ClockTree").then((m) => m.ClockTree), { loading });
+const RailSag = dynamic(() => import("./RailSag").then((m) => m.RailSag), { loading });
+const Mil1553Word = dynamic(() => import("./Mil1553Word").then((m) => m.Mil1553Word), { loading });
 
 /** Maps a content visual id to its interactive component. Add new visuals here and in the schema enum. */
 export function Visual({ id }: { id: VisualId }) {
@@ -76,5 +78,9 @@ export function Visual({ id }: { id: VisualId }) {
       return <RcStep />;
     case "clock-tree":
       return <ClockTree />;
+    case "rail-sag":
+      return <RailSag />;
+    case "mil1553-word":
+      return <Mil1553Word />;
   }
 }

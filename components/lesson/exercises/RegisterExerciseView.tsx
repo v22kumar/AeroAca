@@ -7,21 +7,22 @@ import { Button } from "@/components/ui/Button";
 import { BitGrid, cExpression } from "@/components/visuals/BitGrid";
 import { ExerciseFrame } from "./ExerciseFrame";
 
-export function RegisterExerciseView({ exercise, onResult, solvedEarlier }: { exercise: RegisterExercise; onResult: (correct: boolean) => void; solvedEarlier: boolean }) {
+export function RegisterExerciseView({ exercise, onResult, solvedEarlier }: { exercise: RegisterExercise; onResult: (correct: boolean, hints: number) => void; solvedEarlier: boolean }) {
   const [value, setValue] = useState(exercise.initial);
   const [result, setResult] = useState<GradeResult | null>(null);
   const [attempts, setAttempts] = useState(0);
+  const [hintsUsed, setHintsUsed] = useState(0);
   const locked = result?.correct === true;
 
   const check = () => {
     const r = gradeRegister(exercise, value);
     setResult(r);
     setAttempts((a) => a + 1);
-    onResult(r.correct);
+    onResult(r.correct, hintsUsed);
   };
 
   return (
-    <ExerciseFrame objective={exercise.objective} prompt={exercise.prompt} context={exercise.context} hint={exercise.hint} result={result} attempts={attempts} solvedEarlier={solvedEarlier}>
+    <ExerciseFrame objective={exercise.objective} prompt={exercise.prompt} context={exercise.context} hint={exercise.hint} hints={exercise.hints} hintsUsed={hintsUsed} onHint={() => setHintsUsed((h) => h + 1)} result={result} attempts={attempts} solvedEarlier={solvedEarlier}>
       <div className="flex flex-col gap-3 rounded-xl border border-line bg-surface p-3">
         <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-ink-3">
           <span>{exercise.registerName}</span>

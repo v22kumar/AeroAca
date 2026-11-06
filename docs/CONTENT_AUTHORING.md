@@ -28,6 +28,30 @@ A `Lesson` has: `slug`, `moduleId` (must match `content/curriculum.ts`), `title`
 
 Prose fields are Markdown (GFM tables, code fences, inline code, bold, lists).
 
+## Teaching format 2.0: the nine-stage arc with Understand → Apply → Master
+
+Written after the first learner's feedback on 1.0 ("it's not easy understanding"). A lesson that declares `format: "arc"` follows this structure and `tests/teaching-format.test.ts` enforces the rules below. New lessons use it; 1.0 lessons are converted in order of density.
+
+| Stage (`stage`) | Step types | Rule |
+|---|---|---|
+| `why` | `scenario` | A real situation in under 120 words; what the learner will be able to do |
+| `intuition` | `concept` | Plain language, an analogy or picture in words, no term used before it is explained, one idea |
+| `how` | `visual`, `walkthrough` | Every interactive's `body` starts with **Try this first.** and says what to do; every code block longer than six lines has a `walkthrough` step with line-range notes |
+| `theory` | `concept` | Terms introduced one at a time; calculations show every intermediate value |
+| `example` | `example` | Start to finish, every decision justified, before the first exercise |
+| `practice` | `exercise`, `lab` | The first exercise is guided (`hints`, revealed one at a time, recorded with the attempt) at `understand` depth; an independent exercise of the same shape follows without hints |
+| `complexity` | `concept`, `scenario` | A failure mode, unexpected behaviour or trade-off, at `master` depth |
+| `check` | `exercise`, `interview` | Explain, calculate, debug or justify, with misconception feedback |
+| `work` | `concept` | Four short bullets: embedded development, aerospace and UAV, R&D or design, verification and interviews |
+
+Rules: at most **220 words** per concept step body (`deeper` is extra and collapsed); one idea per step; at least one `visual` or `walkthrough`; every step except the scenario and recap carries a `depth`.
+
+**Depth.** `depth: "understand" | "apply" | "master"` on a step means it is shown at that depth or deeper. Untagged steps show at every depth, so 1.0 lessons are unchanged. The learner picks the depth in the player (remembered as a preference, overridable per lesson, switchable mid-lesson without losing position or solved exercises). Completion is recorded per depth (`completedDepth`); the app says "completed at Apply depth", never "mastered". Every depth must still be a playable lesson: scenario, at least one exercise, recap.
+
+**Walkthrough step.** `{ type: "walkthrough", title, intro?, language, code, notes: [{ lines: "8-11", text }] }`. Notes are in line order and may not exceed the code's length.
+
+**Hints.** `hints: string[]` on any exercise. The player reveals them one at a time on request; the attempt records how many were used and a solve says "solved with 2 hints".
+
 ## Prerequisites
 
 Every lesson declares `prerequisites`: the slugs of the lessons it rests on, in the order a learner should take them. An empty list means a deliberate starting point; `tests/content.test.ts` allows that only for the three entry lessons (circuit laws, the multimeter and bench supply, register bit masks) and refuses cycles and unpublished slugs. The lesson page shows the list as "Before this lesson" with each prerequisite's completion state. Prerequisites inform; they never lock a lesson.
