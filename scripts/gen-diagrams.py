@@ -36,12 +36,39 @@ STYLE = """
 def esc(s): return html.escape(str(s), quote=True)
 
 def svg(name, w, h, body, title):
+    h = h + 44
     doc = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}" role="img" aria-labelledby="t">'
            f'<title id="t">{esc(title)}</title>{STYLE}<rect class="bg" x="0" y="0" width="{w}" height="{h}" rx="12"/>{body}</svg>')
     (OUT / f"{name}.svg").write_text(doc.strip() + "\n")
 
+def wrap(s, n):
+    words, lines, cur = s.split(" "), [], ""
+    for w in words:
+        if cur and len(cur) + 1 + len(w) > n:
+            lines.append(cur); cur = w
+        else:
+            cur = (cur + " " + w) if cur else w
+    if cur: lines.append(cur)
+    return lines
+
 def text(x, y, s, cls="ink", anchor="start", extra=""):
+    """Single-line text; long centred small captions wrap into tspans so nothing runs past the edge."""
+    limit = 82 if (" m" in f" {cls} " or cls == "m") else (100 if (" s" in f" {cls} " or cls.endswith(" s") or cls == "s") else 78)
+    if anchor == "middle" and len(s) > limit:
+        lines = wrap(s, limit)
+        spans = "".join(f'<tspan x="{x}" dy="{0 if i == 0 else 14}">{esc(l)}</tspan>' for i, l in enumerate(lines))
+        return f'<text class="{cls}" x="{x}" y="{y}" text-anchor="{anchor}" {extra}>{spans}</text>'
     return f'<text class="{cls}" x="{x}" y="{y}" text-anchor="{anchor}" {extra}>{esc(s)}</text>'
+
+def notes(x, y, items, limit=100):
+    """Stack several caption sentences, each wrapped, so lines never overlap. items: list of (text, cls)."""
+    out, yy = "", y
+    for t, cls in items:
+        lines = wrap(t, 82 if (" m" in f" {cls} " or cls == "m") else (limit if (" s" in f" {cls} " or cls == "s") else 78))
+        spans = "".join(f'<tspan x="{x}" dy="{0 if i == 0 else 14}">{esc(l)}</tspan>' for i, l in enumerate(lines))
+        out += f'<text class="{cls}" x="{x}" y="{yy}" text-anchor="middle">{spans}</text>'
+        yy += 14 * len(lines) + 6
+    return out
 
 def box(x, y, w, h, label, cls="box", sub=None, tcls="ink t"):
     out = f'<rect class="{cls}" x="{x}" y="{y}" width="{w}" height="{h}" rx="8"/>'
@@ -90,7 +117,8 @@ def bitfield(fields, x0, y0, total_w, h, bit_h=14):
         out += f'<rect class="{cls}' + f'" x="{x:.1f}" y="{y0}" width="{w:.1f}" height="{h}" rx="4"/>'
         out += text(x + w / 2, y0 + h / 2 + 4, label, "ink t" if w > 60 else "ink s", "middle")
         if sub:
-            out += text(x + w / 2, y0 + h + 14, sub, "ink2 s", "middle")
+            row = 0 if (len([f for f in fields[: fields.index((label, nb, cls, sub))]]) % 2 == 0) else 1
+            out += text(x + w / 2, y0 + h + 14 + row * 14, sub, "ink2 s", "middle")
         pos += nb
     return out
 
@@ -125,14 +153,14 @@ def timeline(rows, x0, y0, scale, segs, total, row_h=30, label_w=60, ticks=None,
     for t in (ticks or range(0, int(total) + 1, max(1, int(total // 10)))):
         xx = x0 + label_w + t * scale
         out += line(xx, yb, xx, yb + 4) + text(xx, yb + 16, str(t), "ink3 s", "middle")
-    out += text(x0 + label_w + total * scale, yb + 16, unit, "ink3 s", "end")
+    out += text(x0 + label_w + total * scale + 22, yb + 16, unit, "ink3 s", "start")
     return out
 
 # ----------------------------------------------------------------------------- diagrams
 
 def d_pathways_map():
     b = text(320, 26, "Four pathways over shared foundations", "ink ttl", "middle")
-    b += box(20, 230, 600, 54, "Shared foundations: modules 1 to 16", "box", "fundamentals · PCB · MCU · interfaces · C · C++ · firmware · RTOS · Linux · instruments · integration · verification · Python · standards · applications · communication")
+    b += f'<rect class="box" x="20" y="250" width="600" height="60" rx="8"/>' + text(320, 272, "Shared foundations: modules 1 to 16", "ink t", "middle") + text(320, 290, "fundamentals · PCB · MCU · interfaces · C · C++ · firmware · RTOS · Linux · instruments · integration · verification · Python · standards · applications · communication", "ink2 s", "middle")
     cols = [
         ("A  Embedded & Electronics R&D", "20, 22, 23 · 18.4–18.7 · 17.3–17.5 · 21.3–21.4 · later 31", "boxa", "principal, long term"),
         ("B  Aerospace & Systems", "17, 18, 19, 20, 21, 24, 25 · 26, 27 · 30 optional", "boxa", "principal, best now"),
@@ -141,17 +169,17 @@ def d_pathways_map():
     ]
     for i, (t, mods, cls, note) in enumerate(cols):
         x = 20 + i * 150
-        b += f'<rect class="{cls}" x="{x}" y="50" width="140" height="150" rx="10"/>'
+        b += f'<rect class="{cls}" x="{x}" y="50" width="140" height="172" rx="10"/>'
         b += text(x + 70, 72, t.split("  ")[0], "acc ttl", "middle")
         for j, part in enumerate(t.split("  ")[1].split(" & ")):
             b += text(x + 70, 92 + j * 16, part if j == 0 else "& " + part, "ink t", "middle")
         words = mods.split(" · ")
         for j, wds in enumerate(words):
             b += text(x + 70, 134 + j * 14, wds, "ink2 s", "middle")
-        b += text(x + 70, 192, note, "ink3 s", "middle")
-        b += arrow(x + 70, 228, x + 70, 204)
-    b += text(320, 306, "One lesson can serve several pathways. Switching pathway changes order, never progress.", "ink3 s", "middle")
-    svg("pathways-map", 640, 320, b, "Four career pathways built on the shared foundation modules 1 to 16")
+        b += text(x + 70, 212, note, "ink3 s", "middle")
+        b += arrow(x + 70, 248, x + 70, 226)
+    b += text(320, 332, "One lesson can serve several pathways. Switching pathway changes order, never progress.", "ink3 s", "middle")
+    svg("pathways-map", 640, 344, b, "Four career pathways built on the shared foundation modules 1 to 16")
 
 def d_study_journey():
     b = text(320, 26, "Study journey: refresh and defend, build evidence, go deep", "ink ttl", "middle")
@@ -162,18 +190,18 @@ def d_study_journey():
     ]
     for i, (wk, name, items, ev, cls) in enumerate(phases):
         x = 20 + i * 205
-        b += f'<rect class="{cls}" x="{x}" y="44" width="190" height="196" rx="10"/>'
+        b += f'<rect class="{cls}" x="{x}" y="44" width="190" height="212" rx="10"/>'
         b += text(x + 95, 66, wk, "ink3 s", "middle") + text(x + 95, 86, name, "ink ttl", "middle")
         for j, it in enumerate(items):
             b += text(x + 12, 112 + j * 18, "• " + it, "ink2 s")
         b += line(x + 12, 188, x + 178, 188, "ln2")
         b += text(x + 95, 206, "Evidence:", "ink3 s", "middle")
-        for j, part in enumerate([ev[:38], ev[38:]] if len(ev) > 40 else [ev]):
-            b += text(x + 95, 222 + j * 14, part.strip(), "ink s", "middle")
+        for j, part in enumerate(wrap(ev, 30)):
+            b += text(x + 95, 222 + j * 14, part, "ink s", "middle")
         if i < 2:
             b += arrow(x + 190, 142, x + 205, 142)
-    b += text(320, 262, "Apply for roles from week one. The order holds even if the dates slide.", "ink3 s", "middle")
-    svg("study-journey", 640, 280, b, "The three phases of the 30, 60 and 90 day study plan with the modules and evidence of each")
+    b += text(320, 276, "Apply for roles from week one. The order holds even if the dates slide.", "ink3 s", "middle")
+    svg("study-journey", 640, 290, b, "The three phases of the 30, 60 and 90 day study plan with the modules and evidence of each")
 
 def d_power_tree():
     b = text(320, 24, "A power tree, and where the rail actually sags", "ink ttl", "middle")
@@ -186,7 +214,7 @@ def d_power_tree():
     b += f'<rect class="boxb" x="230" y="200" width="150" height="56" rx="8"/>' + text(305, 222, "Radio", "ink t", "middle") + text(305, 238, "800 mA for 20 ms", "ink2 s", "middle") + text(305, 250, "sees 2.98 V, not 3.30 V", "amb s", "middle")
     b += box(400, 210, 100, 40, "Sensor", "box", "resets < 3.0 V")
     b += arrow(100, 164, 65, 208) + arrow(145, 164, 165, 208)
-    b += f'<line class="sigb" x1="190" y1="164" x2="300" y2="198"/>' + text(270, 176, "40 cm trace + connector ≈ 0.4 Ω", "amb s", "middle")
+    b += f'<line class="sigb" x1="190" y1="164" x2="300" y2="198"/>' + text(215, 190, "40 cm trace + connector ≈ 0.4 Ω", "amb s", "middle")
     b += arrow(335, 164, 450, 208)
     b += text(320, 282, "sag = I × R = 0.8 A × 0.4 Ω = 0.32 V. Measure at the load, under load, with a scope.", "ink2 s", "middle")
     svg("power-tree", 640, 300, b, "Power tree from a 5 volt input through a buck and an LDO to loads, with the trace resistance that makes the radio's rail sag")
@@ -208,30 +236,30 @@ def d_rc_step():
         y = y0 + h - v * h
         b += line(x, y, x, y0 + h, "ln2") + line(x0, y, x, y, "ln2")
         b += text(x, y0 + h + 16, f"{n}τ", "ink t", "middle") + text(x0 - 6, y + 4, label, "ink2 s", "end")
-    b += text(x0 - 6, y0 + 4, "100 %", "ink2 s", "end") + text(x0 + w, y0 + h + 16, "time", "ink3 s", "end")
+    b += text(x0 - 6, y0 - 6, "100 %", "ink2 s", "end") + text(x0 + w, y0 + h + 16, "time", "ink3 s", "end")
     b += text(320, 262, "τ = R × C. Time to reach a threshold: t = −τ ln(1 − V/Vfinal). Cutoff of the RC filter: f = 1 / (2πRC).", "ink2 s", "middle")
     svg("rc-step-response", 640, 280, b, "Exponential RC step response with the 63, 95 and 99 percent points at one, three and five time constants")
 
 def d_mosfet_switch():
     b = text(320, 24, "An N-channel MOSFET as a low-side switch", "ink ttl", "middle")
-    b += box(40, 110, 120, 50, "MCU GPIO", "box", "3.3 V logic")
-    b += line(160, 135, 230, 135) + f'<rect class="box" x="230" y="125" width="60" height="20" rx="3"/>' + text(260, 139, "Rg 100 Ω", "ink s", "middle") + line(290, 135, 340, 135)
-    # MOSFET symbol (simplified)
-    b += line(340, 115, 340, 155) + line(352, 112, 352, 158) + line(352, 120, 380, 120) + line(352, 150, 380, 150) + line(380, 60, 380, 120) + line(380, 150, 380, 220)
-    b += text(395, 118, "D", "ink2 s") + text(395, 156, "S", "ink2 s") + text(325, 128, "G", "ink2 s", "end")
-    b += box(440, 40, 120, 40, "V+ 12 V", "box")
-    b += f'<rect class="boxb" x="340" y="40" width="80" height="0"/>'
-    b += box(330, 10, 0, 0, "", "box")
-    # load
-    b += f'<rect class="boxa" x="355" y="62" width="50" height="38" rx="6"/>' + text(380, 85, "Load", "ink t", "middle")
-    b += line(380, 40, 380, 62) + line(380, 40, 440, 40) + line(440, 40, 440, 60)
-    # flyback diode
-    b += line(430, 62, 430, 100) + f'<path class="ln" d="M424,100 L436,100 L430,88 z"/>' + line(424, 88, 436, 88) + text(448, 92, "flyback diode", "ink2 s")
-    b += line(380, 62, 430, 62) + line(380, 100, 430, 100)
-    b += line(340, 220, 420, 220) + line(380, 220, 380, 232) + line(370, 232, 390, 232) + line(374, 236, 386, 236) + text(380, 252, "GND", "ink3 s", "middle")
-    b += text(60, 200, "Rules: VGS fully on (not just threshold) · gate charge sets switching loss · flyback for inductive loads · P = I² × RDS(on)", "ink2 s")
-    b += text(60, 218, "Low-side: the load sits above the switch, so the MCU's 3.3 V can drive the gate directly if the MOSFET is logic-level.", "ink2 s")
-    svg("mosfet-switch", 640, 270, b, "An N-channel MOSFET switching a 12 volt load on the low side, driven from a 3.3 volt GPIO through a gate resistor, with a flyback diode across the load")
+    # V+ rail
+    b += line(300, 50, 560, 50) + text(300, 44, "V+ 12 V", "ink t")
+    # load between rail and drain
+    b += line(400, 50, 400, 70) + f'<rect class="boxa" x="372" y="70" width="56" height="40" rx="6"/>' + text(400, 94, "Load", "ink t", "middle") + line(400, 110, 400, 132)
+    # flyback diode in parallel with the load (cathode to V+)
+    b += line(400, 60, 480, 60) + line(480, 60, 480, 78) + f'<path class="ln" d="M470,96 L490,96 L480,78 z"/>' + line(470, 78, 490, 78) + line(480, 96, 480, 120) + line(480, 120, 400, 120)
+    b += text(496, 92, "flyback diode", "ink2 s")
+    # MOSFET symbol: drain at top (400,132), source at bottom, gate at left
+    b += line(400, 132, 400, 142) + line(400, 142, 372, 142) + line(372, 136, 372, 170) + line(360, 140, 360, 166)
+    b += line(372, 164, 400, 164) + line(400, 164, 400, 186)
+    b += text(410, 140, "D", "ink2 s") + text(410, 172, "S", "ink2 s") + text(352, 158, "G", "ink2 s", "end")
+    # gate drive
+    b += box(40, 130, 120, 46, "MCU GPIO", "box", "3.3 V logic")
+    b += line(160, 153, 230, 153) + f'<rect class="box" x="230" y="143" width="64" height="20" rx="3"/>' + text(262, 157, "Rg 100 Ω", "ink s", "middle") + line(294, 153, 360, 153)
+    # ground
+    b += line(400, 186, 400, 196) + line(386, 196, 414, 196) + line(390, 201, 410, 201) + line(394, 206, 406, 206) + text(400, 222, "GND", "ink3 s", "middle")
+    b += notes(320, 246, [("Rules: drive VGS fully on (not just to threshold) · gate charge sets switching loss · a flyback diode for inductive loads · conduction loss P = I² × RDS(on).", "ink2 s"), ("Low-side means the load sits above the switch, so a 3.3 V GPIO can drive the gate directly if the MOSFET is logic-level.", "ink2 s")])
+    svg("mosfet-switch", 640, 290, b, "An N-channel MOSFET switching a 12 volt load on the low side, driven from a 3.3 volt GPIO through a gate resistor, with a flyback diode across the load")
 
 def d_logic_levels():
     b = text(320, 24, "Logic levels: driver output versus receiver input (3.3 V LVTTL)", "ink ttl", "middle")
@@ -248,9 +276,8 @@ def d_logic_levels():
     b += f'<rect class="boxa" x="{x0+260}" y="{ybar(0.8)}" width="120" height="{ybar(0)-ybar(0.8)}" rx="4"/>' + text(x0 + 320, ybar(0.4) + 4, "VIL ≤ 0.8 V reads 0", "ink t", "middle")
     b += f'<rect class="boxb" x="{x0+260}" y="{ybar(2.0)}" width="120" height="{ybar(0.8)-ybar(2.0)}" rx="4"/>' + text(x0 + 320, ybar(1.4) + 4, "undefined", "ink t", "middle")
     b += text(x0 + 320, y0 + h + 20, "Receiver requires", "ink t", "middle")
-    b += arrow(x0 + 140, ybar(2.4), x0 + 260, ybar(2.0), "noise margin high = 2.4 − 2.0 = 0.4 V", "ln", x0 + 200, ybar(2.2) - 8)
-    b += arrow(x0 + 140, ybar(0.4), x0 + 260, ybar(0.8), "noise margin low = 0.8 − 0.4 = 0.4 V", "ln", x0 + 200, ybar(0.6) + 16)
-    b += text(320, 272, "A negative margin can work on the bench and fail in the field. Open-drain outputs reach VOH only through the pull-up.", "ink2 s", "middle")
+    b += arrow(x0 + 140, ybar(2.4), x0 + 260, ybar(2.0)) + arrow(x0 + 140, ybar(0.4), x0 + 260, ybar(0.8))
+    b += notes(320, 272, [("Noise margin high = VOH − VIH = 2.4 − 2.0 = 0.4 V. Noise margin low = VIL − VOL = 0.8 − 0.4 = 0.4 V.", "ink2 s"), ("A negative margin can work on the bench and fail in the field. Open-drain outputs reach VOH only through the pull-up.", "ink2 s")])
     svg("logic-levels", 640, 290, b, "Driver output levels VOH and VOL against receiver input thresholds VIH and VIL, with the noise margins between them")
 
 def d_adc_chain():
@@ -264,8 +291,7 @@ def d_adc_chain():
     b += box(380, 180, 90, 36, "Vref", "boxb", "noise, drift") + arrow(425, 180, 425, 142)
     for x, t in [(75, "cable pickup"), (185, "amplifier noise"), (305, "aliased noise"), (425, "reference noise, quantisation")]:
         b += text(x, 70, t, "amb s", "middle") + arrow(x, 74, x, 88, None, "ln2")
-    b += text(320, 250, "Effective bits = what the noise leaves. Averaging n samples gains log2(√n) bits only if the noise is random.", "ink2 s", "middle")
-    b += text(320, 268, "Sample time must suit the source impedance, or the sample capacitor never settles.", "ink2 s", "middle")
+    b += notes(320, 250, [("Effective bits = what the noise leaves. Averaging n samples gains log2(√n) bits only if the noise is random.", "ink2 s"), ("Sample time must suit the source impedance, or the sample capacitor never settles.", "ink2 s")])
     svg("adc-chain", 640, 290, b, "Signal chain from sensor through amplifier and anti-alias filter to the ADC and its reference, annotated with the noise entry points")
 
 def d_mcu_block():
@@ -276,7 +302,7 @@ def d_mcu_block():
     b += box(470, 60, 130, 44, "RCC clock tree", "boxb", "enables, PLL, prescalers") + box(470, 114, 130, 40, "Debug port", "box", "SWD / JTAG")
     b += line(170, 90, 200, 78) + line(170, 150, 200, 150) + line(255, 96, 255, 110) + line(385, 96, 385, 110) + line(440, 78, 470, 82) + line(440, 90, 470, 134)
     b += box(200, 170, 400, 30, "APB peripheral buses", "box")
-    for i, (p, s) in enumerate([("GPIO", "pins"), ("UART", "serial"), ("SPI / I2C", "buses"), ("Timers", "PWM, capture"), ("ADC", "analogue in"), ("DMA", "copies without CPU")]):
+    for i, (p, s) in enumerate([("GPIO", "pins"), ("UART", "serial"), ("SPI / I2C", "buses"), ("Timers", "PWM, capture"), ("ADC", "analogue in"), ("DMA", "no CPU")]):
         x = 40 + i * 95
         b += box(x, 220, 85, 44, p, "box", s) + line(x + 42, 200, x + 42, 220)
     b += text(320, 286, "Every peripheral needs its clock enabled in the RCC and its pins in the right GPIO mode before it does anything.", "ink2 s", "middle")
@@ -300,7 +326,7 @@ def d_interrupt_flow():
     b = text(320, 24, "What happens when an interrupt fires", "ink ttl", "middle")
     steps = [("Peripheral event", "flag set in its status register"), ("Interrupt enabled?", "peripheral enable and NVIC enable"), ("Priority higher than current?", "lower number = more urgent"), ("Save context, fetch vector", "hardware pushes registers"), ("Handler runs", "short; clear the flag; hand off to a task"), ("Return", "restore, or tail-chain into the next pending")]
     b += flow_v(steps, 160, 44, 320, 38, 10, ["box", "boxb", "boxb", "box", "boxa", "box"])
-    b += text(500, 109, "no → stays pending", "ink3 s") + text(500, 157, "no → waits (preempted later)", "ink3 s")
+    b += text(492, 109, "no → stays pending", "ink3 s") + text(492, 157, "no → waits its turn", "ink3 s")
     b += text(320, 340, "Shared data between handler and main loop needs a plan: a queue, a flag with an atomic read, or a short critical section.", "ink2 s", "middle")
     svg("interrupt-flow", 640, 356, b, "Flow of an interrupt from the peripheral event through enable and priority checks to the handler and return")
 
@@ -317,8 +343,7 @@ def d_uart_frame():
     b += f'<rect class="boxa" x="{x0+bw}" y="160" width="{bw}" height="18" rx="3"/>' + text(x0 + bw * 1.5, 173, "start", "ink s", "middle")
     b += f'<rect class="box" x="{x0+2*bw}" y="160" width="{8*bw}" height="18" rx="3"/>' + text(x0 + 6 * bw, 173, "8 data bits, least significant first", "ink s", "middle")
     b += f'<rect class="boxg" x="{x0+10*bw}" y="160" width="{bw}" height="18" rx="3"/>' + text(x0 + bw * 10.5, 173, "stop", "ink s", "middle")
-    b += text(320, 210, "One bit time = 1 / baud. At 115 200 baud that is 8.68 µs. Both ends must agree within about 2–3 % or the last bits land in the wrong slot.", "ink2 s", "middle")
-    b += text(320, 228, "Framing error: a stop bit that is not high. Overrun: the next byte arrived before the previous one was read.", "ink2 s", "middle")
+    b += notes(320, 210, [("One bit time = 1 / baud. At 115 200 baud that is 8.68 µs. Both ends must agree within about 2–3 % or the last bits land in the wrong slot.", "ink2 s"), ("Framing error: a stop bit that is not high. Overrun: the next byte arrived before the previous one was read.", "ink2 s")])
     svg("uart-frame", 640, 250, b, "UART 8N1 frame timing diagram for the byte 0x4B with start bit, eight data bits least significant first, and stop bit")
 
 def d_spi_timing():
@@ -340,19 +365,16 @@ def d_spi_timing():
 
 def d_i2c_transaction():
     b = text(320, 24, "An I2C write: address, acknowledge, data, acknowledge, stop", "ink ttl", "middle")
-    fields = [("S", 1, "boxa", "start"), ("7-bit address", 7, "box", "0x48"), ("W", 1, "box", "R/W = 0"), ("A", 1, "boxg", "ACK from device"), ("Data byte", 8, "box", "register / value"), ("A", 1, "boxg", "ACK"), ("P", 1, "boxa", "stop")]
+    fields = [("S", 1, "boxa", "start"), ("7-bit address", 7, "box", "0x48"), ("W", 1, "box", "R/W=0"), ("A", 1, "boxg", "ACK"), ("Data byte", 8, "box", "register / value"), ("A", 1, "boxg", "ACK"), ("P", 1, "boxa", "stop")]
     b += bitfield(fields, 30, 70, 580, 40)
-    b += text(320, 150, "SDA changes only while SCL is low; START and STOP are the two exceptions, and that is how they are recognised.", "ink2 s", "middle")
-    b += text(320, 168, "No ACK after the address: wrong address, device unpowered, pull-ups missing, or the bus held low by a stuck device.", "ink2 s", "middle")
-    b += text(320, 186, "Pull-up size: small enough to rise within the bit time against the bus capacitance, large enough not to exceed the device's sink current.", "ink2 s", "middle")
+    b += notes(320, 150, [("SDA changes only while SCL is low; START and STOP are the two exceptions, and that is how they are recognised.", "ink2 s"), ("No ACK after the address: wrong address, device unpowered, pull-ups missing, or the bus held low by a stuck device.", "ink2 s"), ("Pull-up size: small enough to rise within the bit time against the bus capacitance, large enough not to exceed the device's sink current.", "ink2 s")])
     svg("i2c-transaction", 640, 206, b, "I2C write transaction showing start, seven bit address, write bit, acknowledge, data byte, acknowledge and stop")
 
 def d_can_frame():
     b = text(320, 24, "A classic CAN data frame (11-bit identifier)", "ink ttl", "middle")
-    fields = [("SOF", 1, "boxa", "1"), ("Identifier", 11, "boxb", "11 bits, lowest wins arbitration"), ("RTR", 1, "box", "1"), ("IDE", 1, "box", "1"), ("r0", 1, "box", "1"), ("DLC", 4, "box", "data length 0–8"), ("Data", 16, "boxg", "0 to 8 bytes (shown shortened)"), ("CRC", 15, "box", "15 bits + delimiter"), ("ACK", 2, "boxa", "slot + delimiter"), ("EOF", 7, "box", "7 recessive bits")]
+    fields = [("S", 1, "boxa", "SOF"), ("Identifier", 11, "boxb", "11 bits, lowest wins"), ("RTR IDE r0", 3, "box", "3 control bits"), ("DLC", 4, "box", "length 0–8"), ("Data", 16, "boxg", "0–8 bytes (shortened)"), ("CRC", 15, "box", "15 bits + delimiter"), ("ACK", 2, "boxa", "slot + delim."), ("EOF", 7, "box", "7 recessive")]
     b += bitfield(fields, 20, 70, 600, 40)
-    b += text(320, 150, "Arbitration: every node sends its identifier bit by bit; a node that sends recessive (1) and reads dominant (0) stops and listens.", "ink2 s", "middle")
-    b += text(320, 168, "Errors raise counters; at 128 transmit errors the node goes error-passive, at 256 bus-off, and must be recovered by software.", "ink2 s", "middle")
+    b += notes(320, 150, [("Arbitration: every node sends its identifier bit by bit; a node that sends recessive (1) and reads dominant (0) stops and listens.", "ink2 s"), ("Errors raise counters; at 128 transmit errors the node goes error-passive, at 256 bus-off, and must be recovered by software.", "ink2 s")])
     svg("can-frame", 640, 190, b, "Classic CAN data frame fields from start of frame through identifier, control, data, CRC, acknowledge and end of frame")
 
 def d_memory_map():
@@ -361,7 +383,7 @@ def d_memory_map():
     flash = [("Vector table", "reset handler address first", "boxa"), (".text", "your code", "box"), (".rodata", "const data, strings", "box"), (".data initial values", "copied to RAM at startup", "boxb")]
     for i, (l, s, c) in enumerate(flash):
         b += box(40, 70 + i * 50, 180, 44, l, c, s)
-    ram = [(".data", "initialised globals", "boxb"), (".bss", "zeroed globals", "box"), ("heap ↑", "malloc, grows up", "box"), ("free", "", "bg"), ("stack ↓", "locals, return addresses, grows down", "boxa")]
+    ram = [(".data", "initialised globals", "boxb"), (".bss", "zeroed globals", "box"), ("heap ↑", "malloc, grows up", "box"), ("free", "", "bg"), ("stack ↓", "locals, grows down", "boxa")]
     for i, (l, s, c) in enumerate(ram):
         if c == "bg":
             b += text(430, 70 + i * 44 + 26, "unused: the margin you measure", "ink3 s", "middle")
@@ -378,18 +400,18 @@ def d_state_machine_debounce():
         cls = "boxa" if name in ("RELEASED", "PRESSED") else "boxb"
         b += f'<rect class="{cls}" x="{x-65}" y="{y-20}" width="130" height="40" rx="20"/>' + text(x, y + 4, name, "ink t", "middle")
     b += arrow(155, 92, 255, 68, "input low", "ln", 200, 70)
-    b += arrow(385, 68, 485, 92, "low for 4 samples → press event", "ln", 440, 62)
+    b += arrow(385, 68, 485, 92, "low for 4 samples → press event", "ln", 460, 44)
     b += arrow(290, 80, 150, 108, "input high again (bounce)", "ln", 215, 118)
-    b += arrow(485, 112, 385, 190, "input high", "ln", 460, 160)
+    b += arrow(485, 112, 385, 190, "input high", "ln", 395, 160)
     b += arrow(255, 192, 150, 118, "high for 4 samples → release event", "ln", 170, 175)
-    b += arrow(360, 180, 500, 118, "input low again (bounce)", "ln", 480, 150)
+    b += arrow(360, 180, 500, 118, "input low again (bounce)", "ln", 540, 160)
     b += text(320, 262, "No waiting inside: each tick reads the input once and moves at most one arrow. Events are emitted on the two confirmed transitions only.", "ink2 s", "middle")
     svg("state-machine-debounce", 640, 280, b, "Four state debounce machine: released, maybe pressed, pressed, maybe released, with transitions on sampled input and a four sample confirmation")
 
 def d_ring_buffer():
     b = text(320, 24, "A ring buffer with one writer and one reader", "ink ttl", "middle")
     import math
-    cx, cy, r = 200, 150, 85
+    cx, cy, r = 150, 150, 85
     n = 8
     for i in range(n):
         a0 = -math.pi / 2 + i * 2 * math.pi / n
@@ -407,11 +429,11 @@ def d_ring_buffer():
         x, y = cx + (r + 22) * math.cos(a), cy + (r + 22) * math.sin(a)
         return text(x, y + 4, label, cls, "middle")
     b += ptr(2, "tail (reader)", "grn t") + ptr(5, "head (writer)", "acc t")
-    b += text(470, 80, "Writer: buf[head] = x; head = (head + 1) & 7", "m")
-    b += text(470, 100, "Reader: x = buf[tail]; tail = (tail + 1) & 7", "m")
-    b += text(470, 130, "empty: head == tail", "ink2 s") + text(470, 148, "full: (head + 1) & 7 == tail", "ink2 s") + text(470, 166, "(one slot kept free)", "ink3 s")
-    b += text(470, 196, "Why it is safe with no lock:", "ink t") + text(470, 214, "each index has exactly one writer;", "ink2 s") + text(470, 230, "the other side only reads it.", "ink2 s")
-    b += text(470, 256, "Breaks if: two writers, a non-atomic", "ink2 s") + text(470, 272, "index, or the compiler reorders.", "ink2 s")
+    b += text(335, 80, "write: buf[head] = x; head = (head+1) & 7", "m")
+    b += text(335, 100, "read:  x = buf[tail]; tail = (tail+1) & 7", "m")
+    b += text(335, 130, "empty: head == tail", "ink2 s") + text(335, 148, "full: (head + 1) & 7 == tail  (one slot kept free)", "ink2 s")
+    b += text(335, 180, "Why it is safe with no lock:", "ink t") + text(335, 198, "each index has exactly one writer;", "ink2 s") + text(335, 212, "the other side only ever reads it.", "ink2 s")
+    b += text(335, 240, "Breaks if: two writers, a non-atomic index,", "ink2 s") + text(335, 254, "or the compiler reorders the writes.", "ink2 s")
     svg("ring-buffer", 640, 300, b, "Eight slot ring buffer with head and tail pointers, the full and empty rules, and the single writer single reader condition that makes it lock free")
 
 def d_rtos_task_states():
@@ -421,18 +443,18 @@ def d_rtos_task_states():
         b += f'<rect class="{"boxa" if n == "Running" else "box"}" x="{x-60}" y="{y-20}" width="120" height="40" rx="20"/>' + text(x, y + 4, n, "ink t", "middle")
     b += arrow(210, 80, 340, 80, "scheduler picks it", "ln", 275, 68) + arrow(340, 100, 210, 100, "preempted by a higher task", "ln", 275, 116)
     b += arrow(400, 110, 400, 200, "blocking call: delay, queue, mutex", "ln", 400, 160)
-    b += arrow(345, 215, 185, 110, "event or timeout", "ln", 300, 170)
-    b += arrow(150, 110, 150, 200, "vTaskSuspend", "ln", 110, 160) + arrow(190, 205, 240, 100, "vTaskResume", "ln", 250, 160)
+    b += arrow(345, 215, 185, 110, "event or timeout", "ln", 330, 140)
+    b += arrow(150, 110, 150, 200, "vTaskSuspend", "ln", 108, 160) + arrow(190, 205, 240, 100, "vTaskResume", "ln", 205, 185)
     b += text(320, 272, "Keep every task Blocked except when it has work. A task that polls is Ready or Running forever and starves everything below it.", "ink2 s", "middle")
     svg("rtos-task-states", 640, 290, b, "RTOS task state diagram with Ready, Running, Blocked and Suspended states and the events that move a task between them")
 
 def d_priority_inversion():
-    b = text(320, 22, "Priority inversion: without and with inheritance (L holds the lock 3 ms, H needs 2 ms)", "ink ttl", "middle")
+    b = text(320, 22, "Priority inversion: without and with inheritance (L holds the lock 3 ms)", "ink ttl", "middle")
     rows = ["H", "M", "L"]
     segs = [("L", 0, 1.5, "boxb", "lock"), ("H", 1, 16.5, "box", "blocked, waiting for L"), ("M", 1.5, 13.5, "boxa", "M runs 12 ms"), ("L", 13.5, 15, "boxb", "lock"), ("H", 15, 17, "boxg", "H")]
     b += text(20, 48, "Binary semaphore (no inheritance): H finishes at 17 ms", "ink t")
     b += timeline(rows, 20, 56, 30, segs, 19, ticks=[0, 5, 10, 15])
-    segs2 = [("L", 0, 3, "boxb", "lock, raised to H's priority"), ("H", 1, 3, "box", "blocked"), ("H", 3, 5, "boxg", "H"), ("M", 1.5, 5, "box", "waits"), ("M", 5, 17, "boxa", "M runs 12 ms")]
+    segs2 = [("L", 0, 3, "boxb", "lock ↑H"), ("H", 1, 3, "box", "blocked"), ("H", 3, 5, "boxg", "H"), ("M", 1.5, 5, "box", "waits"), ("M", 5, 17, "boxa", "M runs 12 ms")]
     b += text(20, 180, "Mutex (priority inheritance): H finishes at 5 ms", "ink t")
     b += timeline(rows, 20, 188, 30, segs2, 19, ticks=[0, 5, 10, 15])
     b += text(320, 318, "Bounded part: L's critical section. Unbounded part: every medium task that preempts L while H waits. Inheritance removes the second.", "ink2 s", "middle")
@@ -451,7 +473,7 @@ def d_bring_up_flow():
     b = text(320, 24, "Board bring-up: one fault at a time, in this order", "ink ttl", "middle")
     steps = [("Current limit set? Then power", "rails at the right value, no hot parts"), ("Reset released?", "NRST high, reset-cause register"), ("Clock running?", "crystal or HSI, measured"), ("Debugger attaches?", "SWD lines, correct part"), ("Boot pins and option bytes", "right memory mapped at 0"), ("First peripheral, then the next", "GPIO toggle before UART before bus")]
     b += flow_v(steps, 140, 44, 360, 38, 9, ["boxb", "box", "box", "box", "box", "boxg"])
-    b += text(515, 70, "fail → fix before continuing", "ink3 s") + text(515, 117, "fail → pull-ups, supervisor", "ink3 s") + text(515, 164, "fail → load caps, drive", "ink3 s") + text(515, 211, "fail → wiring, part, power", "ink3 s")
+    b += text(506, 70, "fail → fix first", "ink3 s") + text(506, 117, "fail → pull-ups, reset IC", "ink3 s") + text(506, 164, "fail → load caps, drive", "ink3 s") + text(506, 211, "fail → wiring, part, power", "ink3 s")
     b += text(320, 336, "Record each step's reading. A board that passes each step and fails together points at timing or thermal margin.", "ink2 s", "middle")
     svg("bring-up-flow", 640, 352, b, "Bring-up decision flow: current limit and power, reset, clock, debugger, boot pins, then peripherals one by one")
 
@@ -459,7 +481,7 @@ def d_rca_flow():
     b = text(320, 24, "Root-cause analysis that ends in a change you can verify", "ink ttl", "middle")
     steps = [("Symptom, stated precisely", "what, when, how often, since when"), ("Evidence", "measurements, logs, traces; no guesses yet"), ("Hypotheses, ranked", "each must explain all the evidence"), ("Discriminating experiment", "one result rules a hypothesis in or out"), ("Cause", "something you can change"), ("Fix, verify, prevent", "the symptom is gone and cannot return")]
     b += flow_v(steps, 140, 44, 360, 38, 9, ["boxb", "box", "box", "boxa", "box", "boxg"])
-    b += arrow(500, 210, 560, 210) + line(560, 210, 560, 110) + arrow(560, 110, 502, 110, None) + text(600, 160, "loop until one is left", "ink3 s", "middle")
+    b += arrow(500, 210, 545, 210) + line(545, 210, 545, 110) + arrow(545, 110, 502, 110, None) + text(590, 156, "loop until", "ink3 s", "middle") + text(590, 170, "one is left", "ink3 s", "middle")
     b += text(320, 336, "Intermittent faults need a counter and a trigger, not patience. Confirmation bias is the usual failure of this flow.", "ink2 s", "middle")
     svg("rca-flow", 640, 352, b, "Root cause analysis process from precise symptom through evidence, ranked hypotheses, discriminating experiment, cause, fix and prevention")
 
@@ -476,7 +498,7 @@ def d_v_model():
     b += arrow(420, 240, 440, 216)
     for i in range(3):
         b += line(L[i][1] + 170, L[i][2] + 18, R[i][1], R[i][2] + 18, "ln2")
-        b += text((L[i][1] + 170 + R[i][1]) / 2, L[i][2] + 12, "traces to / verified by", "ink3 s", "middle")
+        b += text((L[i][1] + 170 + R[i][1]) / 2, L[i][2] - 4, "traces to / verified by", "ink3 s", "middle")
     b += text(320, 300, "Both directions: every requirement has tests (no gaps) and every test has a requirement (no orphans). Coverage of the code comes from these tests, not from extra ones.", "ink2 s", "middle")
     svg("v-model-traceability", 640, 316, b, "V model showing system, high level and low level requirements on the left, code at the bottom, and the corresponding test levels on the right with traceability links")
 
@@ -487,11 +509,11 @@ def d_test_bench():
     b += box(460, 90, 150, 60, "Device under test", "boxg", "serial console, GPIO")
     for y in (70, 120, 170):
         b += arrow(190, y, 260, y, None, "ln2")
-    b += arrow(190, 110, 460, 112, "serial: commands and logs", "ln", 400, 104)
+    b += line(115, 150, 115, 212) + line(115, 212, 535, 212) + arrow(535, 212, 535, 152) + text(325, 206, "serial: commands and logs", "ink2 s", "middle")
     b += line(390, 70, 430, 70) + line(430, 70, 430, 95) + arrow(430, 95, 460, 100) + text(435, 62, "power", "ink3 s")
     b += line(390, 120, 435, 120) + arrow(435, 120, 460, 125) + text(425, 134, "probe", "ink3 s")
-    b += text(320, 222, "Fixtures open the ports once; tests ask the DUT, read the instruments, and assert. Waiting on a reply beats a sleep every time.", "ink2 s", "middle")
-    svg("test-bench-automation", 640, 240, b, "Automated test bench: a PC running pytest controls a bench supply, oscilloscope and multimeter and talks to the device under test over serial")
+    b += text(320, 240, "Fixtures open the ports once; tests ask the DUT, read the instruments, and assert. Waiting on a reply beats a sleep every time.", "ink2 s", "middle")
+    svg("test-bench-automation", 640, 256, b, "Automated test bench: a PC running pytest controls a bench supply, oscilloscope and multimeter and talks to the device under test over serial")
 
 def d_do178():
     b = text(320, 24, "DO-178C: software level, failure condition, objectives, coverage", "ink ttl", "middle")
@@ -506,27 +528,24 @@ def d_do178():
         b += f'<rect class="{cls}" x="20" y="{y}" width="600" height="32" rx="6"/>'
         for x, w, v in zip(xs, ws, [lv, fc, ob, cov]):
             b += text(x + w / 2, y + 21, v, "ink s" if w > 100 else "ink t", "middle")
-    b += text(320, 272, "Objective counts are from DO-178C Annex A (with independence requirements rising with level). Coverage is measured from requirements-based tests only.", "ink2 s", "middle")
-    b += text(320, 290, "Working under a level is not being certified to it; say which.", "ink3 s", "middle")
+    b += notes(320, 272, [("Objective counts are from DO-178C Annex A (with independence requirements rising with level). Coverage is measured from requirements-based tests only.", "ink2 s"), ("Working under a level is not being certified to it; say which.", "ink3 s")])
     svg("do178-levels", 640, 304, b, "Table of DO-178C software levels A to E with the associated failure condition, number of objectives and required structural coverage")
 
 def d_mil1553_word():
     b = text(320, 24, "A MIL-STD-1553B command word: 20 bit times at 1 Mbit/s", "ink ttl", "middle")
-    fields = [("sync", 3, "box", "3 bit times, invalid Manchester"), ("RT address", 5, "boxa", "0–30; 31 = broadcast"), ("T/R", 1, "boxb", "1 = RT transmits"), ("Subaddress / mode", 5, "boxg", "0 or 31 = mode code"), ("Word count / mode code", 5, "box", "0 means 32"), ("P", 1, "boxb", "odd parity")]
+    fields = [("sync", 3, "box", "invalid Manchester"), ("RT address", 5, "boxa", "0–30; 31 = broadcast"), ("T/R", 1, "boxb", "1 = transmit"), ("Subaddress / mode", 5, "boxg", "0 or 31 = mode code"), ("Word count / code", 5, "box", "0 means 32"), ("P", 1, "boxb", "odd")]
     b += bitfield(fields, 20, 70, 600, 44)
-    b += text(320, 150, "Example 0x2C64: 00101 1 00011 00100 → RT 5, transmit, subaddress 3, 4 words; six ones, so parity = 1.", "m", "middle")
-    b += text(320, 176, "Status word: RT address then flags (message error, busy, terminal flag ...). Data word: 16 bits defined by the ICD.", "ink2 s", "middle")
-    b += text(320, 194, "Command and status words use one sync polarity, data words the other: a listener tells them apart without counting.", "ink2 s", "middle")
+    b += notes(320, 150, [("Example 0x2C64: 00101 1 00011 00100 → RT 5, transmit, subaddress 3, 4 words; six ones, so parity = 1.", "m"), ("Status word: RT address then flags (message error, busy, terminal flag ...). Data word: 16 bits defined by the ICD.", "ink2 s"), ("Command and status words use one sync polarity, data words the other: a listener tells them apart without counting.", "ink2 s")])
     svg("mil1553-word", 640, 212, b, "MIL-STD-1553B command word layout: three bit time sync, five bit remote terminal address, transmit receive bit, five bit subaddress or mode, five bit word count or mode code, and odd parity bit")
 
 def d_mil1553_message():
     b = text(320, 22, "1553 messages and the timing that judges them", "ink ttl", "middle")
     rows = ["BC", "RT"]
-    s1 = [("BC", 0, 20, "boxa", "command (T/R=0)"), ("BC", 20, 40, "box", "data"), ("BC", 40, 60, "box", "data"), ("RT", 68, 88, "boxg", "status")]
+    s1 = [("BC", 0, 20, "boxa", "cmd T/R=0"), ("BC", 20, 40, "box", "data"), ("BC", 40, 60, "box", "data"), ("RT", 68, 88, "boxg", "status")]
     b += text(20, 46, "Controller → terminal (receive): command, N data, then status", "ink t")
     b += timeline(rows, 20, 54, 4.2, s1, 130, ticks=[0, 20, 40, 60, 80, 100, 120], unit="µs")
     b += text(20 + 60 + 64 * 4.2, 50 + 54, "4–12 µs", "amb s", "middle")
-    s2 = [("BC", 0, 20, "boxa", "command (T/R=1)"), ("RT", 28, 48, "boxg", "status"), ("RT", 48, 68, "box", "data"), ("RT", 68, 88, "box", "data"), ("BC", 92, 112, "boxa", "next command")]
+    s2 = [("BC", 0, 20, "boxa", "cmd T/R=1"), ("RT", 28, 48, "boxg", "status"), ("RT", 48, 68, "box", "data"), ("RT", 68, 88, "box", "data"), ("BC", 92, 112, "boxa", "next cmd")]
     b += text(20, 148, "Terminal → controller (transmit): command, then status + N data; ≥ 4 µs gap to the next message", "ink t")
     b += timeline(rows, 20, 156, 4.2, s2, 130, ticks=[0, 20, 40, 60, 80, 100, 120], unit="µs")
     b += text(20 + 60 + 24 * 4.2, 152 + 54, "4–12 µs", "amb s", "middle")
@@ -535,10 +554,9 @@ def d_mil1553_message():
 
 def d_arinc429_word():
     b = text(320, 24, "An ARINC 429 word: 32 bits, one talker, up to 20 listeners", "ink ttl", "middle")
-    fields = [("Label", 8, "boxa", "bits 1–8, octal, sent first"), ("SDI", 2, "boxb", "9–10 source/destination"), ("Data", 19, "box", "11–29: BNR, BCD or discretes"), ("SSM", 2, "boxg", "30–31 sign / status"), ("P", 1, "boxb", "32 odd parity")]
+    fields = [("Label", 8, "boxa", "bits 1–8, octal, sent first"), ("SDI", 2, "boxb", "9–10"), ("Data", 19, "box", "11–29: BNR, BCD or discretes"), ("SSM", 2, "boxg", "30–31"), ("P", 1, "boxb", "32")]
     b += bitfield(fields, 20, 70, 600, 44)
-    b += text(320, 150, "Speeds 12.5 or 100 kbit/s; bipolar return-to-zero on a twisted pair; at least four bit times of null between words.", "ink2 s", "middle")
-    b += text(320, 168, "Unlike 1553 there is no command/response: a transmitter broadcasts its labels on a schedule and receivers pick what they need.", "ink2 s", "middle")
+    b += notes(320, 150, [("Speeds 12.5 or 100 kbit/s; bipolar return-to-zero on a twisted pair; at least four bit times of null between words.", "ink2 s"), ("Unlike 1553 there is no command/response: a transmitter broadcasts its labels on a schedule and receivers pick what they need.", "ink2 s")])
     svg("arinc429-word", 640, 186, b, "ARINC 429 32 bit word layout: label, source destination identifier, data field, sign status matrix and parity")
 
 def d_redundant_channels():
@@ -547,7 +565,7 @@ def d_redundant_channels():
         x = 40 + i * 190
         b += box(x, 60, 70, 36, f"Sensors {ch}", "box") + arrow(x + 35, 96, x + 35, 118)
         b += box(x, 118, 150, 56, f"Flight computer {ch}", "boxa", "own inputs + the other two")
-        b += arrow(x + 75, 174, x + 75, 196) + box(x + 20, 196, 110, 36, "Voter / monitor", "boxb", "mid-value, miscompare")
+        b += arrow(x + 75, 174, x + 75, 196) + box(x + 5, 196, 140, 36, "Voter / monitor", "boxb", "mid-value, miscompare")
         b += arrow(x + 75, 232, x + 75, 254) + box(x + 20, 254, 110, 34, f"Actuator {ch}", "boxg")
     b += line(190, 140, 230, 140, "ln2") + line(380, 140, 420, 140, "ln2") + text(210, 132, "CCDL", "ink3 s", "middle") + text(400, 132, "CCDL", "ink3 s", "middle")
     b += path("M115,112 C 200,20 420,20 505,112", "ln2") + text(310, 50, "CCDL (A ↔ C)", "ink3 s", "middle")
@@ -571,24 +589,22 @@ def d_frame_executive():
     for f in range(10):
         x = 80 + f * 10 * 5.4
         b += line(x, 44, x, 44 + 4 * 30, "ln2")
-    b += text(320, 206, "Every minor frame runs the 100 Hz group; every second frame adds the 50 Hz group; the 10 Hz group runs once per major frame.", "ink2 s", "middle")
-    b += text(320, 224, "An overrun is detected at the frame boundary, not hoped away: the executive records it and applies the policy (skip, degrade, reset).", "ink2 s", "middle")
+    b += notes(320, 206, [("Every minor frame runs the 100 Hz group; every second frame adds the 50 Hz group; the 10 Hz group runs once per major frame.", "ink2 s"), ("An overrun is detected at the frame boundary, not hoped away: the executive records it and applies the policy (skip, degrade, reset).", "ink2 s")])
     svg("frame-executive", 640, 242, b, "Timeline of a frame based executive with ten minor frames in a 100 millisecond major frame, showing the 100, 50 and 10 hertz rate groups and idle time")
 
 def d_response_time():
-    b = text(320, 22, "Worst-case response time: C (5 ms, blocked 1 ms) under A (2 every 10) and B (4 every 20) finishes at 14 ms", "ink ttl", "middle")
+    b = text(320, 22, "Worst-case response time of task C: 14 ms", "ink ttl", "middle")
     rows = ["A", "B", "C", "lock"]
     segs = [("A", 0, 2, "boxa", "A"), ("B", 2, 6, "boxb", "B"), ("lock", 6, 7, "box", "lower task holds lock: B = 1"), ("C", 7, 10, "boxg", "C 3 ms"), ("A", 10, 12, "boxa", "A again"), ("C", 12, 14, "boxg", "C 2 ms")]
     b += timeline(rows, 20, 44, 27, segs, 20, ticks=[0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20])
     b += line(80 + 14 * 27, 44, 80 + 14 * 27, 170, "ln2") + text(80 + 14 * 27, 184, "R = 14", "acc t", "middle")
-    b += text(320, 216, "R = C + B + Σ ⌈R / Tj⌉ Cj over higher-priority tasks, iterated: 6 → 12 → 14 → 14. Interrupts count as the highest-priority tasks.", "m", "middle")
-    b += text(320, 236, "Average CPU load says nothing about this picture; the critical instant does.", "ink2 s", "middle")
+    b += notes(320, 216, [("Task set: A 2 ms every 10, B 4 ms every 20, C 5 ms with 1 ms of blocking. R = C + B + Σ ⌈R/Tj⌉·Cj over higher-priority tasks, iterated 6 → 12 → 14 → 14.", "ink2 s"), ("Average CPU load says nothing about this picture; the critical instant does.", "ink2 s")])
     svg("response-time", 640, 254, b, "Timeline showing a low priority task's worst case response time of 14 milliseconds under two higher priority periodic tasks and one millisecond of blocking")
 
 def d_hil():
     b = text(320, 24, "Hardware-in-the-loop: what is real and what is simulated", "ink ttl", "middle")
     b += box(40, 70, 170, 120, "Real-time target", "boxb", "plant model: aircraft, sensors")
-    b += box(260, 60, 120, 44, "Analogue I/O", "box", "sensor voltages") + box(260, 110, 120, 44, "Digital / bus I/O", "box", "1553, 429, CAN, RS-422") + box(260, 160, 120, 44, "Fault insertion", "boxa", "opens, shorts, late frames")
+    b += box(260, 60, 120, 44, "Analogue I/O", "box", "sensor voltages") + box(260, 110, 120, 44, "Digital / bus I/O", "box", "1553, 429, CAN") + box(260, 160, 120, 44, "Fault insertion", "boxa", "opens, shorts, late frames")
     b += box(430, 80, 170, 100, "Device under test", "boxg", "the real flight computer")
     for y in (82, 132, 182):
         b += arrow(210, y, 260, y) + arrow(380, y, 430, min(max(y, 100), 160))
@@ -618,13 +634,12 @@ def d_test_framework():
 def d_debug_chain():
     b = text(320, 24, "The debug chain from GDB to the core", "ink ttl", "middle")
     xs = [20, 150, 290, 410, 520]
-    items = [("PC: GDB + server", "breakpoints, memory", "boxa"), ("Probe", "ST-Link / J-Link", "box"), ("SWD / JTAG", "SWDIO, SWCLK", "box"), ("Debug access port", "AHB-AP", "box"), ("Core + memory", "halt, step, read", "boxg")]
+    items = [("PC: GDB + server", "breakpoints, memory", "boxa"), ("Probe", "ST-Link / J-Link", "box"), ("SWD / JTAG", "SWDIO, SWCLK", "box"), ("Debug port", "DAP, AHB-AP", "box"), ("Core + memory", "halt, step, read", "boxg")]
     for x, (l, s, c) in zip(xs, items):
         b += box(x, 90, 110 if x != 20 else 120, 56, l, c, s)
     for i in range(4):
         b += arrow(xs[i] + (120 if i == 0 else 110), 118, xs[i + 1], 118)
-    b += text(320, 190, "Breakpoint: stop when execution reaches an address. Watchpoint: stop when a data address is read or written (few, in hardware).", "ink2 s", "middle")
-    b += text(320, 208, "The probe cannot see peripheral state that changes while the core is halted; timers keep running unless configured to stop.", "ink2 s", "middle")
+    b += notes(320, 190, [("Breakpoint: stop when execution reaches an address. Watchpoint: stop when a data address is read or written (few, in hardware).", "ink2 s"), ("The probe cannot see peripheral state that changes while the core is halted; timers keep running unless configured to stop.", "ink2 s")])
     svg("debug-chain", 640, 228, b, "Debug chain from GDB on the PC through the probe and SWD to the debug access port and the core")
 
 def d_hardfault():
@@ -640,7 +655,7 @@ def d_control_loop():
     b += f'<circle class="boxb" cx="165" cy="120" r="16"/>' + text(165, 124, "−", "ink t", "middle") + text(165, 92, "error", "ink2 s", "middle")
     b += arrow(181, 120, 220, 120)
     b += f'<rect class="boxa" x="220" y="70" width="130" height="100" rx="8"/>' + text(285, 90, "PID", "ink t", "middle")
-    b += text(285, 110, "P: Kp · e  (now)", "s") + text(285, 128, "I: Ki · ∫e  (past)", "s") + text(285, 146, "D: Kd · de/dt (trend)", "s")
+    b += text(232, 110, "P: Kp · e  (now)", "ink2 s") + text(232, 128, "I: Ki · ∫e  (past)", "ink2 s") + text(232, 146, "D: Kd · de/dt  (trend)", "ink2 s")
     b += arrow(350, 120, 390, 120) + box(390, 100, 90, 40, "Actuator", "box") + arrow(480, 120, 510, 120) + box(510, 100, 110, 40, "Plant", "boxg", "aircraft, motor")
     b += line(565, 140, 565, 200) + line(565, 200, 165, 200) + arrow(165, 200, 165, 136) + box(300, 180, 110, 40, "Sensor", "box", "noise, delay")
     b += text(320, 254, "I removes steady error but winds up when the actuator saturates; D fights overshoot but amplifies noise; sample time limits all three.", "ink2 s", "middle")
@@ -648,8 +663,9 @@ def d_control_loop():
 
 def d_kalman():
     b = text(320, 24, "The Kalman filter loop: predict, then correct by how much you trust each", "ink ttl", "middle")
-    b += box(60, 70, 200, 70, "Predict", "boxa", "x⁻ = F x,  P⁻ = F P Fᵀ + Q") + box(380, 70, 200, 70, "Update", "boxg", "K = P⁻Hᵀ(HP⁻Hᵀ+R)⁻¹;  x = x⁻ + K(z − Hx⁻)")
-    b += arrow(260, 95, 380, 95, "prediction and its uncertainty") + arrow(380, 125, 260, 125, "corrected state, shrunk uncertainty")
+    b += box(60, 70, 200, 70, "Predict", "boxa", "x⁻ = F x,  P⁻ = F P Fᵀ + Q")
+    b += f'<rect class="boxg" x="380" y="70" width="200" height="70" rx="8"/>' + text(480, 90, "Update", "ink t", "middle") + text(480, 108, "K = P⁻Hᵀ (H P⁻Hᵀ + R)⁻¹", "ink2 s", "middle") + text(480, 124, "x = x⁻ + K (z − H x⁻)", "ink2 s", "middle")
+    b += arrow(260, 95, 380, 95, "prediction") + arrow(380, 125, 260, 125, "corrected state", "ln", 320, 140)
     b += box(400, 170, 160, 40, "Measurement z", "boxb", "noise R") + arrow(480, 170, 480, 142)
     b += text(320, 240, "Q says how much the model can be wrong; R says how noisy the sensor is. Residual z − Hx⁻ growing without bound means divergence.", "ink2 s", "middle")
     svg("kalman-loop", 640, 260, b, "Kalman filter as a loop between predict and update steps fed by measurements, with process and measurement noise")
@@ -657,7 +673,7 @@ def d_kalman():
 def d_edge_ai():
     b = text(320, 24, "An edge-AI pipeline, with the checks that keep it honest", "ink ttl", "middle")
     xs = [20, 125, 230, 335, 440, 545]
-    items = [("Data", "public / synthetic", "box"), ("Baseline", "non-ML threshold", "boxb"), ("Train + split", "no leakage", "box"), ("Quantise", "int8, measure loss", "boxa"), ("Deploy", "Cortex-M: RAM, latency", "boxg"), ("Monitor", "drift, false alarms", "box")]
+    items = [("Data", "public / synthetic", "box"), ("Baseline", "non-ML threshold", "boxb"), ("Train + split", "no leakage", "box"), ("Quantise", "int8 + loss", "boxa"), ("Deploy", "RAM, latency", "boxg"), ("Monitor", "drift, alarms", "box")]
     for x, (l, s, c) in zip(xs, items):
         b += box(x, 80, 90, 56, l, c, s)
     for i in range(5):
@@ -696,7 +712,7 @@ def d_product_lifecycle():
         dx, dy = x2 - x1, y2 - y1
         d = math.hypot(dx, dy)
         b += arrow(x1 + dx / d * 50, y1 + dy / d * 50, x2 - dx / d * 52, y2 - dy / d * 52)
-    b += text(cx, cy - 6, "decision records, BOM & cost,", "ink2 s", "middle") + text(cx, cy + 10, "risk register, reviews, roadmap", "ink2 s", "middle")
+    b += text(cx, cy - 10, "decision records,", "ink2 s", "middle") + text(cx, cy + 4, "BOM & cost, risk register,", "ink2 s", "middle") + text(cx, cy + 18, "reviews, roadmap", "ink2 s", "middle")
     b += text(320, 296, "Ownership is shown by the artefacts in the middle and by following a change all the way round, more than once.", "ink2 s", "middle")
     svg("product-lifecycle", 640, 312, b, "Product lifecycle loop from need through requirements, architecture, design, build, verify, release, operate and change, with the ownership artefacts at the centre")
 

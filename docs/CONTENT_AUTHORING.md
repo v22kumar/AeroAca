@@ -58,7 +58,7 @@ Teaching diagrams live in `public/diagrams/*.svg` and are generated from `script
 
 Rules: one idea per diagram; labels readable at phone width (640-unit viewBox, 11 px minimum); colours from the app's tokens with a dark-mode media query inside the file; every diagram has a `<title>` that says what it shows; technical correctness over decoration (a diagram with a wrong bit order is worse than none). A diagram is added only where it materially improves understanding: signals, timing, architecture, state, flow, comparison. Decorative images are not added.
 
-Until a `figure` step type exists, a lesson references a diagram from a Markdown image in a `concept` or `example` body (`![alt](/diagrams/name.svg)`); the alt text must say what the picture shows, not repeat the caption.
+Until a `figure` step type exists, a lesson references a diagram from a Markdown image in a `concept` or `example` body (an image whose path is `/diagrams/<name>.svg`); the alt text must say what the picture shows, not repeat the caption.
 
 ## Writing for understanding
 
