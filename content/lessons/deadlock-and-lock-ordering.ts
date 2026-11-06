@@ -80,7 +80,7 @@ Deadlock is not **priority inversion**. In an inversion the high task waits for 
       type: "walkthrough",
       stage: "how",
       depth: "understand",
-      title: "The freeze in sixteen lines",
+      title: "The freeze, line by line",
       intro: `Two tasks share a buffer and a log. Each needs both locks. This is the code that froze the recorder.`,
       language: "c",
       code: `mutex_t buf_lock, log_lock;
@@ -104,9 +104,9 @@ void logger_task(void) {
         { lines: "1", text: `Two **mutexes**: one protects the shared buffer, one protects the log.` },
         { lines: "3-4", text: `The navigation task takes the buffer lock **first**.` },
         { lines: "5", text: `Then it takes the log lock. If the logger holds it, nav **waits here, still holding the buffer lock**: that is hold and wait.` },
+        { lines: "6-8", text: `The work and the releases are reached only once **both** locks are held. In the bad case they are never reached. Releasing in reverse order is good practice but does not prevent the freeze.` },
         { lines: "11-12", text: `The logger takes the log lock first, the **opposite order** to nav.` },
         { lines: "13", text: `Then it asks for the buffer lock. If nav holds it, the logger waits here, holding the log lock. Each now waits for the other: a circular wait.` },
-        { lines: "6-8", text: `The release lines are never reached in the bad case. Releasing in reverse order is good practice but does not prevent the freeze.` },
       ],
     },
     {
