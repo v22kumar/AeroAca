@@ -1,6 +1,6 @@
 # AeroAca product roadmap
 
-Authoritative plan toward AeroAca 1.0. Updated at the end of every increment; see `docs/DEVELOPMENT_STATUS.md` for what is done and what is in flight.
+Release-history plan toward AeroAca 1.0. For the long-term engineering academy, use [the revised syllabus](CURRICULUM.md), [subject coverage](LEARNING_COVERAGE_MATRIX.md), [four career pathways](CAREER_PATHWAYS.md) and [prioritized implementation plan](ENGINEERING_IMPLEMENTATION_PLAN.md). The historical module-count targets below do not establish subject completeness or competence. See `docs/DEVELOPMENT_STATUS.md` for delivery state.
 
 ## 1.0 definition of done (from the Product Owner mandate)
 
