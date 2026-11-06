@@ -27,6 +27,7 @@ const PwmTimer = dynamic(() => import("./PwmTimer").then((m) => m.PwmTimer), { l
 const NvicPriorities = dynamic(() => import("./NvicPriorities").then((m) => m.NvicPriorities), { loading });
 const DividerThevenin = dynamic(() => import("./DividerThevenin").then((m) => m.DividerThevenin), { loading });
 const RcStep = dynamic(() => import("./RcStep").then((m) => m.RcStep), { loading });
+const ClockTree = dynamic(() => import("./ClockTree").then((m) => m.ClockTree), { loading });
 
 /** Maps a content visual id to its interactive component. Add new visuals here and in the schema enum. */
 export function Visual({ id }: { id: VisualId }) {
@@ -73,5 +74,7 @@ export function Visual({ id }: { id: VisualId }) {
       return <DividerThevenin />;
     case "rc-step":
       return <RcStep />;
+    case "clock-tree":
+      return <ClockTree />;
   }
 }

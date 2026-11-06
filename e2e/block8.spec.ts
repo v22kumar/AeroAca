@@ -84,10 +84,10 @@ test.describe("Curriculum depth: fundamentals, schematics, CAN, NVIC, drivers", 
     await expect(page.getByTestId("mission-outcome")).toBeVisible();
   });
 
-  test("curriculum shows the new modules published and one planned lesson remains", async ({ page }) => {
+  test("curriculum shows the new modules published and no planned lesson remains", async ({ page }) => {
     await page.goto("/curriculum");
     await expect(page.getByRole("link", { name: /Reading a power tree/ })).toBeVisible();
     await expect(page.getByRole("link", { name: /RAII for peripherals/ })).toBeVisible();
-    await expect(page.getByText("Coming soon").first()).toBeVisible();
+    await expect(page.getByText("Coming soon")).toHaveCount(0); // the last planned lesson (low-power modes) was published in PR D
   });
 });

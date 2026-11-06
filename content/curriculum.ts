@@ -46,10 +46,13 @@ export const curriculum: CurriculumModule[] = [
     priority: "P0",
     summary: "MCU vs MPU vs SoC, Cortex-M/R/A, STM32 peripherals, interrupts, timers, DMA, memory, boot and watchdog.",
     lessons: [
+      { title: "Choosing and reading an MCU: families, cores and what a part number says", status: "published", slug: "choosing-and-reading-an-mcu" },
       { title: "MCU board does not boot: power, reset, clock, boot pins", status: "published", slug: "mcu-board-does-not-boot" },
+      { title: "Your first STM32 project: from CubeMX to a toggling pin, and what the generated code did", status: "published", slug: "your-first-stm32-project" },
+      { title: "GPIO and the clock tree: the two configurations under every peripheral", status: "published", slug: "gpio-and-the-clock-tree" },
       { title: "Interrupts and NVIC priorities without surprises", status: "published", slug: "interrupts-and-nvic-priorities" },
-      { title: "Low-power modes and wake-up sources", status: "planned" },
       { title: "Watchdogs and reset loops", status: "published", slug: "watchdogs-and-reset-loops" },
+      { title: "Low-power modes and wake-up sources", status: "published", slug: "low-power-modes-and-wake-up-sources" },
     ],
     missions: [
       { title: "Fresh board, no sign of life", status: "published", slug: "fresh-board-no-sign-of-life" },
@@ -83,8 +86,12 @@ export const curriculum: CurriculumModule[] = [
     summary: "Types, functions, pointers, structures, bit manipulation, volatile/const/static, stack vs heap, registers and small firmware exercises.",
     lessons: [
       { title: "Register bit masks: read, modify and write safely", status: "published", slug: "embedded-c-register-bit-masks" },
-      { title: "Pointers to hardware: structs over memory maps", status: "published", slug: "pointers-to-hardware" },
+      { title: "C foundations for firmware: functions, scope, static, const, arrays and structs", status: "published", slug: "c-foundations-for-firmware" },
       { title: "Fixed-width integers, overflow and shifts", status: "published", slug: "fixed-width-integers-overflow-shifts" },
+      { title: "Pointers to hardware: structs over memory maps", status: "published", slug: "pointers-to-hardware" },
+      { title: "Stack, heap and where your variables live", status: "published", slug: "stack-heap-and-where-your-variables-live" },
+      { title: "State machines that survive review", status: "published", slug: "state-machines-that-survive-review" },
+      { title: "A ring buffer for the UART driver", status: "published", slug: "a-ring-buffer-for-the-uart-driver" },
     ],
   },
   {

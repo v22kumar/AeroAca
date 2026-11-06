@@ -3,7 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const pollingInterruptsAndDma: Lesson = {
   slug: "polling-interrupts-and-dma",
   moduleId: "firmware-arch",
-  prerequisites: ["interrupts-and-nvic-priorities", "uart-framing-and-baud"],
+  prerequisites: ["interrupts-and-nvic-priorities", "uart-framing-and-baud", "gpio-and-the-clock-tree"],
   title: "Polling, interrupts and DMA: choosing the driver model",
   summary: "Every peripheral driver is written one of three ways, and the right one follows from the data rate, the latency the data can tolerate and how much CPU is left. Learn the decision, the timer arithmetic behind a PWM output you will drive from each model, and the two DMA traps that bite on the first real board.",
   durationMinutes: 10,

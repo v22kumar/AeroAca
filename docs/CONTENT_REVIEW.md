@@ -15,6 +15,14 @@ Review levels:
 | lesson | `logic-levels-thresholds-and-open-drain` | Logic levels, thresholds, open-drain and the pull-up | technically-reviewed | 3 | 3 | none | yes | pending |
 | lesson | `grounding-protection-and-the-first-thing-that-breaks` | Grounding, protection and the first thing that breaks | technically-reviewed | 4 | 3 | none | yes | pending |
 | lesson | `the-dmm-and-the-bench-supply` | The multimeter and the bench supply: the two instruments you touch first | technically-reviewed | 3 | 3 | none | yes | pending |
+| lesson | `c-foundations-for-firmware` | C foundations for firmware: functions, scope, static, const, arrays and structs | technically-reviewed | 3 | 3 | none | yes | pending |
+| lesson | `stack-heap-and-where-your-variables-live` | Stack, heap and where your variables live | technically-reviewed | 3 | 3 | none | yes | pending |
+| lesson | `state-machines-that-survive-review` | State machines that survive review | technically-reviewed | 3 | 3 | none | yes | pending |
+| lesson | `a-ring-buffer-for-the-uart-driver` | A ring buffer for the UART driver | technically-reviewed | 3 | 3 | none | yes | pending |
+| lesson | `choosing-and-reading-an-mcu` | Choosing and reading an MCU: families, cores and what a part number says | technically-reviewed | 3 | 3 | none | yes | pending |
+| lesson | `your-first-stm32-project` | Your first STM32 project: from CubeMX to a toggling pin, and what the generated code did | technically-reviewed | 5 | 3 | none | yes | pending |
+| lesson | `gpio-and-the-clock-tree` | GPIO and the clock tree: the two configurations under every peripheral | technically-reviewed | 3 | 3 | clock-tree | yes | pending |
+| lesson | `low-power-modes-and-wake-up-sources` | Low-power modes and wake-up sources | technically-reviewed | 4 | 3 | none | yes | pending |
 | lesson | `adc-resolution-reference-and-noise` | ADC resolution, reference and noise | technically-reviewed | 3 | 3 | adc-quantisation | yes | pending |
 | lesson | `avionics-and-automotive-standards-scope` | What DO-178C, DO-254 and ISO 26262 are for | technically-reviewed | 6 | 3 | standards-map | n/a | pending |
 | lesson | `board-bring-up-checklist` | A board bring-up checklist that actually gets used | technically-reviewed | 2 | 3 | — | yes | pending |

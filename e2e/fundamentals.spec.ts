@@ -94,6 +94,6 @@ test.describe("Fundamentals depth: circuit laws, RC, switches, levels, protectio
     await expect(page.getByRole("link", { name: /Circuit laws you use every day/ })).toBeVisible();
     await expect(page.getByRole("link", { name: /Grounding, protection and the first thing/ })).toBeVisible();
     await expect(page.getByRole("link", { name: /The multimeter and the bench supply/ })).toBeVisible();
-    await expect(page.getByText("One item is still being written")).toBeVisible();
+    await expect(page.getByText(/still being written/)).toHaveCount(0); // the low-power placeholder was written in PR D
   });
 });
