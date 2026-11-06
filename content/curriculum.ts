@@ -183,7 +183,10 @@ export const curriculum: CurriculumModule[] = [
     title: "Safety and standards awareness",
     priority: "P1",
     summary: "DO-178C/DO-254, ISO 26262, ASPICE, AUTOSAR, IEC 60601, IEC 62304, ISO 13485, IEC 61508: scope of each, no certification claims.",
-    lessons: [{ title: "What each standard is for, in one page each", status: "planned" }],
+    lessons: [
+      { title: "What DO-178C, DO-254 and ISO 26262 are for", status: "published", slug: "avionics-and-automotive-standards-scope" },
+      { title: "Medical and industrial standards in one page each", status: "published", slug: "medical-and-industrial-standards-scope" },
+    ],
   },
   {
     id: "applications",
@@ -192,7 +195,7 @@ export const curriculum: CurriculumModule[] = [
     title: "Applications across industries",
     priority: "P2",
     summary: "Avionics/UAV, automotive ECU/HIL/diagnostics, medical electronics, PLC/motor control, semiconductor/FPGA, cameras and streaming.",
-    lessons: [{ title: "Same skills, different industries: how to talk about transfer", status: "planned" }],
+    lessons: [{ title: "Same skills, different industries: how to talk about transfer", status: "published", slug: "same-skills-different-industries" }],
   },
   {
     id: "interviews",
@@ -201,6 +204,9 @@ export const curriculum: CurriculumModule[] = [
     title: "Engineering communication and interviews",
     priority: "P0",
     summary: "Truthfully explain responsibilities, project reasoning, design trade-offs, troubleshooting, coding basics, notice period and negotiation.",
-    lessons: [{ title: "Telling a debugging story: evidence, decision, outcome", status: "planned" }],
+    lessons: [
+      { title: "Presenting a portfolio project without inflating it", status: "published", slug: "presenting-a-portfolio-project-honestly" },
+      { title: "Telling a debugging story: evidence, decision, outcome", status: "published", slug: "telling-a-debugging-story" },
+    ],
   },
 ];

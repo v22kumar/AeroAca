@@ -41,6 +41,7 @@ export const visualIdSchema = z.enum([
   "priority-inversion",
   "scpi-console",
   "fmea-worksheet",
+  "standards-map",
 ]);
 export type VisualId = z.infer<typeof visualIdSchema>;
 
@@ -394,7 +395,12 @@ export const journeyItemSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("lesson"), slug }),
   z.object({ kind: z.literal("mission"), slug }),
   /** Rehearse these interview questions and rate yourself. */
-  z.object({ kind: z.literal("interview"), questionIds: z.array(z.string()).min(1) }),
+  z.object({
+    kind: z.literal("interview"),
+    questionIds: z.array(z.string()).min(1),
+    /** Open the question set in timed mock-interview mode. */
+    mock: z.boolean().optional(),
+  }),
   /** Spaced review of due cards. Complete when nothing is due. */
   z.object({ kind: z.literal("review") }),
   /** A real-world career action the learner ticks off herself. */

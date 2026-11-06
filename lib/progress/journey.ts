@@ -88,7 +88,7 @@ export function itemState(state: ProgressState, day: JourneyDay, item: JourneyIt
         kindLabel: "Interview",
         title: n === 1 ? `Rehearse: ${qs[0]?.topic ?? "question"}` : `Rehearse ${n} interview questions`,
         detail: qs.map((q) => q?.topic).filter(Boolean).join(" · "),
-        href: `/interview?q=${item.questionIds.join(",")}&day=${day.day}`,
+        href: `/interview?q=${item.questionIds.join(",")}&day=${day.day}${item.mock ? "&mock=1" : ""}`,
         minutes: 5 * n,
         available: true,
         done,

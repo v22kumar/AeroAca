@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { journey, lessons, missions, interviewQuestions } from "@/content";
 import { journeyDaySchema } from "@/lib/content/schema";
 import { ProgressStore } from "@/lib/progress/store";
-import { journeyState, nextItem, applyKey, interviewKey, reviewKey } from "@/lib/progress/journey";
+import { journeyState, dayState, nextItem, applyKey, interviewKey, reviewKey } from "@/lib/progress/journey";
 import { targetedReview } from "@/lib/progress/targeted";
 import { lessonCards, lessonExerciseIds } from "@/lib/content";
 
@@ -25,8 +25,8 @@ describe("journey content", () => {
     });
   });
 
-  it("days 1 to 25 are fully published and every published lesson and mission appears in them", () => {
-    const first10 = journey.slice(0, 25);
+  it("all 30 days are fully published and every published lesson and mission appears in them", () => {
+    const first10 = journey.slice(0, 30);
     for (const d of first10) expect(d.items.some((i) => i.kind === "planned"), `day ${d.day}`).toBe(false);
     const used = new Set(first10.flatMap((d) => d.items.flatMap((i) => (i.kind === "lesson" || i.kind === "mission" ? [i.slug] : []))));
     for (const l of lessons) expect(used.has(l.slug), l.slug).toBe(true);
@@ -85,9 +85,9 @@ describe("journey progression", () => {
     expect(after.days[1]!.items.find((i) => i.item.kind === "review")?.done).toBe(true);
     // A question rated on day 1 does not pre-complete day 15's rehearsal of the same question.
     expect(after.days[14]!.items.find((i) => i.item.kind === "interview")?.done).toBe(false);
-    // Days that only have planned content plus a review can be exhausted but never complete.
+    // A later day with real content is not complete on this profile.
     expect(after.days[15]!.complete).toBe(false);
-    expect(after.lastFullyPublishedDay).toBe(25);
+    expect(after.lastFullyPublishedDay).toBe(30);
     s.setApplyDone(applyKey(1, "bringup-card"), false);
     expect(journeyState(s.getState(), now()).currentDay).toBe(1);
   });
@@ -95,10 +95,14 @@ describe("journey progression", () => {
   it("planned items never count as done and cannot block a day with available work", () => {
     const s = new ProgressStore(null, now);
     const js = journeyState(s.getState(), now());
-    const day11 = js.days[25]!;
-    expect(day11.plannedCount).toBeGreaterThan(0);
-    expect(day11.items.filter((i) => i.status === "planned").every((i) => !i.done && !i.available)).toBe(true);
-    expect(day11.availableCount).toBeGreaterThan(0);
+    // No day references planned content any more; the rule is checked on a synthetic day.
+    expect(js.days.every((d) => d.plannedCount === 0)).toBe(true);
+    const synthetic = { ...journey[0]!, items: [...journey[0]!.items, { kind: "planned" as const, title: "Lesson: not yet written", minutes: 10 }] };
+    const ds = dayState(s.getState(), synthetic, { due: 0, enrolled: 0 });
+    expect(ds.plannedCount).toBe(1);
+    expect(ds.items.filter((i) => i.status === "planned").every((i) => !i.done && !i.available)).toBe(true);
+    expect(ds.availableCount).toBe(journey[0]!.items.length);
+    expect(ds.complete).toBe(false);
     // A fresh profile has no complete days, and a review item with nothing enrolled is not done.
     expect(js.completedDays).toBe(0);
     expect(js.days.every((d) => !d.complete)).toBe(true);

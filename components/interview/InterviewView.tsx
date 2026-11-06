@@ -7,6 +7,7 @@ import { interviewQuestions, getLesson } from "@/lib/content";
 import { useProgress } from "@/lib/progress/ProgressProvider";
 import { Card } from "@/components/ui/Card";
 import { InterviewCard } from "./InterviewCard";
+import { MockTimer } from "./MockTimer";
 import Link from "next/link";
 
 const filters = [
@@ -22,6 +23,7 @@ export function InterviewView() {
   const topics = useMemo(() => [...new Set(interviewQuestions.map((q) => q.topic))], []);
   const qParam = useQueryParam("q");
   const dayParam = Number(useQueryParam("day"));
+  const mock = useQueryParam("mock") === "1";
   const requested = useMemo(() => new Set((qParam ?? "").split(",").filter(Boolean)), [qParam]);
   const [showAll, setShowAll] = useState(false);
   const focusSet = requested.size > 0 && !showAll ? requested : null;
@@ -71,6 +73,7 @@ export function InterviewView() {
           </button>
         </div>
       )}
+      {focusSet && mock && <MockTimer count={focusSet.size} />}
       <div className="flex flex-col gap-2">
         <div role="group" aria-label="Filter by rating" className="flex flex-wrap gap-2">
           {filters.map((f) => (

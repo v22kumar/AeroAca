@@ -16,8 +16,8 @@ test.describe("30-day journey", () => {
     await expect(page).toHaveURL(/\/journey/);
     await expect(page.getByTestId("journey-day-30")).toBeVisible();
     await expect(page.getByTestId("journey-day-11")).not.toContainText("coming soon");
-    await expect(page.getByTestId("journey-day-26")).toContainText("coming soon");
-    await expect(page.getByText("Days 1 to 25 are fully published. 3 of 30 days still reference lessons that are being written")).toBeVisible();
+    await expect(page.getByTestId("journey-day-30")).not.toContainText("coming soon");
+    await expect(page.getByText("All 30 days are fully published.")).toBeVisible();
   });
 
   test("journey interview items open a focused question set and complete the day item when all are rated", async ({ page }) => {
