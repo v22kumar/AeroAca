@@ -117,8 +117,7 @@ test.describe("Teaching format 2.0 pilot: depth, hints, lesson map, walkthrough"
     await expect(img).toHaveAttribute("src", "/diagrams/power-tree.svg");
     await expect(img).toHaveAttribute("alt", /Power tree from a 5 volt input/);
     await expect(page.getByTestId("figure-step")).toContainText("0.4 Ω of copper");
-    const ok = await img.evaluate((el) => (el as HTMLImageElement).naturalWidth > 0);
-    expect(ok).toBe(true);
+    await expect.poll(() => img.evaluate((el) => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0), { timeout: 30_000 }).toBe(true);
     await page.goto("/lessons/uart-framing-and-baud");
     await page.getByRole("button", { name: /In one picture/ }).click();
     await expect(page.getByTestId("step-heading")).toContainText("In one picture");
