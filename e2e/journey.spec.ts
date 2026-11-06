@@ -7,9 +7,9 @@ test.describe("30-day journey", () => {
     await expect(page.getByTestId("next-action-cta")).toHaveText(/Start lesson/);
     const items = page.getByTestId("day-1-items");
     await expect(items.locator("li")).toHaveCount(3);
-    await page.getByTestId("apply-bringup-card").check();
+    await page.getByTestId("apply-ownership-sentences").check();
     await page.reload();
-    await expect(page.getByTestId("apply-bringup-card")).toBeChecked();
+    await expect(page.getByTestId("apply-ownership-sentences")).toBeChecked();
     await expect(page.getByTestId("day-progress")).toContainText("1/3 done today · 0 of 30 days complete");
 
     await page.getByRole("link", { name: "All 30 days" }).click();

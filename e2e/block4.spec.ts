@@ -60,9 +60,9 @@ test.describe("Block 4: startup, RTOS, bootloaders, Linux", () => {
     await expect(page.getByTestId("mission-outcome")).toBeVisible();
   });
 
-  test("journey days 16 to 20 are playable and day 19 keeps its career action", async ({ page }) => {
+  test("journey days 16 to 20 are playable", async ({ page }) => {
     await page.goto("/journey");
-    await expect(page.getByTestId("journey-day-17")).toContainText("task that never runs");
+    await expect(page.getByTestId("journey-day-17")).toContainText("Shared memory");
     await expect(page.getByTestId("journey-day-20")).not.toContainText("coming soon");
     await page.goto("/");
     await expect(page.getByTestId("day-1-items")).toBeVisible();

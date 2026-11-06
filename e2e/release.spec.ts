@@ -63,9 +63,10 @@ test.describe("Lesson completion", () => {
     }
     await expect(page.getByTestId("review-done")).toContainText("3 recalled, 1 to see again");
 
-    // Today now points at day 1's next item: the interview question.
+    // The bring-up lesson is no longer part of the career-track journey, so Today still points at day 1's
+    // first item. The learner's work on it is kept and counted, not lost.
     await page.goto("/");
-    await expect(page.getByTestId("next-action-cta")).toHaveText(/Tick it off below/);
+    await expect(page.getByTestId("next-action-cta")).toHaveText(/Start lesson/);
   });
 
   test("Register lesson: all three exercises, including a wrong volatile answer with explanation", async ({ page }) => {
