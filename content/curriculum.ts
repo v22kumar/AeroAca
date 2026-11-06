@@ -226,6 +226,20 @@ export const curriculum: CurriculumModule[] = [
     ],
   },
   {
+    id: "do178c",
+    number: 17,
+    section: "F",
+    title: "DO-178C verification in practice",
+    priority: "P0",
+    summary: "What a software level changes, requirements-based test design with normal-range and robustness cases, structural coverage up to MC/DC with a lab that finds the independence pairs, and traceability, problem reports and change impact.",
+    lessons: [
+      { title: "DO-178C: what a software level really changes on your desk", status: "published", slug: "do-178c-levels-and-objectives" },
+      { title: "Requirements-based testing: HLR, LLR, normal-range and robustness tests", status: "published", slug: "requirements-based-testing-hlr-llr" },
+      { title: "Structural coverage and MC/DC: what the tests never touched", status: "published", slug: "structural-coverage-and-mcdc" },
+      { title: "Traceability, problem reports and change impact: what must be re-verified?", status: "published", slug: "traceability-problem-reports-and-change-impact" },
+    ],
+  },
+  {
     id: "avionics-buses",
     number: 18,
     section: "F",

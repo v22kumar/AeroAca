@@ -727,11 +727,39 @@ def d_system_architecture():
     b += text(320, 262, "Simulation (sensor model, fault injection) and hardware (a real board) are recorded as separate evidence paths in the portfolio.", "ink2 s", "middle")
     svg("system-architecture", 640, 280, b, "Block architecture of the portfolio STM32 sensor monitor: sensor, conditioning, microcontroller, telemetry link, host PC and power")
 
+def d_mcdc_pairs():
+    b = text(320, 24, "MC/DC for (A && B) || C: each condition needs a pair that differs only in it", "ink ttl", "middle")
+    rows = ["FFF", "TFF", "FTF", "TTF", "FFT", "TFT", "FTT", "TTT"]
+    def f(r): return (r[0] == "T" and r[1] == "T") or r[2] == "T"
+    hdr = ["A", "B", "C", "result"]
+    xs = [40, 100, 160, 230]
+    for x, h in zip(xs, hdr):
+        b += text(x, 56, h, "ink t", "middle")
+    sel = {"TFF": "A+B? no", "FTF": "A", "TTF": "A,B", "TFT": "C"}
+    for i, r in enumerate(rows):
+        y = 66 + i * 26
+        inset = r in ("FTF", "TTF", "TFF", "TFT")
+        cls = "boxa" if inset else "box"
+        b += f'<rect class="{cls}" x="14" y="{y}" width="244" height="22" rx="4"/>'
+        for x, ch in zip(xs[:3], r):
+            b += text(x, y + 16, ch, "ink t" if ch == "T" else "ink2 t", "middle")
+        b += text(xs[3], y + 16, "T" if f(r) else "F", "ink t" if f(r) else "ink2 t", "middle")
+    # pairs
+    b += text(300, 84, "Independence pairs", "ink t") + text(300, 100, "(differ in one condition, outcome flips)", "ink2 s")
+    pairs = [("A:", "FTF ↔ TTF", "result F → T"), ("B:", "TFF ↔ TTF", "result F → T"), ("C:", "TFF ↔ TFT", "result F → T")]
+    for i, (c, rr, res) in enumerate(pairs):
+        yy = 112 + i * 38
+        b += f'<rect class="boxg" x="300" y="{yy}" width="316" height="32" rx="6"/>'
+        b += text(316, yy + 21, c, "ink t") + text(350, yy + 21, rr, "m") + text(480, yy + 21, res, "ink2 s")
+    b += text(300, 246, "Shaded rows TFF, FTF, TTF, TFT: a complete", "ink2 s") + text(300, 260, "MC/DC set, 4 tests for 3 conditions (n + 1).", "ink2 s")
+    b += text(300, 280, "Tests TTT and FFF: 100 % decision coverage,", "ink2 s") + text(300, 294, "but no condition shown independent.", "ink2 s")
+    svg("mcdc-pairs", 640, 300, b, "Truth table of the decision A and B or C with the independence pairs for each condition and the four-test MC/DC set highlighted")
+
 ALL = [d_pathways_map, d_study_journey, d_power_tree, d_rc_step, d_mosfet_switch, d_logic_levels, d_adc_chain, d_mcu_block, d_clock_tree,
        d_interrupt_flow, d_uart_frame, d_spi_timing, d_i2c_transaction, d_can_frame, d_memory_map, d_state_machine_debounce, d_ring_buffer,
        d_rtos_task_states, d_priority_inversion, d_boot_chain, d_bring_up_flow, d_rca_flow, d_v_model, d_test_bench, d_do178, d_mil1553_word,
        d_mil1553_message, d_arinc429_word, d_redundant_channels, d_frame_executive, d_response_time, d_hil, d_fault_injection, d_test_framework,
-       d_debug_chain, d_hardfault, d_control_loop, d_kalman, d_edge_ai, d_autonomy_stack, d_product_lifecycle, d_system_architecture]
+       d_debug_chain, d_hardfault, d_control_loop, d_kalman, d_edge_ai, d_autonomy_stack, d_product_lifecycle, d_system_architecture, d_mcdc_pairs]
 
 if __name__ == "__main__":
     for f in ALL:

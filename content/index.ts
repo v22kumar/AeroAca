@@ -17,6 +17,10 @@ import { milStd1553bControllerTerminalsAndFaults } from "@/content/lessons/mil-s
 import { arinc429WordsLabelsAndSsm } from "@/content/lessons/arinc-429-words-labels-and-ssm";
 import { rs422Rs485AndFramedSerialWithCrc } from "@/content/lessons/rs-422-rs-485-and-framed-serial-with-crc";
 import { telemetryPacketsAndParsingWithStruct } from "@/content/lessons/telemetry-packets-and-parsing-with-struct";
+import { do178cLevelsAndObjectives } from "@/content/lessons/do-178c-levels-and-objectives";
+import { requirementsBasedTestingHlrLlr } from "@/content/lessons/requirements-based-testing-hlr-llr";
+import { structuralCoverageAndMcdc } from "@/content/lessons/structural-coverage-and-mcdc";
+import { traceabilityProblemReportsAndChangeImpact } from "@/content/lessons/traceability-problem-reports-and-change-impact";
 import { isrToTaskHandoff } from "./lessons/isr-to-task-handoff";
 import { bootloadersImagesAndRecovery } from "./lessons/bootloaders-images-and-recovery";
 import { embeddedLinuxBootChain } from "./lessons/embedded-linux-boot-chain";
@@ -95,6 +99,10 @@ export const lessons: Lesson[] = [
   arinc429WordsLabelsAndSsm,
   rs422Rs485AndFramedSerialWithCrc,
   telemetryPacketsAndParsingWithStruct,
+  do178cLevelsAndObjectives,
+  requirementsBasedTestingHlrLlr,
+  structuralCoverageAndMcdc,
+  traceabilityProblemReportsAndChangeImpact,
   isrToTaskHandoff,
   bootloadersImagesAndRecovery,
   embeddedLinuxBootChain,

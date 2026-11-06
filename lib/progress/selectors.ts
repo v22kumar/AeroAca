@@ -124,6 +124,10 @@ export const skillLabels: Record<string, string> = {
   "driver-model": "Driver models and timers",
   "logic-analyser": "Logic analysers",
   "avionics-buses": "Avionics data buses (MIL-STD-1553B, ARINC 429)",
+  do178c: "DO-178C levels and objectives",
+  "requirements-testing": "Requirements-based test design",
+  mcdc: "Structural coverage and MC/DC",
+  traceability: "Traceability and change impact",
 };
 
 export function skillLabel(skill: string): string {

@@ -61,9 +61,10 @@ Every teaching diagram, what it shows, and where it is used. Files live in `publ
 |---|---|---|
 | `bring-up-flow.svg` | Current limit and power → reset → clock → debugger → boot pins → peripherals, with the fix branch at each step | Lesson `board-bring-up-checklist`; family 9 |
 | `rca-flow.svg` | Symptom → evidence → ranked hypotheses → discriminating experiment → cause → fix, verify, prevent, with the loop | Lesson `root-cause-analysis`; family 9 |
-| `v-model-traceability.svg` | Requirements levels on the left, code at the bottom, test levels on the right, traceability both ways | Lesson `writing-a-trustworthy-test-case`; module 17.4; family 14 |
+| `v-model-traceability.svg` | Requirements levels on the left, code at the bottom, test levels on the right, traceability both ways | Lessons `writing-a-trustworthy-test-case`, `requirements-based-testing-hlr-llr`; family 14 |
 | `test-bench-automation.svg` | PC with pytest/PyVISA driving a supply, scope and multimeter and talking to the DUT over serial | Lessons `talking-to-an-instrument-with-pyvisa`, `serial-automation-and-test-logs`; family 15 |
-| `do178-levels.svg` | Levels A to E against failure condition, objective count and required structural coverage | Module 17.1 (blueprint); lesson `avionics-and-automotive-standards-scope`; family 14 |
+| `do178-levels.svg` | Levels A to E against failure condition, objective count and required structural coverage | Lessons `do-178c-levels-and-objectives`, `avionics-and-automotive-standards-scope`; family 14 |
+| `mcdc-pairs.svg` | Truth table of (A && B) \|\| C with each condition's independence pair and the four-test MC/DC set | Lesson `structural-coverage-and-mcdc`; family 14 |
 | `redundant-channels.svg` | Triplex flight-control channels with sensors, computers, voters and actuators joined by cross-channel data links | Module 19 (blueprint); family 13 |
 | `hil-architecture.svg` | Real-time target with the plant model, analogue/bus/fault-insertion I/O, device under test, host PC | Lesson `sil-hil-what-each-proves`; module 21.1; family 13 |
 | `fault-injection-flow.svg` | FMEA failure mode → injected fault → expected detection → observed → verdict | Module 21.3 (blueprint); lesson `fmea-for-a-small-embedded-product`; family 13 |

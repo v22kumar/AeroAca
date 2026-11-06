@@ -75,6 +75,10 @@ Review levels:
 | lesson | `arinc-429-words-labels-and-ssm` | ARINC 429: one talker, a 32-bit word, and a field that says whether to believe it (2.0 format) | technically-reviewed | 3 | 5 | arinc429 figure, py-a429 lab | yes | pending |
 | lesson | `rs-422-rs-485-and-framed-serial-with-crc` | RS-422 and RS-485: differential links, termination, and frames you can trust (2.0 format) | technically-reviewed | 4 | 4 | c-crc16 lab | yes | pending |
 | lesson | `telemetry-packets-and-parsing-with-struct` | Telemetry packets: design the frame, then parse it so that nothing is silently lost (2.0 format) | technically-reviewed | 3 | 5 | py-telemetry lab | yes | pending |
+| lesson | `do-178c-levels-and-objectives` | DO-178C: what a software level really changes | technically-reviewed | 4 | 5 | figure (do178-levels) | yes | pending |
+| lesson | `requirements-based-testing-hlr-llr` | Requirements-based testing: HLR, LLR, normal-range and robustness | technically-reviewed | 3 | 3 + 1 ordering | figure (v-model), walkthrough | yes | pending |
+| lesson | `structural-coverage-and-mcdc` | Structural coverage and MC/DC | technically-reviewed | 3 | 4 | figure (mcdc-pairs), lab c-mcdc | yes | pending |
+| lesson | `traceability-problem-reports-and-change-impact` | Traceability, problem reports and change impact | technically-reviewed | 3 | 3 | traceability visual | yes | pending |
 
 ## Items the second reader should look at first
 
