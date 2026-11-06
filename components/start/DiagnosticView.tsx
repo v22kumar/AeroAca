@@ -18,10 +18,6 @@ import { StartHereList } from "./StartHereList";
  */
 export function DiagnosticView() {
   const { state, store, hydrated } = useProgress();
-  const [answeredNow, setAnsweredNow] = useState(false);
-  // The question on screen advances only when the learner presses Next, so the explanation
-  // after an answer stays visible; before any navigation it is the first unanswered question.
-  const [shown, setShown] = useState<number | null>(null);
 
   if (!hydrated) {
     return (
@@ -33,9 +29,6 @@ export function DiagnosticView() {
   }
 
   const sh = startHere(state);
-  const firstUnanswered = nextUnanswered(state);
-  const index = shown ?? firstUnanswered;
-  const answered = Object.keys(state.diagnostic?.answers ?? {}).length;
 
   if (sh.status === "done") {
     return (
@@ -64,9 +57,23 @@ export function DiagnosticView() {
     );
   }
 
-  if (index === null || index >= diagnostic.length) {
+  // Mounted only once progress is hydrated, so its initial index is the real first unanswered question.
+  return <Questions initialIndex={nextUnanswered(state) ?? diagnostic.length} />;
+}
+
+/**
+ * One question at a time. The index advances only when the learner presses Next, so the
+ * explanation after an answer stays on screen; the first answer per question is the one recorded.
+ */
+function Questions({ initialIndex }: { initialIndex: number }) {
+  const { state, store } = useProgress();
+  const [index, setIndex] = useState(initialIndex);
+  const [answeredNow, setAnsweredNow] = useState(false);
+  const answered = Object.keys(state.diagnostic?.answers ?? {}).length;
+
+  if (index >= diagnostic.length) {
     // every question answered but not yet marked complete (reload between the last answer and the summary)
-    store.completeDiagnostic();
+    if (!state.diagnostic?.completedAt) store.completeDiagnostic();
     return null;
   }
 
@@ -100,7 +107,7 @@ export function DiagnosticView() {
             onClick={() => {
               setAnsweredNow(false);
               if (isLast) store.completeDiagnostic();
-              else setShown(index + 1);
+              else setIndex(index + 1);
             }}
           >
             {isLast ? "See your starting point" : "Next question"}
