@@ -464,6 +464,30 @@ export const interviewQuestions: InterviewQuestion[] = [
     ],
   },
   {
+    id: "mil-1553-word-walk",
+    moduleId: "interfaces",
+    topic: "Avionics buses",
+    question: `Describe a MIL-STD-1553B word and the three word types, walk through one message with its timing, and tell me why a remote terminal might not respond to a command.`,
+    probes: ["What is the parity rule, and what does a terminal do with a bad word?", "What happens on a broadcast command?", "How does the controller tell a late response from no response?", "Decode 0x2C64 for me."],
+    rubric: {
+      strong: [
+        "20 bit times at 1 Mbit/s: 3 sync (invalid Manchester, opposite polarity for data), 16 data bits, 1 odd-parity bit; Manchester II carries the clock and passes transformers.",
+        "Command word fields in order with widths (5/1/5/5), address 31 broadcast, subaddress 0/31 mode, count 0 = 32; status word address plus flags; data word defined by the ICD.",
+        "A message as command and response with 4 to 12 µs response time, 14 µs no-response, 4 µs gap; broadcast gets no status.",
+        "No-response causes in cheapest-first order: corrupted command, illegal command for the terminal (message-error bit), broadcast, wrong bus, flagged status, late response.",
+        "Decodes a word correctly out loud, fields left to right.",
+      ],
+      weak: ["Describes it as 'like RS-485 but military'.", "Cannot name the fields or their widths.", "Jumps to the cable for every no-response.", "Does not know broadcast gets no status."],
+    },
+    sampleAnswer: `A 1553 word is 20 bit times at one megabit: three bit times of sync, which is an invalid Manchester pattern so it can't be confused with data, then sixteen data bits, then one odd-parity bit. Manchester II means every bit has a transition in the middle, so the clock comes with the data and there's no DC, which is why terminals couple through transformers onto a dual-redundant shielded pair. Three word types: the command word, only from the bus controller, with five bits of terminal address, a transmit/receive bit, five bits of subaddress and five of word count, where address 31 is broadcast, subaddress 0 or 31 turns the count into a mode code, and count 0 means 32 words. The status word comes from the terminal: its address, then flags like message error, busy and terminal flag. Data words are sixteen bits meaning whatever the ICD says. A transmit message is the controller's command, then the terminal's status and data starting 4 to 12 microseconds after the command; if the controller hears nothing by 14 microseconds it logs no response and usually retries on the other bus. Broadcast never gets a status, so a monitor shows every broadcast as no response, which isn't a fault. If a terminal doesn't answer one specific command but answers the rest, I decode the command first: an illegal subaddress or word count for that terminal is the usual cause, and the terminal may set message error and send no data, or stay silent. Only after that do I look at bus, coupler and timing. For 0x2C64: 0010 1100 0110 0100, address 5, transmit, subaddress 3, four words, six ones so parity bit 1.`,
+    relatedLesson: "mil-std-1553b-the-word-and-the-message",
+    industries: [
+      { sector: "avionics", note: "The daily bus of military aircraft, many UAV payloads and spacecraft; ARINC 429 is the civil-aviation cousin with one talker per wire and no command/response." },
+      { sector: "automotive", note: "The same decode-by-hand skill applies to CAN identifiers and DLC fields; the difference is arbitration instead of a single controller." },
+      { sector: "industrial", note: "Modbus RTU is another master/slave bus where one specific function code that a device does not implement produces a repeatable exception response." },
+    ],
+  },
+  {
     id: "isr-task-handoff",
     moduleId: "rtos",
     topic: "RTOS",

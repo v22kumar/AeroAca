@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/Button";
 import { InlineMarkdown } from "@/components/ui/Markdown";
 import { ExerciseFrame } from "./ExerciseFrame";
 
-export function SingleChoice({ exercise, onResult, solvedEarlier }: { exercise: SingleChoiceExercise; onResult: (correct: boolean) => void; solvedEarlier: boolean }) {
+export function SingleChoice({ exercise, onResult, solvedEarlier }: { exercise: SingleChoiceExercise; onResult: (correct: boolean, hints: number) => void; solvedEarlier: boolean }) {
   const [selected, setSelected] = useState<string | null>(null);
   const [result, setResult] = useState<GradeResult | null>(null);
   const [attempts, setAttempts] = useState(0);
+  const [hintsUsed, setHintsUsed] = useState(0);
   const locked = result?.correct === true;
 
   const check = () => {
@@ -18,11 +19,11 @@ export function SingleChoice({ exercise, onResult, solvedEarlier }: { exercise: 
     const r = gradeSingle(exercise, selected);
     setResult(r);
     setAttempts((a) => a + 1);
-    onResult(r.correct);
+    onResult(r.correct, hintsUsed);
   };
 
   return (
-    <ExerciseFrame objective={exercise.objective} prompt={exercise.prompt} context={exercise.context} hint={exercise.hint} result={result} attempts={attempts} solvedEarlier={solvedEarlier}>
+    <ExerciseFrame objective={exercise.objective} prompt={exercise.prompt} context={exercise.context} hint={exercise.hint} hints={exercise.hints} hintsUsed={hintsUsed} onHint={() => setHintsUsed((h) => h + 1)} result={result} attempts={attempts} solvedEarlier={solvedEarlier}>
       <div role="radiogroup" aria-label="Answer options" className="flex flex-col gap-2">
         {exercise.options.map((o, i) => {
           const isSel = selected === o.id;

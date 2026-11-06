@@ -12,6 +12,7 @@ import { rootCauseAnalysis } from "./lessons/root-cause-analysis";
 import { interfaceControlAndIntegrationFaults } from "./lessons/interface-control-and-integration-faults";
 import { fromResetVectorToMain } from "./lessons/from-reset-vector-to-main";
 import { priorityInversion } from "./lessons/priority-inversion";
+import { milStd1553bTheWordAndTheMessage } from "@/content/lessons/mil-std-1553b-the-word-and-the-message";
 import { isrToTaskHandoff } from "./lessons/isr-to-task-handoff";
 import { bootloadersImagesAndRecovery } from "./lessons/bootloaders-images-and-recovery";
 import { embeddedLinuxBootChain } from "./lessons/embedded-linux-boot-chain";
@@ -85,6 +86,7 @@ export const lessons: Lesson[] = [
   writingATrustworthyTestCase,
   fromResetVectorToMain,
   priorityInversion,
+  milStd1553bTheWordAndTheMessage,
   isrToTaskHandoff,
   bootloadersImagesAndRecovery,
   embeddedLinuxBootChain,

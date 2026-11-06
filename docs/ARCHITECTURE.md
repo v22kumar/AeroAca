@@ -112,3 +112,13 @@ Short records of the decisions that shape the codebase, in the style of ADRs.
 
 **Consequences.** An expected output shown in the app was produced by that program on a machine with the same toolchain; a learner who gets a different result has found a real difference. Content authors regenerate rather than edit outputs. The academy still does not run code in the browser.
 
+
+## ADR-16: Teaching format 2.0 is a layer on the 1.0 lesson model, with depth as a view, not a fork
+
+**Context.** The first learner's feedback after an hour with 1.0 was "it's not easy understanding". Measurement agreed: a third of concept steps over 350 words, 31 of 51 lessons without a diagram, formal terms before intuition, code without walkthroughs. Different learners also need different depth, and separate products per depth would triple the content.
+
+**Decision.** Lessons gain optional `stage` and `depth` tags on steps, an optional `hints` list on exercises, a `walkthrough` step type and a `format: "arc"` marker. The player filters steps by the learner's chosen depth (Understand → Apply → Master), shows the nine-stage arc as a lesson map, reveals hints one at a time and records them, and records time per step device-locally. Untagged steps are shown at every depth, so every 1.0 lesson renders exactly as before. The progress store stays at version 1: `completedDepth`, `stepTime`, `attempt.hints` and `profile.depth` are optional fields, so every earlier backup imports unchanged.
+
+**Honesty.** Completion is stated as what was done ("completed at Apply depth: every Apply exercise solved"), never as mastery. A solve with hints is labelled as such. The diagnostic may recommend a depth; the learner can always override it.
+
+**Consequences.** Three pilot lessons are written in the format and observed (docs/PILOT.md) before the rest are converted. `tests/teaching-format.test.ts` enforces the authoring rules on `arc` lessons only, so conversion can proceed lesson by lesson.

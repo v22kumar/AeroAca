@@ -1,3 +1,5 @@
+> In progress: teaching format 2.0 pilot (ADR-16, docs/PILOT.md).
+
 # AeroAca development status
 
 Progress report against `docs/PRODUCT_ROADMAP.md`. Updated at the end of every increment.

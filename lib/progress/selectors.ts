@@ -123,6 +123,7 @@ export const skillLabels: Record<string, string> = {
   cpp: "Embedded C++",
   "driver-model": "Driver models and timers",
   "logic-analyser": "Logic analysers",
+  "avionics-buses": "Avionics data buses (MIL-STD-1553B, ARINC 429)",
 };
 
 export function skillLabel(skill: string): string {

@@ -158,3 +158,79 @@ describe("active mission runs", () => {
     expect(again.getState().lessons["mcu-board-does-not-boot"]).toBeDefined();
   });
 });
+
+describe("teaching format 2.0 progress", () => {
+  let storage: MemoryStorage;
+  beforeEach(() => {
+    storage = new MemoryStorage();
+    clock = 1_700_000_000_000;
+  });
+
+  it("records hints with an attempt only when used, and keeps 1.0 attempts shape otherwise", () => {
+    const s = new ProgressStore(storage, now);
+    s.load();
+    s.startLesson("reading-a-power-tree");
+    s.recordAttempt("reading-a-power-tree", "sag-guided", false, 2);
+    s.recordAttempt("reading-a-power-tree", "sag-guided", true, 3);
+    s.recordAttempt("reading-a-power-tree", "ldo-dissipation", true);
+    const ex = s.getState().lessons["reading-a-power-tree"]!.exercises;
+    expect(ex["sag-guided"]!.attempts.map((a) => a.hints)).toEqual([2, 3]);
+    expect(ex["ldo-dissipation"]!.attempts[0]).not.toHaveProperty("hints");
+  });
+
+  it("completes at a depth, records the deepest depth reached, and never lowers it", () => {
+    const s = new ProgressStore(storage, now);
+    s.load();
+    const slug = "priority-inversion";
+    s.startLesson(slug);
+    s.recordAttempt(slug, "inversion-guided", true, 1);
+    expect(s.completeLesson(slug, ["inversion-guided"], ["pi-1"], "understand")).toBe(true);
+    expect(s.getState().lessons[slug]!.completedDepth).toBe("understand");
+    expect(s.getState().lessons[slug]!.completedAt).toBeDefined();
+    // Apply not yet solved: completion at apply is refused, understand stays
+    expect(s.completeLesson(slug, ["inversion-guided", "inversion-bound"], ["pi-1"], "apply")).toBe(false);
+    expect(s.getState().lessons[slug]!.completedDepth).toBe("understand");
+    s.recordAttempt(slug, "inversion-bound", true);
+    expect(s.completeLesson(slug, ["inversion-guided", "inversion-bound"], ["pi-1"], "apply")).toBe(true);
+    expect(s.getState().lessons[slug]!.completedDepth).toBe("apply");
+    // switching back to understand does not lower it
+    expect(s.completeLesson(slug, ["inversion-guided"], ["pi-1"], "understand")).toBe(true);
+    expect(s.getState().lessons[slug]!.completedDepth).toBe("apply");
+  });
+
+  it("accumulates step time per step with a cap, and stores the depth preference", () => {
+    const s = new ProgressStore(storage, now);
+    s.load();
+    s.startLesson("priority-inversion");
+    s.addStepTime("priority-inversion", 2, 30.4);
+    s.addStepTime("priority-inversion", 2, 10);
+    s.addStepTime("priority-inversion", 3, 99_999);
+    s.addStepTime("priority-inversion", 4, 0.2);
+    const t = s.getState().lessons["priority-inversion"]!.stepTime!;
+    expect(t["2"]).toBe(40);
+    expect(t["3"]).toBe(1200);
+    expect(t["4"]).toBeUndefined();
+    s.setDepth("apply");
+    expect(s.getState().profile?.depth).toBe("apply");
+  });
+
+  it("a 1.0 backup without the new fields imports unchanged and round-trips", () => {
+    const s = new ProgressStore(storage, now);
+    s.load();
+    const raw = JSON.stringify({
+      version: 1,
+      createdAt: 1,
+      updatedAt: 2,
+      lessons: { "priority-inversion": { startedAt: 1, lastStep: 2, stepsSeen: [0, 1, 2], exercises: { "inversion-bound": { attempts: [{ at: 1, correct: true }], solvedAt: 1 } } } },
+      missions: {},
+      interview: {},
+      review: {},
+      activeDays: [],
+    });
+    expect(s.importJson(raw)).toBe(true);
+    const lp = s.getState().lessons["priority-inversion"]!;
+    expect(lp.completedDepth).toBeUndefined();
+    expect(lp.stepTime).toBeUndefined();
+    expect(lp.exercises["inversion-bound"]!.solvedAt).toBe(1);
+  });
+});

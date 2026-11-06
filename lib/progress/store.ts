@@ -1,3 +1,4 @@
+import { depthRank, type Depth } from "@/lib/content/schema";
 import { emptyProgress, progressStateSchema, STORAGE_KEY, type ActiveMissionRun, type Confidence, type ProgressState } from "./schema";
 
 /**
@@ -126,11 +127,11 @@ export class ProgressStore {
     });
   }
 
-  recordAttempt(slug: string, exerciseId: string, correct: boolean) {
+  recordAttempt(slug: string, exerciseId: string, correct: boolean, hints = 0) {
     this.update((d) => {
       const lp = d.lessons[slug] ?? { startedAt: this.now(), lastStep: 0, stepsSeen: [], exercises: {} };
       const ex = lp.exercises[exerciseId] ?? { attempts: [] };
-      ex.attempts = [...ex.attempts, { at: this.now(), correct }];
+      ex.attempts = [...ex.attempts, hints > 0 ? { at: this.now(), correct, hints } : { at: this.now(), correct }];
       if (correct && !ex.solvedAt) ex.solvedAt = this.now();
       lp.exercises[exerciseId] = ex;
       d.lessons[slug] = lp;
@@ -141,20 +142,43 @@ export class ProgressStore {
    * Mark a lesson complete only if every exercise is solved. Returns whether it is complete.
    * Also enrols the lesson's review cards.
    */
-  completeLesson(slug: string, exerciseIds: string[], cardIds: string[]): boolean {
+  completeLesson(slug: string, exerciseIds: string[], cardIds: string[], depth?: Depth): boolean {
     const lp = this.state.lessons[slug];
     if (!lp) return false;
     const allSolved = exerciseIds.every((id) => lp.exercises[id]?.solvedAt);
     if (!allSolved) return false;
-    if (lp.completedAt) return true;
+    const deeper = depth && (!lp.completedDepth || depthRank[depth] > depthRank[lp.completedDepth]);
+    if (lp.completedAt && !deeper) return true;
     this.update((d) => {
       const l = d.lessons[slug];
-      if (l) l.completedAt = this.now();
+      if (l) {
+        l.completedAt = l.completedAt ?? this.now();
+        if (deeper) l.completedDepth = depth;
+      }
       for (const id of cardIds) {
         if (!d.review[id]) d.review[id] = { box: 0, due: this.now(), reviews: 0 };
       }
     });
     return true;
+  }
+
+  /** Add time spent on a step (seconds). Capped per call so a tab left open overnight does not count. */
+  addStepTime(slug: string, stepIndex: number, seconds: number) {
+    const s = Math.min(Math.max(0, Math.round(seconds)), 20 * 60);
+    if (s < 1) return;
+    this.update((d) => {
+      const lp = d.lessons[slug] ?? { startedAt: this.now(), lastStep: 0, stepsSeen: [], exercises: {} };
+      const key = String(stepIndex);
+      lp.stepTime = { ...(lp.stepTime ?? {}), [key]: (lp.stepTime?.[key] ?? 0) + s };
+      d.lessons[slug] = lp;
+    });
+  }
+
+  /** Preferred depth for lessons written to the 2.0 format. The learner can override it per lesson. */
+  setDepth(depth: Depth) {
+    this.update((d) => {
+      d.profile = { ...(d.profile ?? {}), depth };
+    });
   }
 
   /* ---------- Missions ---------- */

@@ -50,8 +50,29 @@ export const visualIdSchema = z.enum([
   "divider-thevenin",
   "rc-step",
   "clock-tree",
+  "rail-sag",
+  "mil1553-word",
 ]);
 export type VisualId = z.infer<typeof visualIdSchema>;
+
+/* ---------- Teaching format 2.0: depth and stage ---------- */
+
+/**
+ * Understand → Apply → Master. A step tagged with a depth is shown only when the learner has
+ * chosen that depth or a deeper one; an untagged step is shown at every depth, so the 1.0 lessons
+ * are unchanged. Completion is recorded per depth and the app says what was done, never "mastered".
+ */
+export const depthSchema = z.enum(["understand", "apply", "master"]);
+export type Depth = z.infer<typeof depthSchema>;
+export const DEPTHS: Depth[] = ["understand", "apply", "master"];
+export const depthRank: Record<Depth, number> = { understand: 0, apply: 1, master: 2 };
+
+/** The nine-stage teaching arc (docs/CONTENT_AUTHORING.md). A label for the learner, not a gate. */
+export const stageSchema = z.enum(["why", "intuition", "how", "theory", "example", "practice", "complexity", "check", "work"]);
+export type Stage = z.infer<typeof stageSchema>;
+export const STAGES: Stage[] = ["why", "intuition", "how", "theory", "example", "practice", "complexity", "check", "work"];
+
+const teach = { depth: depthSchema.optional(), stage: stageSchema.optional() };
 
 /* ---------- Exercises ---------- */
 
@@ -71,6 +92,11 @@ const exerciseBase = {
   prompt: markdown,
   context: markdown.optional(),
   hint: markdown.optional(),
+  /**
+   * Guided practice: hints the learner can reveal one at a time before answering. How many were
+   * used is recorded with the attempt and shown honestly ("solved with 2 hints").
+   */
+  hints: z.array(markdown).min(1).optional(),
 };
 
 export const singleChoiceSchema = z.object({
@@ -192,12 +218,13 @@ export type ReviewCard = z.infer<typeof reviewCardSchema>;
 /* ---------- Lesson steps ---------- */
 
 export const lessonStepSchema = z.discriminatedUnion("type", [
-  z.object({ type: z.literal("scenario"), title: z.string(), body: markdown }),
+  z.object({ type: z.literal("scenario"), title: z.string(), body: markdown, ...teach }),
   z.object({
     type: z.literal("concept"),
     title: z.string(),
     body: markdown,
     deeper: z.object({ title: z.string(), body: markdown }).optional(),
+    ...teach,
   }),
   z.object({
     type: z.literal("visual"),
@@ -205,13 +232,28 @@ export const lessonStepSchema = z.discriminatedUnion("type", [
     visual: visualIdSchema,
     body: markdown.optional(),
     caption: markdown,
+    ...teach,
   }),
   z.object({
     type: z.literal("example"),
     title: z.string(),
     body: markdown,
+    ...teach,
   }),
-  z.object({ type: z.literal("exercise"), exercise: exerciseSchema }),
+  /**
+   * Code with a line-by-line account. `notes` name line ranges of `code` ("1-3", "7") and say
+   * what those lines do and why they are there, so no code is ever shown without a walkthrough.
+   */
+  z.object({
+    type: z.literal("walkthrough"),
+    title: z.string(),
+    intro: markdown.optional(),
+    language: z.string(),
+    code: z.string().min(1),
+    notes: z.array(z.object({ lines: z.string().regex(/^\d+(-\d+)?$/), text: markdown })).min(1),
+    ...teach,
+  }),
+  z.object({ type: z.literal("exercise"), exercise: exerciseSchema, ...teach }),
   /**
    * A runnable program the learner builds and runs on her own PC. `lab` is an id in
    * labs/manifest.json; the code, command and expected output come from lib/labs/generated.ts,
@@ -227,16 +269,19 @@ export const lessonStepSchema = z.discriminatedUnion("type", [
     lab: z.string().min(1),
     /** A change to make and predict before re-running; the answer is in the lesson, not here. */
     tryNext: markdown.optional(),
+    ...teach,
   }),
   z.object({
     type: z.literal("interview"),
     questionId: z.string(),
     intro: markdown.optional(),
+    ...teach,
   }),
   z.object({
     type: z.literal("recap"),
     summary: markdown,
     cards: z.array(reviewCardSchema).min(2),
+    ...teach,
   }),
 ]);
 export type LessonStep = z.infer<typeof lessonStepSchema>;
@@ -253,6 +298,11 @@ export const lessonSchema = z
     whyItMatters: z.string().min(20),
     objectives: z.array(z.string()).min(2),
     prerequisites: z.array(slug).optional(),
+    /**
+     * "arc": written to the nine-stage teaching format with depth tags (docs/CONTENT_AUTHORING.md,
+     * "Teaching format 2.0"); tests/content.test.ts enforces the authoring rules on these lessons.
+     */
+    format: z.literal("arc").optional(),
     steps: z.array(lessonStepSchema).min(5),
     references: z.array(referenceSchema).min(1),
     /** Review status is shown to the learner — be honest. */

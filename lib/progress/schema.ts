@@ -3,7 +3,13 @@ import { z } from "zod";
 export const PROGRESS_VERSION = 1 as const;
 export const STORAGE_KEY = "aeroaca.progress.v1";
 
-const attempt = z.object({ at: z.number(), correct: z.boolean() });
+const attempt = z.object({
+  at: z.number(),
+  correct: z.boolean(),
+  /** Hints revealed before this attempt (guided practice). Absent in 1.0 records. */
+  hints: z.number().int().nonnegative().optional(),
+});
+export const depthSchema = z.enum(["understand", "apply", "master"]);
 
 export const lessonProgressSchema = z.object({
   startedAt: z.number(),
@@ -18,6 +24,14 @@ export const lessonProgressSchema = z.object({
       solvedAt: z.number().optional(),
     }),
   ),
+  /**
+   * Deepest level at which every visible exercise was solved (Understand → Apply → Master).
+   * Absent for 1.0 lessons, which have one depth. Never a claim of mastery: the UI says
+   * "completed at Apply depth", meaning the Apply exercises were solved.
+   */
+  completedDepth: depthSchema.optional(),
+  /** Seconds spent per step index, device-local, so the learner (and a pilot) can see real durations. */
+  stepTime: z.record(z.string(), z.number().nonnegative()).optional(),
 });
 export type LessonProgress = z.infer<typeof lessonProgressSchema>;
 
@@ -74,7 +88,7 @@ export const progressStateSchema = z.object({
   review: z.record(z.string(), reviewEntrySchema),
   /** ISO dates (YYYY-MM-DD, local) with any learning activity. */
   activeDays: z.array(z.string()),
-  profile: z.object({ name: z.string().max(40).optional() }).optional(),
+  profile: z.object({ name: z.string().max(40).optional(), /** Preferred depth for lessons written to the 2.0 format. */ depth: depthSchema.optional() }).optional(),
   activeRuns: z.record(z.string(), activeMissionRunSchema).optional(),
   /** Journey career actions ticked by the learner, keyed "d<day>:<id>" → timestamp. */
   applyDone: z.record(z.string(), z.number()).optional(),

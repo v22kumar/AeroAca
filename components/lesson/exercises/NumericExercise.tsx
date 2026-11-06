@@ -6,10 +6,11 @@ import { gradeNumeric, type GradeResult } from "@/lib/learning/grading";
 import { Button } from "@/components/ui/Button";
 import { ExerciseFrame } from "./ExerciseFrame";
 
-export function NumericExercise({ exercise, onResult, solvedEarlier }: { exercise: NumericExerciseT; onResult: (correct: boolean) => void; solvedEarlier: boolean }) {
+export function NumericExercise({ exercise, onResult, solvedEarlier }: { exercise: NumericExerciseT; onResult: (correct: boolean, hints: number) => void; solvedEarlier: boolean }) {
   const [text, setText] = useState("");
   const [result, setResult] = useState<GradeResult | null>(null);
   const [attempts, setAttempts] = useState(0);
+  const [hintsUsed, setHintsUsed] = useState(0);
   const locked = result?.correct === true;
 
   const check = () => {
@@ -17,11 +18,11 @@ export function NumericExercise({ exercise, onResult, solvedEarlier }: { exercis
     const r = gradeNumeric(exercise, value);
     setResult(r);
     setAttempts((a) => a + 1);
-    onResult(r.correct);
+    onResult(r.correct, hintsUsed);
   };
 
   return (
-    <ExerciseFrame objective={exercise.objective} prompt={exercise.prompt} context={exercise.context} hint={exercise.hint} result={result} attempts={attempts} solvedEarlier={solvedEarlier}>
+    <ExerciseFrame objective={exercise.objective} prompt={exercise.prompt} context={exercise.context} hint={exercise.hint} hints={exercise.hints} hintsUsed={hintsUsed} onHint={() => setHintsUsed((h) => h + 1)} result={result} attempts={attempts} solvedEarlier={solvedEarlier}>
       <form
         className="flex items-end gap-2"
         onSubmit={(e) => {
