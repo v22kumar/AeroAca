@@ -209,6 +209,22 @@ export const lessonStepSchema = z.discriminatedUnion("type", [
     body: markdown,
   }),
   z.object({ type: z.literal("exercise"), exercise: exerciseSchema }),
+  /**
+   * A runnable program the learner builds and runs on her own PC. `lab` is an id in
+   * labs/manifest.json; the code, command and expected output come from lib/labs/generated.ts,
+   * which scripts/sync-labs.mjs produces by actually running the program. tests/labs.test.ts
+   * builds and runs every lab again in CI and diffs the output, so the expected result is
+   * verified, not asserted.
+   */
+  z.object({
+    type: z.literal("lab"),
+    title: z.string(),
+    /** What to do and what to look for, in Markdown. */
+    body: markdown,
+    lab: z.string().min(1),
+    /** A change to make and predict before re-running; the answer is in the lesson, not here. */
+    tryNext: markdown.optional(),
+  }),
   z.object({
     type: z.literal("interview"),
     questionId: z.string(),
@@ -471,6 +487,17 @@ export const projectStageSchema = z.object({
   /** In-app interactive shown in this stage, if any. */
   visual: visualIdSchema.optional(),
   relatedLessons: z.array(slug).default([]),
+  /**
+   * "Build it": the commands the learner runs for this stage, with the exact expected output.
+   * Every file named here lives under labs/portfolio and is built and run in CI (tests/labs.test.ts),
+   * so the stage teaches implementation and testing, not only what to tick.
+   */
+  buildIt: z
+    .object({
+      intro: markdown,
+      steps: z.array(z.object({ title: z.string(), lab: z.string().min(1), note: markdown.optional() })).min(1),
+    })
+    .optional(),
 });
 export type ProjectStage = z.infer<typeof projectStageSchema>;
 

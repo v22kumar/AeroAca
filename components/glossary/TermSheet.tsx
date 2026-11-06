@@ -45,7 +45,7 @@ export function TermSheet({ id, onClose, onOpen }: { id: string | null; onClose:
         aria-modal="true"
         aria-labelledby="term-title"
         data-testid="term-sheet"
-        className="relative max-h-[85dvh] w-full overflow-y-auto rounded-t-3xl border border-line bg-surface p-5 pb-safe shadow-card animate-fade-up md:max-w-md md:rounded-3xl"
+        className="relative max-h-[85dvh] w-full overflow-y-auto rounded-t-3xl border border-line bg-surface p-5 pb-safe shadow-card animate-slide-up md:max-w-md md:rounded-3xl"
       >
         <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-line-2 md:hidden" aria-hidden />
         <div className="flex items-start justify-between gap-3">
@@ -61,7 +61,7 @@ export function TermSheet({ id, onClose, onOpen }: { id: string | null; onClose:
         </div>
         <p className="mt-3 text-[16px] font-medium leading-relaxed">{term.short}</p>
         <p className="mt-3 text-[15px] leading-relaxed text-ink-2">{term.detail}</p>
-        <div className="mt-4 rounded-xl bg-accent-soft/70 px-3 py-2.5 text-sm">
+        <div className="mt-4 rounded-xl bg-accent-soft px-3 py-2.5 text-sm">
           <span className="font-semibold text-accent">Why it matters · </span>
           <span className="text-ink">{term.why}</span>
         </div>

@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const sameSkillsDifferentIndustries: Lesson = {
   slug: "same-skills-different-industries",
   moduleId: "applications",
+  prerequisites: ["avionics-and-automotive-standards-scope"],
   title: "Same skills, different industries: how to talk about transfer",
   summary: "An avionics test engineer applying to automotive, medical, industrial or consumer roles has the skills and the wrong vocabulary. Learn the one-sentence pattern that transfers a skill with its evidence, what each industry values that the others do not, and the claims that do not survive a follow-up question.",
   durationMinutes: 10,

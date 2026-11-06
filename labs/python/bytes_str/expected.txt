@@ -1,0 +1,9 @@
+type: bytes length: 13
+as text: 'TEMP? 25.06\r\n'
+stripped: 'TEMP? 25.06'
+to send: b'*IDN?\n'
+decode failed: ordinal not in range(128) at byte 0
+hex view: ff ff 82 e0 80
+complete line: 25.06
+complete line: 27.10
+left in buffer: b''

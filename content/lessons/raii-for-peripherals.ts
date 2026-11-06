@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const raiiForPeripherals: Lesson = {
   slug: "raii-for-peripherals",
   moduleId: "embedded-cpp",
+  prerequisites: ["pointers-to-hardware", "interrupts-and-nvic-priorities"],
   title: "RAII for peripherals and critical sections",
   summary: "C++ on a microcontroller is not about classes everywhere; it is about one idea, RAII, that makes a chip-select pin, an interrupt mask or a mutex impossible to leave in the wrong state. Learn the guard pattern, the subset of C++ that embedded teams actually use, and what to switch off.",
   durationMinutes: 10,

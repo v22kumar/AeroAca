@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const bootloadersImagesAndRecovery: Lesson = {
   slug: "bootloaders-images-and-recovery",
   moduleId: "firmware-arch",
+  prerequisites: ["from-reset-vector-to-main", "watchdogs-and-reset-loops"],
   title: "Bootloaders, images and recovery paths",
   summary: "A bootloader is the only firmware that must never fail. Learn what it checks before it jumps, how an image header and a boot flag make an update survive a power cut, why two slots beat one, and how a unit gets back from a bad image without a factory visit.",
   durationMinutes: 10,

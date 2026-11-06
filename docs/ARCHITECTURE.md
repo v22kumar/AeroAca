@@ -104,3 +104,11 @@ Short records of the decisions that shape the codebase, in the style of ADRs.
 
 **Consequences.** The content bundle (all lessons and the glossary as typed data, needed client-side for progress derivation under ADR-2 and ADR-10) remains the largest chunk; it is text and compresses well, and the service worker caches it after first load. A server-side split of content per route is possible later without changing the content model.
 
+## ADR-15: Runnable labs are verified on the host, not asserted; the diagnostic produces a list, not a level
+
+**Context.** The curriculum calls for progressive practical exercises with runnable examples and reproducible expected results, and for a learner to find her starting level. Browser execution of C or Python would need a heavy or paid dependency. A diagnostic that reports a score would contradict ADR-13 (no fabricated numbers).
+
+**Decision.** Labs are small, deterministic C and Python programs under `labs/`, each with the exact command. `scripts/sync-labs.mjs` runs them and writes `lib/labs/generated.ts` (source, command, output); `tests/labs.test.ts` rebuilds and reruns every lab in CI and diffs the output, failing loudly if gcc, make or python3 is missing. Lessons reference labs by id in a `lab` step; the portfolio references them in `buildIt`. The STM32 target route is documented in `docs/LOCAL_LAB.md` and marked not verified in CI. The starting-level diagnostic reuses the graded exercise kinds; its result is the list of foundation lessons behind the wrong answers, stored under the optional `diagnostic` field of the version-1 progress state so every earlier backup imports unchanged. Prerequisites are declared on every lesson and shown as "Before this lesson"; they inform and never gate.
+
+**Consequences.** An expected output shown in the app was produced by that program on a machine with the same toolchain; a learner who gets a different result has found a real difference. Content authors regenerate rather than edit outputs. The academy still does not run code in the browser.
+

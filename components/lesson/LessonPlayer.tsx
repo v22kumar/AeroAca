@@ -5,7 +5,11 @@ import { useQueryParam } from "@/lib/hooks/useQueryParam";
 import { interviewItemFor, interviewKey, journeyState, nextItem } from "@/lib/progress/journey";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Lesson, LessonStep } from "@/lib/content/schema";
-import { getInterviewQuestion, getModule, lessonCards, lessonExerciseIds } from "@/lib/content";
+import { getInterviewQuestion, getLesson, getModule, lessonCards, lessonExerciseIds } from "@/lib/content";
+import { getLab } from "@/lib/labs/generated";
+import { lessonStatus } from "@/lib/progress/selectors";
+import type { ProgressState } from "@/lib/progress/schema";
+import { CodeBlock } from "@/components/ui/CodeBlock";
 import { useProgress } from "@/lib/progress/ProgressProvider";
 import { Markdown } from "@/components/ui/Markdown";
 import { Button, LinkButton } from "@/components/ui/Button";
@@ -23,6 +27,7 @@ const stepLabel: Record<LessonStep["type"], string> = {
   visual: "Interactive",
   example: "Worked example",
   exercise: "Exercise",
+  lab: "Run it yourself",
   interview: "Interview question",
   recap: "Recap",
 };
@@ -124,6 +129,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         <StepBody
           step={step}
           lesson={lesson}
+          progress={hydrated ? state : null}
           solvedEarlier={step.type === "exercise" ? isSolved(step.exercise.id) : false}
           onExerciseResult={(id, correct) => store.recordAttempt(lesson.slug, id, correct)}
           allSolved={allSolved}
@@ -167,6 +173,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
 function StepBody({
   step,
   lesson,
+  progress,
   solvedEarlier,
   onExerciseResult,
   allSolved,
@@ -180,6 +187,7 @@ function StepBody({
 }: {
   step: LessonStep;
   lesson: Lesson;
+  progress: ProgressState | null;
   solvedEarlier: boolean;
   onExerciseResult: (id: string, correct: boolean) => void;
   allSolved: boolean;
@@ -214,8 +222,11 @@ function StepBody({
               ))}
             </ul>
           </div>
+          <Prerequisites lesson={lesson} progress={progress} />
         </section>
       );
+    case "lab":
+      return <LabStep step={step} />;
     case "concept":
       return (
         <section>
@@ -349,4 +360,67 @@ function StepBody({
         </section>
       );
   }
+}
+
+/**
+ * "Before this lesson": the lessons this one rests on, each with its completion state, so a
+ * learner who lands here from a recommendation or a search has a path back to the basics.
+ * Nothing is locked; the card informs, it does not gate.
+ */
+function Prerequisites({ lesson, progress }: { lesson: Lesson; progress: ProgressState | null }) {
+  const pre = (lesson.prerequisites ?? []).map((slug) => getLesson(slug)).filter((l): l is Lesson => Boolean(l));
+  if (pre.length === 0) {
+    return (
+      <p className="mt-3 text-sm text-ink-3" data-testid="prerequisites-none">
+        No prerequisites: this lesson is a starting point.
+      </p>
+    );
+  }
+  return (
+    <div className="mt-3 rounded-xl border border-line bg-surface p-3 text-sm" data-testid="prerequisites">
+      <p className="font-semibold">Before this lesson</p>
+      <p className="mt-0.5 text-xs text-ink-3">This lesson builds on these. Open any you have not completed if a step here feels like a jump.</p>
+      <ul className="mt-2 flex flex-col gap-1.5">
+        {pre.map((p) => {
+          const status = progress ? lessonStatus(progress, p) : "not-started";
+          return (
+            <li key={p.slug} className="flex items-center justify-between gap-3">
+              <Link href={`/lessons/${p.slug}`} className="min-w-0 flex-1 truncate font-medium text-accent underline underline-offset-2">
+                {p.title}
+              </Link>
+              <StatusPill kind={status} />
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
+const languageLabel: Record<string, string> = { c: "C", cpp: "C++", python: "Python 3", bash: "shell" };
+
+/** A runnable lab: the exact source, the command, and the output the learner should see. */
+function LabStep({ step }: { step: Extract<LessonStep, { type: "lab" }> }) {
+  const lab = getLab(step.lab);
+  if (!lab) return <p className="text-danger">Lab {step.lab} is missing from labs/manifest.json.</p>;
+  return (
+    <section className="flex flex-col gap-4" data-testid="lab-step">
+      <h2 className="text-xl font-bold">{step.title}</h2>
+      <Markdown>{step.body}</Markdown>
+      <div className="rounded-xl border border-accent/25 bg-accent-soft/50 px-3 py-2 text-sm">
+        <span className="font-semibold text-accent">Runs on your PC · </span>
+        <span className="text-ink-2">
+          {languageLabel[lab.language] ?? lab.language}. Save the file as <code>{lab.file}</code>, run the command from that folder, compare with the expected output. The same program is built and run in the academy&apos;s CI, so the expected output is verified, not a promise. Set-up for Windows, macOS and Linux is in the <a href="https://github.com/v22kumar/AeroAca/blob/main/docs/LOCAL_LAB.md" target="_blank" rel="noreferrer noopener" className="font-semibold text-accent underline underline-offset-2">local lab guide</a>.
+        </span>
+      </div>
+      <CodeBlock code={lab.code} label={lab.file} language={lab.language} testId="lab-code" />
+      <CodeBlock code={lab.command} label="Command" language="bash" testId="lab-command" />
+      <CodeBlock code={lab.expectedOutput} label="Expected output" testId="lab-expected" />
+      {step.tryNext && (
+        <Disclosure title="Try next: change one thing and predict the result">
+          <Markdown size="sm">{step.tryNext}</Markdown>
+        </Disclosure>
+      )}
+    </section>
+  );
 }

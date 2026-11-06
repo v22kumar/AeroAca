@@ -134,4 +134,27 @@ describe("active mission runs", () => {
     expect(b.getState().activeRuns?.m).toBeUndefined();
     expect(b.getState().missions.m?.runs).toHaveLength(1);
   });
+
+  it("records the starting-level diagnostic without touching lesson progress, and can be skipped or reset", () => {
+    const storage = new MemoryStorage();
+    const store = new ProgressStore(storage, () => 1000);
+    store.load();
+    store.startLesson("mcu-board-does-not-boot");
+    store.recordDiagnosticAnswer("diag-divider", false);
+    store.recordDiagnosticAnswer("diag-hex", true);
+    expect(store.getState().diagnostic?.answers["diag-divider"]).toEqual({ correct: false, at: 1000 });
+    expect(store.getState().diagnostic?.completedAt).toBeUndefined();
+    store.completeDiagnostic();
+    expect(store.getState().diagnostic?.completedAt).toBe(1000);
+    expect(store.getState().lessons["mcu-board-does-not-boot"]).toBeDefined();
+    // persisted and re-read
+    const again = new ProgressStore(storage, () => 2000);
+    again.load();
+    expect(again.getState().diagnostic?.answers["diag-hex"]?.correct).toBe(true);
+    again.skipDiagnostic();
+    expect(again.getState().diagnostic?.skippedAt).toBe(2000);
+    again.resetDiagnostic();
+    expect(again.getState().diagnostic).toBeUndefined();
+    expect(again.getState().lessons["mcu-board-does-not-boot"]).toBeDefined();
+  });
 });

@@ -1,0 +1,12 @@
+# build products of the labs; never commit them (patterns anchored so lab folders of the same name stay tracked)
+/c/bits/bits
+/c/elapsed/elapsed
+/c/functions/functions
+/c/memory/memory
+/c/debounce/debounce
+/c/ring/ring
+/c/stm32arith/stm32_arith
+/portfolio/test_detect
+/portfolio/sim_bin
+*.o
+__pycache__/

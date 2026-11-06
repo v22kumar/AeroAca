@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const fixedWidthIntegersOverflowShifts: Lesson = {
   slug: "fixed-width-integers-overflow-shifts",
   moduleId: "embedded-c",
+  prerequisites: ["embedded-c-register-bit-masks"],
   title: "Fixed-width integers, overflow and shifts",
   summary: "Embedded C is arithmetic on bits with sharp edges. Learn how fixed-width types wrap, where the compiler silently promotes to int, which shifts are undefined, and how to measure elapsed time correctly across a timer wrap.",
   durationMinutes: 9,
@@ -100,6 +101,13 @@ Two rules fall out of it:
 
 1. Store a *timestamp* and compare the *difference* to the interval. Never store a future deadline and compare with \`>\`.
 2. Intervals must be shorter than half the counter range if you ever need to tell "late" from "early" using a signed difference: \`(int32_t)(now - deadline) >= 0\`.`,
+    },
+    {
+      type: "lab",
+      title: "Run it yourself: elapsed time across the wrap",
+      lab: "c-elapsed",
+      body: `The two \`expired\` functions from the worked example, side by side, with the tick sitting 16 ms before the 32-bit wrap. The wrong one compares raw values and never fires once the deadline has wrapped to a small number; the right one subtracts first. The last line shows the \`uint8_t\` promotion: the sum is computed as \`int\` (300) and only the assignment truncates it (44). Build, run, and check the output line by line.`,
+      tryNext: `Change \`timeout\` to \`0x7FFFFFFF\` and predict both results. Then make \`elapsed_ms\` return \`int32_t\` instead of \`uint32_t\` and compile with \`-Wall -Wextra\`: what does the compiler say, and what would happen on the target?`,
     },
     {
       type: "exercise",

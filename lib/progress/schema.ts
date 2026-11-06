@@ -80,6 +80,19 @@ export const progressStateSchema = z.object({
   applyDone: z.record(z.string(), z.number()).optional(),
   /** Journey review/interview items completed in context, keyed "d<day>:review" or "d<day>:interview" → timestamp. */
   journeyDone: z.record(z.string(), z.number()).optional(),
+  /**
+   * The starting-level diagnostic (content/diagnostic.ts): one answer per question id.
+   * Optional so Release 0.1 to 1.0 backups import unchanged. Never a score; the wrong
+   * answers themselves drive the "Start here" list (ADR-13, ADR-15).
+   */
+  diagnostic: z
+    .object({
+      answers: z.record(z.string(), z.object({ correct: z.boolean(), at: z.number() })),
+      completedAt: z.number().optional(),
+      /** Set when the learner chooses to skip it; the prompt then stays out of the way. */
+      skippedAt: z.number().optional(),
+    })
+    .optional(),
 });
 export type ProgressState = z.infer<typeof progressStateSchema>;
 

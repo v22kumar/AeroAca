@@ -69,6 +69,34 @@ describe("content validity", () => {
     expect(path.filter((p) => p.kind === "mission")).toHaveLength(missions.length);
   });
 
+  it("every lesson declares prerequisites that exist, form no cycle, and only starting points declare none", () => {
+    const bySlug = new Map(lessons.map((l) => [l.slug, l]));
+    // The academy's deliberate starting points: one per entry route (power, boot, C, instruments).
+    const startingPoints = new Set(["reading-a-power-tree", "mcu-board-does-not-boot", "embedded-c-register-bit-masks", "oscilloscope-probing"]);
+    for (const lesson of lessons) {
+      expect(lesson.prerequisites, `${lesson.slug} must declare prerequisites (an empty list means a starting point)`).toBeDefined();
+      const pre = lesson.prerequisites!;
+      if (startingPoints.has(lesson.slug)) expect(pre, `${lesson.slug} is a starting point`).toHaveLength(0);
+      else expect(pre.length, `${lesson.slug} is not a starting point and must rest on at least one earlier lesson`).toBeGreaterThan(0);
+      for (const p of pre) {
+        expect(bySlug.has(p), `${lesson.slug} -> ${p} is not a published lesson`).toBe(true);
+        expect(p).not.toBe(lesson.slug);
+      }
+    }
+    // no cycles: depth-first search over the prerequisite graph
+    const seen = new Set<string>();
+    const onPath = new Set<string>();
+    const visit = (slug: string, path: string[]) => {
+      if (onPath.has(slug)) throw new Error(`prerequisite cycle: ${[...path, slug].join(" -> ")}`);
+      if (seen.has(slug)) return;
+      onPath.add(slug);
+      for (const p of bySlug.get(slug)!.prerequisites ?? []) visit(p, [...path, slug]);
+      onPath.delete(slug);
+      seen.add(slug);
+    };
+    for (const l of lessons) visit(l.slug, []);
+  });
+
   it("review card ids are globally unique", () => {
     const ids = allReviewCards().map((c) => c.card.id);
     expect(new Set(ids).size).toBe(ids.length);

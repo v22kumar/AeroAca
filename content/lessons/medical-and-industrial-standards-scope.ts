@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const medicalAndIndustrialStandardsScope: Lesson = {
   slug: "medical-and-industrial-standards-scope",
   moduleId: "standards",
+  prerequisites: ["avionics-and-automotive-standards-scope"],
   title: "Medical and industrial standards in one page each",
   summary: "IEC 62304, IEC 60601-1, ISO 13485, ISO 14971, IEC 61508 and IEC 62443: what each governs, which number you will hear in an interview, and what a hardware or test engineer produces under them. No certification claims, no slogans.",
   durationMinutes: 10,

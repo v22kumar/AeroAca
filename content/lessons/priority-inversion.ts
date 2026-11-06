@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const priorityInversion: Lesson = {
   slug: "priority-inversion",
   moduleId: "rtos",
+  prerequisites: ["interrupts-and-nvic-priorities"],
   title: "Why the high-priority task starved: priority inversion",
   summary: "A high-priority task waits on a lock held by a low-priority task, and a medium-priority task that needs neither runs for as long as it likes. Learn the three-task pattern, why a binary semaphore makes it unbounded, and what priority inheritance actually changes.",
   durationMinutes: 10,

@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const interruptsAndNvicPriorities: Lesson = {
   slug: "interrupts-and-nvic-priorities",
   moduleId: "mcu",
+  prerequisites: ["from-reset-vector-to-main", "embedded-c-register-bit-masks"],
   title: "Interrupts and NVIC priorities without surprises",
   summary: "On a Cortex-M a smaller priority number wins, priorities split into preemption and sub-priority by a grouping register, and an RTOS reserves the urgent end for interrupts that never call it. Learn the rules, the deadlock that HAL_Delay in an interrupt causes, and how to measure interrupt latency and duration.",
   durationMinutes: 10,

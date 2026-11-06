@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const fmeaForASmallEmbeddedProduct: Lesson = {
   slug: "fmea-for-a-small-embedded-product",
   moduleId: "verification",
+  prerequisites: ["writing-a-trustworthy-test-case", "root-cause-analysis"],
   title: "FMEA for a small embedded product",
   summary: "Failure mode and effects analysis is a table that asks, for every part and function, 'how can this fail, what happens, how likely, how would we know?'. Learn the columns, the severity-occurrence-detection scoring, what a single point of failure is, and how an FMEA line turns into a design change and a test.",
   durationMinutes: 10,

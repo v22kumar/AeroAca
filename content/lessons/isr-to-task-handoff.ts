@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const isrToTaskHandoff: Lesson = {
   slug: "isr-to-task-handoff",
   moduleId: "rtos",
+  prerequisites: ["priority-inversion", "fixed-width-integers-overflow-shifts"],
   title: "Queues vs shared buffers in ISR-to-task handoff",
   summary: "An interrupt captures a sample; a task processes it. The handoff between them is where torn reads, lost samples and 'it works on the bench' bugs live. Learn the shared-buffer race, why a queue fixes it, the FromISR rules, and how to size the queue from rates.",
   durationMinutes: 10,

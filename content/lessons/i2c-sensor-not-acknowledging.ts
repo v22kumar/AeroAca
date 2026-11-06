@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const i2cSensorNotAcknowledging: Lesson = {
   slug: "i2c-sensor-not-acknowledging",
   moduleId: "interfaces",
+  prerequisites: ["mcu-board-does-not-boot"],
   title: "I2C sensor not acknowledging",
   summary: "A NACK is the bus telling you exactly one thing. Learn to read it, and to separate supply, pull-up, address, timing and firmware causes with a meter and a scope.",
   durationMinutes: 10,

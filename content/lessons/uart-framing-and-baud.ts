@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const uartFramingAndBaud: Lesson = {
   slug: "uart-framing-and-baud",
   moduleId: "interfaces",
+  prerequisites: ["oscilloscope-probing"],
   title: "UART framing and baud tolerance",
   summary: "The debug console is the first thing a board says to you. Learn how a UART frame is built, why baud rates must agree within a few percent, and how to read garbage on the terminal as a precise clue.",
   durationMinutes: 10,

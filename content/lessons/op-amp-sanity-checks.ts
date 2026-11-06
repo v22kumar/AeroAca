@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const opAmpSanityChecks: Lesson = {
   slug: "op-amp-sanity-checks",
   moduleId: "fundamentals",
+  prerequisites: ["reading-a-power-tree"],
   title: "Op-amp sanity checks on the bench",
   summary: "Four checks that find most op-amp faults in ten minutes: are the rails and headroom right, is the output stuck at a rail, is the virtual short holding, and is it oscillating. Learn why each fault looks the way it does and what the datasheet numbers that cause them mean.",
   durationMinutes: 10,
