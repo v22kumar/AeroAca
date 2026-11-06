@@ -58,6 +58,20 @@ Short records of the decisions that shape the codebase, in the style of ADRs.
 
 **Consequences.** Adding a term is one object literal; it lights up everywhere at once. Option labels in exercises are excluded so taps select answers.
 
+## ADR-10: The journey is derived, not stored
+
+**Decision.** The 30-day journey is content (`content/journey.ts`). The learner's position in it is *derived* at render time from the same progress facts the rest of the app uses (completed lessons, solved missions, rated questions, due cards, ticked actions). Only the career-action ticks are new stored state.
+
+**Why.** A stored "current day" drifts from reality the moment a lesson is completed out of order or a backup is restored. Deriving it keeps a single source of truth, makes the journey testable as a pure function, and means publishing a lesson later automatically unlocks the day it belongs to.
+
+**Consequences.** Days with unpublished items show them as coming soon and complete on their available items only, so the learner is never blocked by missing content and nothing unbuilt is ever marked done.
+
+## ADR-11: Targeted revision comes only from recorded attempts
+
+**Decision.** The targeted-review list is computed from exercise attempts (wrong answers and unsolved reached exercises), grouped by skill tag, each linking to the exact lesson step via `?step=N`. No mastery percentages are shown anywhere.
+
+**Why.** The brief forbids fake mastery. Counts of real mistakes with a direct retry path are both honest and actionable.
+
 ## ADR-8: PWA without a framework
 
 **Decision.** Next's `app/manifest.ts` generates the manifest; `public/sw.js` is a small hand-written service worker (precache of the app shell, network-first navigations with cache fallback, cache-first hashed assets). Icons are rendered from one SVG with Playwright (`npm run icons`).

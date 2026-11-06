@@ -30,4 +30,8 @@ The GitHub repository is public; the deployed site is a separate decision. If th
 
 ## Rollback
 
-Vercel keeps every production deployment. Use "Promote to Production" on the previous good deployment, or revert the merge commit on `main`.
+Vercel keeps every production deployment and marks them as rollback candidates; use "Promote to Production" (or the `request_rollback` API) on the previous good deployment. In git, each release is merged with a merge commit so `git revert -m 1 <merge-sha>` restores the previous state; releases are also tagged (`v0.1.0`).
+
+## Deployment protection
+
+Vercel Authentication is enabled for **preview** deployments only (set during the 0.1 release), so the production URL `https://aeroaca.vercel.app` is reachable without a Vercel login while branch previews still require one or a share link. Switch the project's protection to "all deployments" if production should be private.

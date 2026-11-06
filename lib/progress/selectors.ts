@@ -1,4 +1,4 @@
-import { lessons, missions, interviewQuestions, learningPath, lessonExerciseIds, allReviewCards, type PathItem } from "@/lib/content";
+import { lessons, missions, interviewQuestions, lessonExerciseIds, allReviewCards } from "@/lib/content";
 import type { Lesson, Mission } from "@/lib/content/schema";
 import type { ProgressState } from "./schema";
 
@@ -29,41 +29,6 @@ export function missionBest(state: ProgressState, mission: Mission) {
   const runs = state.missions[mission.slug]?.runs ?? [];
   if (runs.length === 0) return undefined;
   return runs.reduce((best, r) => (r.score > best.score ? r : best), runs[0]!);
-}
-
-export function itemStatus(state: ProgressState, item: PathItem): ItemStatus {
-  if (item.kind === "lesson") {
-    const l = lessons.find((x) => x.slug === item.slug);
-    return l ? lessonStatus(state, l) : "not-started";
-  }
-  const m = missions.find((x) => x.slug === item.slug);
-  return m ? missionStatus(state, m) : "not-started";
-}
-
-/**
- * The single next action for Today:
- * 1. an in-progress lesson or mission (resume),
- * 2. otherwise the first not-started item on the path,
- * 3. otherwise review cards / interview practice.
- */
-export type NextAction =
-  | { kind: "resume"; item: PathItem; status: ItemStatus }
-  | { kind: "start"; item: PathItem }
-  | { kind: "review"; due: number }
-  | { kind: "interview" }
-  | { kind: "done" };
-
-export function nextAction(state: ProgressState, now = Date.now()): NextAction {
-  const path = learningPath();
-  const inProgress = path.find((p) => itemStatus(state, p) === "in-progress");
-  if (inProgress) return { kind: "resume", item: inProgress, status: "in-progress" };
-  const next = path.find((p) => itemStatus(state, p) === "not-started");
-  if (next) return { kind: "start", item: next };
-  const due = dueCards(state, now).length;
-  if (due > 0) return { kind: "review", due };
-  const unrated = interviewQuestions.filter((q) => !state.interview[q.id]);
-  if (unrated.length > 0) return { kind: "interview" };
-  return { kind: "done" };
 }
 
 export function dueCards(state: ProgressState, now = Date.now()) {
@@ -111,10 +76,15 @@ export const skillLabels: Record<string, string> = {
   "debug-order": "Bring-up debugging order",
   clock: "Clocks and oscillators",
   reset: "Reset behaviour",
+  watchdog: "Watchdogs",
   "i2c-addressing": "I2C addressing",
   "i2c-physical": "I2C physical layer",
+  uart: "UART framing and baud",
+  spi: "SPI modes and chip select",
   "bit-ops": "Bit masks and fields",
   volatile: "volatile and memory access",
+  integers: "Integer widths, overflow and shifts",
+  instrumentation: "Oscilloscope and probing",
 };
 
 export function skillLabel(skill: string): string {
@@ -128,8 +98,6 @@ export function learnerName(state: ProgressState): string {
 }
 
 export function overallStats(state: ProgressState, now = Date.now()) {
-  const path = learningPath();
-  const completed = path.filter((p) => itemStatus(state, p) === "completed").length;
   const lessonsDone = lessons.filter((l) => lessonStatus(state, l) === "completed").length;
   const missionsDone = missions.filter((m) => missionStatus(state, m) === "completed").length;
   const attempts = Object.values(state.lessons).reduce(
@@ -141,8 +109,6 @@ export function overallStats(state: ProgressState, now = Date.now()) {
   const weekAgo = now - 7 * 24 * 3600 * 1000;
   const activeThisWeek = state.activeDays.filter((d) => new Date(d + "T12:00:00").getTime() >= weekAgo).length;
   return {
-    pathTotal: path.length,
-    pathCompleted: completed,
     lessonsDone,
     lessonsTotal: lessons.length,
     missionsDone,

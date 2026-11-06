@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Mission, MissionAction } from "@/lib/content/schema";
-import { getLesson, getModule, learningPath } from "@/lib/content";
+import { getLesson, getModule } from "@/lib/content";
+import { journeyState, nextItem } from "@/lib/progress/journey";
 import { availableActions, collectedEvidence, evaluateMission, initialMissionState, missionReducer, type MissionEvent, type MissionState } from "@/lib/learning/mission";
 import { useProgress } from "@/lib/progress/ProgressProvider";
 import { nowMs } from "@/lib/time";
@@ -85,9 +86,11 @@ export function MissionPlayer({ mission }: { mission: Mission }) {
   const performed = state.performed.map((id) => mission.actions.find((a) => a.id === id)!).filter(Boolean);
   const available = availableActions(mission, state);
   const overBudget = state.minutesUsed > mission.budgetMinutes;
-  const path = learningPath();
-  const pathIdx = path.findIndex((p) => p.kind === "mission" && p.slug === mission.slug);
-  const nextItem = pathIdx >= 0 ? path[pathIdx + 1] : undefined;
+  const js = useMemo(() => (hydrated ? journeyState(progress) : null), [hydrated, progress]);
+  const journeyNext = js ? nextItem(js) : null;
+  const nextIsOther = journeyNext && !(journeyNext.item.item.kind === "mission" && journeyNext.item.item.slug === mission.slug);
+  const nextHrefJ = nextIsOther ? (journeyNext.item.href ?? "/") : undefined;
+  const nextTitleJ = nextIsOther ? (journeyNext.item.href ? journeyNext.item.title : `Day ${journeyNext.day.day} checklist`) : undefined;
 
   return (
     <div className="mx-auto max-w-2xl" ref={topRef}>
@@ -219,8 +222,8 @@ export function MissionPlayer({ mission }: { mission: Mission }) {
           state={state}
           outcome={outcome}
           onRestart={restart}
-          nextHref={nextItem ? `/${nextItem.kind === "lesson" ? "lessons" : "missions"}/${nextItem.slug}` : undefined}
-          nextTitle={nextItem?.title}
+          nextHref={nextHrefJ}
+          nextTitle={nextTitleJ}
           relatedLessonTitle={related?.title}
           relatedLessonHref={related ? `/lessons/${related.slug}` : undefined}
         />

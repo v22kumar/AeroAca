@@ -63,9 +63,9 @@ test.describe("Lesson completion", () => {
     }
     await expect(page.getByTestId("review-done")).toContainText("3 recalled, 1 to see again");
 
-    // Today now points at the next item (the first mission).
+    // Today now points at day 1's next item: the interview question.
     await page.goto("/");
-    await expect(page.getByTestId("next-action-cta")).toHaveText(/Start mission/);
+    await expect(page.getByTestId("next-action-cta")).toHaveText(/Tick it off below/);
   });
 
   test("Register lesson: all three exercises, including a wrong volatile answer with explanation", async ({ page }) => {
@@ -160,12 +160,12 @@ test.describe("Missions", () => {
 test.describe("Interview, progress, glossary and errors", () => {
   test("interview page: reveal, rate, filter; progress lists weak questions", async ({ page }) => {
     await page.goto("/interview");
-    await expect(page.getByText("0 of 10 rated")).toBeVisible();
+    await expect(page.getByText(/0 of \d+ rated/)).toBeVisible();
     const first = page.getByTestId("interview-mcu-no-boot-walkthrough");
     await first.getByTestId("reveal-rubric").click();
     await expect(first.getByText("A strong answer covers")).toBeVisible();
     await first.getByTestId("rate-not-yet").click();
-    await expect(page.getByText("1 of 10 rated")).toBeVisible();
+    await expect(page.getByText(/1 of \d+ rated/)).toBeVisible();
     await page.getByRole("button", { name: "Not yet rated" }).click();
     await expect(page.getByTestId("interview-mcu-no-boot-walkthrough")).toHaveCount(0);
     await page.getByRole("button", { name: "Not yet / shaky" }).click();

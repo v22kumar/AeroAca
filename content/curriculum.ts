@@ -41,9 +41,12 @@ export const curriculum: CurriculumModule[] = [
     lessons: [
       { title: "MCU board does not boot: power, reset, clock, boot pins", status: "published", slug: "mcu-board-does-not-boot" },
       { title: "Interrupts and NVIC priorities without surprises", status: "planned" },
-      { title: "Watchdogs: independent vs window, and reset loops", status: "planned" },
+      { title: "Watchdogs and reset loops", status: "published", slug: "watchdogs-and-reset-loops" },
     ],
-    missions: [{ title: "Fresh board, no sign of life", status: "published", slug: "fresh-board-no-sign-of-life" }],
+    missions: [
+      { title: "Fresh board, no sign of life", status: "published", slug: "fresh-board-no-sign-of-life" },
+      { title: "The board that resets every second", status: "published", slug: "the-board-that-resets-every-second" },
+    ],
   },
   {
     id: "interfaces",
@@ -54,11 +57,14 @@ export const curriculum: CurriculumModule[] = [
     summary: "UART, RS-232/485, I2C, SPI, CAN/CAN FD, LIN, Ethernet, TCP/UDP and Modbus; bus tracing and failure diagnosis.",
     lessons: [
       { title: "I2C sensor not acknowledging: from pull-ups to firmware", status: "published", slug: "i2c-sensor-not-acknowledging" },
-      { title: "UART framing errors and baud tolerance", status: "planned" },
-      { title: "SPI modes, chip select and the first byte of garbage", status: "planned" },
+      { title: "UART framing and baud tolerance", status: "published", slug: "uart-framing-and-baud" },
+      { title: "SPI modes, chip select and the first byte of garbage", status: "published", slug: "spi-modes-and-chip-select" },
       { title: "CAN: arbitration, error frames and bus-off", status: "planned" },
     ],
-    missions: [{ title: "The sensor that never answers", status: "published", slug: "the-sensor-that-never-answers" }],
+    missions: [
+      { title: "The sensor that never answers", status: "published", slug: "the-sensor-that-never-answers" },
+      { title: "The UART that prints garbage", status: "published", slug: "the-uart-that-prints-garbage" },
+    ],
   },
   {
     id: "embedded-c",
@@ -70,7 +76,7 @@ export const curriculum: CurriculumModule[] = [
     lessons: [
       { title: "Register bit masks: read, modify and write safely", status: "published", slug: "embedded-c-register-bit-masks" },
       { title: "Pointers to hardware: structs over memory maps", status: "planned" },
-      { title: "Fixed-width integers, overflow and shifts", status: "planned" },
+      { title: "Fixed-width integers, overflow and shifts", status: "published", slug: "fixed-width-integers-overflow-shifts" },
     ],
   },
   {
@@ -120,7 +126,7 @@ export const curriculum: CurriculumModule[] = [
     priority: "P0",
     summary: "DMM, oscilloscope, logic analyser, bench PSU, DAQ, power/reset/clock checks, signal integrity and root-cause analysis.",
     lessons: [
-      { title: "Oscilloscope probing without lying to yourself", status: "planned" },
+      { title: "Oscilloscope probing without lying to yourself", status: "published", slug: "oscilloscope-probing" },
       { title: "Current-limited bench supplies as a diagnostic tool", status: "planned" },
     ],
   },

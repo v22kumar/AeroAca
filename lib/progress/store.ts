@@ -209,6 +209,25 @@ export class ProgressStore {
     });
   }
 
+  /* ---------- Journey ---------- */
+
+  setApplyDone(key: string, done: boolean) {
+    this.update((d) => {
+      const map = { ...(d.applyDone ?? {}) };
+      if (done) map[key] = this.now();
+      else delete map[key];
+      d.applyDone = map;
+    });
+  }
+
+  /** Record a journey review or interview item as done. Idempotent. */
+  setJourneyDone(key: string) {
+    if (this.state.journeyDone?.[key]) return;
+    this.update((d) => {
+      d.journeyDone = { ...(d.journeyDone ?? {}), [key]: this.now() };
+    });
+  }
+
   /* ---------- Profile ---------- */
 
   setName(name: string) {

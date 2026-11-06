@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useQueryParam } from "@/lib/hooks/useQueryParam";
+import { interviewItemFor, interviewKey, journeyState, nextItem } from "@/lib/progress/journey";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Lesson, LessonStep } from "@/lib/content/schema";
-import { getInterviewQuestion, getModule, learningPath, lessonCards, lessonExerciseIds } from "@/lib/content";
+import { getInterviewQuestion, getModule, lessonCards, lessonExerciseIds } from "@/lib/content";
 import { useProgress } from "@/lib/progress/ProgressProvider";
 import { Markdown } from "@/components/ui/Markdown";
 import { Button, LinkButton } from "@/components/ui/Button";
@@ -28,13 +30,15 @@ const stepLabel: Record<LessonStep["type"], string> = {
 export function LessonPlayer({ lesson }: { lesson: Lesson }) {
   const { state, store, hydrated } = useProgress();
   const steps = lesson.steps;
+  const requestedStep = Number(useQueryParam("step"));
+  const deepLink = Number.isInteger(requestedStep) && requestedStep >= 1 && requestedStep <= steps.length ? requestedStep - 1 : null;
   // `override` is null until the learner navigates; before that the index is
   // derived from saved progress so an in-progress lesson resumes where it was.
   const [override, setOverride] = useState<number | null>(null);
   const topRef = useRef<HTMLDivElement>(null);
   const lp = state.lessons[lesson.slug];
   const resumeIndex = hydrated && lp && !lp.completedAt ? Math.min(lp.lastStep, steps.length - 1) : 0;
-  const index = override ?? resumeIndex;
+  const index = override ?? deepLink ?? resumeIndex;
   const exerciseIds = useMemo(() => lessonExerciseIds(lesson), [lesson]);
   const cardIds = useMemo(() => lessonCards(lesson).map((c) => c.id), [lesson]);
   const mod = getModule(lesson.moduleId);
@@ -67,9 +71,12 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
     requestAnimationFrame(() => topRef.current?.scrollIntoView({ block: "start", behavior: "auto" }));
   };
 
-  const path = learningPath();
-  const pathIdx = path.findIndex((p) => p.kind === "lesson" && p.slug === lesson.slug);
-  const nextItem = pathIdx >= 0 ? path[pathIdx + 1] : undefined;
+  // The next step comes from the journey, so the recap and Today agree.
+  const js = useMemo(() => (hydrated ? journeyState(state) : null), [hydrated, state]);
+  const journeyNext = js ? nextItem(js) : null;
+  const nextIsOther = journeyNext && !(journeyNext.item.item.kind === "lesson" && journeyNext.item.item.slug === lesson.slug);
+  const nextHref = nextIsOther ? (journeyNext.item.href ?? "/") : undefined;
+  const nextTitle = nextIsOther ? (journeyNext.item.href ? journeyNext.item.title : `Day ${journeyNext.day.day} checklist`) : undefined;
   const completed = Boolean(lp?.completedAt);
 
   return (
@@ -124,9 +131,13 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
           exerciseTotal={exerciseIds.length}
           unsolvedSteps={steps.map((s, i) => ({ s, i })).filter(({ s }) => s.type === "exercise" && !isSolved(s.exercise.id)).map(({ i }) => i)}
           goTo={go}
-          nextHref={nextItem ? `/${nextItem.kind === "lesson" ? "lessons" : "missions"}/${nextItem.slug}` : undefined}
-          nextTitle={nextItem?.title}
-          nextKind={nextItem?.kind}
+          nextHref={nextHref}
+          nextTitle={nextTitle}
+          interviewJourneyKey={(() => {
+            if (!js) return undefined;
+            const current = js.currentDay;
+            return lesson.steps.some((s) => s.type === "interview" && interviewItemFor(js, current, s.questionId)) ? interviewKey(current) : undefined;
+          })()}
         />
       </div>
 
@@ -165,7 +176,7 @@ function StepBody({
   goTo,
   nextHref,
   nextTitle,
-  nextKind,
+  interviewJourneyKey,
 }: {
   step: LessonStep;
   lesson: Lesson;
@@ -178,7 +189,7 @@ function StepBody({
   goTo: (i: number) => void;
   nextHref?: string;
   nextTitle?: string;
-  nextKind?: "lesson" | "mission";
+  interviewJourneyKey?: string;
 }) {
   switch (step.type) {
     case "scenario":
@@ -258,7 +269,7 @@ function StepBody({
             </div>
           )}
           <Card className="p-4">
-            <InterviewCard question={q} />
+            <InterviewCard question={q} journeyKey={interviewJourneyKey} />
           </Card>
         </section>
       );
@@ -277,7 +288,7 @@ function StepBody({
               <div className="mt-3 flex flex-wrap gap-2">
                 {nextHref && nextTitle && (
                   <LinkButton href={nextHref} data-testid="next-item">
-                    Next {nextKind === "mission" ? "mission" : "lesson"}: {nextTitle}
+                    Next: {nextTitle}
                   </LinkButton>
                 )}
                 <LinkButton href="/review" variant="secondary">

@@ -64,9 +64,23 @@ Terms are matched automatically in rendered Markdown by `lib/content/glossary-ma
 
 When you introduce a new technical word in a lesson, add it to the glossary in the same change. The test suite checks ids and aliases are unique and that every lesson contains tappable terms.
 
+## The 30-day journey
+
+`content/journey.ts` lists 30 days. Each day has a `title`, a one-sentence `focus`, a fast-track `block` (1–6) and `items`:
+
+| kind | meaning | complete when |
+|---|---|---|
+| `lesson` / `mission` | a published slug | lesson completed / mission solved with evidence |
+| `interview` | question ids to rehearse | every question has a self-rating |
+| `review` | spaced review | no cards due |
+| `apply` | a real-world career action with `id`, `title`, `detail`, `minutes` | the learner ticks it |
+| `planned` | content not yet published, with a `title` and `minutes` | never |
+
+A day is complete when every *available* item is done; planned items are shown as coming soon and are ignored for completion. Keep each day between 15 and 45 minutes (the tests check this). When a planned lesson is published, replace the `planned` item with a `lesson` item in the same day.
+
 ## Interview questions
 
-`content/interview.ts`: `id`, `moduleId`, `topic`, `question`, `probes`, `rubric.strong`, `rubric.weak`, `sampleAnswer`, optional `relatedLesson`. Questions should probe reasoning; the rubric should be specific enough that a learner can self-grade honestly.
+`content/interview.ts`: `id`, `moduleId`, `topic`, `question`, `probes`, `rubric.strong`, `rubric.weak`, `sampleAnswer`, optional `relatedLesson`, optional `industries` (sector + note on how the question plays out in avionics, automotive, medical, industrial or consumer work). Questions should probe reasoning; the rubric should be specific enough that a learner can self-grade honestly.
 
 ## Curriculum
 
