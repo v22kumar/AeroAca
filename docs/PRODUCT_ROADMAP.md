@@ -24,7 +24,7 @@ Authoritative plan toward AeroAca 1.0. Updated at the end of every increment; se
 | 0.2 | 30-day journey (days 1–10 complete), 5 lessons, 2 missions, 4 visuals, targeted review, industry notes | PR #2, awaiting approval |
 | 0.3 | Journey days 11–15: bring-up checklist, test-case writing, root-cause analysis, interface control; 2 missions; requirements-to-test traceability interactive | In PR (#3) |
 | 0.4 | Days 16–20: startup code to main(), RTOS scheduling and priority inversion, ISR-to-task handoff, bootloaders and recovery, embedded Linux boot chain; startup-sequence and priority-inversion interactives; 1 mission |  In PR (#4) |
-| 0.5 | Days 21–25: PyVISA/SCPI, serial automation and test logs, SIL/HIL, FMEA, block review; Python code-reading exercises; 1–2 missions | Planned |
+| 0.5 | Days 21–25: PyVISA/SCPI with a simulated SCPI console, serial automation and test logs, SIL/HIL, FMEA with an interactive worksheet, block review; Python code-reading exercises; 1 mission | In PR (#5) |
 | 0.6 | Days 26–30: standards (DO-178C/DO-254, ISO 26262, IEC 62304/60601/61508) as scope not slogans; portfolio presentation; mock-interview tooling | Planned |
 | 0.7 | Portfolio track: STM32 sensor monitoring and fault detection, requirements → architecture → interfaces → firmware → tests → fault injection → report | Planned |
 | 0.8 | Remaining curriculum depth: electronics fundamentals (circuit laws, op-amps, ADC), schematics/PCB, CAN frame interpretation, ADC/PWM/interrupt exercises, Embedded C++ | Planned |
@@ -46,8 +46,8 @@ Authoritative plan toward AeroAca 1.0. Updated at the end of every increment; se
 | 9 | Embedded Linux | 1 | 0 | 1 lesson published (0.4) |
 | 10 | Instrumentation and fault diagnosis | 2 | 1 | 1 lesson published |
 | 11 | System integration and product engineering | 2 | 1 | 2 lessons, 1 mission published (0.3) |
-| 12 | Verification, reliability and qualification | 3 | 1 | 1 lesson, 1 mission published (0.3); FMEA planned (0.5) |
-| 13 | Python and test automation | 2 | 1 | planned (0.5) |
+| 12 | Verification, reliability and qualification | 3 | 1 | 3 lessons, 1 mission published (0.3, 0.5) |
+| 13 | Python and test automation | 2 | 1 | 2 lessons, 1 mission published (0.5) |
 | 14 | Safety and standards awareness | 2 | 0 | planned (0.6) |
 | 15 | Applications across industries | 1 | 0 | planned (0.6) |
 | 16 | Engineering communication and interviews | 2 | 0 | planned (0.6); interview bank live |

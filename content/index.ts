@@ -15,6 +15,10 @@ import { priorityInversion } from "./lessons/priority-inversion";
 import { isrToTaskHandoff } from "./lessons/isr-to-task-handoff";
 import { bootloadersImagesAndRecovery } from "./lessons/bootloaders-images-and-recovery";
 import { embeddedLinuxBootChain } from "./lessons/embedded-linux-boot-chain";
+import { talkingToAnInstrumentWithPyvisa } from "./lessons/talking-to-an-instrument-with-pyvisa";
+import { serialAutomationAndTestLogs } from "./lessons/serial-automation-and-test-logs";
+import { silHilWhatEachProves } from "./lessons/sil-hil-what-each-proves";
+import { fmeaForASmallEmbeddedProduct } from "./lessons/fmea-for-a-small-embedded-product";
 import { freshBoardNoSignOfLife } from "./missions/fresh-board-no-sign-of-life";
 import { theSensorThatNeverAnswers } from "./missions/the-sensor-that-never-answers";
 import { theUartThatPrintsGarbage } from "./missions/the-uart-that-prints-garbage";
@@ -22,6 +26,7 @@ import { theBoardThatResetsEverySecond } from "./missions/the-board-that-resets-
 import { theRequirementNobodyCouldTest } from "./missions/the-requirement-nobody-could-test";
 import { twoBoardsOneBusNoAgreement } from "./missions/two-boards-one-bus-no-agreement";
 import { theTaskThatNeverRuns } from "./missions/the-task-that-never-runs";
+import { theFlakyAutomatedTest } from "./missions/the-flaky-automated-test";
 import type { Lesson, Mission } from "@/lib/content/schema";
 
 /**
@@ -49,6 +54,10 @@ export const lessons: Lesson[] = [
   isrToTaskHandoff,
   bootloadersImagesAndRecovery,
   embeddedLinuxBootChain,
+  talkingToAnInstrumentWithPyvisa,
+  serialAutomationAndTestLogs,
+  silHilWhatEachProves,
+  fmeaForASmallEmbeddedProduct,
 ];
 
 export const missions: Mission[] = [
@@ -59,6 +68,7 @@ export const missions: Mission[] = [
   twoBoardsOneBusNoAgreement,
   theRequirementNobodyCouldTest,
   theTaskThatNeverRuns,
+  theFlakyAutomatedTest,
 ];
 
 export { curriculum } from "./curriculum";

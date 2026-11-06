@@ -93,6 +93,8 @@ export const skillLabels: Record<string, string> = {
   rtos: "RTOS scheduling and handoff",
   bootloader: "Bootloaders and firmware update",
   "embedded-linux": "Embedded Linux",
+  "python-automation": "Python test automation",
+  reliability: "Reliability and FMEA",
 };
 
 export function skillLabel(skill: string): string {

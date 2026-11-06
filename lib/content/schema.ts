@@ -39,6 +39,8 @@ export const visualIdSchema = z.enum([
   "traceability",
   "startup-sequence",
   "priority-inversion",
+  "scpi-console",
+  "fmea-worksheet",
 ]);
 export type VisualId = z.infer<typeof visualIdSchema>;
 
