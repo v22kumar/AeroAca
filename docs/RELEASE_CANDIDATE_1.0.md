@@ -1,6 +1,6 @@
 # Release candidate 1.0: merge preparation record
 
-State of the release candidate on 2026-11-06, before any merge into `main`. This file is the evidence that the stacked chain is ready to merge in dependency order, and the record that is completed after the Product Owner authorises the merges and the production deploy. Nothing in the "After authorisation" section has happened yet.
+State of the release candidate on 2026-11-06, before and after the merge into `main`. The first sections are the pre-merge evidence; the "After authorisation" section records the release itself. The Product Owner authorised the merges on 2026-11-06 ("Merge all into main"); the chain was merged in order and production now serves the release candidate. Release 1.0 is **not signed off** (see the last section).
 
 ## Scope
 
@@ -51,26 +51,36 @@ Quality gates on that merged tree, local, Node 22:
 
 Production before the release: Vercel deployment `dpl_DzDWiodmXiHacxUGqJCM5EaCSTjo` (READY, target production, `main` at `3c9c722`, Release 0.1), aliases `aeroaca.vercel.app`, `aeroaca-aero-aca.vercel.app`, `aeroaca-git-main-aero-aca.vercel.app`. Rollback is "Promote to Production" on that deployment in the Vercel dashboard, or `git revert -m 1 <merge-sha>` on `main` for a single increment. Learner progress is unaffected by either: the store is device-local and schema-versioned, and the 0.1 shape is read unchanged by 1.0 (`tests/store-migration.test.ts`).
 
-## Awaiting human authorisation
+## Authorisation
 
-The following were **not** done and will not be done without the Product Owner's explicit go-ahead:
+The Product Owner authorised the merges on 2026-11-06. Still needing a person: creating tags `v0.1.0` (at `3c9c722`) and `v1.0.0` on GitHub (the build environment cannot push tags); `v1.0.0` waits for sign-off.
 
-1. Merging #2 into `main`, and each retarget-and-merge that follows (#3 to #10).
-2. The production deploy that Vercel runs automatically from `main` after each merge.
-3. Creating tags `v0.1.0` (at `3c9c722`) and `v1.0.0` on GitHub (the build environment cannot push tags).
+## After authorisation (the release, 2026-11-06)
 
-## After authorisation (to be completed during the release)
+Procedure followed per `docs/DEPLOYMENT.md`: merge the lowest PR with a merge commit, change the next PR's base to `main`, confirm GitHub reports it clean with only its own increment, wait for the `main` push CI run to succeed, merge the next. Nine merges, nine green `main` runs, no conflict, no fix needed.
 
-Filled in as each step happens; blank means not done.
+| Order | PR | Merge commit on `main` | CI on `main` after the merge |
+|---|---|---|---|
+| 1 | #2 | `a607e29` | run 42138036454, success |
+| 2 | #3 | `d388bbd` | run 42139554834, success |
+| 3 | #4 | `dbdec3d` | run 42139965795, success |
+| 4 | #5 | `557dd90` | run 42140444354, success |
+| 5 | #6 | `c731134` | run 42140923811, success |
+| 6 | #7 | `2fdf435` | run 42141515350, success |
+| 7 | #8 | `4d0e12c` | run 42142033761, success |
+| 8 | #9 | `65f64e7` | run 42142626138, success |
+| 9 | #10 | `d291bf5` | run 42143243848, success |
 
 | Step | Record |
 |---|---|
-| Merge commits on `main` (#2 … #10) | |
-| CI on `main` after the last merge | |
-| Production deployment id and URL | |
-| Rollback deployment confirmed still promotable | `dpl_DzDWiodmXiHacxUGqJCM5EaCSTjo` |
-| Verification on production: all 30 journey days render and are completable; a lesson and a mission end to end; interview mock mode (`/interview?mock=1` from day 29); portfolio ticks persist; a Release 0.1 backup imports unchanged; bottom navigation on a phone-width viewport | |
+| Deployed commit | `main` at `d291bf50f155b2ca8aff0e18b55064a5bd9a7f8d`; tree identical to `feat/release-1.0` at `719ebcb` (`git diff --quiet` empty) |
+| Production deployment | `dpl_5YtF9Jv77rmVFhrDHQkU5gX8YryN` (READY, target production, built from `d291bf5`), aliases `aeroaca.vercel.app`, `aeroaca-aero-aca.vercel.app`, `aeroaca-git-main-aero-aca.vercel.app`; URL https://aeroaca.vercel.app |
+| CI evidence | the nine `main` runs above; the last is https://github.com/v22kumar/AeroAca/actions/runs/42143243848 |
+| Rollback | Release 0.1 deployment `dpl_DzDWiodmXiHacxUGqJCM5EaCSTjo` (`3c9c722`) is READY and can be promoted to production from the Vercel dashboard. Each intermediate merge also produced a READY production deployment (0.2 `dpl_JDkLhCbPqgtnFxuYpfADRfgFbDzm` … 0.9 `dpl_41xx83JnGxBZRigL3pKQSDaqajUE`), so any increment boundary is a rollback point; `git revert -m 1 <merge-sha>` reverts one increment in source |
+| Route sweep on production | 55 prerendered routes (37 lessons, 10 missions, `/`, `/curriculum`, `/glossary`, `/interview`, `/journey`, `/portfolio`, `/progress`, `/review`) all 200 with no application error; `/manifest.webmanifest` 200 (`display: standalone`, 3 icons), `/sw.js` 200, unknown path 404 |
+| Browser suite on production | the repository's Playwright suite run with `baseURL` https://aeroaca.vercel.app: **130 passed** on Pixel 7 and Desktop Chrome (128 in the first run; the two PWA-manifest tests failed only because the build container's HTTP client needed the outbound proxy, and passed when it was configured). This covers: all 30 journey days published and playable, day 29 opening the timed mock interview, lessons and missions end to end with misconception feedback, portfolio ticks persisting across reload with the evidence table, the Release 0.1 backup importing unchanged and driving journey, review, recommendations and portfolio, bottom navigation and axe WCAG 2.0 A/AA scans on the phone profile |
+| Verified by a person on a phone | not yet; this is part of learner acceptance |
 
 ## Sign-off status
 
-Release 1.0 is **not signed off**. Two gates in `docs/RELEASE_1.0_CHECKLIST.md` still need people: an independent technical reader's signatures in `docs/CONTENT_REVIEW.md`, and Sushmita's feedback from the representative learner set. Deploying this release candidate to production starts learner acceptance; it does not close it.
+Release 1.0 is **not signed off**. Production serves the release candidate for learner acceptance. Two gates in `docs/RELEASE_1.0_CHECKLIST.md` still need people: an independent technical reader's signatures in `docs/CONTENT_REVIEW.md`, and Sushmita's feedback from the representative learner set. The `v1.0.0` tag is applied only after both are complete and any resulting fixes are released. No feature development starts before then; only fixes required for release readiness.
