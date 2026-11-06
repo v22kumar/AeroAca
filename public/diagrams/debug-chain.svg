@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 228" width="640" height="228" role="img" aria-labelledby="t"><title id="t">Debug chain from GDB on the PC through the probe and SWD to the debug access port and the core</title>
+<style>
+  .bg{fill:#ffffff}.ink{fill:#1f2430}.ink2{fill:#4b5160}.ink3{fill:#6b7280}
+  .ln{stroke:#4b5160;fill:none;stroke-width:1.6}.ln2{stroke:#9aa0ad;fill:none;stroke-width:1.2;stroke-dasharray:4 3}
+  .box{fill:#f3f4f7;stroke:#9aa0ad;stroke-width:1.2}.boxa{fill:#f9e4ec;stroke:#a63a66;stroke-width:1.4}
+  .boxb{fill:#fdf1d8;stroke:#b7791f;stroke-width:1.4}.boxg{fill:#e3f3e8;stroke:#2f8f5b;stroke-width:1.4}
+  .acc{fill:#a63a66}.amb{fill:#b7791f}.grn{fill:#2f8f5b}.sig{stroke:#1f2430;fill:none;stroke-width:2}
+  .siga{stroke:#a63a66;fill:none;stroke-width:2}.sigb{stroke:#b7791f;fill:none;stroke-width:2}
+  text{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:12px}
+  .t{font-size:13px;font-weight:600}.s{font-size:11px}.m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}
+  .ttl{font-size:14px;font-weight:700}
+  @media (prefers-color-scheme: dark){
+    .bg{fill:#171a21}.ink{fill:#e8e6ea}.ink2{fill:#c3c6cf}.ink3{fill:#9aa0ad}
+    .ln{stroke:#c3c6cf}.ln2{stroke:#6b7280}.box{fill:#242a35;stroke:#6b7280}.boxa{fill:#3b1f2d;stroke:#f08cb3}
+    .boxb{fill:#3a2e14;stroke:#e0a83a}.boxg{fill:#16301f;stroke:#5fcf8a}.acc{fill:#f08cb3}.amb{fill:#e0a83a}.grn{fill:#5fcf8a}
+    .sig{stroke:#e8e6ea}.siga{stroke:#f08cb3}.sigb{stroke:#e0a83a}
+  }
+</style>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4b5160"/></marker></defs>
+<rect class="bg" x="0" y="0" width="640" height="228" rx="12"/><text class="ink ttl" x="320" y="24" text-anchor="middle" >The debug chain from GDB to the core</text><rect class="boxa" x="20" y="90" width="120" height="56" rx="8"/><text class="ink t" x="80.0" y="115.0" text-anchor="middle" >PC: GDB + server</text><text class="ink2 s" x="80.0" y="131.0" text-anchor="middle" >breakpoints, memory</text><rect class="box" x="150" y="90" width="110" height="56" rx="8"/><text class="ink t" x="205.0" y="115.0" text-anchor="middle" >Probe</text><text class="ink2 s" x="205.0" y="131.0" text-anchor="middle" >ST-Link / J-Link</text><rect class="box" x="290" y="90" width="110" height="56" rx="8"/><text class="ink t" x="345.0" y="115.0" text-anchor="middle" >SWD / JTAG</text><text class="ink2 s" x="345.0" y="131.0" text-anchor="middle" >SWDIO, SWCLK</text><rect class="box" x="410" y="90" width="110" height="56" rx="8"/><text class="ink t" x="465.0" y="115.0" text-anchor="middle" >Debug access port</text><text class="ink2 s" x="465.0" y="131.0" text-anchor="middle" >AHB-AP</text><rect class="boxg" x="520" y="90" width="110" height="56" rx="8"/><text class="ink t" x="575.0" y="115.0" text-anchor="middle" >Core + memory</text><text class="ink2 s" x="575.0" y="131.0" text-anchor="middle" >halt, step, read</text><line class="ln" x1="140" y1="118" x2="150" y2="118" marker-end="url(#ar)"/><line class="ln" x1="260" y1="118" x2="290" y2="118" marker-end="url(#ar)"/><line class="ln" x1="400" y1="118" x2="410" y2="118" marker-end="url(#ar)"/><line class="ln" x1="520" y1="118" x2="520" y2="118" marker-end="url(#ar)"/><text class="ink2 s" x="320" y="190" text-anchor="middle" >Breakpoint: stop when execution reaches an address. Watchpoint: stop when a data address is read or written (few, in hardware).</text><text class="ink2 s" x="320" y="208" text-anchor="middle" >The probe cannot see peripheral state that changes while the core is halted; timers keep running unless configured to stop.</text></svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 212" width="640" height="212" role="img" aria-labelledby="t"><title id="t">MIL-STD-1553B command word layout: three bit time sync, five bit remote terminal address, transmit receive bit, five bit subaddress or mode, five bit word count or mode code, and odd parity bit</title>
+<style>
+  .bg{fill:#ffffff}.ink{fill:#1f2430}.ink2{fill:#4b5160}.ink3{fill:#6b7280}
+  .ln{stroke:#4b5160;fill:none;stroke-width:1.6}.ln2{stroke:#9aa0ad;fill:none;stroke-width:1.2;stroke-dasharray:4 3}
+  .box{fill:#f3f4f7;stroke:#9aa0ad;stroke-width:1.2}.boxa{fill:#f9e4ec;stroke:#a63a66;stroke-width:1.4}
+  .boxb{fill:#fdf1d8;stroke:#b7791f;stroke-width:1.4}.boxg{fill:#e3f3e8;stroke:#2f8f5b;stroke-width:1.4}
+  .acc{fill:#a63a66}.amb{fill:#b7791f}.grn{fill:#2f8f5b}.sig{stroke:#1f2430;fill:none;stroke-width:2}
+  .siga{stroke:#a63a66;fill:none;stroke-width:2}.sigb{stroke:#b7791f;fill:none;stroke-width:2}
+  text{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:12px}
+  .t{font-size:13px;font-weight:600}.s{font-size:11px}.m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}
+  .ttl{font-size:14px;font-weight:700}
+  @media (prefers-color-scheme: dark){
+    .bg{fill:#171a21}.ink{fill:#e8e6ea}.ink2{fill:#c3c6cf}.ink3{fill:#9aa0ad}
+    .ln{stroke:#c3c6cf}.ln2{stroke:#6b7280}.box{fill:#242a35;stroke:#6b7280}.boxa{fill:#3b1f2d;stroke:#f08cb3}
+    .boxb{fill:#3a2e14;stroke:#e0a83a}.boxg{fill:#16301f;stroke:#5fcf8a}.acc{fill:#f08cb3}.amb{fill:#e0a83a}.grn{fill:#5fcf8a}
+    .sig{stroke:#e8e6ea}.siga{stroke:#f08cb3}.sigb{stroke:#e0a83a}
+  }
+</style>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4b5160"/></marker></defs>
+<rect class="bg" x="0" y="0" width="640" height="212" rx="12"/><text class="ink ttl" x="320" y="24" text-anchor="middle" >A MIL-STD-1553B command word: 20 bit times at 1 Mbit/s</text><rect class="box" x="20.0" y="70" width="90.0" height="44" rx="4"/><text class="ink t" x="65.0" y="96.0" text-anchor="middle" >sync</text><text class="ink2 s" x="65.0" y="128" text-anchor="middle" >3 bit times, invalid Manchester</text><rect class="boxa" x="110.0" y="70" width="150.0" height="44" rx="4"/><text class="ink t" x="185.0" y="96.0" text-anchor="middle" >RT address</text><text class="ink2 s" x="185.0" y="128" text-anchor="middle" >0–30; 31 = broadcast</text><rect class="boxb" x="260.0" y="70" width="30.0" height="44" rx="4"/><text class="ink s" x="275.0" y="96.0" text-anchor="middle" >T/R</text><text class="ink2 s" x="275.0" y="128" text-anchor="middle" >1 = RT transmits</text><rect class="boxg" x="290.0" y="70" width="150.0" height="44" rx="4"/><text class="ink t" x="365.0" y="96.0" text-anchor="middle" >Subaddress / mode</text><text class="ink2 s" x="365.0" y="128" text-anchor="middle" >0 or 31 = mode code</text><rect class="box" x="440.0" y="70" width="150.0" height="44" rx="4"/><text class="ink t" x="515.0" y="96.0" text-anchor="middle" >Word count / mode code</text><text class="ink2 s" x="515.0" y="128" text-anchor="middle" >0 means 32</text><rect class="boxb" x="590.0" y="70" width="30.0" height="44" rx="4"/><text class="ink s" x="605.0" y="96.0" text-anchor="middle" >P</text><text class="ink2 s" x="605.0" y="128" text-anchor="middle" >odd parity</text><text class="m" x="320" y="150" text-anchor="middle" >Example 0x2C64: 00101 1 00011 00100 → RT 5, transmit, subaddress 3, 4 words; six ones, so parity = 1.</text><text class="ink2 s" x="320" y="176" text-anchor="middle" >Status word: RT address then flags (message error, busy, terminal flag ...). Data word: 16 bits defined by the ICD.</text><text class="ink2 s" x="320" y="194" text-anchor="middle" >Command and status words use one sync polarity, data words the other: a listener tells them apart without counting.</text></svg>

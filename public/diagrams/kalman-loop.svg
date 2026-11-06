@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" width="640" height="260" role="img" aria-labelledby="t"><title id="t">Kalman filter as a loop between predict and update steps fed by measurements, with process and measurement noise</title>
+<style>
+  .bg{fill:#ffffff}.ink{fill:#1f2430}.ink2{fill:#4b5160}.ink3{fill:#6b7280}
+  .ln{stroke:#4b5160;fill:none;stroke-width:1.6}.ln2{stroke:#9aa0ad;fill:none;stroke-width:1.2;stroke-dasharray:4 3}
+  .box{fill:#f3f4f7;stroke:#9aa0ad;stroke-width:1.2}.boxa{fill:#f9e4ec;stroke:#a63a66;stroke-width:1.4}
+  .boxb{fill:#fdf1d8;stroke:#b7791f;stroke-width:1.4}.boxg{fill:#e3f3e8;stroke:#2f8f5b;stroke-width:1.4}
+  .acc{fill:#a63a66}.amb{fill:#b7791f}.grn{fill:#2f8f5b}.sig{stroke:#1f2430;fill:none;stroke-width:2}
+  .siga{stroke:#a63a66;fill:none;stroke-width:2}.sigb{stroke:#b7791f;fill:none;stroke-width:2}
+  text{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:12px}
+  .t{font-size:13px;font-weight:600}.s{font-size:11px}.m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}
+  .ttl{font-size:14px;font-weight:700}
+  @media (prefers-color-scheme: dark){
+    .bg{fill:#171a21}.ink{fill:#e8e6ea}.ink2{fill:#c3c6cf}.ink3{fill:#9aa0ad}
+    .ln{stroke:#c3c6cf}.ln2{stroke:#6b7280}.box{fill:#242a35;stroke:#6b7280}.boxa{fill:#3b1f2d;stroke:#f08cb3}
+    .boxb{fill:#3a2e14;stroke:#e0a83a}.boxg{fill:#16301f;stroke:#5fcf8a}.acc{fill:#f08cb3}.amb{fill:#e0a83a}.grn{fill:#5fcf8a}
+    .sig{stroke:#e8e6ea}.siga{stroke:#f08cb3}.sigb{stroke:#e0a83a}
+  }
+</style>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4b5160"/></marker></defs>
+<rect class="bg" x="0" y="0" width="640" height="260" rx="12"/><text class="ink ttl" x="320" y="24" text-anchor="middle" >The Kalman filter loop: predict, then correct by how much you trust each</text><rect class="boxa" x="60" y="70" width="200" height="70" rx="8"/><text class="ink t" x="160.0" y="102.0" text-anchor="middle" >Predict</text><text class="ink2 s" x="160.0" y="118.0" text-anchor="middle" >x⁻ = F x,  P⁻ = F P Fᵀ + Q</text><rect class="boxg" x="380" y="70" width="200" height="70" rx="8"/><text class="ink t" x="480.0" y="102.0" text-anchor="middle" >Update</text><text class="ink2 s" x="480.0" y="118.0" text-anchor="middle" >K = P⁻Hᵀ(HP⁻Hᵀ+R)⁻¹;  x = x⁻ + K(z − Hx⁻)</text><line class="ln" x1="260" y1="95" x2="380" y2="95" marker-end="url(#ar)"/><text class="ink2 s" x="320.0" y="89.0" text-anchor="middle" >prediction and its uncertainty</text><line class="ln" x1="380" y1="125" x2="260" y2="125" marker-end="url(#ar)"/><text class="ink2 s" x="320.0" y="119.0" text-anchor="middle" >corrected state, shrunk uncertainty</text><rect class="boxb" x="400" y="170" width="160" height="40" rx="8"/><text class="ink t" x="480.0" y="187.0" text-anchor="middle" >Measurement z</text><text class="ink2 s" x="480.0" y="203.0" text-anchor="middle" >noise R</text><line class="ln" x1="480" y1="170" x2="480" y2="142" marker-end="url(#ar)"/><text class="ink2 s" x="320" y="240" text-anchor="middle" >Q says how much the model can be wrong; R says how noisy the sensor is. Residual z − Hx⁻ growing without bound means divergence.</text></svg>

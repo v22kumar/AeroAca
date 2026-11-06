@@ -52,6 +52,18 @@ Rules: at most **220 words** per concept step body (`deeper` is extra and collap
 
 **Hints.** `hints: string[]` on any exercise. The player reveals them one at a time on request; the attempt records how many were used and a solve says "solved with 2 hints".
 
+## Diagrams
+
+Teaching diagrams live in `public/diagrams/*.svg` and are generated from `scripts/gen-diagrams.py` (run it after editing; commit the SVGs, the app serves them statically). `docs/DIAGRAM_INDEX.md` lists every diagram, what it teaches and which lesson or document uses it.
+
+Rules: one idea per diagram; labels readable at phone width (640-unit viewBox, 11 px minimum); colours from the app's tokens with a dark-mode media query inside the file; every diagram has a `<title>` that says what it shows; technical correctness over decoration (a diagram with a wrong bit order is worse than none). A diagram is added only where it materially improves understanding: signals, timing, architecture, state, flow, comparison. Decorative images are not added.
+
+Until a `figure` step type exists, a lesson references a diagram from a Markdown image in a `concept` or `example` body (`![alt](/diagrams/name.svg)`); the alt text must say what the picture shows, not repeat the caption.
+
+## Writing for understanding
+
+The learner's feedback on 1.0 was "it's not easy understanding". Every lesson and every document follows this order: a relatable situation; the intuition in plain words with no term that has not been explained; the picture; the theory with every intermediate step; a complete worked example; guided practice, then independent; real complexity; a check; where it is used at work. Avoid dense paragraphs, unexplained abbreviations (expand on first use in every lesson), advanced terms before their prerequisites, code without a line-by-line walkthrough, calculations that skip steps, exercises on untaught material, and more than one idea per screen. Interactive diagrams open with "Try this first." Nothing is marked complete because it was opened.
+
 ## Prerequisites
 
 Every lesson declares `prerequisites`: the slugs of the lessons it rests on, in the order a learner should take them. An empty list means a deliberate starting point; `tests/content.test.ts` allows that only for the three entry lessons (circuit laws, the multimeter and bench supply, register bit masks) and refuses cycles and unpublished slugs. The lesson page shows the list as "Before this lesson" with each prerequisite's completion state. Prerequisites inform; they never lock a lesson.

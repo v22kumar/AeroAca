@@ -15,6 +15,19 @@ Specification, 2026-11-06. This document defines the next platform increment; it
 
 One canonical subject/lesson id can serve multiple paths. Switching career goal changes ordering, never copies a lesson, resets evidence or awards a role. The future-technology pathway is optional after its core prerequisites. Product responsibility grows with reviewed work and experience; finishing a pathway does not make someone a product owner, architect or flight-safety authority.
 
+## Pathway organisation for the learner
+
+![Four pathways over shared foundations](../public/diagrams/pathways-map.svg)
+
+| | Shared foundations | Pathway-specific advanced modules | Status for this learner |
+|---|---|---|---|
+| **A Embedded and Electronics R&D** | 1, 2, 3, 5, 7, 8, 10, 11 at Apply or Master; the rest at Understand | 20, 22, 23; 18.4 to 18.7; 17.3 to 17.5; 21.3 to 21.4; 31 later | Principal long-term direction |
+| **B Aerospace and Systems Engineering** | all 16 at Understand, 4, 10, 11, 12 at Apply | 17, 18, 19, 20, 21, 24, 25; 26 and 27 when the role needs control and estimation; 30 optional | **Best pathway now** (builds on existing avionics integration and verification experience) |
+| **C AI and Intelligent Systems** | 5, 13 and the P0 core | 28, 27, 26, 29, 30; 22 | Long-term extension, optional, after the core |
+| **D Engineering Leadership and Technical Product Ownership** | 11, 12, 16 | 31; 17, 19, 21, 25 | Long-term extension; grows through reviewed work on the shared product |
+
+The detailed per-module description is in [FULL_CURRICULUM_MAP.md](FULL_CURRICULUM_MAP.md); the personal route in [SUSHMITA_CAREER_SWITCH_GUIDE.md](SUSHMITA_CAREER_SWITCH_GUIDE.md); "which modules are essential for my role" in [LEARNER_GUIDE.md](LEARNER_GUIDE.md). Verification and validation is an important specialisation inside Pathway B and a practical near-term route; it is not the only destination.
+
 ## What counts as evidence
 
 Keep **learning activity**, **task performance** and **engineering evidence** distinct:

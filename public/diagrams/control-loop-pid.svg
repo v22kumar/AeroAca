@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 272" width="640" height="272" role="img" aria-labelledby="t"><title id="t">Closed loop control diagram with setpoint, error, PID controller, actuator, plant and sensor feedback</title>
+<style>
+  .bg{fill:#ffffff}.ink{fill:#1f2430}.ink2{fill:#4b5160}.ink3{fill:#6b7280}
+  .ln{stroke:#4b5160;fill:none;stroke-width:1.6}.ln2{stroke:#9aa0ad;fill:none;stroke-width:1.2;stroke-dasharray:4 3}
+  .box{fill:#f3f4f7;stroke:#9aa0ad;stroke-width:1.2}.boxa{fill:#f9e4ec;stroke:#a63a66;stroke-width:1.4}
+  .boxb{fill:#fdf1d8;stroke:#b7791f;stroke-width:1.4}.boxg{fill:#e3f3e8;stroke:#2f8f5b;stroke-width:1.4}
+  .acc{fill:#a63a66}.amb{fill:#b7791f}.grn{fill:#2f8f5b}.sig{stroke:#1f2430;fill:none;stroke-width:2}
+  .siga{stroke:#a63a66;fill:none;stroke-width:2}.sigb{stroke:#b7791f;fill:none;stroke-width:2}
+  text{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:12px}
+  .t{font-size:13px;font-weight:600}.s{font-size:11px}.m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}
+  .ttl{font-size:14px;font-weight:700}
+  @media (prefers-color-scheme: dark){
+    .bg{fill:#171a21}.ink{fill:#e8e6ea}.ink2{fill:#c3c6cf}.ink3{fill:#9aa0ad}
+    .ln{stroke:#c3c6cf}.ln2{stroke:#6b7280}.box{fill:#242a35;stroke:#6b7280}.boxa{fill:#3b1f2d;stroke:#f08cb3}
+    .boxb{fill:#3a2e14;stroke:#e0a83a}.boxg{fill:#16301f;stroke:#5fcf8a}.acc{fill:#f08cb3}.amb{fill:#e0a83a}.grn{fill:#5fcf8a}
+    .sig{stroke:#e8e6ea}.siga{stroke:#f08cb3}.sigb{stroke:#e0a83a}
+  }
+</style>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4b5160"/></marker></defs>
+<rect class="bg" x="0" y="0" width="640" height="272" rx="12"/><text class="ink ttl" x="320" y="24" text-anchor="middle" >A control loop with PID</text><rect class="box" x="20" y="100" width="90" height="40" rx="8"/><text class="ink t" x="65.0" y="125.0" text-anchor="middle" >Setpoint</text><line class="ln" x1="110" y1="120" x2="150" y2="120" marker-end="url(#ar)"/><circle class="boxb" cx="165" cy="120" r="16"/><text class="ink t" x="165" y="124" text-anchor="middle" >−</text><text class="ink2 s" x="165" y="92" text-anchor="middle" >error</text><line class="ln" x1="181" y1="120" x2="220" y2="120" marker-end="url(#ar)"/><rect class="boxa" x="220" y="70" width="130" height="100" rx="8"/><text class="ink t" x="285" y="90" text-anchor="middle" >PID</text><text class="s" x="285" y="110" text-anchor="start" >P: Kp · e  (now)</text><text class="s" x="285" y="128" text-anchor="start" >I: Ki · ∫e  (past)</text><text class="s" x="285" y="146" text-anchor="start" >D: Kd · de/dt (trend)</text><line class="ln" x1="350" y1="120" x2="390" y2="120" marker-end="url(#ar)"/><rect class="box" x="390" y="100" width="90" height="40" rx="8"/><text class="ink t" x="435.0" y="125.0" text-anchor="middle" >Actuator</text><line class="ln" x1="480" y1="120" x2="510" y2="120" marker-end="url(#ar)"/><rect class="boxg" x="510" y="100" width="110" height="40" rx="8"/><text class="ink t" x="565.0" y="117.0" text-anchor="middle" >Plant</text><text class="ink2 s" x="565.0" y="133.0" text-anchor="middle" >aircraft, motor</text><line class="ln" x1="565" y1="140" x2="565" y2="200"/><line class="ln" x1="565" y1="200" x2="165" y2="200"/><line class="ln" x1="165" y1="200" x2="165" y2="136" marker-end="url(#ar)"/><rect class="box" x="300" y="180" width="110" height="40" rx="8"/><text class="ink t" x="355.0" y="197.0" text-anchor="middle" >Sensor</text><text class="ink2 s" x="355.0" y="213.0" text-anchor="middle" >noise, delay</text><text class="ink2 s" x="320" y="254" text-anchor="middle" >I removes steady error but winds up when the actuator saturates; D fights overshoot but amplifies noise; sample time limits all three.</text></svg>

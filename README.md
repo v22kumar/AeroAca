@@ -1,5 +1,7 @@
 # AeroAca
 
+**Written learning blueprint:** [career-switch guide](docs/SUSHMITA_CAREER_SWITCH_GUIDE.md) · [full curriculum map](docs/FULL_CURRICULUM_MAP.md) · [topic breakdown](docs/MODULE_TOPIC_BREAKDOWN.md) · [learner guide](docs/LEARNER_GUIDE.md) · [30/60/90 plan](docs/STUDY_PLAN_30_60_90.md) · [diagrams](docs/DIAGRAM_INDEX.md).
+
 Long-term engineering planning: [source audit](docs/ENGINEERING_GAP_AUDIT.md), [coverage matrix and CSV](docs/LEARNING_COVERAGE_MATRIX.md), [four career pathways](docs/CAREER_PATHWAYS.md), [revised syllabus](docs/CURRICULUM.md), [implementation plan](docs/ENGINEERING_IMPLEMENTATION_PLAN.md). New lesson rollout awaits the three-lesson pilot evaluation; planned subjects are not published capabilities.
 
 A mobile-first engineering academy for Sushmita: short, problem-led electronics and embedded lessons, branching fault-isolation missions, interview practice with rubrics, and spaced review. Built for an **Associate Avionics Engineer** moving into electronics R&D and embedded roles across aerospace, automotive, medical, industrial and consumer electronics.

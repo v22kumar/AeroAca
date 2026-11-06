@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" width="640" height="280" role="img" aria-labelledby="t"><title id="t">Four state debounce machine: released, maybe pressed, pressed, maybe released, with transitions on sampled input and a four sample confirmation</title>
+<style>
+  .bg{fill:#ffffff}.ink{fill:#1f2430}.ink2{fill:#4b5160}.ink3{fill:#6b7280}
+  .ln{stroke:#4b5160;fill:none;stroke-width:1.6}.ln2{stroke:#9aa0ad;fill:none;stroke-width:1.2;stroke-dasharray:4 3}
+  .box{fill:#f3f4f7;stroke:#9aa0ad;stroke-width:1.2}.boxa{fill:#f9e4ec;stroke:#a63a66;stroke-width:1.4}
+  .boxb{fill:#fdf1d8;stroke:#b7791f;stroke-width:1.4}.boxg{fill:#e3f3e8;stroke:#2f8f5b;stroke-width:1.4}
+  .acc{fill:#a63a66}.amb{fill:#b7791f}.grn{fill:#2f8f5b}.sig{stroke:#1f2430;fill:none;stroke-width:2}
+  .siga{stroke:#a63a66;fill:none;stroke-width:2}.sigb{stroke:#b7791f;fill:none;stroke-width:2}
+  text{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:12px}
+  .t{font-size:13px;font-weight:600}.s{font-size:11px}.m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}
+  .ttl{font-size:14px;font-weight:700}
+  @media (prefers-color-scheme: dark){
+    .bg{fill:#171a21}.ink{fill:#e8e6ea}.ink2{fill:#c3c6cf}.ink3{fill:#9aa0ad}
+    .ln{stroke:#c3c6cf}.ln2{stroke:#6b7280}.box{fill:#242a35;stroke:#6b7280}.boxa{fill:#3b1f2d;stroke:#f08cb3}
+    .boxb{fill:#3a2e14;stroke:#e0a83a}.boxg{fill:#16301f;stroke:#5fcf8a}.acc{fill:#f08cb3}.amb{fill:#e0a83a}.grn{fill:#5fcf8a}
+    .sig{stroke:#e8e6ea}.siga{stroke:#f08cb3}.sigb{stroke:#e0a83a}
+  }
+</style>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4b5160"/></marker></defs>
+<rect class="bg" x="0" y="0" width="640" height="280" rx="12"/><text class="ink ttl" x="320" y="24" text-anchor="middle" >A debounce state machine (sampled every 5 ms)</text><rect class="boxa" x="25" y="80" width="130" height="40" rx="20"/><text class="ink t" x="90" y="104" text-anchor="middle" >RELEASED</text><rect class="boxb" x="255" y="40" width="130" height="40" rx="20"/><text class="ink t" x="320" y="64" text-anchor="middle" >MAYBE PRESSED</text><rect class="boxa" x="485" y="80" width="130" height="40" rx="20"/><text class="ink t" x="550" y="104" text-anchor="middle" >PRESSED</text><rect class="boxb" x="255" y="180" width="130" height="40" rx="20"/><text class="ink t" x="320" y="204" text-anchor="middle" >MAYBE RELEASED</text><line class="ln" x1="155" y1="92" x2="255" y2="68" marker-end="url(#ar)"/><text class="ink2 s" x="200" y="70" text-anchor="middle" >input low</text><line class="ln" x1="385" y1="68" x2="485" y2="92" marker-end="url(#ar)"/><text class="ink2 s" x="440" y="62" text-anchor="middle" >low for 4 samples → press event</text><line class="ln" x1="290" y1="80" x2="150" y2="108" marker-end="url(#ar)"/><text class="ink2 s" x="215" y="118" text-anchor="middle" >input high again (bounce)</text><line class="ln" x1="485" y1="112" x2="385" y2="190" marker-end="url(#ar)"/><text class="ink2 s" x="460" y="160" text-anchor="middle" >input high</text><line class="ln" x1="255" y1="192" x2="150" y2="118" marker-end="url(#ar)"/><text class="ink2 s" x="170" y="175" text-anchor="middle" >high for 4 samples → release event</text><line class="ln" x1="360" y1="180" x2="500" y2="118" marker-end="url(#ar)"/><text class="ink2 s" x="480" y="150" text-anchor="middle" >input low again (bounce)</text><text class="ink2 s" x="320" y="262" text-anchor="middle" >No waiting inside: each tick reads the input once and moves at most one arrow. Events are emitted on the two confirmed transitions only.</text></svg>
