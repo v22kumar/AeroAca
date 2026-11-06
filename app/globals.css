@@ -286,3 +286,18 @@ body {
 .animate-fade-up {
   animation: aa-fade-up 220ms ease-out both;
 }
+
+/* Entrance for dialogs and sheets: transform only, so text colours are never blended
+   with the backdrop mid-animation (a fading dialog fails colour-contrast checks and
+   briefly shows washed-out text). */
+@keyframes aa-slide-up {
+  from {
+    transform: translateY(12px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.animate-slide-up {
+  animation: aa-slide-up 220ms ease-out both;
+}
