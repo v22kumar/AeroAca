@@ -25,20 +25,20 @@ Cells: **✓** present (lesson slug in brackets where it is not obvious from the
 
 ### 1. Electronic engineering fundamentals (P0)
 
-Published: `reading-a-power-tree`, `op-amp-sanity-checks`, `adc-resolution-reference-and-noise`; mission `the-rail-that-sags`.
+Published: `circuit-laws-on-the-bench`, `capacitors-inductors-rc-and-filters`, `diodes-and-transistors-as-switches`, `logic-levels-thresholds-and-open-drain`, `reading-a-power-tree`, `op-amp-sanity-checks`, `adc-resolution-reference-and-noise`, `grounding-protection-and-the-first-thing-that-breaks` (the first four and the last added in PR C); mission `the-rail-that-sags`.
 
 | Topic | Theory | Prereq | Example | Diagram | Guided | Assess | Trouble | Interview | Gap and plan |
 |---|---|---|---|---|---|---|---|---|---|
-| Circuit laws: Ohm, KVL/KCL, dividers, Thévenin, source resistance | ✗ (used implicitly as I × R in the power tree) | ✗ | ◐ (sag arithmetic) | ✗ | ✗ | ◐ (one numeric in power tree) | ◐ | ◐ | **core**: new lesson *Circuit laws you use every day on the bench* with a divider/Thévenin interactive and numeric exercises |
-| Passive components: R, C, L behaviour, RC time constant, tolerance, ESR, decoupling | ◐ (decoupling only, power tree) | ✗ | ◐ | ✗ | ✗ | ◐ | ◐ | ✗ | **core**: new lesson *Capacitors, inductors and the RC time constant* with an RC step-response interactive; includes a runnable Python check |
-| Active components: diodes, BJT/MOSFET as switches, LDO vs switching regulator | ◐ (regulator types, power tree) | ✗ | ◐ | ✗ | ✗ | ◐ | ◐ | ◐ | **core**: new lesson *Diodes and transistors as switches* (gate drive, saturation, flyback, level shifting) |
+| Circuit laws: Ohm, KVL/KCL, dividers, Thévenin, source resistance | ✓ [`circuit-laws-on-the-bench`] | ✓ (starting point) | ✓ | ✓ (divider-thevenin) | ✓ (lab py-divider) | ✓ | ✓ | ✓ | done in PR C |
+| Passive components: R, C, L behaviour, RC time constant, tolerance, ESR, decoupling | ✓ [`capacitors-inductors-rc-and-filters`] | ✓ | ✓ | ✓ (rc-step) | ✓ (lab py-rc) | ✓ | ✓ | ✓ | done in PR C |
+| Active components: diodes, BJT/MOSFET as switches, LDO vs switching regulator | ✓ [`diodes-and-transistors-as-switches`; regulators in `reading-a-power-tree`] | ✓ | ✓ | ✗ | ◐ | ✓ | ✓ | ✓ | done in PR C; a switch-circuit figure is core-light (PR G) |
 | Op-amps: headroom, operating point, virtual short, stability | ✓ | ◐ | ✓ | ✗ | ✗ | ✓ | ✓ | ✓ | add an op-amp stage figure (core-light) |
-| Filters: RC low-pass, cutoff, anti-aliasing, order | ◐ (named in ADC lesson and aliasing visual) | ✗ | ✗ | ◐ (aliasing) | ◐ | ✗ | ✗ | ✗ | **core**: covered by the RC lesson above (cutoff, −3 dB, anti-alias before an ADC) |
+| Filters: RC low-pass, cutoff, anti-aliasing, order | ✓ [`capacitors-inductors-rc-and-filters`] | ✓ | ✓ | ✓ (rc-step, aliasing) | ✓ | ✓ | ◐ | ✓ | done in PR C |
 | ADC: resolution, LSB, reference, noise, averaging | ✓ | ◐ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | none |
-| DAC and PWM as a DAC | ✗ | ✗ | ◐ (PWM arithmetic in `polling-interrupts-and-dma`) | ◐ (pwm-timer) | ◐ | ◐ | ✗ | ✗ | **optional**: short section in the RC lesson (PWM + RC low-pass = DAC) |
-| Digital logic: levels, thresholds, open-drain, pull-ups, noise margin | ◐ (I2C lesson, schematic review) | ✗ | ◐ | ◐ (i2c-waveform) | ◐ | ◐ | ◐ | ◐ | **core-light**: new lesson *Logic levels, thresholds and open-drain* (3.3 V/5 V interfacing, VIH/VIL, pull-up sizing) |
+| DAC and PWM as a DAC | ◐ (PWM smoothing in the RC lesson; arithmetic in `polling-interrupts-and-dma`) | ✓ | ◐ | ◐ (pwm-timer) | ◐ | ◐ | ✗ | ✗ | **optional**: a true DAC section remains optional |
+| Digital logic: levels, thresholds, open-drain, pull-ups, noise margin | ✓ [`logic-levels-thresholds-and-open-drain`] | ✓ | ✓ | ◐ (i2c-waveform) | ◐ | ✓ | ✓ | ✓ | done in PR C |
 | Power regulation: rails, headroom, dissipation, decoupling | ✓ | ◐ | ✓ | ✗ | ✓ (mission) | ✓ | ✓ | ✓ | add a power-tree figure (core-light) |
-| Grounding and protection: ground returns, ESD/TVS, reverse polarity, fusing | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | **core**: new lesson *Grounding, protection and the first thing that breaks* |
+| Grounding and protection: ground returns, ESD/TVS, reverse polarity, fusing | ✓ [`grounding-protection-and-the-first-thing-that-breaks`] | ✓ | ✓ | ✗ | ✗ | ✓ | ✓ | ✓ | done in PR C; a return-path figure is core-light (PR G) |
 
 ### 2. Circuit design, schematics and PCB (P0)
 
@@ -160,14 +160,14 @@ Published: `embedded-linux-boot-chain`.
 
 ### 10. Instrumentation and fault diagnosis (P0)
 
-Published: `oscilloscope-probing`, `root-cause-analysis`, `logic-analysers-decoding-a-bus`.
+Published: `the-dmm-and-the-bench-supply` (PR C), `oscilloscope-probing`, `root-cause-analysis`, `logic-analysers-decoding-a-bus`.
 
 | Topic | Theory | Prereq | Example | Diagram | Guided | Assess | Trouble | Interview | Gap and plan |
 |---|---|---|---|---|---|---|---|---|---|
-| DMM: ranges, burden voltage, continuity, diode test, input impedance | ✗ (used in missions without being taught) | ✗ | ✗ | ✗ | ◐ (missions) | ✗ | ◐ | ✗ | **core**: new lesson *The DMM and the bench supply: the two instruments you touch first* |
+| DMM: ranges, burden voltage, continuity, diode test, input impedance | ✓ [`the-dmm-and-the-bench-supply`] | ✓ (starting point) | ✓ | ✗ | ✓ (missions) | ✓ | ✓ | ✓ | done in PR C |
 | Oscilloscope | ✓ | ◐ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | none |
 | Logic analyser | ✓ | ◐ | ✓ | ✗ | ✗ | ✓ | ✓ | ✓ | a timing-diagram figure is core-light |
-| Bench PSU: current limit, sense, sequencing | ◐ (`board-bring-up-checklist`) | ◐ | ◐ | ✗ | ◐ (mission) | ◐ | ✓ | ◐ | same new lesson as the DMM |
+| Bench PSU: current limit, sense, sequencing | ✓ [`the-dmm-and-the-bench-supply`] | ✓ | ✓ | ✗ | ✓ (mission) | ✓ | ✓ | ✓ | done in PR C |
 | DAQ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | **optional**: section in the Python reports lesson (sampling with a USB DAQ or the MCU as a DAQ) |
 | Power, reset, clock checks | ✓ | ◐ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | none |
 | Signal integrity on the bench | ◐ | ◐ | ◐ | ◐ | ✗ | ◐ | ◐ | ◐ | layout lesson (module 2) |

@@ -9,6 +9,12 @@ Review levels:
 
 | Kind | Slug | Title | review.status | References | Exercises | Interactive | Simulation labelled | Second reader |
 |---|---|---|---|---|---|---|---|---|
+| lesson | `circuit-laws-on-the-bench` | Circuit laws you use every day on the bench | technically-reviewed | 3 | 3 | divider-thevenin | yes | pending |
+| lesson | `capacitors-inductors-rc-and-filters` | Capacitors, inductors, the RC time constant and the filters they make | technically-reviewed | 3 | 3 | rc-step | yes | pending |
+| lesson | `diodes-and-transistors-as-switches` | Diodes and transistors as switches | technically-reviewed | 3 | 3 | none | yes | pending |
+| lesson | `logic-levels-thresholds-and-open-drain` | Logic levels, thresholds, open-drain and the pull-up | technically-reviewed | 3 | 3 | none | yes | pending |
+| lesson | `grounding-protection-and-the-first-thing-that-breaks` | Grounding, protection and the first thing that breaks | technically-reviewed | 4 | 3 | none | yes | pending |
+| lesson | `the-dmm-and-the-bench-supply` | The multimeter and the bench supply: the two instruments you touch first | technically-reviewed | 3 | 3 | none | yes | pending |
 | lesson | `adc-resolution-reference-and-noise` | ADC resolution, reference and noise | technically-reviewed | 3 | 3 | adc-quantisation | yes | pending |
 | lesson | `avionics-and-automotive-standards-scope` | What DO-178C, DO-254 and ISO 26262 are for | technically-reviewed | 6 | 3 | standards-map | n/a | pending |
 | lesson | `board-bring-up-checklist` | A board bring-up checklist that actually gets used | technically-reviewed | 2 | 3 | — | yes | pending |

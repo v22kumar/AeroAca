@@ -3,7 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const adcResolutionReferenceAndNoise: Lesson = {
   slug: "adc-resolution-reference-and-noise",
   moduleId: "fundamentals",
-  prerequisites: ["op-amp-sanity-checks"],
+  prerequisites: ["op-amp-sanity-checks", "capacitors-inductors-rc-and-filters"],
   title: "ADC resolution, reference and noise",
   summary: "Twelve bits is a count, not an accuracy. Learn what one LSB is worth, where the reference's error and noise go, why the input's source impedance and the sample time matter on a microcontroller ADC, and what averaging can and cannot buy you.",
   durationMinutes: 10,

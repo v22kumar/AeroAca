@@ -3,7 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const readingASchematicLikeAReviewer: Lesson = {
   slug: "reading-a-schematic-like-a-reviewer",
   moduleId: "pcb",
-  prerequisites: ["reading-a-power-tree", "mcu-board-does-not-boot"],
+  prerequisites: ["reading-a-power-tree", "logic-levels-thresholds-and-open-drain", "mcu-board-does-not-boot"],
   title: "Reading a schematic like a reviewer",
   summary: "A schematic review is a fixed walk, not a browse: power, reset, clock, boot and debug first, then every interface at its boundary, then the things that are missing. Learn the order, the ten checks that catch most board spins, and how to write a review comment that gets acted on.",
   durationMinutes: 10,

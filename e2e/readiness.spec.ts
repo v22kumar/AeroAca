@@ -8,7 +8,7 @@ test.describe("Learner readiness: prerequisites, labs, build-it and the diagnost
     await expect(pre).toContainText("Before this lesson");
     await expect(pre.getByRole("link", { name: "Interrupts and NVIC priorities without surprises" })).toBeVisible();
     await expect(pre).toContainText("Not started");
-    await page.goto("/lessons/mcu-board-does-not-boot");
+    await page.goto("/lessons/circuit-laws-on-the-bench");
     await expect(page.getByTestId("prerequisites-none")).toContainText("starting point");
   });
 

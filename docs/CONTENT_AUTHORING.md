@@ -30,7 +30,7 @@ Prose fields are Markdown (GFM tables, code fences, inline code, bold, lists).
 
 ## Prerequisites
 
-Every lesson declares `prerequisites`: the slugs of the lessons it rests on, in the order a learner should take them. An empty list means a deliberate starting point; `tests/content.test.ts` allows that only for the four entry lessons (power tree, board does not boot, register bit masks, oscilloscope probing) and refuses cycles and unpublished slugs. The lesson page shows the list as "Before this lesson" with each prerequisite's completion state. Prerequisites inform; they never lock a lesson.
+Every lesson declares `prerequisites`: the slugs of the lessons it rests on, in the order a learner should take them. An empty list means a deliberate starting point; `tests/content.test.ts` allows that only for the three entry lessons (circuit laws, the multimeter and bench supply, register bit masks) and refuses cycles and unpublished slugs. The lesson page shows the list as "Before this lesson" with each prerequisite's completion state. Prerequisites inform; they never lock a lesson.
 
 ## Runnable labs (`lab` steps)
 

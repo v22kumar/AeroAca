@@ -32,25 +32,16 @@ Other scripts: `npm run build`, `npm start`, `npm test` (Vitest), `npm run icons
 
 ### Published content
 
-Lessons (module in brackets):
+The authoritative list is the Curriculum page in the app (every module, every lesson and mission, with status) and `docs/LEARNING_COVERAGE_MATRIX.md` (every curriculum topic with what covers it). In summary, across the 16 modules:
 
-1. **MCU board does not boot** (3 · Microcontrollers): power, reset, clock, boot pins, debugging order. Interactive boot-chain explorer.
-2. **Watchdogs and reset loops** (3): IWDG/WWDG, timeout arithmetic, refresh placement, RCC_CSR reset-cause flags. Interactive timeout calculator.
-3. **I2C sensor not acknowledging** (4 · Interfaces): open-drain bus, address byte, ACK/NACK, pull-ups, HAL address convention. Interactive waveform.
-4. **UART framing and baud tolerance** (4): frame anatomy, LSB-first, baud error budget, STM32 USARTDIV, reading garbage as a clue. Interactive frame with receiver-rate error.
-5. **SPI modes, chip select and the first byte of garbage** (4): CPOL/CPHA from datasheet wording, CS framing, prescaler choice, shifted-byte diagnosis. Interactive mode/edge diagram.
-6. **Register bit masks: read, modify, write safely** (5 · Embedded C): masks and fields, `volatile`, read-modify-write hazards, write-1-to-clear. Interactive register and RMW timeline.
-7. **Fixed-width integers, overflow and shifts** (5): wrap-around, integer promotion, undefined shifts, wrap-safe elapsed time.
-8. **Oscilloscope probing without lying to yourself** (10 · Instrumentation): probe loading, compensation, ground-lead ringing, bandwidth and rise time, aliasing. Interactive aliasing simulation.
+- **Lessons** in every module: electronics fundamentals (circuit laws, RC and filters, diodes and transistors, logic levels, power trees, op-amps, ADC, grounding and protection), schematics and datasheets, MCU boot, interrupts and watchdogs, I2C/UART/SPI/CAN, Embedded C and C++, startup code, bootloaders and driver models, RTOS, embedded Linux, instruments (multimeter and bench supply, oscilloscope, logic analyser, root-cause analysis), bring-up and ICDs, test design, SIL/HIL and FMEA, Python automation, standards as scope, cross-industry transfer, portfolio and interview communication. Each lesson: scenario, concepts with references, worked example, graded exercises with misconception feedback, an interview question with rubric, review cards; many carry an interactive and a runnable lab.
+- **Missions**: ten branching fault-isolation scenarios with simulated bench readings, evidence-backed diagnosis and graded fixes.
+- **Interactives** on boot chains, I2C, registers, UART, SPI, watchdog timing, aliasing, traceability, startup, priority inversion, a SCPI console, FMEA, standards, the sensor-monitor lab, ADC quantisation, CAN arbitration, PWM timers, NVIC priorities, dividers and RC response.
+- **Runnable labs** under `labs/` with CI-verified expected output (see "Running the labs").
+- **Portfolio track**: the STM32 sensor monitor in seven stages with Build-it steps.
+- **Interview bank** with rubrics and cross-industry notes; **glossary** of tappable terms; **30-day journey** as the fast track; a **starting-level diagnostic** at `/start`.
 
-Missions:
-
-1. **Fresh board, no sign of life** (3): a held reset caused by the wrong supervisor variant.
-2. **The board that resets every second** (3): a watchdog firing on a new blocking call; register evidence, firmware diff, fix judgement.
-3. **The sensor that never answers** (4): an I2C address-strap mismatch.
-4. **The UART that prints garbage** (4): a clock configuration inherited from the wrong board; one bit time on the scope settles it.
-
-The 30-day journey (`content/journey.ts`) uses all of this in days 1–10; days 11–30 follow the fast-track plan and reference planned content.
+Exact counts live in `docs/DEVELOPMENT_STATUS.md` and change with every content PR; the lesson counts shown on the Today page are computed from the content at build time.
 
 All mission readings are simulated and labelled as such in the UI.
 
