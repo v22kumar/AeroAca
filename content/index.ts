@@ -35,6 +35,12 @@ import { pointersToHardware } from "./lessons/pointers-to-hardware";
 import { raiiForPeripherals } from "./lessons/raii-for-peripherals";
 import { pollingInterruptsAndDma } from "./lessons/polling-interrupts-and-dma";
 import { logicAnalysersDecodingABus } from "./lessons/logic-analysers-decoding-a-bus";
+import { circuitLawsOnTheBench } from "./lessons/circuit-laws-on-the-bench";
+import { capacitorsInductorsRcAndFilters } from "./lessons/capacitors-inductors-rc-and-filters";
+import { diodesAndTransistorsAsSwitches } from "./lessons/diodes-and-transistors-as-switches";
+import { logicLevelsThresholdsAndOpenDrain } from "./lessons/logic-levels-thresholds-and-open-drain";
+import { groundingProtectionAndTheFirstThingThatBreaks } from "./lessons/grounding-protection-and-the-first-thing-that-breaks";
+import { theDmmAndTheBenchSupply } from "./lessons/the-dmm-and-the-bench-supply";
 import { freshBoardNoSignOfLife } from "./missions/fresh-board-no-sign-of-life";
 import { theSensorThatNeverAnswers } from "./missions/the-sensor-that-never-answers";
 import { theUartThatPrintsGarbage } from "./missions/the-uart-that-prints-garbage";
@@ -94,6 +100,12 @@ export const lessons: Lesson[] = [
   raiiForPeripherals,
   pollingInterruptsAndDma,
   logicAnalysersDecodingABus,
+  circuitLawsOnTheBench,
+  capacitorsInductorsRcAndFilters,
+  diodesAndTransistorsAsSwitches,
+  logicLevelsThresholdsAndOpenDrain,
+  groundingProtectionAndTheFirstThingThatBreaks,
+  theDmmAndTheBenchSupply,
 ];
 
 export const missions: Mission[] = [

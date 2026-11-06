@@ -25,6 +25,8 @@ const AdcQuantisation = dynamic(() => import("./AdcQuantisation").then((m) => m.
 const CanArbitration = dynamic(() => import("./CanArbitration").then((m) => m.CanArbitration), { loading });
 const PwmTimer = dynamic(() => import("./PwmTimer").then((m) => m.PwmTimer), { loading });
 const NvicPriorities = dynamic(() => import("./NvicPriorities").then((m) => m.NvicPriorities), { loading });
+const DividerThevenin = dynamic(() => import("./DividerThevenin").then((m) => m.DividerThevenin), { loading });
+const RcStep = dynamic(() => import("./RcStep").then((m) => m.RcStep), { loading });
 
 /** Maps a content visual id to its interactive component. Add new visuals here and in the schema enum. */
 export function Visual({ id }: { id: VisualId }) {
@@ -67,5 +69,9 @@ export function Visual({ id }: { id: VisualId }) {
       return <PwmTimer />;
     case "nvic-priorities":
       return <NvicPriorities />;
+    case "divider-thevenin":
+      return <DividerThevenin />;
+    case "rc-step":
+      return <RcStep />;
   }
 }

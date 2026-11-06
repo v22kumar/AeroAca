@@ -3,7 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const oscilloscopeProbing: Lesson = {
   slug: "oscilloscope-probing",
   moduleId: "instrumentation",
-  prerequisites: [],
+  prerequisites: ["the-dmm-and-the-bench-supply"],
   title: "Oscilloscope probing without lying to yourself",
   summary: "The probe is part of the circuit. Learn how bandwidth, sample rate, probe loading and the ground lead change what you see, so a measurement proves something instead of creating a new fault.",
   durationMinutes: 10,

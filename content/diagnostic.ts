@@ -11,7 +11,7 @@ export type DiagnosticQuestion = { topic: string; foundations: string[]; exercis
 export const diagnostic: DiagnosticQuestion[] = [
   {
     topic: "Circuit laws",
-    foundations: ["reading-a-power-tree"],
+    foundations: ["circuit-laws-on-the-bench"],
     exercise: {
       kind: "numeric",
       id: "diag-divider",
@@ -28,7 +28,7 @@ export const diagnostic: DiagnosticQuestion[] = [
   },
   {
     topic: "Decoupling",
-    foundations: ["reading-a-power-tree"],
+    foundations: ["capacitors-inductors-rc-and-filters", "reading-a-power-tree"],
     exercise: {
       kind: "single",
       id: "diag-decoupling",
@@ -44,7 +44,7 @@ export const diagnostic: DiagnosticQuestion[] = [
   },
   {
     topic: "Logic levels",
-    foundations: ["reading-a-schematic-like-a-reviewer", "i2c-sensor-not-acknowledging"],
+    foundations: ["logic-levels-thresholds-and-open-drain"],
     exercise: {
       kind: "single",
       id: "diag-levels",
@@ -176,7 +176,7 @@ export const diagnostic: DiagnosticQuestion[] = [
   },
   {
     topic: "Multimeter",
-    foundations: ["board-bring-up-checklist"],
+    foundations: ["the-dmm-and-the-bench-supply"],
     exercise: {
       kind: "single",
       id: "diag-dmm-current",

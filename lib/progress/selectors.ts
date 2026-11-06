@@ -73,6 +73,12 @@ export function weakSkills(state: ProgressState): SkillSummary[] {
 }
 
 export const skillLabels: Record<string, string> = {
+  "circuit-laws": "Circuit laws and dividers",
+  passives: "Capacitors, RC and filters",
+  actives: "Diodes and transistor switches",
+  "logic-levels": "Logic levels and pull-ups",
+  protection: "Grounding and protection",
+  dmm: "Multimeter and bench supply",
   "debug-order": "Bring-up debugging order",
   clock: "Clocks and oscillators",
   reset: "Reset behaviour",

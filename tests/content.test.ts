@@ -72,7 +72,7 @@ describe("content validity", () => {
   it("every lesson declares prerequisites that exist, form no cycle, and only starting points declare none", () => {
     const bySlug = new Map(lessons.map((l) => [l.slug, l]));
     // The academy's deliberate starting points: one per entry route (power, boot, C, instruments).
-    const startingPoints = new Set(["reading-a-power-tree", "mcu-board-does-not-boot", "embedded-c-register-bit-masks", "oscilloscope-probing"]);
+    const startingPoints = new Set(["circuit-laws-on-the-bench", "the-dmm-and-the-bench-supply", "embedded-c-register-bit-masks"]);
     for (const lesson of lessons) {
       expect(lesson.prerequisites, `${lesson.slug} must declare prerequisites (an empty list means a starting point)`).toBeDefined();
       const pre = lesson.prerequisites!;

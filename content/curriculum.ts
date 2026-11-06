@@ -14,9 +14,14 @@ export const curriculum: CurriculumModule[] = [
     priority: "P0",
     summary: "Circuit laws, passives and actives, op-amps and filters, ADC/DAC, logic, power regulation, grounding and protection.",
     lessons: [
+      { title: "Circuit laws you use every day on the bench", status: "published", slug: "circuit-laws-on-the-bench" },
+      { title: "Capacitors, inductors, the RC time constant and the filters they make", status: "published", slug: "capacitors-inductors-rc-and-filters" },
+      { title: "Diodes and transistors as switches", status: "published", slug: "diodes-and-transistors-as-switches" },
+      { title: "Logic levels, thresholds, open-drain and the pull-up", status: "published", slug: "logic-levels-thresholds-and-open-drain" },
       { title: "Reading a power tree: regulators, rails and decoupling", status: "published", slug: "reading-a-power-tree" },
       { title: "Op-amp sanity checks on the bench", status: "published", slug: "op-amp-sanity-checks" },
       { title: "ADC resolution, reference and noise", status: "published", slug: "adc-resolution-reference-and-noise" },
+      { title: "Grounding, protection and the first thing that breaks", status: "published", slug: "grounding-protection-and-the-first-thing-that-breaks" },
     ],
     missions: [{ title: "The rail that sags", status: "published", slug: "the-rail-that-sags" }],
   },
@@ -134,6 +139,7 @@ export const curriculum: CurriculumModule[] = [
     priority: "P0",
     summary: "DMM, oscilloscope, logic analyser, bench PSU, DAQ, power/reset/clock checks, signal integrity and root-cause analysis.",
     lessons: [
+      { title: "The multimeter and the bench supply: the two instruments you touch first", status: "published", slug: "the-dmm-and-the-bench-supply" },
       { title: "Oscilloscope probing without lying to yourself", status: "published", slug: "oscilloscope-probing" },
       { title: "Root-cause analysis and the five whys that matter", status: "published", slug: "root-cause-analysis" },
       { title: "Logic analysers: decoding a bus you did not design", status: "published", slug: "logic-analysers-decoding-a-bus" },

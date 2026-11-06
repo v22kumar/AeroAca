@@ -3,7 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const readingAPowerTree: Lesson = {
   slug: "reading-a-power-tree",
   moduleId: "fundamentals",
-  prerequisites: [],
+  prerequisites: ["circuit-laws-on-the-bench", "capacitors-inductors-rc-and-filters"],
   title: "Reading a power tree: regulators, rails and decoupling",
   summary: "Every board is a tree of rails. Learn to read it from the input down: what each regulator needs to stay in regulation, where the heat goes, why a rail that measures fine at the regulator can sag at the load, and what decoupling is actually for.",
   durationMinutes: 10,

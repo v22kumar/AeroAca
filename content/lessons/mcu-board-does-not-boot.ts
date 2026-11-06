@@ -3,7 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const mcuBoardDoesNotBoot: Lesson = {
   slug: "mcu-board-does-not-boot",
   moduleId: "mcu",
-  prerequisites: [],
+  prerequisites: ["the-dmm-and-the-bench-supply"],
   title: "MCU board does not boot",
   summary: "A silent board is a power, reset, clock or boot-configuration problem far more often than a firmware one. Learn the order that finds it fastest.",
   durationMinutes: 9,
