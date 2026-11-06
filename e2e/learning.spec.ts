@@ -112,8 +112,8 @@ test.describe("Lesson flow", () => {
   test("register exercise grades protected bits", async ({ page }) => {
     await page.goto("/lessons/embedded-c-register-bit-masks");
     const next = page.getByTestId("next-step");
-    for (let i = 0; i < 6; i++) await next.click();
-    await expect(page.getByText("Step 7 of")).toBeVisible();
+    for (let i = 0; i < 7; i++) await next.click(); // step 7 is the runnable lab
+    await expect(page.getByText("Step 8 of")).toBeVisible();
     const grid = page.getByRole("group", { name: "GPIOA->MODER (bits 15:0)" });
     await grid.locator('[data-bit="4"]').click(); // touches a UART pin
     await page.getByTestId("check-answer").click();

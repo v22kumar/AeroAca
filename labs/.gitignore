@@ -1,7 +1,7 @@
-# build products of the labs; never commit them
-bits
-elapsed
-test_detect
-sim_bin
+# build products of the labs; never commit them (patterns anchored so lab folders of the same name stay tracked)
+/c/bits/bits
+/c/elapsed/elapsed
+/portfolio/test_detect
+/portfolio/sim_bin
 *.o
 __pycache__/

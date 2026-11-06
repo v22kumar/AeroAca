@@ -19,6 +19,9 @@ import { StartHereList } from "./StartHereList";
 export function DiagnosticView() {
   const { state, store, hydrated } = useProgress();
   const [answeredNow, setAnsweredNow] = useState(false);
+  // The question on screen advances only when the learner presses Next, so the explanation
+  // after an answer stays visible; before any navigation it is the first unanswered question.
+  const [shown, setShown] = useState<number | null>(null);
 
   if (!hydrated) {
     return (
@@ -30,7 +33,8 @@ export function DiagnosticView() {
   }
 
   const sh = startHere(state);
-  const index = nextUnanswered(state);
+  const firstUnanswered = nextUnanswered(state);
+  const index = shown ?? firstUnanswered;
   const answered = Object.keys(state.diagnostic?.answers ?? {}).length;
 
   if (sh.status === "done") {
@@ -60,7 +64,7 @@ export function DiagnosticView() {
     );
   }
 
-  if (index === null) {
+  if (index === null || index >= diagnostic.length) {
     // every question answered but not yet marked complete (reload between the last answer and the summary)
     store.completeDiagnostic();
     return null;
@@ -68,12 +72,13 @@ export function DiagnosticView() {
 
   const q = diagnostic[index]!;
   const isLast = index === diagnostic.length - 1;
+  const alreadyAnswered = Boolean(state.diagnostic?.answers[q.exercise.id]);
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-6">
       <Header />
       <p className="text-xs text-ink-3" data-testid="diagnostic-progress">
-        Question {answered + 1} of {diagnostic.length} · {q.topic} · about {diagnosticMinutes()} min in total
+        Question {index + 1} of {diagnostic.length} · {q.topic} · about {diagnosticMinutes()} min in total{answered > 0 ? ` · ${answered} answered` : ""}
       </p>
       <Card className="p-4" data-testid="diagnostic-question">
         <ExerciseView
@@ -90,17 +95,18 @@ export function DiagnosticView() {
             Skip the diagnostic
           </button>
           <Button
-            disabled={!answeredNow}
+            disabled={!answeredNow && !alreadyAnswered}
             data-testid="diagnostic-next"
             onClick={() => {
               setAnsweredNow(false);
               if (isLast) store.completeDiagnostic();
+              else setShown(index + 1);
             }}
           >
             {isLast ? "See your starting point" : "Next question"}
           </Button>
         </div>
-        {!answeredNow && <p className="mt-2 text-xs text-ink-3">Your first answer is the one that counts; the explanation after it is already teaching.</p>}
+        {!answeredNow && !alreadyAnswered && <p className="mt-2 text-xs text-ink-3">Your first answer is the one that counts; the explanation after it is already teaching.</p>}
       </Card>
       <Honesty />
     </div>
