@@ -165,7 +165,7 @@ test.describe("Missions", () => {
         }
         return { btn: [r.x, r.y, r.width, r.height].map(Math.round), vh: innerHeight, sy: scrollY, docH: document.documentElement.scrollHeight, chain };
       });
-      console.log("DIAG " + JSON.stringify(info));
+      expect(info.chain[0]?.startsWith("BUTTON"), "DIAG " + JSON.stringify(info)).toBe(true);
     }
     await page.getByTestId("mission-restart").click();
     await expect(page.getByTestId("bench-time")).toHaveText("0 / 45 min");
