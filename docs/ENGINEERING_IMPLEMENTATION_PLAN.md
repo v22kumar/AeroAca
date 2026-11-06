@@ -35,7 +35,7 @@ flowchart TD
   Integration --> Ownership[P2-3 technical product ownership]
 ```
 
-P0-4 may begin after pilot approval and #14 circuit/DMM foundations, without waiting for firmware. P0-2 and P0-3 share P0-1. P1-3 teaches math before control/estimation. P2-3 requires reviewed architecture and sustained responsibility; it is not an automatic graduation step. Reconcile the unavailable advanced-module proposal before allocating numbered advanced module ids.
+P0-4 may begin after pilot approval and #14 circuit/DMM foundations, without waiting for firmware. P0-2 and P0-3 share P0-1. P1-3 teaches math before control/estimation. P2-3 requires reviewed architecture and sustained responsibility; it is not an automatic graduation step. Advanced module ids are reconciled in [ADVANCED_MODULE_CROSSWALK.md](ADVANCED_MODULE_CROSSWALK.md): 17–25 original, 26–31 new.
 
 ## P0 — Immediate practical engineering and employability
 
@@ -53,14 +53,14 @@ P0-4 may begin after pilot approval and #14 circuit/DMM foundations, without wai
 | P0-5a | Requirements/acceptance → partition/block/timing/power architecture → ICD → integrated firmware → bring-up/calibration | Extend the existing seven-stage `stm32-sensor-monitor`, detection harness and sensor model; bus/data/power faults; optional board | Requirements/test links, golden frames, raw data, timed fault logs, expected/observed comparison and independent review; hardware/simulation separate | Relevant P0-1/2/3/4 artifacts |
 | P0-5b | Serial/SCPI/PyVISA automation, reports/pytest, production-test screen, reproducible release/change, concise coding/career communication | Reuse fake port/SCPI simulator; missing/late/corrupt data; clean release/rollback; qualification plan | Report reproducible from raw data, independent negative tests, versioned release/config evidence and honest portfolio narrative. Apply for jobs without waiting for P1/P2 | P0-5a; Python/Git tools and existing communication lessons |
 
-The CSV uses parent batch ids P0-1…P0-5 so references remain stable if slices split further. First proposed content slice: **P0-1a's single C-module build/test task**, not this whole table at once.
+The CSV uses parent batch ids P0-1…P0-5 so references remain stable if slices split further. First proposed content slice: **P0-1a's single C-module build/test task**, specified lesson by lesson in [P0-1A_FIRST_LESSON.md](P0-1A_FIRST_LESSON.md), not this whole table at once.
 
 ## P1 — Advanced aerospace and broader firmware
 
 | Batch | Lesson clusters | Labs and assessment evidence | Dependencies |
 |---|---|---|---|
 | P1-1 | Embedded C++ classes/references/RAII/templates/interfaces/dispatch and target debug; Linux shell/process/logs, boot/device tree/BSP, cross-build and driver fundamentals. Deepen modules 6/7/9 | Compiled guard/mock-driver tests and resource comparison; public emulator image and boot failure; educational probe/remove failure exercise. Keep kernel experiments in emulator | P0 build/debug/driver evidence; not dependent on all aerospace topics |
-| P1-2 | Aircraft/UAV/DFCC architecture, redundant/fault-tolerant systems, cross-channel voting and real-time avionics; 1553 schedules/faults and ARINC 429. Preserve pilot as 1553 foundation | Block/ICD/timing budgets; voter fault campaign including stale data/common cause; scheduled bus simulator and golden-word decoders; sourced protocol assumptions | P0 integration, protocols and timing; provisional groups 17/18 reconciled |
+| P1-2 | Aircraft/UAV/DFCC architecture, redundant/fault-tolerant systems, cross-channel voting and real-time avionics; 1553 schedules/faults and ARINC 429. Preserve pilot as 1553 foundation | Block/ICD/timing budgets; voter fault campaign including stale data/common cause; scheduled bus simulator and golden-word decoders; sourced protocol assumptions | P0 integration, protocols and timing; modules 18 and 19 per [the crosswalk](ADVANCED_MODULE_CROSSWALK.md) |
 | P1-3 | Engineering math first; basic flight dynamics/frames; plant/feedback/PID/anti-windup/stability; IMU/GNSS/air-data processing/fusion; Kalman predict/update | Hand intermediates reproduced in Python; first-order plant then simplified pitch-rate loop; known-truth noise/bias/dropout; error/lag/residual/divergence analysis | Algebra/units → vectors/matrices/probability → signals/control/estimation; P0 acquisition/Python/tests |
 | P1-4 | Preserve/deepen advanced V&V: requirements/robustness/structural coverage, independence/configuration; ARP4754A/ARP4761 concepts; DO-178C/254/160 scope/application; FMEA/common cause; SIL/PIL/HIL/qualification | Educational hazard/allocation/test argument; timed integration/fault campaign; coverage/model-validity review; optional physical HIL with target/instrument provenance; standards claim ledger | P1-2/3; traceability and fault-analysis artifacts; exact standards requirements independently verified |
 
@@ -71,6 +71,15 @@ The CSV uses parent batch ids P0-1…P0-5 so references remain stable if slices 
 | P2-1 | ML fundamentals/baselines/splits/leakage, TinyML/edge inference/quantization, anomaly detection/predictive maintenance; AI-assisted firmware, generated tests and engineering analysis | Public/synthetic data, held-out non-ML baseline, accuracy/memory/latency measurements, false-alarm/missed-fault/drift analysis; review generated code/test oracles against independent requirements | Core implemented/tested code and acquisition; P1-3 math/signals; explicit optional AI choice |
 | P2-2 | Embedded vision/autonomy; ROS 2/QoS/frames, PX4/ArduPilot simulation; MATLAB/Simulink and model-based design concepts, digital twins, AI-enabled assurance | Pinned isolated software simulation; dropout/frame/time faults; public vision failure cases; solver/model/code comparison; twin calibration versus held-out validation; ODD/data/model/runtime-monitor assurance gaps | Relevant Linux, controls, architecture, P2-1 and assurance evidence. Open Python alternative for licensed tools; no flight-use or certification inference |
 | P2-3 | Stakeholder/customer problem, measurable acceptance, feasibility/partitioning/trade-offs, BOM/cost/supply risk, reliability/maintainability/lifecycle, reviews/roadmaps/priorities, leadership and release ownership | Extend existing product: synthetic discovery brief, competing designs, dated BOM assumptions, service/change plan, cross-functional review/actions and controlled release. Review decision quality and follow-through over multiple changes | Reviewed P0 product and architecture trade-offs; P1 as product needs. Role responsibility develops over time; no automatic qualification |
+
+## How a slice is judged
+
+A slice is accepted on four kinds of evidence, never on the number of lessons it adds:
+
+1. **Learning effectiveness.** The pilot record (`PILOT.md`) for the lessons in the slice: what the learner understood, where she struggled, and whether she solved the unseen independent task. A slice whose independent task fails is revised before anything broader is written.
+2. **Practical engineering evidence.** The retained artefacts the slice's acceptance test names (source, build command and tool versions, test log with a negative case, trace or transcript), reproduced by CI where a host can do it and labelled host, simulation or hardware.
+3. **Prerequisites.** Every lesson declares its prerequisites; the slice does not depend on an unpublished one without a published alternative; the depth tags give a playable lesson at every depth.
+4. **Career relevance.** Each lesson's "where you will use this" step names the role families it serves, and the slice maps to pathway rows in the CSV. Content that cannot name its use is not scheduled.
 
 ## Authoring and assessment contract
 

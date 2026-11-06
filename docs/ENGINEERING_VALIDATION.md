@@ -20,7 +20,8 @@ Vite printed an existing configuration warning about `__dirname` under a future 
 ## Open gates
 
 - Learner evaluation of the three pilot lessons is still unrecorded. No additional arc lesson or academy-wide format conversion was added.
-- The earlier advanced-module 17–25 proposal was not available in audited repository/open-PR sources; reconcile the provisional grouping against it before allocating identifiers.
+- The advanced-module 17–25 proposal is now checked in and reconciled (`ADVANCED_SYLLABUS_2.0_PROPOSAL.md`, `ADVANCED_MODULE_CROSSWALK.md`); module cells in the matrix and CSV were updated in the same revision. This remains a documentation-only change.
+- Passing CI establishes only what the checks test (schema, cross-references, lab outputs, browser flows, accessibility rules). Technical accuracy of content requires the second technical reader in `CONTENT_REVIEW.md`; learner understanding requires the recorded pilot in `PILOT.md`. Neither is claimed here.
 - P0 curriculum execution awaits the approved first scope and learner-adjusted teaching template. The first proposed slice is the P0-1a C-module build/test task.
 - Pathway recommendations are a specification, not a shipped feature; acceptance scenarios and migration/browser/accessibility checks are defined in `CAREER_PATHWAYS.md`.
 - No physical board, manufactured PCB, instrument measurement, flight-use safety or standards-compliance result is claimed by this batch.

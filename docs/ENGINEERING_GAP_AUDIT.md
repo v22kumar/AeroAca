@@ -27,7 +27,9 @@ The original audit already planned interfaces/RTOS/Python, PCB/EMC/tools, GDB, u
 
 The four pathways are absent as a career-goal/evidence feature. Existing recommendations use mistakes, lesson activity and interview ratings; module “evidence complete” can include confident self-ratings. Those remain activity summaries and cannot serve as professional competence credentials. The new specification separates retained engineering artifacts from learning activity.
 
-## Advanced modules 17–25: unavailable proposal
+## Advanced modules 17–25: unavailable proposal (resolved in the next revision)
+
+> **Resolution, 2026-11-06.** The proposal had been reviewed outside the repository. It is now checked in as [ADVANCED_SYLLABUS_2.0_PROPOSAL.md](ADVANCED_SYLLABUS_2.0_PROPOSAL.md) and reconciled in [ADVANCED_MODULE_CROSSWALK.md](ADVANCED_MODULE_CROSSWALK.md): modules 17–25 keep their original identifiers and scope, the provisional groupings below are retired, and the subjects they added (controls, estimation, mathematics/AI, edge AI, autonomy, ownership) become modules 26–31. The matrix and CSV module cells were updated accordingly. The text below is kept as the audit record.
 
 No checked-in proposal, numbered module list or dedicated DFCC/Kalman/AI/product-ownership specification was found in the documentation and curriculum trees of any of the six open PRs. PR descriptions mention a two-tier retargeting and advanced modules under review, but do not define them. Therefore the earlier advanced proposal could not be audited or preserved verbatim.
 

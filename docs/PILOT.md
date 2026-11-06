@@ -37,4 +37,21 @@ Keep the export private and voluntary; record no personal results in public sour
 
 ## Findings
 
-Pending the first use.
+The pilot is the gate for adopting the format beyond these three lessons. Record, per lesson, in neutral terms and without personal data:
+
+### What she understood
+Concepts she could state in her own words or apply correctly at first attempt (step, evidence, how observed).
+
+### Where she struggled
+Steps with long dwell followed by a wrong first attempt, hints needed on the guided exercise, terms that had to be looked up or explained, places she stopped. State the evidence and its uncertainty.
+
+### Whether she could solve an unfamiliar problem independently
+The independent exercise (zero hints, after the guided one) and, where offered, an unseen variant: solved, partly, or not; what the attempt showed.
+
+### Duration
+Aggregate capped step time per lesson against `durationMinutes`, noting idle time and revisits.
+
+### Template changes made
+Each change to `CONTENT_AUTHORING.md` or to the three lessons, with the finding that caused it.
+
+**Status: pending the first use.** No further lesson is written in the format until this section has entries for all three lessons and the template has been adjusted.

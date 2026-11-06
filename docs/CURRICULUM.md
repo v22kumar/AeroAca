@@ -23,21 +23,29 @@ A practical academy for embedded/electronics R&D, aerospace and UAV systems, avi
 | 15 Cross-industry applications | UAV/avionics, automotive, medical, industrial, FPGA and vision | P2 demand-led; canonical foundations shared, not duplicated |
 | 16 Engineering communication and careers | Artifact-backed project/debug explanations, coding interviews, trade-offs, applications and honest negotiation | P0 alongside learning; no experience or job title inferred from completion |
 
-## Advanced groupings 17–25: provisional reconciliation
+## Advanced modules 17–31: reconciled
 
-The earlier numbered proposal was not available in repository/open-PR sources. This is a **provisional crosswalk**, not an approved replacement. Reconcile it before assigning module ids or modifying `content/curriculum.ts`. Preserve the prior advanced V&V objectives when supplied and map common subjects once.
+The original 2.0 advanced proposal ([ADVANCED_SYLLABUS_2.0_PROPOSAL.md](ADVANCED_SYLLABUS_2.0_PROPOSAL.md)) defined modules 17–25. The engineering audit, written without access to it, used the same numbers for partly different groupings. [ADVANCED_MODULE_CROSSWALK.md](ADVANCED_MODULE_CROSSWALK.md) reconciles them: **17–25 keep their original identifiers and scope**; **26–31 are new modules** for the subjects the proposal did not cover. None is in `content/curriculum.ts` yet; each appears there when its first lesson is published, after the pilot gate.
 
-| Provisional group | Subjects | Sequence and evidence |
-|---|---|---|
-| 17 Aircraft/UAV and DFCC architecture | Sensor-compute-actuator/power, redundancy/fault tolerance, cross-channel communication/voting, real-time avionics | P1-2 architecture/ICD/timing review and fault campaign |
-| 18 Avionics links and integration | Deepen existing 1553 pilot into bus schedules/fault diagnosis; ARINC 429 and serial links | P1-2 after protocols/drivers/timing; golden decodes and link faults |
-| 19 Flight dynamics and control engineering | Plant/feedback, PID/anti-windup, stability/sample-time limits, model-based design | P1-3 controls; P2-2 MATLAB/Simulink concepts with open simulation alternative |
-| 20 Signals, navigation and estimation | IMU/GNSS/air data, processing/fusion, state estimation and Kalman fundamentals | P1-3 after math; known-truth error/residual/latency evidence |
-| 21 Systems assurance and advanced V&V | Requirements/safety allocation, ARP concepts, DO scope/application, coverage/robustness/independence, SIL/HIL/fault injection/integration | P1-4; retain advanced verification aims and traceable educational assurance artifacts |
-| 22 Mathematics and AI foundations | Reuse Python; vectors/matrices/probability/sampling/least squares; ML basics/baselines/splits/leakage | Math precedes P1-3; optional ML in P2-1 after practical core |
-| 23 Edge AI and intelligent products | TinyML/inference/quantization, anomaly detection/predictive maintenance, embedded vision, AI-assisted firmware/tests/analysis and assurance | Optional P2-1/2 public/synthetic data, resource/failure evidence |
-| 24 Autonomy and simulation engineering | ROS 2, PX4/ArduPilot simulation, digital twins, simulation/model-based engineering | Optional P2-2 after Linux/control/AI/assurance; isolated simulation with explicit limits |
-| 25 Engineering leadership and technical ownership | Stakeholders/problems, feasibility/partitioning/trade-offs, BOM/cost/risk, reliability/maintainability/lifecycle, reviews/roadmaps/communication/release | P2-3 extends existing product/shared modules 11/12/16 through sustained reviewed decisions |
+**Principal direction.** Embedded and electronics R&D and aerospace systems engineering are the principal long-term direction of this syllabus. Verification and validation (module 17 and the test half of 21) is an important specialisation and a practical near-term route to better roles, not the only professional destination.
+
+| Module | Scope | Pathways | Batch |
+|---|---|---|---|
+| 17 Verification the DO-178C way | Objectives and levels, HLR/LLR/derived, requirements-based tests, traceability and problem reports, structural coverage and MC/DC with a host lab, change impact, dead code, B→C and audits; ARP4754A/4761 concepts at the systems level | B, D (A for the test lessons) | P1-4; test lessons may start at P0-5 |
+| 18 Avionics data buses and telemetry | MIL-STD-1553B (pilot lesson is 18.1), ARINC 429, RS-232/422/485 and CRC framing, telemetry packets and `struct`, Ethernet/UDP, Modbus RTU | A, B, D | 18.4–18.7 P0-5; 18.1–18.3 P1-2 |
+| 19 Redundant flight-control architectures | The flight-control system as a whole; duplex/triplex/quad; cross-channel exchange and voting (voter lab); testing a cross-channel link; synchronisation | B, D | P1-2 |
+| 20 Deterministic timing and real-time analysis | Tasks/scheduler/tick, utilisation and response time, frame-based executives, shared memory and DPRAM, WCET on target, deadlock and lock ordering | A, B | 20.1, 20.2, 20.6 at P0-3 under module 8; rest P1-2 |
+| 21 HIL, test benches and fault injection | HIL architecture, bench design from an ICD, FMEA to fault tests, protocol fault injection (injector lab), power and environment faults | B, D (A for fault injection) | P1-4; fault-injection lessons may start at P0-5 |
+| 22 Advanced Python test automation | `struct`, serial and instruments, logs to evidence, `pytest` for hardware, framework architecture, reproducible runs | A, B, C, D | P0-1 and P0-5 (shared with module 13; one lesson set) |
+| 23 Production debugging on target | SWD/JTAG and the probe, GDB on target, HardFault analysis (fault-decode lab), ARM9 vs Cortex-M, verifying a driver against a register spec | A, B, C, D | 23.1–23.3 P0-1b; rest P1-1 |
+| 24 Flight-control systems orientation | The control loop on an aircraft or UAV, PID without mystery (step-response lab), the flight computer's software from outside | B, C | P1-3 |
+| 25 Interviews for experienced engineers | Career gap or contract role, "what did you own", auditing your own claims, metrics claims, notice/CTC/negotiation, mock panel | A, B, C, D | P0-5 (shared with module 16) |
+| 26 Control engineering and flight dynamics (new) | PID with anti-windup, stability and sample time, flight dynamics and frames, model-based design concepts with an open alternative | B, C | P1-3 |
+| 27 Signals, navigation and estimation (new) | IMU/GNSS/air data and fault models, filtering and fusion, Kalman predict/update | B, C | P1-3 |
+| 28 Engineering mathematics and AI foundations (new) | Vectors, matrices, probability, sampling, least squares; ML basics, baselines, splits, leakage | B, C | P1-3 (math), P2-1 (ML) |
+| 29 Edge AI and intelligent products (new, optional) | TinyML and quantisation, anomaly detection and predictive maintenance, embedded vision, AI-assisted firmware and tests, assurance of AI-enabled systems; maturity-labelled | C (B for vision, assurance) | P2-1, P2-2 |
+| 30 Autonomy and simulation engineering (new, optional) | ROS 2, PX4/ArduPilot simulation, digital twins; isolated simulation, explicit limits | B, C | P2-2 |
+| 31 Engineering leadership and technical ownership (new) | Stakeholders, feasibility and trade-offs, BOM and cost, reliability and lifecycle, reviews, roadmaps, release ownership; through reviewed work on the shared product | A, B, D | P2-3 |
 
 ## Teaching and evidence
 

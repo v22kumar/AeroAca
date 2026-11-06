@@ -11,6 +11,8 @@ Specification, 2026-11-06. This document defines the next platform increment; it
 | C — AI and Intelligent Systems | AI-enabled embedded products, edge inference and autonomy | Same C/Python/test core → mathematics, acquisition and P1-3 estimation → P2-1 ML/edge inference → P2-2 simulation/autonomy/AI assurance | Evaluate a public or synthetic sensor model against a non-ML baseline; measure resource/latency limits and failure cases; no flight-use inference |
 | D — Engineering Leadership and Technical Product Ownership | Systems architecture, technical leadership and evolving product responsibility | Same evidence-producing P0 project → requirements, interfaces, review and release practice → P1 system trade-offs → P2-3 stakeholder/cost/lifecycle/roadmap ownership | Lead a reviewed change from stakeholder need through feasibility, architecture, BOM, verification and controlled release; demonstrate decisions and follow-through over time |
 
+**Principal direction.** Pathways A (embedded and electronics R&D) and B (aerospace and systems engineering) are the principal long-term direction; verification and validation is an important specialisation within B and a practical near-term route, not the only destination. Advanced module membership per pathway is in [ADVANCED_MODULE_CROSSWALK.md](ADVANCED_MODULE_CROSSWALK.md).
+
 One canonical subject/lesson id can serve multiple paths. Switching career goal changes ordering, never copies a lesson, resets evidence or awards a role. The future-technology pathway is optional after its core prerequisites. Product responsibility grows with reviewed work and experience; finishing a pathway does not make someone a product owner, architect or flight-safety authority.
 
 ## What counts as evidence
