@@ -148,6 +148,13 @@ Each conclusion came from two datasheet lines and one subtraction.`,
       intro: `Say the four numbers, do the two subtractions out loud, then name the tolerant-pin and clamp-diode cases.`,
     },
     {
+      type: "figure",
+      title: "Driver guarantees against receiver requirements",
+      diagram: "logic-levels",
+      alt: "Driver output levels VOH and VOL against receiver input thresholds VIH and VIL for 3.3 volt LVTTL, with the noise margins between them.",
+      caption: `Noise margin high is VOH − VIH (2.4 − 2.0 = 0.4 V); noise margin low is VIL − VOL (0.8 − 0.4 = 0.4 V). Anything between VIL and VIH is undefined, and an open-drain output only reaches VOH through its pull-up.`,
+    },
+    {
       type: "recap",
       summary: `- Inputs: low below V_IL (~0.3 V_DD), high above V_IH (~0.7 V_DD), forbidden in between. Outputs: at least V_OH high, at most V_OL low at rated current. Margins: V_OH − V_IH and V_IL − V_OL, both positive by a few hundred millivolts.
 - 3.3 V → 5 V CMOS input fails (2.9 < 3.5); 3.3 V → TTL-threshold input works; 5 V → 3.3 V input needs a 5 V-tolerant pin or a divider/translator, or the clamp diode conducts.

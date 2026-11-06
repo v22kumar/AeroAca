@@ -32,7 +32,7 @@ test.describe("Teaching format 2.0 pilot: depth, hints, lesson map, walkthrough"
   });
 
   test("guided practice: hints reveal one at a time, the solve is labelled honestly, and completion at Understand depth offers to go deeper", async ({ page }) => {
-    await page.goto("/lessons/reading-a-power-tree?step=8");
+    await page.goto("/lessons/reading-a-power-tree?step=9");
     await expect(page.getByTestId("step-heading")).toContainText("Practise");
     await expect(page.getByTestId("hint-shown")).toHaveCount(0);
     await page.getByTestId("show-hint").click();
@@ -69,7 +69,7 @@ test.describe("Teaching format 2.0 pilot: depth, hints, lesson map, walkthrough"
     await expect(page.getByTestId("w1553-readout")).toContainText("parity bit is 1");
     await page.getByTestId("w1553-wc").fill("0");
     await expect(page.getByTestId("w1553-readout")).toContainText("32 data words");
-    await page.goto("/lessons/mil-std-1553b-the-word-and-the-message?step=11");
+    await page.goto("/lessons/mil-std-1553b-the-word-and-the-message?step=13");
     await expect(page.getByTestId("walkthrough")).toBeVisible();
     await expect(page.getByTestId("walkthrough-note")).toHaveCount(4);
     await expect(page.getByTestId("walkthrough-note").nth(1)).toContainText("Lines 8 to 11");
@@ -83,14 +83,14 @@ test.describe("Teaching format 2.0 pilot: depth, hints, lesson map, walkthrough"
   });
 
   test("the 1553 guided exercise and the mode-code exercise grade the classic misreadings", async ({ page }) => {
-    await page.goto("/lessons/mil-std-1553b-the-word-and-the-message?step=13");
+    await page.goto("/lessons/mil-std-1553b-the-word-and-the-message?step=15");
     await page.getByTestId("numeric-input").fill("6");
     await page.getByTestId("check-answer").click();
     await expect(page.getByTestId("exercise-feedback")).toContainText("only four bits");
     await page.getByTestId("numeric-input").fill("12");
     await page.getByTestId("check-answer").click();
     await expect(page.getByTestId("exercise-feedback")).toHaveAttribute("data-correct", "true");
-    await page.goto("/lessons/mil-std-1553b-the-word-and-the-message?step=14");
+    await page.goto("/lessons/mil-std-1553b-the-word-and-the-message?step=16");
     await page.getByRole("radio", { name: /transmit 2 data words from subaddress 31/ }).check();
     await page.getByTestId("check-answer").click();
     await expect(page.getByTestId("exercise-feedback")).toContainText("mode command");
@@ -105,6 +105,24 @@ test.describe("Teaching format 2.0 pilot: depth, hints, lesson map, walkthrough"
     await expect(page.getByTestId("sag-readout")).toContainText("the sensor resets");
     await page.getByTestId("sag-bulk").check();
     await expect(page.getByTestId("sag-readout")).toContainText("keeps running");
+    await page.waitForTimeout(400);
+    const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
+    expect(axe.violations.filter((v) => v.impact === "serious" || v.impact === "critical").map((v) => v.id)).toEqual([]);
+  });
+
+  test("figure steps render the diagram with alt text and a caption, in 1.0 and 2.0 lessons", async ({ page }) => {
+    await page.goto("/lessons/reading-a-power-tree?step=4");
+    await expect(page.getByTestId("step-heading")).toContainText("See how it works");
+    const img = page.getByTestId("figure-image");
+    await expect(img).toHaveAttribute("src", "/diagrams/power-tree.svg");
+    await expect(img).toHaveAttribute("alt", /Power tree from a 5 volt input/);
+    await expect(page.getByTestId("figure-step")).toContainText("0.4 Ω of copper");
+    const ok = await img.evaluate((el) => (el as HTMLImageElement).naturalWidth > 0);
+    expect(ok).toBe(true);
+    await page.goto("/lessons/uart-framing-and-baud");
+    await page.getByRole("button", { name: /In one picture/ }).click();
+    await expect(page.getByTestId("step-heading")).toContainText("In one picture");
+    await expect(page.getByTestId("figure-image")).toHaveAttribute("src", "/diagrams/uart-frame.svg");
     await page.waitForTimeout(400);
     const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
     expect(axe.violations.filter((v) => v.impact === "serious" || v.impact === "critical").map((v) => v.id)).toEqual([]);

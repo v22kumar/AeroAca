@@ -171,6 +171,13 @@ Now the first byte is 0x90 and the sensor at 0x48 acknowledges. Many Linux and A
       intro: `Interviewers love this one because the answer reveals whether you reason from the physical layer upward or just swap parts.`,
     },
     {
+      type: "figure",
+      title: "An I2C write, field by field",
+      diagram: "i2c-transaction",
+      alt: "I2C write transaction showing start, seven bit address, write bit, acknowledge, data byte, acknowledge and stop.",
+      caption: `Start, seven address bits, the read/write bit, then the device's acknowledge; a missing acknowledge here is the fault this lesson chases. SDA may only change while SCL is low, except for the start and stop conditions.`,
+    },
+    {
       type: "recap",
       summary: `- Both lines are open-drain and idle at VDD. Idle levels diagnose the physical bus; transactions diagnose addressing and timing.
 - A NACK after the address byte means no powered, working device recognised that address. Decode the first byte to see what the master actually sent.

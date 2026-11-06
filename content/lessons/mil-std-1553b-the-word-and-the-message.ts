@@ -100,6 +100,15 @@ So a word is: sync, sixteen bits, one parity bit. Twenty microseconds, every tim
       caption: `A command word's 16 data bits with the three-bit-time sync on the left and the parity bit on the right. Bit times are numbered as the standard does: 1 to 3 sync, 4 to 19 data, 20 parity. The colours mark the four fields.`,
     },
     {
+      type: "figure",
+      stage: "how",
+      depth: "understand",
+      title: "The command word, laid out",
+      diagram: "mil1553-word",
+      alt: "MIL-STD-1553B command word layout: three bit time sync, five bit remote terminal address, transmit receive bit, five bit subaddress or mode, five bit word count or mode code, and odd parity bit.",
+      caption: `Twenty bit times: sync, sixteen data bits in four fields, parity. The 0x2C64 example beneath is the one you decode by hand in the worked example.`,
+    },
+    {
       type: "concept",
       stage: "theory",
       depth: "understand",
@@ -183,6 +192,15 @@ So the word is \`0010 1100 0110 0100\`.
 **Step 3: parity.** Count the ones: 0010 has 1, 1100 has 2, 0110 has 2, 0100 has 1. Total **6**, which is even, so the parity bit on the wire must be **1** to make the total odd (7). If the analyser shows a parity bit of 0 on this word, the word was corrupted in flight, and a correct terminal rejects it and stays silent.
 
 **Step 4: the scenario.** The command that got no answer was 0x2C60: the same word with a word count field of **0**, which means **32 data words**. Terminal 5's subaddress 3 holds four words. Asked for thirty-two, the terminal treats the command as illegal for that subaddress, sets the message-error bit in its status and sends no data, or, in some designs, does not respond at all. Either way the analyser reports a fault, and the fault is in the controller's schedule, not the terminal or the cable. One field, read by hand, found it.`,
+    },
+    {
+      type: "figure",
+      stage: "how",
+      depth: "understand",
+      title: "Two messages on a timeline",
+      diagram: "mil1553-message",
+      alt: "Two MIL-STD-1553B message formats on a timeline: controller to terminal with data then status, and terminal to controller with status then data, with the response time window and intermessage gap.",
+      caption: `The amber gap is the 4 to 12 µs response window; the controller declares no response at 14 µs; at least 4 µs separates messages. Broadcast commands never get the status word.`,
     },
     {
       type: "walkthrough",

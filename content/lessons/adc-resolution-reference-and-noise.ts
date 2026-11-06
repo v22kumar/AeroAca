@@ -137,6 +137,13 @@ The fix order: longer sample time (free), a dedicated 3.0 V reference IC or at l
       intro: `Start with LSB arithmetic, then the three error sources, then the sample-time rule, then what averaging can and cannot do. End with the fix order.`,
     },
     {
+      type: "figure",
+      title: "The ADC chain and where noise gets in",
+      diagram: "adc-chain",
+      alt: "Signal chain from sensor through amplifier and anti-alias filter to the ADC and its reference, annotated with the noise entry points.",
+      caption: `Each stage adds its own noise, and the reference's noise scales every code. The effective number of bits is what is left after all of it; averaging only buys bits back if the noise is random.`,
+    },
+    {
       type: "recap",
       summary: `- 1 LSB = V_ref ÷ 2^N; quantisation noise LSB ÷ √12 rms; resolution is not accuracy.
 - The reference's accuracy, drift and noise appear in every conversion; a supply rail as reference carries the board's ripple.

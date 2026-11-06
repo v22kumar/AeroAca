@@ -71,6 +71,7 @@ export function stageOf(step: LessonStep): Stage | undefined {
       return "why";
     case "visual":
     case "walkthrough":
+    case "figure":
       return "how";
     case "example":
       return "example";

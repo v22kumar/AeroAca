@@ -129,6 +129,15 @@ Three ways to recognise it on a trace: the high task is blocked, not running; th
 **The fix that shipped** was one line, \`xSemaphoreCreateBinary()\` to \`xSemaphoreCreateMutex()\`, plus a design change that mattered as much: the configuration task should never have held the bus lock across a 3 ms flash write. Copy the page under the lock in microseconds and write to flash outside it, or give the flash its own bus. Inheritance bounds the damage; short critical sections remove most of it.`,
     },
     {
+      type: "figure",
+      stage: "how",
+      depth: "understand",
+      title: "The two timelines side by side",
+      diagram: "priority-inversion-timeline",
+      alt: "Two timelines of three tasks: without inheritance the high task waits for the medium task's whole run; with a mutex it waits only for the low task's critical section.",
+      caption: `Top: a binary semaphore, where H waits for M's entire run. Bottom: a mutex with inheritance, where L is raised to H's priority, M cannot preempt it, and H finishes after L's 3 ms critical section.`,
+    },
+    {
       type: "exercise",
       stage: "practice",
       depth: "understand",

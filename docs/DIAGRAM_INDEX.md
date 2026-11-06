@@ -1,6 +1,6 @@
 # Diagram index
 
-Every teaching diagram, what it shows, and where it is used. Files live in `public/diagrams/` and are generated from `scripts/gen-diagrams.py` (edit the data there, run the script, commit the SVGs). Each SVG is 640 units wide, readable at phone width, carries a `<title>`, and switches colours for dark mode. Diagrams are added only where they make a concept easier to understand; none is decorative. "Used in" names the document today and the lesson that will embed it when a `figure` step exists (listed under "implement next" in the PR); until then lessons may reference a diagram with a Markdown image.
+Every teaching diagram, what it shows, and where it is used. Files live in `public/diagrams/` and are generated from `scripts/gen-diagrams.py` (edit the data there, run the script, commit the SVGs). Each SVG is 640 units wide, readable at phone width, carries a `<title>`, and switches colours for dark mode. Diagrams are added only where they make a concept easier to understand; none is decorative. "Used in" names the document and the lesson that embeds it with a `figure` step; diagrams for blueprint modules are embedded when those lessons are written. The `rtos-task-states` diagram is also embedded in `isr-to-task-handoff` until module 20.1 publishes.
 
 ## Orientation
 

@@ -149,6 +149,13 @@ Set the terminal to 360 kbaud and the text becomes readable, which proves the di
       intro: `This question is popular because the answer shows whether you measure or guess. Lead with the scope.`,
     },
     {
+      type: "figure",
+      title: "One UART frame, bit by bit",
+      diagram: "uart-frame",
+      alt: "UART 8N1 frame timing diagram for the byte 0x4B with start bit, eight data bits least significant first, and stop bit.",
+      caption: `Idle is high; the start bit is a single low bit; the data follows least significant bit first; the stop bit is high. A stop bit that is not high is a framing error; a byte that arrives before the last one was read is an overrun.`,
+    },
+    {
       type: "recap",
       summary: `- Frame: idle high, start bit low, 8 data bits LSB first, optional parity, stop bit high. 115 200 8N1 is 8.68 µs per bit.
 - The receiver resynchronises on each start bit; combined rate error must stay under about ±5 % over the frame, so each side is held to 2 to 3 %.

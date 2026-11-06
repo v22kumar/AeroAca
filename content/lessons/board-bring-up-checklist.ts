@@ -155,6 +155,13 @@ Line 2 is there because of the supervisor-variant mission: a checklist grows fro
       intro: `Interviewers who have run a lab ask this to see whether you have ever been burnt. Answer with the stage order, the current limit, and what a step must contain.`,
     },
     {
+      type: "figure",
+      title: "Bring-up as a decision flow",
+      diagram: "bring-up-flow",
+      alt: "Bring-up decision flow: current limit and power, reset, clock, debugger, boot pins, then peripherals one by one.",
+      caption: `One fault at a time, in this order, because each step depends on the previous one. Record every reading; a board that passes each step alone and fails together is a timing or thermal margin problem.`,
+    },
+    {
       type: "recap",
       summary: `- Four stages, cheap and safe first: before power (visual, BOM markings, rail resistance), first power with a current limit, MCU alive, peripherals one by one.
 - Rail-to-ground resistance below about 10 Ω unpowered is a short: stop and localise it unpowered.

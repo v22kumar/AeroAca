@@ -22,6 +22,7 @@ A `Lesson` has: `slug`, `moduleId` (must match `content/curriculum.ts`), `title`
 | `concept` | `title`, `body`, optional `deeper: { title, body }` (collapsed by default) |
 | `visual` | `title`, `visual` (an id from `visualIdSchema`), optional `body`, `caption` |
 | `example` | `title`, `body` |
+| `figure` | `title`, `diagram` (file under `public/diagrams`, no extension), `alt`, `caption`, optional `body` |
 | `exercise` | `exercise` (see below) |
 | `interview` | `questionId` from `content/interview.ts`, optional `intro` |
 | `recap` | `summary`, `cards: [{ id, front, back }]` (become spaced-review cards; ids must be globally unique) |
@@ -58,7 +59,7 @@ Teaching diagrams live in `public/diagrams/*.svg` and are generated from `script
 
 Rules: one idea per diagram; labels readable at phone width (640-unit viewBox, 11 px minimum); colours from the app's tokens with a dark-mode media query inside the file; every diagram has a `<title>` that says what it shows; technical correctness over decoration (a diagram with a wrong bit order is worse than none). A diagram is added only where it materially improves understanding: signals, timing, architecture, state, flow, comparison. Decorative images are not added.
 
-Until a `figure` step type exists, a lesson references a diagram from a Markdown image in a `concept` or `example` body (an image whose path is `/diagrams/<name>.svg`); the alt text must say what the picture shows, not repeat the caption.
+A lesson embeds a diagram with a `figure` step: `{ type: "figure", title, diagram: "<name>", alt, caption, body? }`, where `diagram` is the file name under `public/diagrams` without the extension (the content test checks it exists). `alt` says what the picture shows for a screen reader; `caption` is the one-sentence reading of it; `body` is optional guidance above the figure. In a 2.0 lesson a figure carries `stage: "how"` and a depth.
 
 ## Writing for understanding
 

@@ -136,6 +136,13 @@ The record is built on the ISR's stack and copied whole into the queue; the task
       intro: `Name the race, name the primitive, state the FromISR rule and the sizing calculation. Mention the dropped-record counter: it shows you have shipped one of these.`,
     },
     {
+      type: "figure",
+      title: "Task states, so the handoff makes sense",
+      diagram: "rtos-task-states",
+      alt: "RTOS task state diagram with Ready, Running, Blocked and Suspended states and the events that move a task between them.",
+      caption: `A task waiting on a queue is Blocked; the ISR's give moves it to Ready; the scheduler runs it when nothing higher is ready. Keep every task Blocked except when it has work.`,
+    },
+    {
       type: "recap",
       summary: `- A shared buffer and a flag between an ISR and a task gives torn reads, lost samples and lost signals; volatile does not fix multi-word copies.
 - Queues copy whole items atomically and buffer a backlog; stream buffers for byte streams; DMA double buffers for high rates; notifications when only a signal is needed.

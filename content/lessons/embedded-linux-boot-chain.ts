@@ -154,6 +154,13 @@ The order matters: bus first, tree second, driver third, chip last. Starting at 
       intro: `Name the five stages and what each loads, say what the device tree is for in one sentence, and give the four-command diagnosis in order. That is a complete, honest answer for a hardware-side engineer.`,
     },
     {
+      type: "figure",
+      title: "The Linux boot chain beside the microcontroller's",
+      diagram: "boot-chain",
+      alt: "Two boot chains side by side: microcontroller from reset vector through startup code to main, and embedded Linux from boot ROM through bootloader and kernel to login.",
+      caption: `Boot ROM finds the bootloader; the bootloader brings up DRAM and loads the kernel and device tree; the kernel binds drivers to the nodes it finds; init starts user space. Find the last step that worked.`,
+    },
+    {
       type: "recap",
       summary: `- Boot chain: ROM code → first-stage loader (DRAM) → U-Boot (kernel + DTB + initramfs) → kernel (probe, mount rootfs, PID 1) → init → login or application.
 - Device tree describes undiscoverable hardware: status enables a node, compatible binds a driver, reg is the bus address, pinctrl sets the pad function.

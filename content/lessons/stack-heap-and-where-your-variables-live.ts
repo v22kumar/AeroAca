@@ -166,6 +166,13 @@ The lab below prints which section each kind of variable landed in, shows the st
       intro: `Describe the symptom, the watchpoint, the frame arithmetic, then the three defences; finish with the map file.`,
     },
     {
+      type: "figure",
+      title: "Where each variable lives, in one picture",
+      diagram: "memory-map",
+      alt: "Memory map of a microcontroller program: vector table, code and constants in flash; initialised data, zeroed data, heap and stack in RAM, with the startup copy of initial values.",
+      caption: `Flash holds the vector table, your code, constants and the initial values of .data; startup copies those into RAM and zeroes .bss. The heap grows up, the stack grows down, and the space between them is the margin you measure.`,
+    },
+    {
       type: "recap",
       summary: `- .text and .rodata in flash; .data copied to RAM at boot (costs both); .bss zeroed (costs RAM only); stack at the top of RAM, full-descending; heap between.
 - A frame holds the return address, saved registers and locals; interrupts push 32 or 104 bytes then their handler's locals; nesting adds. Size from a high-water mark plus margin; guard by placing the stack at the bottom of RAM or with the MPU; keep handler frames small; no recursion.

@@ -141,6 +141,13 @@ A common failure of the chain is confusing *correlation* with *cause*: the reboo
       intro: `Describe the chain, name the measurements, and say how you confirmed causation in both directions. Interviewers listen for the confirm step; most candidates skip it.`,
     },
     {
+      type: "figure",
+      title: "Root-cause analysis as a flow",
+      diagram: "rca-flow",
+      alt: "Root cause analysis process from precise symptom through evidence, ranked hypotheses, discriminating experiment, cause, fix and prevention.",
+      caption: `State the symptom precisely, collect evidence before guessing, rank hypotheses that explain all of it, and design the one experiment that rules a hypothesis in or out. Loop until one is left, then fix, verify and prevent.`,
+    },
+    {
       type: "recap",
       summary: `- Symptom → cause → root cause. A root cause is a changeable condition whose fix makes the symptom impossible for the whole class. People are never root causes.
 - Five whys stops at the first condition you can change and verify; cause-and-effect categories stop you skipping a branch.

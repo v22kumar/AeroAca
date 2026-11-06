@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { existsSync } from "node:fs";
 import { curriculum, interviewQuestions, lessons, missions } from "@/content";
 import { curriculumModuleSchema, interviewQuestionSchema, lessonSchema, missionSchema } from "@/lib/content/schema";
 import { allReviewCards, learningPath } from "@/lib/content";
@@ -8,6 +9,15 @@ describe("content validity", () => {
     for (const lesson of lessons) {
       const r = lessonSchema.safeParse(lesson);
       expect(r.success, `${lesson.slug}: ${r.success ? "" : JSON.stringify(r.error.issues, null, 2)}`).toBe(true);
+    }
+  });
+
+  it("every figure step names a diagram that exists under public/diagrams", () => {
+    for (const lesson of lessons) {
+      for (const step of lesson.steps) {
+        if (step.type !== "figure") continue;
+        expect(existsSync(`public/diagrams/${step.diagram}.svg`), `${lesson.slug} -> ${step.diagram}`).toBe(true);
+      }
     }
   });
 

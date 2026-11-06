@@ -155,6 +155,13 @@ Fix: \`SPI_CR1 |= SPI_CR1_CPOL | SPI_CR1_CPHA;\` (or the equivalent HAL init fie
       intro: `Interviewers like to describe a wrong register value and ask what you would check. Your answer should name CPOL and CPHA, say what the scope would show, and name the two other causes you would rule out.`,
     },
     {
+      type: "figure",
+      title: "Mode 0 timing, drawn",
+      diagram: "spi-timing",
+      alt: "SPI timing diagram in mode 0 with chip select, clock, MOSI and MISO, data sampled on each rising clock edge, most significant bit first.",
+      caption: `Chip select low frames the transfer; the clock idles low; both sides change data on the falling edge and sample on the rising edge. The other three modes move the idle level or the sampling edge, which is why a wrong mode shifts the first byte by one bit.`,
+    },
+    {
       type: "recap",
       summary: `- SPI is two shift registers in a ring: every transfer is a write and a read; reads need dummy clocks from the master.
 - CPOL is the clock idle level; CPHA chooses the first or second edge for sampling. Modes 0 and 3 both sample on the rising edge.

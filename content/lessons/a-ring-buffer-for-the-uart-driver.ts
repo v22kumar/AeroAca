@@ -172,6 +172,13 @@ The main loop drains with \`while (uart_rx_get(&b)) parser_step(&p, b, now);\`. 
       intro: `Write put and get aloud, then give the full/empty rule, the three lock-free conditions and the overrun decision; finish with how you would size and test it.`,
     },
     {
+      type: "figure",
+      title: "The ring buffer, drawn",
+      diagram: "ring-buffer",
+      alt: "Eight slot ring buffer with head and tail pointers, the full and empty rules, and the single writer single reader condition that makes it lock free.",
+      caption: `Head belongs to the writer, tail to the reader; each side only reads the other's index. Empty is head equal to tail; full keeps one slot free so the two cases cannot be confused.`,
+    },
+    {
       type: "recap",
       summary: `- Fixed array, head (producer) and tail (consumer), power-of-two size so the wrap is a mask; empty when head == tail; full when head + 1 == tail, keeping one slot empty.
 - Full is a decision: refuse and count an overrun (receive streams) or overwrite the oldest (recent-sample logs); never silent.

@@ -28,6 +28,7 @@ const stepLabel: Record<LessonStep["type"], string> = {
   visual: "Interactive",
   example: "Worked example",
   walkthrough: "Code walkthrough",
+  figure: "In one picture",
   exercise: "Exercise",
   lab: "Run it yourself",
   interview: "Interview question",
@@ -388,6 +389,8 @@ function StepBody({
       );
     case "walkthrough":
       return <WalkthroughStep step={step} />;
+    case "figure":
+      return <FigureStep step={step} />;
     case "exercise":
       return (
         <section>
@@ -593,6 +596,25 @@ function WalkthroughStep({ step }: { step: Extract<LessonStep, { type: "walkthro
           );
         })}
       </ol>
+    </section>
+  );
+}
+
+/** A teaching diagram with its reading. The SVGs are static, dark-mode aware and carry their own title. */
+function FigureStep({ step }: { step: Extract<LessonStep, { type: "figure" }> }) {
+  return (
+    <section className="flex flex-col gap-3" data-testid="figure-step">
+      <h2 className="text-xl font-bold">{step.title}</h2>
+      {step.body && <Markdown>{step.body}</Markdown>}
+      <figure className="m-0">
+        <Card className="overflow-hidden p-2 sm:p-3">
+          {/* eslint-disable-next-line @next/next/no-img-element -- static SVG under public/, no optimisation wanted */}
+          <img src={`/diagrams/${step.diagram}.svg`} alt={step.alt} className="h-auto w-full" width={640} height={320} loading="lazy" data-testid="figure-image" />
+        </Card>
+        <figcaption className="mt-2 text-sm text-ink-2">
+          <Markdown size="sm">{step.caption}</Markdown>
+        </figcaption>
+      </figure>
     </section>
   );
 }

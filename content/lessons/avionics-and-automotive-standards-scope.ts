@@ -143,6 +143,13 @@ Each sentence names the standard, the level, the artefact and the boundary of yo
       intro: `Give the scope of each standard in one sentence, say how DAL and ASIL are assigned, name one artefact you would produce under each, and state your own involvement precisely.`,
     },
     {
+      type: "figure",
+      title: "DO-178C levels at a glance",
+      diagram: "do178-levels",
+      alt: "Table of DO-178C software levels A to E with the associated failure condition, number of objectives and required structural coverage.",
+      caption: `The level follows from the worst failure condition; the number of objectives and the coverage required rise with it. Working under a level is not being certified to it.`,
+    },
+    {
       type: "recap",
       summary: `- ARP4754A (system development), ARP4761 (safety assessment, source of DAL), DO-178C (software objectives by DAL A–E), DO-254 (complex hardware), DO-160 (environmental tests).
 - Structural coverage ladder: statement at DAL C, decision at B, MC/DC at A; requirements-based tests only at D.

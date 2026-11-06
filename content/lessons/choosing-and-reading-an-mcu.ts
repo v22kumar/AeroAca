@@ -156,6 +156,13 @@ Result: an STM32F446RET7 or VET7 (100 pins if the AF table forces it). The decis
       intro: `Separate MCU from MPU in two sentences, decode the part number aloud, then run the six questions for the product.`,
     },
     {
+      type: "figure",
+      title: "Inside the microcontroller",
+      diagram: "mcu-block",
+      alt: "Block diagram of a Cortex-M microcontroller: core, NVIC, bus matrix, flash, SRAM, clock tree, debug port and peripherals on the APB buses.",
+      caption: `The core talks to flash, SRAM and the peripherals over a bus matrix; the clock tree enables each block; the debug port is how the probe reaches the core. Every peripheral needs its clock enabled and its pins configured before it does anything.`,
+    },
+    {
       type: "recap",
       summary: `- MCU: flash and RAM on chip, boots from flash in milliseconds, deterministic interrupts, milliwatts, cents to dollars. MPU: external memory, bootloader and OS, seconds to boot, watts, no hard real time without help. SoC: several subsystems on one die; ask which cores.
 - Cortex-M0+ (minimal), M3 (general), M4F (DSP + single-precision FPU), M7 (caches, performance), M33 (TrustZone); Cortex-R for safety real time; Cortex-A for Linux. RISC-V is arriving.

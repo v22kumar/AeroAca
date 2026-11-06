@@ -204,6 +204,13 @@ Three things the table made explicit that a \`strtok\` loop would not: a line th
       intro: `Draw it aloud: states, events, the table, then the C skeleton; mention the tick and the test.`,
     },
     {
+      type: "figure",
+      title: "The debounce machine as a diagram",
+      diagram: "state-machine-debounce",
+      alt: "Four state debounce machine with released, maybe pressed, pressed and maybe released states and transitions on sampled input with a four sample confirmation.",
+      caption: `Each tick reads the input once and follows at most one arrow. A bounce sends the machine back without an event; only four consistent samples confirm a press or a release.`,
+    },
+    {
       type: "recap",
       summary: `- States are modes; events are what happens; transitions are event [guard] / action → state. Draw the diagram and fill the full table (every state × every event) before coding.
 - Smells: flags read in many places and written in several; blocking delays in control flow.

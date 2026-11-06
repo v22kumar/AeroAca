@@ -122,6 +122,13 @@ The report lists each level's coverage and its known blind spots. A reviewer tru
       intro: `Give the four definitions in one sentence each, name what is in a rig, give one bug class per level, and end with the fidelity caveat. That answer sounds like strategy, not vocabulary.`,
     },
     {
+      type: "figure",
+      title: "What a HIL rig actually contains",
+      diagram: "hil-architecture",
+      alt: "Hardware in the loop architecture: a real time target running the plant model drives analogue, bus and fault insertion I/O into the real device under test, orchestrated by a host PC.",
+      caption: `The device under test is real; everything it senses comes from a model running on a real-time target through analogue, bus and fault-insertion I/O. HIL proves the box against the model; it does not prove the model.`,
+    },
+    {
       type: "recap",
       summary: `- MIL: model real. SIL: code real on a PC. PIL: code real on the target. HIL: controller and I/O real, plant simulated in real time. Then the real plant.
 - Each bug class goes to the lowest level that can catch it: tuning at MIL, logic at SIL, timing and fixed-point at PIL, wiring, I/O and fault handling at HIL.

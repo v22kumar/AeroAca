@@ -165,6 +165,13 @@ The device echoes the tag it was sent (\`#17 OK\`, \`#18 3.2987\`). Four rules m
       intro: `Tell the one-command-late story, name the two mechanisms (timeout shorter than the reply, stale buffer) and the four-rule fix. It is a concrete, honest automation story even if the device was a lab bench supply.`,
     },
     {
+      type: "figure",
+      title: "Where the serial link sits in the bench",
+      diagram: "test-bench-automation",
+      alt: "Automated test bench: a PC running pytest controls a bench supply, oscilloscope and multimeter and talks to the device under test over serial.",
+      caption: `The serial link carries commands to the device and logs back; the instruments see the same device from the outside. Waiting for a reply beats a sleep every time.`,
+    },
+    {
       type: "recap",
       summary: `- pyserial: Serial(port, baud, timeout), write(bytes), readline() → bytes, decode with errors='replace', reset_input_buffer(), in_waiting.
 - A timeout bounds waiting, not the device; readline returns partial lines; late bytes persist in the buffer and shift every later reply by one.

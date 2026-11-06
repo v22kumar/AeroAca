@@ -162,6 +162,13 @@ Last month's wrong-baud banner fails E3 immediately, and a slow boot fails E2. N
       intro: `This question is asked in verification, integration and firmware interviews alike. Walk through the seven parts and give the measurement method.`,
     },
     {
+      type: "figure",
+      title: "Requirements to tests, both directions",
+      diagram: "v-model-traceability",
+      alt: "V model showing system, high level and low level requirements on the left, code at the bottom, and the corresponding test levels on the right with traceability links.",
+      caption: `Every requirement has tests and every test has a requirement, at each level. Coverage of the code comes from these requirements-based tests, not from extra ones written to make the number go up.`,
+    },
+    {
       type: "recap",
       summary: `- Seven parts: ID, trace, preconditions, steps, expected result with method, pass criterion, record.
 - An expected result needs a quantity, a value with tolerance, a condition and a measurement method. If you cannot say what the instrument shows, go back to the requirement.
