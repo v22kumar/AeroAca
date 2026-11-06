@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const writingATrustworthyTestCase: Lesson = {
   slug: "writing-a-trustworthy-test-case",
   moduleId: "verification",
+  prerequisites: ["board-bring-up-checklist"],
   title: "Writing a test case that a reviewer can trust",
   summary: "A test proves something only if its expected result can fail. Learn the anatomy of a verifiable test case, how it traces to a requirement, and how to turn 'works correctly' into a number with a method.",
   durationMinutes: 10,

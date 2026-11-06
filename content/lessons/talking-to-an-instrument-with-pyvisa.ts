@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const talkingToAnInstrumentWithPyvisa: Lesson = {
   slug: "talking-to-an-instrument-with-pyvisa",
   moduleId: "python-test",
+  prerequisites: ["writing-a-trustworthy-test-case"],
   title: "Talking to a bench instrument with PyVISA",
   summary: "Every bench instrument with a USB, LAN or GPIB port speaks SCPI, and Python reaches it through VISA. Learn the four calls that cover most of test automation, the SCPI commands you will use every week, and the synchronisation and error-queue habits that keep scripts honest.",
   durationMinutes: 12,

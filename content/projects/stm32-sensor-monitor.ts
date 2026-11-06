@@ -70,6 +70,13 @@ Golden values in the ICD become unit-test inputs in stage 5 and the byte-order t
     },
     {
       id: "firmware",
+      buildIt: {
+        intro: `**Build it.** The detection function, a test harness and the sensor model exist as runnable files under \`labs/portfolio\` in the academy's repository (\`detect.h\`, \`detect.c\`, \`test_detect.c\`, \`sim.c\`, \`sensor_model.py\`, \`Makefile\`). Copy the folder, read \`detect.c\` against R3 line by line, then run the steps below and compare with the expected output. They run on any PC with gcc or clang, make and Python 3; nothing here needs the board. Do not stop at "it compiles": the point of the next stage is that the tests can fail.`,
+        steps: [
+          { title: "Run the sensor model alone and read its output format", lab: "portfolio-sensor-model", note: "One line per 10 Hz sample: `t_ms,acked,temp_centi`. The noise sequence is fixed so your output matches this one exactly. From t = 3 000 ms the value freezes: that is the stuck fault the detection must catch at 5 s." },
+          { title: "Run the detection function against an injected NACK", lab: "portfolio-sim-run", note: "The host harness pipes the model into the real `detect()` and prints ICD log lines. The alarm column goes to 1 on the first NACK at t = 2 000 ms and the reading becomes 32767 (invalid). Latency here is one sample; on hardware you will measure it with the analyser." },
+        ],
+      },
       title: "Firmware and sensor model",
       goal: "Implement the detection logic as a pure function, a Python sensor model with fault injection, and (on hardware) the driver, watchdog and logger.",
       relatedLessons: ["embedded-c-register-bit-masks", "fixed-width-integers-overflow-shifts", "serial-automation-and-test-logs"],
@@ -87,6 +94,13 @@ Label your repository README with what runs where. Nothing in this stage is "don
     },
     {
       id: "tests",
+      buildIt: {
+        intro: `**Build it.** The unit tests below are the first layer. Each one is a line that can fail; the harness is twenty lines of C with no framework to install. Run them, then run the deliberately failing case to prove the harness reports failure (a test suite that cannot fail proves nothing, day 12's rule). Then write TC-01 to TC-07 as documents and record which ran where.`,
+        steps: [
+          { title: "Run the unit tests: golden pairs, every fault boundary, the timestamp wrap", lab: "portfolio-detect-tests", note: "16 checks. Read the two range lines carefully: −40.01 °C is a range fault; −40.00 °C is in range but a 65 °C jump, so it reports JUMP. The boundary is the specification, made executable." },
+          { title: "Prove the harness can fail", lab: "portfolio-detect-known-failure", note: "The same binary with `--known-failure` adds one check whose expectation is wrong on purpose (a 4.99 °C change reported as a jump). It must print FAIL and a non-zero count. Keep this run's output in your evidence folder next to the passing one." },
+        ],
+      },
       title: "Tests and traceability",
       goal: "Write test cases that can fail, trace them to requirements, and run them where they can run.",
       relatedLessons: ["writing-a-trustworthy-test-case", "talking-to-an-instrument-with-pyvisa"],
@@ -105,6 +119,12 @@ A traceability matrix (requirement × test case) with no gaps and no orphans goe
     },
     {
       id: "fault-injection",
+      buildIt: {
+        intro: `**Build it.** The simulation path for this stage is the host harness: inject each fault with the model, read the first-fault line and the alarm transition, and record the latency as (first alarm sample − fault onset). The in-browser simulator below runs the same rules; the harness is the one you can put in a repository.`,
+        steps: [
+          { title: "Inject a NACK at 2.0 s and read the detection latency", lab: "portfolio-sim-run", note: "Onset 2 000 ms, first alarm at 2 000 ms: latency one sample (100 ms) in simulation. Repeat with `--fault stuck --at 3.0 --seconds 10 | ./sim_bin` and expect the first STUCK at 8 000 ms (5.0 s after the value froze), which is **outside** R2's 2.0 s. That is a finding for the FMEA row and the report, not a bug to hide." },
+        ],
+      },
       title: "Fault injection",
       goal: "Inject each fault, measure detection latency, and record the numbers with the method.",
       visual: "sensor-monitor-lab",

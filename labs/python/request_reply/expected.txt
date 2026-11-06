@@ -1,0 +1,8 @@
+TEMP -> temp-value
+  seq 2: timeout on attempt 1
+  seq 2: timeout on attempt 2
+  seq 2: timeout on attempt 3
+SLOW -> seq 2: no tagged reply for SLOW
+  seq 3: ignored stale reply tagged 2
+VOLT -> volt-value
+done: every value matched its own request

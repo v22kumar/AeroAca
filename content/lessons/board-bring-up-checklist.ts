@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const boardBringUpChecklist: Lesson = {
   slug: "board-bring-up-checklist",
   moduleId: "integration",
+  prerequisites: ["mcu-board-does-not-boot", "reading-a-power-tree"],
   title: "A board bring-up checklist that actually gets used",
   summary: "Most bring-up checklists die in a drawer because they are long, vague and record nothing. Learn to write one that is short, measurable and leaves evidence, from the first continuity check to the first UART banner.",
   durationMinutes: 10,

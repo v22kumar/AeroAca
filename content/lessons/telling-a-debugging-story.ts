@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const tellingADebuggingStory: Lesson = {
   slug: "telling-a-debugging-story",
   moduleId: "interviews",
+  prerequisites: ["root-cause-analysis"],
   title: "Telling a debugging story: evidence, decision, outcome",
   summary: "'Tell me about a hard bug' is the question every hardware interview contains. Learn the evidence-decision-outcome structure, the 90-second and five-minute versions, which numbers to keep, what to cut, and how to run the timed mock interview on day 29 so the story comes out the same under pressure.",
   durationMinutes: 10,

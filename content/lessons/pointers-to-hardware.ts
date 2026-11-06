@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const pointersToHardware: Lesson = {
   slug: "pointers-to-hardware",
   moduleId: "embedded-c",
+  prerequisites: ["embedded-c-register-bit-masks", "fixed-width-integers-overflow-shifts"],
   title: "Pointers to hardware: structs over memory maps",
   summary: "A peripheral is a block of registers at an address, and C reaches it through a pointer to a struct whose layout matches the map exactly. Learn why every member is volatile, how reserved gaps keep offsets honest, what the vendor headers do for you, and the three pointer mistakes that corrupt hardware silently.",
   durationMinutes: 10,

@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const canArbitrationErrorFramesAndBusOff: Lesson = {
   slug: "can-arbitration-error-frames-and-bus-off",
   moduleId: "interfaces",
+  prerequisites: ["uart-framing-and-baud", "logic-analysers-decoding-a-bus"],
   title: "CAN: arbitration, error frames and bus-off",
   summary: "CAN resolves collisions bit by bit, confines faulty nodes automatically, and tells you exactly why a node fell silent if you know where to look. Learn dominant and recessive, how arbitration picks a winner, the frame fields, bit stuffing, the error counters that lead to bus-off, and the three measurements that diagnose a dead bus.",
   durationMinutes: 10,

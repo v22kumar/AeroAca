@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const silHilWhatEachProves: Lesson = {
   slug: "sil-hil-what-each-proves",
   moduleId: "verification",
+  prerequisites: ["writing-a-trustworthy-test-case"],
   title: "SIL, HIL and what each one proves",
   summary: "Model, software, processor and hardware in the loop are four rungs of the same ladder. Learn what each proves and cannot prove, what a HIL rig is made of, and how to decide which bugs you catch where, so a review hears 'we tested the right thing at the right level' instead of 'we tested it'.",
   durationMinutes: 10,

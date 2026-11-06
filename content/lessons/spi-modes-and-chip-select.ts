@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const spiModesAndChipSelect: Lesson = {
   slug: "spi-modes-and-chip-select",
   moduleId: "interfaces",
+  prerequisites: ["i2c-sensor-not-acknowledging"],
   title: "SPI modes, chip select and the first byte of garbage",
   summary: "SPI is simple until two chips disagree about which clock edge matters. Learn the four modes, how chip select frames a transaction, and how to read a shifted or stuck byte as a precise diagnosis.",
   durationMinutes: 9,

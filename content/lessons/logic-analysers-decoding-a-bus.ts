@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const logicAnalysersDecodingABus: Lesson = {
   slug: "logic-analysers-decoding-a-bus",
   moduleId: "instrumentation",
+  prerequisites: ["oscilloscope-probing", "uart-framing-and-baud"],
   title: "Logic analysers: decoding a bus you did not design",
   summary: "A logic analyser turns a bus into a time-stamped list of bytes, but only if the sample rate, thresholds, triggers and decoder settings are right, and only after you have worked out what the bus is. Learn the setup rules, how to identify an unknown protocol from its idle levels and edges, and how to turn a capture into evidence.",
   durationMinutes: 10,

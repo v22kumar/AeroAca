@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const embeddedCRegisterBitMasks: Lesson = {
   slug: "embedded-c-register-bit-masks",
   moduleId: "embedded-c",
+  prerequisites: [],
   title: "Register bit masks: read, modify, write safely",
   summary: "Every peripheral is configured by bits in memory-mapped registers. Learn to read a bit-field definition, change exactly the bits you mean to, and know when a read-modify-write is not safe.",
   durationMinutes: 10,
@@ -130,6 +131,13 @@ GPIOA->MODER = (GPIOA->MODER & ~GPIO_MODER_MODER5_Msk)
 \`\`\`
 
 This is a read-modify-write too, so it belongs in initialisation code before interrupts that touch MODER are enabled.`,
+    },
+    {
+      type: "lab",
+      title: "Run it yourself: set, clear, toggle and write a field",
+      lab: "c-bits",
+      body: `This is the lesson's bit arithmetic as a program you can build on any PC in ten seconds. The register is an ordinary variable so it runs on the host; on the target it would be \`volatile\` and live at the peripheral's address. Build and run it with the command below, then compare every line against the expected output. Each line is one of the four operations from this lesson; work out the hex by hand *before* you look at the printed value, and only then check.`,
+      tryNext: `Change the field write to put **7** into bits 7:5 and predict the new value of CR before you run it. Then change \`FIELD_MASK(7, 5)\` to \`FIELD_MASK(8, 5)\` and explain why bit 8 changed even though you only "wrote the field".`,
     },
     {
       type: "exercise",

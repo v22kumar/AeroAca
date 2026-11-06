@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const rootCauseAnalysis: Lesson = {
   slug: "root-cause-analysis",
   moduleId: "instrumentation",
+  prerequisites: ["mcu-board-does-not-boot"],
   title: "Root-cause analysis and the five whys that matter",
   summary: "A symptom tells you where to look; a root cause tells you what to change so it never comes back. Learn the evidence chain from reproduce to prevent, the questions that separate causes from coincidences, and how to write it up so a review accepts it.",
   durationMinutes: 10,

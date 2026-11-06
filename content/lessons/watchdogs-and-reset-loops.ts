@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const watchdogsAndResetLoops: Lesson = {
   slug: "watchdogs-and-reset-loops",
   moduleId: "mcu",
+  prerequisites: ["mcu-board-does-not-boot"],
   title: "Watchdogs and reset loops",
   summary: "A watchdog is a promise the firmware makes to the hardware. Learn how the STM32 independent watchdog keeps time, how to size its timeout, and how to prove which reset source is restarting your board.",
   durationMinutes: 9,

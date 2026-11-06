@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const embeddedLinuxBootChain: Lesson = {
   slug: "embedded-linux-boot-chain",
   moduleId: "embedded-linux",
+  prerequisites: ["from-reset-vector-to-main", "i2c-sensor-not-acknowledging"],
   title: "Boot chain and device tree, from bootloader to login",
   summary: "Enough embedded Linux to hold the conversation and find a missing sensor: the stages from ROM code to login, what the device tree is for, the line between kernel and user space, and the four commands that answer 'why is my device not there?'",
   durationMinutes: 12,

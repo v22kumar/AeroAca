@@ -1,0 +1,7 @@
+# build products of the labs; never commit them
+bits
+elapsed
+test_detect
+sim_bin
+*.o
+__pycache__/

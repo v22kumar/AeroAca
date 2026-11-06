@@ -14,6 +14,7 @@ import { ProgressBar } from "@/components/ui/ProgressBar";
 import { InstallHint } from "@/components/pwa/InstallHint";
 import { JourneyDayChecklist } from "@/components/journey/JourneyDayCard";
 import { Recommendations } from "@/components/progress/Recommendations";
+import { StartHereCard } from "@/components/start/StartHereCard";
 
 function greeting(hour: number) {
   if (hour < 5) return "Late session";
@@ -82,6 +83,7 @@ export function TodayView() {
         </div>
       ) : (
         <>
+          <StartHereCard />
           <Card className="hero-glow relative overflow-hidden p-5" data-testid="next-action">
             <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-accent-soft opacity-60" aria-hidden />
             {next ? (

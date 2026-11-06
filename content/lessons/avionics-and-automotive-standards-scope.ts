@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const avionicsAndAutomotiveStandardsScope: Lesson = {
   slug: "avionics-and-automotive-standards-scope",
   moduleId: "standards",
+  prerequisites: ["writing-a-trustworthy-test-case", "fmea-for-a-small-embedded-product"],
   title: "What DO-178C, DO-254 and ISO 26262 are for",
   summary: "Standards are scopes, not slogans. Learn what each avionics and automotive standard governs, how the criticality levels are assigned, what evidence a test or verification engineer actually produces under them, and how to talk about them honestly when you have worked within a process rather than owned it.",
   durationMinutes: 12,

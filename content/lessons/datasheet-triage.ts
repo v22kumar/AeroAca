@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const datasheetTriage: Lesson = {
   slug: "datasheet-triage",
   moduleId: "pcb",
+  prerequisites: ["reading-a-power-tree"],
   title: "Datasheet triage: the five numbers that matter",
   summary: "A datasheet is two hundred pages; a decision needs five numbers and their conditions. Learn to find supply range, logic levels, current, timing and thermal limits fast, to read the footnotes that change them, and to tell absolute maximum from recommended operating from typical.",
   durationMinutes: 10,

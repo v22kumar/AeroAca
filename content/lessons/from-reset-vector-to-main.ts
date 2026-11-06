@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const fromResetVectorToMain: Lesson = {
   slug: "from-reset-vector-to-main",
   moduleId: "firmware-arch",
+  prerequisites: ["mcu-board-does-not-boot", "embedded-c-register-bit-masks"],
   title: "From reset vector to main(): what startup code does",
   summary: "Between the reset line releasing and your first line of C, a few hundred instructions set the stack, copy initialised data, zero the rest, configure the clock and relocate the vector table. When any of them is skipped, main() runs in a world that lies to it.",
   durationMinutes: 10,

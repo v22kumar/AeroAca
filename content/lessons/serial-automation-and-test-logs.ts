@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const serialAutomationAndTestLogs: Lesson = {
   slug: "serial-automation-and-test-logs",
   moduleId: "python-test",
+  prerequisites: ["uart-framing-and-baud", "talking-to-an-instrument-with-pyvisa"],
   title: "Serial communication and test logs in Python",
   summary: "Most devices under test talk over a UART. Learn pyserial's handful of calls, why bytes and strings are different, how timeouts and stale buffers make tests flaky, and how to frame a request and match its reply so a thousand-cycle test means something.",
   durationMinutes: 10,
@@ -58,6 +59,13 @@ Before any script, put a logic analyser or a terminal on TX and RX for one minut
       },
     },
     {
+      type: "lab",
+      title: "Run it yourself: bytes, text and partial lines",
+      lab: "py-bytes-str",
+      body: `Everything the concept step said about bytes versus text, run on your own machine. Note three things in the output: \`decode()\` is what turns \`b"..."\` into a string you can compare; a baud-mismatch byte such as \`0xff\` does not decode as ASCII and the script reports *where* instead of crashing; and a reply that arrives in pieces is only usable once the terminator has been seen, which is why the accumulate-and-split loop exists.`,
+      tryNext: `Change the terminator in the accumulate loop to \`b"\\n"\` only and run again. The lines now end in a stray \`\\r\`: find it in the output, then explain why \`.strip()\` hides this bug on the bench until a device sends a bare \`\\n\`.`,
+    },
+    {
       type: "example",
       title: "Worked example: a request-reply helper that cannot drift",
       body: `\`\`\`python
@@ -90,6 +98,13 @@ class Dut:
 \`\`\`
 
 The device echoes the tag it was sent (\`#17 OK\`, \`#18 3.2987\`). Four rules make the exchange unambiguous: flush before sending, wait against a deadline rather than a single read, accept only complete lines, and match the reply to the request by tag. The log records every byte in and out with timestamps, so when something does go wrong the evidence is already there. If the firmware cannot echo a tag, the next best thing is to match the reply's *shape* (a number for MEAS?, OK for a setting) and to discard anything else.`,
+    },
+    {
+      type: "lab",
+      title: "Run it yourself: a request-reply helper that cannot drift",
+      lab: "py-request-reply",
+      body: `The worked example's helper against a fake port that misbehaves exactly like the mission's instrument: the reply to \`SLOW\` turns up only after the *next* request. Watch what the helper does: it flushes stale input before writing, tags every request with a sequence number, times out instead of waiting forever, and when the late reply finally arrives tagged \`2\` during request \`3\`, it is ignored rather than returned as the value for \`VOLT\`. Swap \`FakePort\` for \`serial.Serial(...)\` and the same helper runs on the bench.`,
+      tryNext: `Remove the \`port.reset_input_buffer()\` line and run again. Which request now receives the wrong value, and what in the printed output tells you so?`,
     },
     {
       type: "exercise",

@@ -230,6 +230,40 @@ export class ProgressStore {
 
   /* ---------- Profile ---------- */
 
+  /* ---------- Starting-level diagnostic ---------- */
+
+  recordDiagnosticAnswer(questionId: string, correct: boolean) {
+    this.update((d) => {
+      const diag = d.diagnostic ?? { answers: {} };
+      diag.answers = { ...diag.answers, [questionId]: { correct, at: this.now() } };
+      d.diagnostic = diag;
+    });
+  }
+
+  completeDiagnostic() {
+    this.update((d) => {
+      const diag = d.diagnostic ?? { answers: {} };
+      diag.completedAt = this.now();
+      delete diag.skippedAt;
+      d.diagnostic = diag;
+    });
+  }
+
+  skipDiagnostic() {
+    this.update((d) => {
+      const diag = d.diagnostic ?? { answers: {} };
+      diag.skippedAt = this.now();
+      d.diagnostic = diag;
+    });
+  }
+
+  /** Clears the diagnostic so it can be retaken; lesson progress is untouched. */
+  resetDiagnostic() {
+    this.update((d) => {
+      delete d.diagnostic;
+    });
+  }
+
   setName(name: string) {
     const trimmed = name.trim().slice(0, 40);
     this.update((d) => {

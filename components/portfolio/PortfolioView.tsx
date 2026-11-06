@@ -13,6 +13,8 @@ import { Disclosure } from "@/components/ui/Disclosure";
 import { Visual } from "@/components/visuals/Visual";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { Icon } from "@/components/ui/Icon";
+import { CodeBlock } from "@/components/ui/CodeBlock";
+import { getLab } from "@/lib/labs/generated";
 
 const pathLabel: Record<Path, string> = { doc: "Written", sim: "Simulation", hw: "Hardware" };
 
@@ -92,6 +94,42 @@ export function PortfolioView() {
                   {st.visual && (
                     <div className="mt-4 rounded-xl border border-line bg-surface p-3">
                       <Visual id={st.visual} />
+                    </div>
+                  )}
+                  {st.buildIt && (
+                    <div className="mt-4 rounded-xl border border-accent/25 bg-accent-soft/30 p-3" data-testid={`build-it-${st.id}`}>
+                      <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">Build it</h3>
+                      <div className="mt-1 text-sm">
+                        <Markdown size="sm">{st.buildIt.intro}</Markdown>
+                      </div>
+                      <ol className="mt-3 flex flex-col gap-4">
+                        {st.buildIt.steps.map((b, k) => {
+                          const lab = getLab(b.lab);
+                          return (
+                            <li key={`${b.lab}-${k}`} className="flex flex-col gap-2">
+                              <p className="text-[15px] font-semibold">
+                                {k + 1}. {b.title}
+                              </p>
+                              {lab ? (
+                                <>
+                                  <p className="text-xs text-ink-3">
+                                    In <code>{lab.dir}</code>, run:
+                                  </p>
+                                  <CodeBlock code={lab.command} label="Command" language="bash" />
+                                  <CodeBlock code={lab.expectedOutput} label="Expected output" />
+                                </>
+                              ) : (
+                                <p className="text-danger text-sm">Lab {b.lab} is missing.</p>
+                              )}
+                              {b.note && (
+                                <div className="text-sm text-ink-2">
+                                  <Markdown size="sm">{b.note}</Markdown>
+                                </div>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ol>
                     </div>
                   )}
                   <h3 className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-ink-3">Deliverables</h3>

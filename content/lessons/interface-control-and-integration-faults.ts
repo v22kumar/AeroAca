@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const interfaceControlAndIntegrationFaults: Lesson = {
   slug: "interface-control-and-integration-faults",
   moduleId: "integration",
+  prerequisites: ["uart-framing-and-baud", "fixed-width-integers-overflow-shifts"],
   title: "Interface control documents and integration faults",
   summary: "Two boards that each pass their own tests can still fail together. Learn what an interface control document must pin down, the six ways integrations usually break, and how a golden frame and a reference measurement settle an argument between teams.",
   durationMinutes: 10,

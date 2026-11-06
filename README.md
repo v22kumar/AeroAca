@@ -112,3 +112,7 @@ The repository is public. It contains no personal data, employer material, crede
 
 - [Product brief](docs/PRODUCT_BRIEF.md), [handoff](docs/FABBY_HANDOFF.md), [curriculum](docs/CURRICULUM.md), [MVP](docs/MVP.md)
 - [Architecture decisions](docs/ARCHITECTURE.md) · [Content authoring](docs/CONTENT_AUTHORING.md) · [Deployment](docs/DEPLOYMENT.md) · [Release 0.1 report](docs/RELEASE_0.1_REPORT.md)
+
+## Running the labs
+
+Lessons marked **Run it yourself** and the portfolio's **Build it** steps are small C and Python programs under `labs/`. Each shows the exact command and an expected output that CI reproduces on every change (`tests/labs.test.ts`). Set-up is in `docs/LOCAL_LAB.md`.

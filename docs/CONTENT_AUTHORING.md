@@ -28,6 +28,21 @@ A `Lesson` has: `slug`, `moduleId` (must match `content/curriculum.ts`), `title`
 
 Prose fields are Markdown (GFM tables, code fences, inline code, bold, lists).
 
+## Prerequisites
+
+Every lesson declares `prerequisites`: the slugs of the lessons it rests on, in the order a learner should take them. An empty list means a deliberate starting point; `tests/content.test.ts` allows that only for the four entry lessons (power tree, board does not boot, register bit masks, oscilloscope probing) and refuses cycles and unpublished slugs. The lesson page shows the list as "Before this lesson" with each prerequisite's completion state. Prerequisites inform; they never lock a lesson.
+
+## Runnable labs (`lab` steps)
+
+A `lab` step shows a program the learner builds and runs on her own PC, with the exact command and the output she should see. The step holds only `title`, `body` (what to do and what to notice), `lab` (an id from `labs/manifest.json`) and an optional `tryNext` (a change to make and predict). The code, command and expected output come from `lib/labs/generated.ts`, which `node scripts/sync-labs.mjs` produces by **running** every lab; `tests/labs.test.ts` runs them again in CI and fails on any difference. To add a lab:
+
+1. Put the program in its own folder under `labs/<language>/<name>/` (standard C11 or Python standard library, deterministic output, one screen).
+2. Add an entry to `labs/manifest.json` with `id`, `dir`, `language`, `file` and the `command` as the learner will type it from that folder.
+3. Run `node scripts/sync-labs.mjs`, check the generated expected output by eye, and commit `lib/labs/generated.ts` with the lab.
+4. Reference the lab from a lesson `lab` step or a portfolio stage's `buildIt.steps`.
+
+`docs/LOCAL_LAB.md` is the learner's set-up guide; keep it true when a lab needs something new.
+
 ## Exercise kinds
 
 - `single`: options with exactly one `correct: true`; every option carries its own `feedback`.
@@ -86,6 +101,10 @@ A day is complete when every *available* item is done; planned items are shown a
 
 `content/curriculum.ts` lists all 16 modules. Each lesson or mission entry is `{ title, status: "published" | "planned", slug? }`. Published entries must have a slug that exists in the registry; planned entries must not have a slug. The UI never shows planned content as playable.
 
+## Portfolio "Build it"
+
+A stage may carry `buildIt: { intro, steps: [{ title, lab, note }] }`. Each `lab` is a manifest id under `labs/portfolio`; the page shows the command and the verified expected output so the stage teaches implementation and testing, and the tick boxes record that the learner ran them.
+
 ## Checklist before publishing
 
 - [ ] `npm test` passes (schema, cross-references, answer keys).
@@ -98,6 +117,10 @@ A day is complete when every *available* item is done; planned items are shown a
 ### Timed mock interviews
 
 A journey interview item may set `mock: true`. Its link then opens the Interview page with `?mock=1`, which shows a four-minute-per-question timer above the focus set (start, pause, next, finish). The rubrics reveal afterwards as usual and nothing about the timer is stored. Day 29 uses it.
+
+## The starting-level diagnostic
+
+`content/diagnostic.ts` holds the questions (ordinary exercises with a `topic` and the `foundations` lessons a wrong answer points to). Keep it short (about ten minutes), one question per foundation, and map every question to published lessons. The "Start here" list is derived only from wrong answers (`lib/progress/diagnostic.ts`); never add a score.
 
 ## Portfolio projects
 

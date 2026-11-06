@@ -3,6 +3,7 @@ import type { Lesson } from "@/lib/content/schema";
 export const presentingAPortfolioProjectHonestly: Lesson = {
   slug: "presenting-a-portfolio-project-honestly",
   moduleId: "interviews",
+  prerequisites: ["writing-a-trustworthy-test-case"],
   title: "Presenting a portfolio project without inflating it",
   summary: "A portfolio project is evidence only if it is described exactly. Learn the one-page outline that interviewers can read in two minutes, how to mark what ran on hardware and what was simulated, which numbers to include, and the five phrases that turn a good project into a doubtful one.",
   durationMinutes: 10,
