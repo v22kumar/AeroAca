@@ -26,6 +26,8 @@ Progress report against `docs/PRODUCT_ROADMAP.md`. Updated at the end of every i
 
 ## In flight
 
+- **Syllabus completeness audit (2026-11-06):** `docs/LEARNING_COVERAGE_MATRIX.md` audits all 16 modules topic by topic (97 rows: 46 full, 23 partial, 28 absent) and `docs/SYLLABUS_GAP_REPORT.md` states the gaps and the PR plan (A audit and wording; B learner-readiness platform: prerequisites, diagnostic, runnable labs, portfolio build-it; C to F depth in fundamentals, Embedded C and STM32, interfaces/RTOS/Python, schematics/debugging/verification; G interviews, career, Git; H optional breadth). Core learner-readiness PRs come first; optional enhancements are kept separate. No feature work outside this plan.
+
 - 1.0 learner acceptance: production serves the release candidate. `docs/RELEASE_1.0_CHECKLIST.md` states every gate with evidence; two need people: second-reader signatures in `docs/CONTENT_REVIEW.md`, and Sushmita's feedback on the representative set. Sign-off and the `v1.0.0` tag wait for both. No feature development until then; only release-readiness fixes.
 
 ## Known gaps and blockers

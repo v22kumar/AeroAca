@@ -109,8 +109,8 @@ export function TodayView() {
             ) : js.finished ? (
               <>
                 <p className="relative text-xs font-semibold uppercase tracking-[0.12em] text-accent">All 30 days complete</p>
-                <h2 className="relative mt-1 text-xl font-bold leading-snug">You have finished everything published so far</h2>
-                <p className="relative mt-2 text-[15px] text-ink-2">Keep the review queue warm and rehearse interview questions until the next release.</p>
+                <h2 className="relative mt-1 text-xl font-bold leading-snug">The fast track is done. The curriculum is not.</h2>
+                <p className="relative mt-2 text-[15px] text-ink-2">Lessons outside the 30 days wait under Learn, the portfolio track wants its evidence, and the recommendations below come from your own wrong answers. Keep the review queue warm.</p>
                 <div className="relative mt-4">
                   <LinkButton href="/review" size="lg" data-testid="next-action-cta">
                     Review now <Icon name="chevron-right" size={18} />
@@ -186,7 +186,7 @@ export function TodayView() {
       )}
 
       <p className="text-xs text-ink-3">
-        {lessons.length} lessons and {missions.length} missions are published. Everything else in the 16-module curriculum is listed under Learn as coming soon.
+        {lessons.length} lessons and {missions.length} missions are published across the 16 modules under Learn. The 30 days are the fast track; the other lessons are reachable from their module and from your recommendations.
       </p>
 
       <Link href="/glossary" className="flex items-center gap-3 rounded-card border border-line bg-surface p-4 hover:bg-surface-2">
