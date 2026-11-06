@@ -174,6 +174,13 @@ The scenario's 40 kHz PWM is the second row with the doubling rule missed: PSC a
       intro: `Walk the tree from the oscillator to a timer, with the limits at each stage and the doubling rule; then say how you would verify it on the board.`,
     },
     {
+      type: "figure",
+      title: "The clock tree to 84 MHz, as a diagram",
+      diagram: "clock-tree",
+      alt: "STM32 clock tree from the 8 megahertz crystal through the PLL dividers and multiplier to 84 megahertz and the AHB and APB prescalers, with the timer doubling rule.",
+      caption: `Follow the arrows: HSE ÷M ×N ÷P gives SYSCLK; the AHB prescaler gives HCLK; the APB prescalers give the peripheral clocks, and any APB prescaler other than 1 doubles the clock the timers on that bus receive.`,
+    },
+    {
       type: "recap",
       summary: `- GPIO: MODER (input/output/AF/analogue), OTYPER (push-pull/open-drain), OSPEEDR (slew), PUPDR, AFRL/AFRH (which peripheral). Port clock first; analogue for ADC and unused pins; do not touch PA13/PA14.
 - Clock tree: HSI 16 MHz ±1 % or HSE crystal → PLL (/M to 1–2 MHz, ×N to 192–432 MHz, /P) → SYSCLK (after RDY and flash latency) → HCLK → APB1 (≤42) and APB2 (≤84); peripheral enables per bus.

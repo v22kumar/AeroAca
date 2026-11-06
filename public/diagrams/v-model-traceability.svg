@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-labelledby="t"><title id="t">V model showing system, high level and low level requirements on the left, code at the bottom, and the corresponding test levels on the right with traceability links</title>
+<style>
+  .bg{fill:#ffffff}.ink{fill:#1f2430}.ink2{fill:#4b5160}.ink3{fill:#6b7280}
+  .ln{stroke:#4b5160;fill:none;stroke-width:1.6}.ln2{stroke:#9aa0ad;fill:none;stroke-width:1.2;stroke-dasharray:4 3}
+  .box{fill:#f3f4f7;stroke:#9aa0ad;stroke-width:1.2}.boxa{fill:#f9e4ec;stroke:#a63a66;stroke-width:1.4}
+  .boxb{fill:#fdf1d8;stroke:#b7791f;stroke-width:1.4}.boxg{fill:#e3f3e8;stroke:#2f8f5b;stroke-width:1.4}
+  .acc{fill:#a63a66}.amb{fill:#b7791f}.grn{fill:#2f8f5b}.sig{stroke:#1f2430;fill:none;stroke-width:2}
+  .siga{stroke:#a63a66;fill:none;stroke-width:2}.sigb{stroke:#b7791f;fill:none;stroke-width:2}
+  text{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:12px}
+  .t{font-size:13px;font-weight:600}.s{font-size:11px}.m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}
+  .ttl{font-size:14px;font-weight:700}
+  @media (prefers-color-scheme: dark){
+    .bg{fill:#171a21}.ink{fill:#e8e6ea}.ink2{fill:#c3c6cf}.ink3{fill:#9aa0ad}
+    .ln{stroke:#c3c6cf}.ln2{stroke:#6b7280}.box{fill:#242a35;stroke:#6b7280}.boxa{fill:#3b1f2d;stroke:#f08cb3}
+    .boxb{fill:#3a2e14;stroke:#e0a83a}.boxg{fill:#16301f;stroke:#5fcf8a}.acc{fill:#f08cb3}.amb{fill:#e0a83a}.grn{fill:#5fcf8a}
+    .sig{stroke:#e8e6ea}.siga{stroke:#f08cb3}.sigb{stroke:#e0a83a}
+  }
+</style>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4b5160"/></marker></defs>
+<rect class="bg" x="0" y="0" width="640" height="360" rx="12"/><text class="ink ttl" x="320" y="24" text-anchor="middle" >Requirements to tests: the V and its traceability</text><rect class="box" x="40" y="60" width="170" height="36" rx="8"/><text class="ink t" x="125.0" y="83.0" text-anchor="middle" >System requirements</text><rect class="box" x="100" y="120" width="170" height="36" rx="8"/><text class="ink t" x="185.0" y="143.0" text-anchor="middle" >High-level software reqs</text><rect class="box" x="160" y="180" width="170" height="36" rx="8"/><text class="ink t" x="245.0" y="203.0" text-anchor="middle" >Low-level reqs / design</text><rect class="boxg" x="250" y="240" width="170" height="36" rx="8"/><text class="ink t" x="335.0" y="263.0" text-anchor="middle" >Code</text><rect class="boxa" x="440" y="60" width="180" height="36" rx="8"/><text class="ink t" x="530.0" y="83.0" text-anchor="middle" >System tests</text><rect class="boxa" x="400" y="120" width="180" height="36" rx="8"/><text class="ink t" x="490.0" y="143.0" text-anchor="middle" >Software integration tests</text><rect class="boxa" x="350" y="180" width="180" height="36" rx="8"/><text class="ink t" x="440.0" y="203.0" text-anchor="middle" >Unit / low-level tests</text><line class="ln" x1="125" y1="96" x2="185" y2="120" marker-end="url(#ar)"/><line class="ln" x1="185" y1="156" x2="245" y2="180" marker-end="url(#ar)"/><line class="ln" x1="245" y1="216" x2="335" y2="240" marker-end="url(#ar)"/><line class="ln" x1="420" y1="240" x2="440" y2="216" marker-end="url(#ar)"/><line class="ln2" x1="210" y1="78" x2="440" y2="78"/><text class="ink3 s" x="325.0" y="56" text-anchor="middle" >traces to / verified by</text><line class="ln2" x1="270" y1="138" x2="400" y2="138"/><text class="ink3 s" x="335.0" y="116" text-anchor="middle" >traces to / verified by</text><line class="ln2" x1="330" y1="198" x2="350" y2="198"/><text class="ink3 s" x="340.0" y="176" text-anchor="middle" >traces to / verified by</text><text class="ink2 s" x="320" y="300" text-anchor="middle" ><tspan x="320" dy="0">Both directions: every requirement has tests (no gaps) and every test has a requirement (no</tspan><tspan x="320" dy="14">orphans). Coverage of the code comes from these tests, not from extra ones.</tspan></text></svg>

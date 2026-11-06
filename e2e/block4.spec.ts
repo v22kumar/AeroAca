@@ -20,7 +20,7 @@ test.describe("Block 4: startup, RTOS, bootloaders, Linux", () => {
     await expect(page.getByTestId("pi-latency")).toContainText("whole of M's run");
     await page.getByTestId("pi-inherit").check();
     await expect(page.getByTestId("pi-latency")).toContainText("4.0 ms");
-    await page.goto("/lessons/priority-inversion?step=9");
+    await page.goto("/lessons/priority-inversion?step=10");
     await expect(page.getByTestId("depth-apply")).toHaveAttribute("aria-checked", "true");
     await page.getByTestId("numeric-input").fill("6");
     await page.getByTestId("check-answer").click();

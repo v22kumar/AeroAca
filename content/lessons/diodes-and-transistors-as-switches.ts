@@ -143,6 +143,13 @@ Two things a reviewer would check: the relay's flyback diode is present and orie
       intro: `Name the load, pick the device, give the four numbers, then the flyback diode and the pull-down; end with the dissipation.`,
     },
     {
+      type: "figure",
+      title: "A low-side MOSFET switch, drawn",
+      diagram: "mosfet-switch",
+      alt: "An N-channel MOSFET switching a 12 volt load on the low side, driven from a 3.3 volt GPIO through a gate resistor, with a flyback diode across the load.",
+      caption: `The load sits above the switch, so the GPIO's 3.3 V can drive a logic-level gate directly. The gate resistor limits the charging current; the flyback diode gives an inductive load somewhere to put its current when the switch opens.`,
+    },
+    {
       type: "recap",
       summary: `- Diode: conducts above V_f (0.3 Schottky, 0.7 silicon, 2 to 3 V LED), blocks to its reverse rating; LED resistor R = (V − V_f) / I; flyback diode across inductive loads, cathode to the supply.
 - MOSFET switch: V_DS margin, current at acceptable dissipation, **R_DS(on) at your gate voltage** (not V_GS(th)), gate charge for fast switching; P = I² R_DS(on); gate pull-down for reset.

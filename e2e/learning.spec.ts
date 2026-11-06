@@ -91,9 +91,11 @@ test.describe("Lesson flow", () => {
     await expect(page.getByTestId("exercise-feedback")).toHaveAttribute("data-correct", "true");
     await next.click();
 
-    // Interview step then recap.
+    // Interview step, the figure ("In one picture"), then recap.
     await page.getByTestId("reveal-rubric").click();
     await page.getByTestId("rate-shaky").click();
+    await next.click();
+    await expect(page.getByTestId("figure-image")).toHaveAttribute("src", "/diagrams/i2c-transaction.svg");
     await next.click();
     await expect(page.getByTestId("lesson-complete")).toBeVisible();
 

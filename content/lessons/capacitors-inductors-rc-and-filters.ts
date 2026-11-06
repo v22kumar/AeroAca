@@ -157,6 +157,13 @@ The three traps: the **value you bought is not the value you have** (bias and te
       intro: `Give the time constant first, then the dwell in the threshold band, then the fix that uses hysteresis or firmware rather than a bigger capacitor.`,
     },
     {
+      type: "figure",
+      title: "The RC step response in one picture",
+      diagram: "rc-step-response",
+      alt: "Exponential RC step response with the 63, 95 and 99 percent points marked at one, three and five time constants.",
+      caption: `After one time constant the voltage has covered 63 % of the way; after five it is within 1 %. Threshold time t = −τ ln(1 − V/V_final); the filter's cutoff is f = 1/(2πRC).`,
+    },
+    {
       type: "recap",
       summary: `- Capacitor: I = C dV/dt, voltage cannot jump, stores ½CV². Inductor: V = L dI/dt, current cannot jump, stores ½LI².
 - τ = RC. Charging: 63 % at τ, 95 % at 3τ, 99 % at 5τ; time to fraction f is −τ ln(1 − f); 50 % at 0.693τ.

@@ -1,3 +1,5 @@
+> **Written learning blueprint (branch `content/full-curriculum`, draft PR):** career-switch guide, full curriculum map for 31 modules, topic breakdown for 20 subject families at three depths, learner guide, 30/60/90 plan, 42 teaching diagrams with a generator and index. Documentation and static assets only; modules 17 to 31 remain blueprints, not playable lessons.
+>
 > In progress: teaching format 2.0 pilot (ADR-16, docs/PILOT.md). The remaining-engineering audit, four-pathway specification and revised syllabus are prepared; new curriculum rollout remains gated on learner pilot evaluation and approved P0 scope. See [implementation plan](ENGINEERING_IMPLEMENTATION_PLAN.md) and [validation](ENGINEERING_VALIDATION.md).
 
 # AeroAca development status

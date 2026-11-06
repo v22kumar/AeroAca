@@ -172,6 +172,13 @@ v = float(dmm.query('READ?'))
       intro: `Describe the four calls, the SCPI commands, the synchronisation and the log columns. If you have automated anything with real instruments, name the instrument; if you have not, say that and describe this exercise honestly.`,
     },
     {
+      type: "figure",
+      title: "The automated bench, drawn",
+      diagram: "test-bench-automation",
+      alt: "Automated test bench: a PC running pytest controls a bench supply, oscilloscope and multimeter and talks to the device under test over serial.",
+      caption: `The PC owns the instruments over SCPI and the device under test over serial; fixtures open the ports once, tests ask, read and assert, and the report is written from what was measured.`,
+    },
+    {
       type: "recap",
       summary: `- VISA makes USB, LAN, GPIB and serial instruments look alike; PyVISA wraps it: ResourceManager, open_resource, write, query, read, timeout.
 - SCPI: *IDN?, *RST, *CLS, *OPC? on every instrument; subsystem trees like CONF:VOLT:DC; a trailing ? queries; SYST:ERR? pops the error queue.

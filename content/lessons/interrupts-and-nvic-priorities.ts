@@ -136,6 +136,13 @@ The scenario's handler would sit at 6 and must not call HAL_Delay; the line-driv
       intro: `Give the three rules, explain grouping, tell the HAL_Delay deadlock, and describe the GPIO-and-scope measurement. A priority table with a reason per row is the strong close.`,
     },
     {
+      type: "figure",
+      title: "What happens when an interrupt fires",
+      diagram: "interrupt-flow",
+      alt: "Flow of an interrupt from the peripheral event through enable and priority checks to the handler and its return.",
+      caption: `Two gates before the handler runs: is the interrupt enabled (at the peripheral and the NVIC), and does it outrank what is running? Then hardware saves context, the handler clears the flag and hands off, and the return restores or tail-chains into the next pending interrupt.`,
+    },
+    {
       type: "recap",
       summary: `- Smaller number wins; STM32 has 4 bits (16 levels); grouping splits them into preemption and sub-priority; only preemption bits preempt.
 - Pending and active states; clear the source flag early; tail chaining saves unstack/restack.

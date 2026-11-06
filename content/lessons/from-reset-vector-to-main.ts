@@ -147,6 +147,13 @@ The application's own reset handler then copies .data, zeroes .bss and calls Sys
       intro: `Walk through the sequence and then name one fault for each skipped step. Interviewers want the order and the why, not the assembly.`,
     },
     {
+      type: "figure",
+      title: "From reset to main, beside Linux's boot chain",
+      diagram: "boot-chain",
+      alt: "Two boot chains side by side: microcontroller from reset vector through startup code to main, and embedded Linux from boot ROM through bootloader and kernel to login.",
+      caption: `On the microcontroller the vector table gives the stack pointer and the reset handler, which copies .data, zeroes .bss, sets up clocks and calls main. Linux does the same job in more stages; both fail when a step silently did not run.`,
+    },
+    {
       type: "recap",
       summary: `- Vector table: word 0 initial MSP, word 1 reset handler with the Thumb bit set, then exception and interrupt vectors. VTOR points the core at it.
 - Reset handler: copy .data (flash → RAM), zero .bss, SystemInit (clock, FPU, VTOR), constructors, main.

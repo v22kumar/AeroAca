@@ -141,6 +141,13 @@ S is 9 because a burn hazard exists. D is 10 because nothing detects the open; t
       intro: `Walk one row, with numbers, from failure mode to the test case. Say what severity means and why your action did not change it. That is the whole method in two minutes.`,
     },
     {
+      type: "figure",
+      title: "From an FMEA row to a test",
+      diagram: "fault-injection-flow",
+      alt: "Process from an FMEA failure mode through the injected fault, expected detection, observation and recorded verdict.",
+      caption: `Each failure mode becomes an injected fault with an expected detection; the observation is compared and recorded. A fault that cannot be injected safely is a finding, not a gap to hide.`,
+    },
+    {
       type: "recap",
       summary: `- FMEA row: item, function, failure mode, effect, cause, prevention and detection controls, S, O, D.
 - S is the effect's harm (unchanged by detection); O is the cause's likelihood (lowered by prevention); D is how likely the mode is caught before the user (lowered by detection); high D is bad.

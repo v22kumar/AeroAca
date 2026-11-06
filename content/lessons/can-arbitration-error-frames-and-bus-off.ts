@@ -134,6 +134,13 @@ Why 32 frames: 256 ÷ 8. A transmitter whose every frame fails reaches bus-off i
       intro: `Tell the dashboard story: ESR first, then termination, then the scope at the sample point. Then explain why bus-off exists and why recovery must be designed in.`,
     },
     {
+      type: "figure",
+      title: "A classic CAN data frame",
+      diagram: "can-frame",
+      alt: "Classic CAN data frame fields from start of frame through identifier, control, data, CRC, acknowledge and end of frame.",
+      caption: `The identifier is sent first and decides arbitration bit by bit; the data length code says how many bytes follow; the CRC is checked by every receiver; the acknowledge slot is where another node says it heard a valid frame.`,
+    },
+    {
       type: "recap",
       summary: `- Dominant (0) beats recessive (1): wired-AND; arbitration is bitwise and non-destructive; the lowest identifier wins.
 - Frame: SOF, identifier, RTR, control (DLC), data 0–8, CRC, ACK slot, EOF, intermission; stuffing after five identical bits; all nodes share bit rate and should share the sample point.

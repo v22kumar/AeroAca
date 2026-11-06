@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 396" width="640" height="396" role="img" aria-labelledby="t"><title id="t">Flow for decoding a Cortex-M HardFault: read HFSR, read CFSR, read the stacked program counter, map to source, fix</title>
+<style>
+  .bg{fill:#ffffff}.ink{fill:#1f2430}.ink2{fill:#4b5160}.ink3{fill:#6b7280}
+  .ln{stroke:#4b5160;fill:none;stroke-width:1.6}.ln2{stroke:#9aa0ad;fill:none;stroke-width:1.2;stroke-dasharray:4 3}
+  .box{fill:#f3f4f7;stroke:#9aa0ad;stroke-width:1.2}.boxa{fill:#f9e4ec;stroke:#a63a66;stroke-width:1.4}
+  .boxb{fill:#fdf1d8;stroke:#b7791f;stroke-width:1.4}.boxg{fill:#e3f3e8;stroke:#2f8f5b;stroke-width:1.4}
+  .acc{fill:#a63a66}.amb{fill:#b7791f}.grn{fill:#2f8f5b}.sig{stroke:#1f2430;fill:none;stroke-width:2}
+  .siga{stroke:#a63a66;fill:none;stroke-width:2}.sigb{stroke:#b7791f;fill:none;stroke-width:2}
+  text{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:12px}
+  .t{font-size:13px;font-weight:600}.s{font-size:11px}.m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}
+  .ttl{font-size:14px;font-weight:700}
+  @media (prefers-color-scheme: dark){
+    .bg{fill:#171a21}.ink{fill:#e8e6ea}.ink2{fill:#c3c6cf}.ink3{fill:#9aa0ad}
+    .ln{stroke:#c3c6cf}.ln2{stroke:#6b7280}.box{fill:#242a35;stroke:#6b7280}.boxa{fill:#3b1f2d;stroke:#f08cb3}
+    .boxb{fill:#3a2e14;stroke:#e0a83a}.boxg{fill:#16301f;stroke:#5fcf8a}.acc{fill:#f08cb3}.amb{fill:#e0a83a}.grn{fill:#5fcf8a}
+    .sig{stroke:#e8e6ea}.siga{stroke:#f08cb3}.sigb{stroke:#e0a83a}
+  }
+</style>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4b5160"/></marker></defs>
+<rect class="bg" x="0" y="0" width="640" height="396" rx="12"/><text class="ink ttl" x="320" y="24" text-anchor="middle" >From HardFault to the faulting line</text><rect class="boxa" x="140" y="44" width="360" height="38" rx="8"/><text class="ink t" x="320.0" y="60.0" text-anchor="middle" >HardFault handler runs</text><text class="ink2 s" x="320.0" y="76.0" text-anchor="middle" >escalated from a usage, bus or memory fault</text><line class="ln" x1="320.0" y1="82" x2="320.0" y2="89" marker-end="url(#ar)"/><rect class="box" x="140" y="91" width="360" height="38" rx="8"/><text class="ink t" x="320.0" y="107.0" text-anchor="middle" >Read HFSR</text><text class="ink2 s" x="320.0" y="123.0" text-anchor="middle" >FORCED set → look in CFSR</text><line class="ln" x1="320.0" y1="129" x2="320.0" y2="136" marker-end="url(#ar)"/><rect class="box" x="140" y="138" width="360" height="38" rx="8"/><text class="ink t" x="320.0" y="154.0" text-anchor="middle" >Read CFSR</text><text class="ink2 s" x="320.0" y="170.0" text-anchor="middle" >UFSR / BFSR / MMFSR bits name the cause</text><line class="ln" x1="320.0" y1="176" x2="320.0" y2="183" marker-end="url(#ar)"/><rect class="boxb" x="140" y="185" width="360" height="38" rx="8"/><text class="ink t" x="320.0" y="201.0" text-anchor="middle" >Read the stacked PC</text><text class="ink2 s" x="320.0" y="217.0" text-anchor="middle" >exception frame on the active stack (MSP or PSP)</text><line class="ln" x1="320.0" y1="223" x2="320.0" y2="230" marker-end="url(#ar)"/><rect class="box" x="140" y="232" width="360" height="38" rx="8"/><text class="ink t" x="320.0" y="248.0" text-anchor="middle" >Map address to source</text><text class="ink2 s" x="320.0" y="264.0" text-anchor="middle" >map file or addr2line</text><line class="ln" x1="320.0" y1="270" x2="320.0" y2="277" marker-end="url(#ar)"/><rect class="boxg" x="140" y="279" width="360" height="38" rx="8"/><text class="ink t" x="320.0" y="295.0" text-anchor="middle" >Fix the cause</text><text class="ink2 s" x="320.0" y="311.0" text-anchor="middle" >stack size, alignment, null pointer, bad address</text><text class="ink2 s" x="320" y="336" text-anchor="middle" ><tspan x="320" dy="0">IMPRECISERR means the write that faulted was buffered; the PC points after it. Stack overflow often</tspan><tspan x="320" dy="14">shows as a fault far from its cause.</tspan></text></svg>

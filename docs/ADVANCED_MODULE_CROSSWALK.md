@@ -1,5 +1,7 @@
 # Advanced modules: crosswalk between the original 2.0 proposal and the four-pathway structure
 
+> The per-module descriptions that result from this crosswalk (purpose, prerequisites, objectives, topics, interview and lab relevance, pathways, depth, status) are in [FULL_CURRICULUM_MAP.md](FULL_CURRICULUM_MAP.md); the topic-level Understand / Apply / Master content is in [MODULE_TOPIC_BREAKDOWN.md](MODULE_TOPIC_BREAKDOWN.md).
+
 Date: 2026-11-06. Reconciles two documents that were written a few hours apart without seeing each other: the **original advanced syllabus** (`ADVANCED_SYLLABUS_2.0_PROPOSAL.md`, modules 17 to 25, approved in principle) and the **engineering audit** (`ENGINEERING_GAP_AUDIT.md`, `LEARNING_COVERAGE_MATRIX.md`, `ENGINEERING_COVERAGE.csv`, `CAREER_PATHWAYS.md`), whose "provisional groupings 17 to 25" used the same numbers for partly different subjects.
 
 ## Decision rules

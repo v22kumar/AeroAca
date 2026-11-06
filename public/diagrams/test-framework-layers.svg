@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-labelledby="t"><title id="t">Five layers of a test framework from hardware through drivers, protocol and test cases to reporting, with configuration alongside</title>
+<style>
+  .bg{fill:#ffffff}.ink{fill:#1f2430}.ink2{fill:#4b5160}.ink3{fill:#6b7280}
+  .ln{stroke:#4b5160;fill:none;stroke-width:1.6}.ln2{stroke:#9aa0ad;fill:none;stroke-width:1.2;stroke-dasharray:4 3}
+  .box{fill:#f3f4f7;stroke:#9aa0ad;stroke-width:1.2}.boxa{fill:#f9e4ec;stroke:#a63a66;stroke-width:1.4}
+  .boxb{fill:#fdf1d8;stroke:#b7791f;stroke-width:1.4}.boxg{fill:#e3f3e8;stroke:#2f8f5b;stroke-width:1.4}
+  .acc{fill:#a63a66}.amb{fill:#b7791f}.grn{fill:#2f8f5b}.sig{stroke:#1f2430;fill:none;stroke-width:2}
+  .siga{stroke:#a63a66;fill:none;stroke-width:2}.sigb{stroke:#b7791f;fill:none;stroke-width:2}
+  text{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:12px}
+  .t{font-size:13px;font-weight:600}.s{font-size:11px}.m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}
+  .ttl{font-size:14px;font-weight:700}
+  @media (prefers-color-scheme: dark){
+    .bg{fill:#171a21}.ink{fill:#e8e6ea}.ink2{fill:#c3c6cf}.ink3{fill:#9aa0ad}
+    .ln{stroke:#c3c6cf}.ln2{stroke:#6b7280}.box{fill:#242a35;stroke:#6b7280}.boxa{fill:#3b1f2d;stroke:#f08cb3}
+    .boxb{fill:#3a2e14;stroke:#e0a83a}.boxg{fill:#16301f;stroke:#5fcf8a}.acc{fill:#f08cb3}.amb{fill:#e0a83a}.grn{fill:#5fcf8a}
+    .sig{stroke:#e8e6ea}.siga{stroke:#f08cb3}.sigb{stroke:#e0a83a}
+  }
+</style>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4b5160"/></marker></defs>
+<rect class="bg" x="0" y="0" width="640" height="360" rx="12"/><text class="ink ttl" x="320" y="24" text-anchor="middle" >Layers of a test automation framework</text><rect class="boxg" x="120" y="50" width="300" height="40" rx="8"/><text class="ink t" x="270.0" y="67.0" text-anchor="middle" >Reporting</text><text class="ink2 s" x="270.0" y="83.0" text-anchor="middle" >HTML/CSV, logs, evidence</text><line class="ln" x1="270" y1="90" x2="270" y2="96" marker-end="url(#ar)"/><rect class="boxa" x="120" y="96" width="300" height="40" rx="8"/><text class="ink t" x="270.0" y="113.0" text-anchor="middle" >Test cases</text><text class="ink2 s" x="270.0" y="129.0" text-anchor="middle" >pytest: fixtures, parametrisation, markers</text><line class="ln" x1="270" y1="136" x2="270" y2="142" marker-end="url(#ar)"/><rect class="box" x="120" y="142" width="300" height="40" rx="8"/><text class="ink t" x="270.0" y="159.0" text-anchor="middle" >Protocol</text><text class="ink2 s" x="270.0" y="175.0" text-anchor="middle" >frames, CRC, struct, SCPI</text><line class="ln" x1="270" y1="182" x2="270" y2="188" marker-end="url(#ar)"/><rect class="box" x="120" y="188" width="300" height="40" rx="8"/><text class="ink t" x="270.0" y="205.0" text-anchor="middle" >Device drivers</text><text class="ink2 s" x="270.0" y="221.0" text-anchor="middle" >serial, PyVISA, DAQ</text><line class="ln" x1="270" y1="228" x2="270" y2="234" marker-end="url(#ar)"/><rect class="boxb" x="120" y="234" width="300" height="40" rx="8"/><text class="ink t" x="270.0" y="251.0" text-anchor="middle" >Hardware</text><text class="ink2 s" x="270.0" y="267.0" text-anchor="middle" >DUT, instruments, bench</text><rect class="box" x="450" y="96" width="150" height="100" rx="8"/><text class="ink t" x="525.0" y="143.0" text-anchor="middle" >Configuration</text><text class="ink2 s" x="525.0" y="159.0" text-anchor="middle" >ports, versions, seeds</text><line class="ln2" x1="450" y1="146" x2="420" y2="146"/><text class="ink2 s" x="320" y="300" text-anchor="middle" ><tspan x="320" dy="0">Each layer talks only to its neighbours. Measure the time it saves by comparing a manual campaign</tspan><tspan x="320" dy="14">with an automated one, and say which.</tspan></text></svg>

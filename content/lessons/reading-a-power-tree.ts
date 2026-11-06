@@ -66,6 +66,15 @@ So the question "what voltage is the rail?" has no single answer. It depends on 
       caption: `Illustrative model: load voltage = regulator voltage − burst current × path resistance. With a bulk capacitor at the load, the model lets a quarter of the burst flow through the trace, because the capacitor supplies the rest locally. Real boards also have inductance and regulator response time; the direction of every effect here is right, the exact numbers are not a simulation.`,
     },
     {
+      type: "figure",
+      stage: "how",
+      depth: "understand",
+      title: "The whole tree in one picture",
+      diagram: "power-tree",
+      alt: "Power tree from a 5 volt input through a buck and an LDO to loads, with the trace resistance that makes the radio's rail sag.",
+      caption: `Read it top down: the input and its budget, each regulator with its minimum input, the loads with their currents. The orange path is the 0.4 Ω of copper and connector between the regulator and the radio, and the arithmetic beneath is the whole scenario.`,
+    },
+    {
       type: "concept",
       stage: "theory",
       depth: "understand",

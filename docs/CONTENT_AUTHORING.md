@@ -22,6 +22,7 @@ A `Lesson` has: `slug`, `moduleId` (must match `content/curriculum.ts`), `title`
 | `concept` | `title`, `body`, optional `deeper: { title, body }` (collapsed by default) |
 | `visual` | `title`, `visual` (an id from `visualIdSchema`), optional `body`, `caption` |
 | `example` | `title`, `body` |
+| `figure` | `title`, `diagram` (file under `public/diagrams`, no extension), `alt`, `caption`, optional `body` |
 | `exercise` | `exercise` (see below) |
 | `interview` | `questionId` from `content/interview.ts`, optional `intro` |
 | `recap` | `summary`, `cards: [{ id, front, back }]` (become spaced-review cards; ids must be globally unique) |
@@ -51,6 +52,18 @@ Rules: at most **220 words** per concept step body (`deeper` is extra and collap
 **Walkthrough step.** `{ type: "walkthrough", title, intro?, language, code, notes: [{ lines: "8-11", text }] }`. Notes are in line order and may not exceed the code's length.
 
 **Hints.** `hints: string[]` on any exercise. The player reveals them one at a time on request; the attempt records how many were used and a solve says "solved with 2 hints".
+
+## Diagrams
+
+Teaching diagrams live in `public/diagrams/*.svg` and are generated from `scripts/gen-diagrams.py` (run it after editing; commit the SVGs, the app serves them statically). `docs/DIAGRAM_INDEX.md` lists every diagram, what it teaches and which lesson or document uses it.
+
+Rules: one idea per diagram; labels readable at phone width (640-unit viewBox, 11 px minimum); colours from the app's tokens with a dark-mode media query inside the file; every diagram has a `<title>` that says what it shows; technical correctness over decoration (a diagram with a wrong bit order is worse than none). A diagram is added only where it materially improves understanding: signals, timing, architecture, state, flow, comparison. Decorative images are not added.
+
+A lesson embeds a diagram with a `figure` step: `{ type: "figure", title, diagram: "<name>", alt, caption, body? }`, where `diagram` is the file name under `public/diagrams` without the extension (the content test checks it exists). `alt` says what the picture shows for a screen reader; `caption` is the one-sentence reading of it; `body` is optional guidance above the figure. In a 2.0 lesson a figure carries `stage: "how"` and a depth.
+
+## Writing for understanding
+
+The learner's feedback on 1.0 was "it's not easy understanding". Every lesson and every document follows this order: a relatable situation; the intuition in plain words with no term that has not been explained; the picture; the theory with every intermediate step; a complete worked example; guided practice, then independent; real complexity; a check; where it is used at work. Avoid dense paragraphs, unexplained abbreviations (expand on first use in every lesson), advanced terms before their prerequisites, code without a line-by-line walkthrough, calculations that skip steps, exercises on untaught material, and more than one idea per screen. Interactive diagrams open with "Try this first." Nothing is marked complete because it was opened.
 
 ## Prerequisites
 
