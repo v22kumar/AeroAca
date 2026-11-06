@@ -609,7 +609,7 @@ function FigureStep({ step }: { step: Extract<LessonStep, { type: "figure" }> })
       <figure className="m-0">
         <Card className="overflow-hidden p-2 sm:p-3">
           {/* eslint-disable-next-line @next/next/no-img-element -- static SVG under public/, no optimisation wanted */}
-          <img src={`/diagrams/${step.diagram}.svg`} alt={step.alt} className="h-auto w-full" width={640} height={320} loading="lazy" data-testid="figure-image" />
+          <img src={`/diagrams/${step.diagram}.svg`} alt={step.alt} className="h-auto w-full" width={640} height={320} data-testid="figure-image" />
         </Card>
         <figcaption className="mt-2 text-sm text-ink-2">
           <Markdown size="sm">{step.caption}</Markdown>
