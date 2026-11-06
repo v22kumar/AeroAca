@@ -38,8 +38,18 @@ Modules 17 to 31 are written blueprints, not playable lessons; the app's curricu
 
 ## Final-cycle record
 
-Filled in when the consolidated push is made.
+Run once, at the end of the writing pass, on the consolidated branch (2026-11-06).
 
 | Check | Command | Result | Notes |
 |---|---|---|---|
-| | | | |
+| Unit tests incl. content, content-review, teaching-format, labs rebuild and output diff | `npx vitest run` | 14 files, 101 tests passed | No lesson data or lab changed; the run proves the documents did not break the content tests |
+| Lint | `npx eslint .` | passed | Python generator not in ESLint's scope |
+| Typecheck | `npx tsc --noEmit -p .` | passed | |
+| Production build | `npx next build` | compiled, 74 routes | No route added |
+| Diagrams served | `curl /diagrams/power-tree.svg` | 200, `image/svg+xml` | Static under `public/` |
+| Browser suite, Pixel 7 + desktop Chrome, incl. axe scans | `npx playwright test --trace off` | 184 passed (2.6 min) | No UI change; confirms no regression |
+| SVG validity | XML parse of all 42 files | 42 valid | After the legibility pass and visual review of every diagram as a rendered PNG |
+| Markdown links | script over `docs/*.md` and README | all resolve | |
+| Personal identifiers | grep over the new documents | none | |
+| CI on the pushed head | GitHub Actions | recorded in the PR after the push | |
+| Second technical reader | human | pending | As for every content item |

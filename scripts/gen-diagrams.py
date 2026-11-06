@@ -535,7 +535,7 @@ def d_mil1553_word():
     b = text(320, 24, "A MIL-STD-1553B command word: 20 bit times at 1 Mbit/s", "ink ttl", "middle")
     fields = [("sync", 3, "box", "invalid Manchester"), ("RT address", 5, "boxa", "0–30; 31 = broadcast"), ("T/R", 1, "boxb", "1 = transmit"), ("Subaddress / mode", 5, "boxg", "0 or 31 = mode code"), ("Word count / code", 5, "box", "0 means 32"), ("P", 1, "boxb", "odd")]
     b += bitfield(fields, 20, 70, 600, 44)
-    b += notes(320, 150, [("Example 0x2C64: 00101 1 00011 00100 → RT 5, transmit, subaddress 3, 4 words; six ones, so parity = 1.", "m"), ("Status word: RT address then flags (message error, busy, terminal flag ...). Data word: 16 bits defined by the ICD.", "ink2 s"), ("Command and status words use one sync polarity, data words the other: a listener tells them apart without counting.", "ink2 s")])
+    b += notes(320, 172, [("Example 0x2C64: 00101 1 00011 00100 → RT 5, transmit, subaddress 3, 4 words; six ones, so parity = 1.", "m"), ("Status word: RT address then flags (message error, busy, terminal flag ...). Data word: 16 bits defined by the ICD.", "ink2 s"), ("Command and status words use one sync polarity, data words the other: a listener tells them apart without counting.", "ink2 s")])
     svg("mil1553-word", 640, 212, b, "MIL-STD-1553B command word layout: three bit time sync, five bit remote terminal address, transmit receive bit, five bit subaddress or mode, five bit word count or mode code, and odd parity bit")
 
 def d_mil1553_message():
