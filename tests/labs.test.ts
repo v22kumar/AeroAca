@@ -31,6 +31,13 @@ describe("labs: runnable programs with verified expected output", () => {
     }
   });
 
+  it("every lab source file is tracked by git (a .gitignore pattern once hid two lab folders from CI)", () => {
+    for (const lab of manifest.labs) {
+      const tracked = run(`git ls-files --error-unmatch ${lab.dir}/${lab.file}`, root);
+      expect(tracked.code, `${lab.dir}/${lab.file} is not tracked by git`).toBe(0);
+    }
+  });
+
   it("lib/labs/generated.ts matches labs/manifest.json and the files on disk", () => {
     expect(Object.keys(labs).sort()).toEqual(manifest.labs.map((l) => l.id).sort());
     for (const lab of manifest.labs) {

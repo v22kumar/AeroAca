@@ -1,13 +1,75 @@
 {
   "$comment": "Every lab the academy shows. scripts/sync-labs.mjs runs each one and writes lib/labs/generated.ts; tests/labs.test.ts runs them again in CI and diffs the output. Commands run from the lab's directory with gcc, make and python3 on the PATH.",
   "labs": [
-    { "id": "c-bits", "dir": "labs/c/bits", "language": "c", "file": "bits.c", "command": "gcc -std=c11 -Wall -Wextra -o bits bits.c && ./bits" },
-    { "id": "c-elapsed", "dir": "labs/c/elapsed", "language": "c", "file": "elapsed.c", "command": "gcc -std=c11 -Wall -Wextra -o elapsed elapsed.c && ./elapsed" },
-    { "id": "py-bytes-str", "dir": "labs/python/bytes_str", "language": "python", "file": "bytes_str.py", "command": "python3 bytes_str.py" },
-    { "id": "py-request-reply", "dir": "labs/python/request_reply", "language": "python", "file": "request_reply.py", "command": "python3 request_reply.py" },
-    { "id": "portfolio-detect-tests", "dir": "labs/portfolio", "language": "c", "file": "test_detect.c", "command": "make test" },
-    { "id": "portfolio-detect-known-failure", "dir": "labs/portfolio", "language": "c", "file": "test_detect.c", "command": "make known-failure" },
-    { "id": "portfolio-sensor-model", "dir": "labs/portfolio", "language": "python", "file": "sensor_model.py", "command": "python3 sensor_model.py --fault stuck --at 3.0 --seconds 10" },
-    { "id": "portfolio-sim-run", "dir": "labs/portfolio", "language": "c", "file": "detect.c", "command": "make sim" }
+    {
+      "id": "c-bits",
+      "dir": "labs/c/bits",
+      "language": "c",
+      "file": "bits.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o bits bits.c && ./bits"
+    },
+    {
+      "id": "c-elapsed",
+      "dir": "labs/c/elapsed",
+      "language": "c",
+      "file": "elapsed.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o elapsed elapsed.c && ./elapsed"
+    },
+    {
+      "id": "py-bytes-str",
+      "dir": "labs/python/bytes_str",
+      "language": "python",
+      "file": "bytes_str.py",
+      "command": "python3 bytes_str.py"
+    },
+    {
+      "id": "py-request-reply",
+      "dir": "labs/python/request_reply",
+      "language": "python",
+      "file": "request_reply.py",
+      "command": "python3 request_reply.py"
+    },
+    {
+      "id": "portfolio-detect-tests",
+      "dir": "labs/portfolio",
+      "language": "c",
+      "file": "test_detect.c",
+      "command": "make test"
+    },
+    {
+      "id": "portfolio-detect-known-failure",
+      "dir": "labs/portfolio",
+      "language": "c",
+      "file": "test_detect.c",
+      "command": "make known-failure"
+    },
+    {
+      "id": "portfolio-sensor-model",
+      "dir": "labs/portfolio",
+      "language": "python",
+      "file": "sensor_model.py",
+      "command": "python3 sensor_model.py --fault stuck --at 3.0 --seconds 10"
+    },
+    {
+      "id": "portfolio-sim-run",
+      "dir": "labs/portfolio",
+      "language": "c",
+      "file": "detect.c",
+      "command": "make sim"
+    },
+    {
+      "id": "py-divider",
+      "dir": "labs/python/divider",
+      "language": "python",
+      "file": "divider.py",
+      "command": "python3 divider.py"
+    },
+    {
+      "id": "py-rc",
+      "dir": "labs/python/rc",
+      "language": "python",
+      "file": "rc.py",
+      "command": "python3 rc.py"
+    }
   ]
 }

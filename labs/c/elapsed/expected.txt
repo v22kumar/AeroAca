@@ -1,0 +1,7 @@
+then = 0xFFFFFFF0, now = 0x00000014
+elapsed_ms = 36
+deadline = 0x00000054 (wrapped)
+expired_wrong at now=0x00000014: no
+expired_right at now=0x00000014: no
+expired_right at now=start+100: yes
+uint8 200 + 100 = 44 (wrapped), as int = 300

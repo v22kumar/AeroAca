@@ -1,0 +1,6 @@
+initial                      CR = 0x00000A50
+set bit 0                    CR = 0x00000A51
+clear bit 4                  CR = 0x00000A41
+toggle bit 11                CR = 0x00000241
+field[7:5] = 6               CR = 0x000002C1
+bit 0 is set, field[7:5] reads 6

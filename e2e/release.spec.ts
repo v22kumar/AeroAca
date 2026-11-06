@@ -70,7 +70,7 @@ test.describe("Lesson completion", () => {
 
   test("Register lesson: all three exercises, including a wrong volatile answer with explanation", async ({ page }) => {
     await page.goto("/lessons/embedded-c-register-bit-masks");
-    await next(page, 6);
+    await next(page, 7); // step 7 is the runnable lab; the register exercise is step 8
     const grid = page.getByRole("group", { name: "GPIOA->MODER (bits 15:0)" });
     await grid.locator('[data-bit="10"]').click();
     await expect(page.getByText("MODER |= 0x400u;")).toBeVisible();
