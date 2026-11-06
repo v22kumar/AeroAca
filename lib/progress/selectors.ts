@@ -89,6 +89,10 @@ export const skillLabels: Record<string, string> = {
   verification: "Verification and test cases",
   rca: "Root-cause analysis",
   integration: "Interfaces and integration",
+  startup: "Startup code and vector tables",
+  rtos: "RTOS scheduling and handoff",
+  bootloader: "Bootloaders and firmware update",
+  "embedded-linux": "Embedded Linux",
 };
 
 export function skillLabel(skill: string): string {
