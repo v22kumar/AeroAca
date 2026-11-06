@@ -32,6 +32,8 @@ import { theRequirementNobodyCouldTest } from "./missions/the-requirement-nobody
 import { twoBoardsOneBusNoAgreement } from "./missions/two-boards-one-bus-no-agreement";
 import { theTaskThatNeverRuns } from "./missions/the-task-that-never-runs";
 import { theFlakyAutomatedTest } from "./missions/the-flaky-automated-test";
+import { stm32SensorMonitor } from "./projects/stm32-sensor-monitor";
+import type { Project } from "@/lib/content/schema";
 import type { Lesson, Mission } from "@/lib/content/schema";
 
 /**
@@ -84,3 +86,5 @@ export const missions: Mission[] = [
 export { curriculum } from "./curriculum";
 export { journey, journeyBlocks } from "./journey";
 export { interviewQuestions } from "./interview";
+
+export const projects: Project[] = [stm32SensorMonitor];

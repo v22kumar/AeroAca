@@ -29,6 +29,10 @@ export function CurriculumView() {
             Glossary
           </Link>
           {" · "}
+          <Link href="/portfolio" className="font-semibold text-accent underline underline-offset-2" data-testid="portfolio-link">
+            Portfolio track
+          </Link>
+          {" · "}
           {published} items are published and playable. {planned} are planned and shown as coming soon so you can see the shape of the whole programme. Nothing unbuilt is ever marked complete.
         </p>
       </div>

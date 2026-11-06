@@ -94,3 +94,12 @@ A day is complete when every *available* item is done; planned items are shown a
 - [ ] Simulated values are labelled.
 - [ ] `review.status` is honest.
 - [ ] Walk the lesson on a phone-width viewport (`npm run dev`, DevTools device mode).
+
+### Timed mock interviews
+
+A journey interview item may set `mock: true`. Its link then opens the Interview page with `?mock=1`, which shows a four-minute-per-question timer above the focus set (start, pause, next, finish). The rubrics reveal afterwards as usual and nothing about the timer is stored. Day 29 uses it.
+
+## Portfolio projects
+
+`content/projects/*.ts` hold `Project` objects validated by `projectSchema`: `slug`, `title`, `summary`, `whyItMatters`, `simulationNote`, `hardwareNote`, `references`, and `stages`. Each stage has `id`, `title`, `goal`, `body` (Markdown), optional `visual`, `relatedLessons` (lesson or mission slugs) and `deliverables`. A deliverable has `id`, `title`, `detail`, `evidence` (what to keep) and `path`: `doc` (written), `sim` (simulation), `hw` (hardware) or `both` (two separate records). Register the project in `content/index.ts` (`projects`). Ticks are stored under `applyDone` as `project:<slug>:<stage>:<deliverable>:<path>`; never mark anything done from content.
+

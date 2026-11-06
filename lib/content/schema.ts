@@ -42,6 +42,7 @@ export const visualIdSchema = z.enum([
   "scpi-console",
   "fmea-worksheet",
   "standards-map",
+  "sensor-monitor-lab",
 ]);
 export type VisualId = z.infer<typeof visualIdSchema>;
 
@@ -404,7 +405,15 @@ export const journeyItemSchema = z.discriminatedUnion("kind", [
   /** Spaced review of due cards. Complete when nothing is due. */
   z.object({ kind: z.literal("review") }),
   /** A real-world career action the learner ticks off herself. */
-  z.object({ kind: z.literal("apply"), id: z.string(), title: z.string(), detail: z.string(), minutes: z.number().int().positive() }),
+  z.object({
+    kind: z.literal("apply"),
+    id: z.string(),
+    title: z.string(),
+    detail: z.string(),
+    minutes: z.number().int().positive(),
+    /** Optional in-app screen that supports the action (for example the portfolio track). */
+    href: z.string().optional(),
+  }),
   /** Content not yet published; shown as coming soon, never completable. */
   z.object({ kind: z.literal("planned"), title: z.string(), minutes: z.number().int().positive() }),
 ]);
@@ -428,3 +437,63 @@ export const sectionTitles: Record<CurriculumModule["section"], string> = {
   D: "Cross-industry specialisation",
   E: "Interviews & career",
 };
+
+/* ---------- Portfolio track ---------- */
+
+/**
+ * Where a deliverable can be completed. "doc" is written work; "sim" runs in simulation
+ * (in-app or on a host PC); "hw" needs the physical board; "both" has a simulation path
+ * and a hardware path that are recorded separately and never merged.
+ */
+export const deliverablePathSchema = z.enum(["doc", "sim", "hw", "both"]);
+export type DeliverablePath = z.infer<typeof deliverablePathSchema>;
+
+export const projectDeliverableSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  detail: markdown,
+  path: deliverablePathSchema,
+  /** What to record as evidence when this is done (a number, a file, a capture). */
+  evidence: z.string(),
+});
+export type ProjectDeliverable = z.infer<typeof projectDeliverableSchema>;
+
+export const projectStageSchema = z.object({
+  id: slug,
+  title: z.string(),
+  goal: z.string(),
+  body: markdown,
+  deliverables: z.array(projectDeliverableSchema).min(1),
+  /** In-app interactive shown in this stage, if any. */
+  visual: visualIdSchema.optional(),
+  relatedLessons: z.array(slug).default([]),
+});
+export type ProjectStage = z.infer<typeof projectStageSchema>;
+
+export const projectSchema = z
+  .object({
+    slug,
+    title: z.string(),
+    summary: markdown,
+    whyItMatters: markdown,
+    /** What the simulation path is and what it can and cannot prove. */
+    simulationNote: markdown,
+    /** What the hardware path needs and that it is optional. */
+    hardwareNote: markdown,
+    stages: z.array(projectStageSchema).min(3),
+    references: z.array(referenceSchema).default([]),
+  })
+  .superRefine((p, ctx) => {
+    const ids = new Set<string>();
+    for (const st of p.stages) {
+      if (ids.has(st.id)) ctx.addIssue({ code: "custom", message: `duplicate stage id ${st.id}` });
+      ids.add(st.id);
+      const dids = new Set<string>();
+      for (const d of st.deliverables) {
+        if (dids.has(d.id)) ctx.addIssue({ code: "custom", message: `duplicate deliverable id ${st.id}/${d.id}` });
+        dids.add(d.id);
+      }
+    }
+  });
+export type Project = z.infer<typeof projectSchema>;
+
