@@ -24,6 +24,17 @@ import { medicalAndIndustrialStandardsScope } from "./lessons/medical-and-indust
 import { sameSkillsDifferentIndustries } from "./lessons/same-skills-different-industries";
 import { presentingAPortfolioProjectHonestly } from "./lessons/presenting-a-portfolio-project-honestly";
 import { tellingADebuggingStory } from "./lessons/telling-a-debugging-story";
+import { readingAPowerTree } from "./lessons/reading-a-power-tree";
+import { opAmpSanityChecks } from "./lessons/op-amp-sanity-checks";
+import { adcResolutionReferenceAndNoise } from "./lessons/adc-resolution-reference-and-noise";
+import { readingASchematicLikeAReviewer } from "./lessons/reading-a-schematic-like-a-reviewer";
+import { datasheetTriage } from "./lessons/datasheet-triage";
+import { interruptsAndNvicPriorities } from "./lessons/interrupts-and-nvic-priorities";
+import { canArbitrationErrorFramesAndBusOff } from "./lessons/can-arbitration-error-frames-and-bus-off";
+import { pointersToHardware } from "./lessons/pointers-to-hardware";
+import { raiiForPeripherals } from "./lessons/raii-for-peripherals";
+import { pollingInterruptsAndDma } from "./lessons/polling-interrupts-and-dma";
+import { logicAnalysersDecodingABus } from "./lessons/logic-analysers-decoding-a-bus";
 import { freshBoardNoSignOfLife } from "./missions/fresh-board-no-sign-of-life";
 import { theSensorThatNeverAnswers } from "./missions/the-sensor-that-never-answers";
 import { theUartThatPrintsGarbage } from "./missions/the-uart-that-prints-garbage";
@@ -32,6 +43,8 @@ import { theRequirementNobodyCouldTest } from "./missions/the-requirement-nobody
 import { twoBoardsOneBusNoAgreement } from "./missions/two-boards-one-bus-no-agreement";
 import { theTaskThatNeverRuns } from "./missions/the-task-that-never-runs";
 import { theFlakyAutomatedTest } from "./missions/the-flaky-automated-test";
+import { theRailThatSags } from "./missions/the-rail-that-sags";
+import { theSchematicThatAlmostShipped } from "./missions/the-schematic-that-almost-shipped";
 import { stm32SensorMonitor } from "./projects/stm32-sensor-monitor";
 import type { Project } from "@/lib/content/schema";
 import type { Lesson, Mission } from "@/lib/content/schema";
@@ -70,6 +83,17 @@ export const lessons: Lesson[] = [
   sameSkillsDifferentIndustries,
   presentingAPortfolioProjectHonestly,
   tellingADebuggingStory,
+  readingAPowerTree,
+  opAmpSanityChecks,
+  adcResolutionReferenceAndNoise,
+  readingASchematicLikeAReviewer,
+  datasheetTriage,
+  interruptsAndNvicPriorities,
+  canArbitrationErrorFramesAndBusOff,
+  pointersToHardware,
+  raiiForPeripherals,
+  pollingInterruptsAndDma,
+  logicAnalysersDecodingABus,
 ];
 
 export const missions: Mission[] = [
@@ -81,6 +105,8 @@ export const missions: Mission[] = [
   theRequirementNobodyCouldTest,
   theTaskThatNeverRuns,
   theFlakyAutomatedTest,
+  theRailThatSags,
+  theSchematicThatAlmostShipped,
 ];
 
 export { curriculum } from "./curriculum";

@@ -14,10 +14,11 @@ export const curriculum: CurriculumModule[] = [
     priority: "P0",
     summary: "Circuit laws, passives and actives, op-amps and filters, ADC/DAC, logic, power regulation, grounding and protection.",
     lessons: [
-      { title: "Reading a power tree: regulators, rails and decoupling", status: "planned" },
-      { title: "Op-amp sanity checks on the bench", status: "planned" },
-      { title: "ADC resolution, reference and noise", status: "planned" },
+      { title: "Reading a power tree: regulators, rails and decoupling", status: "published", slug: "reading-a-power-tree" },
+      { title: "Op-amp sanity checks on the bench", status: "published", slug: "op-amp-sanity-checks" },
+      { title: "ADC resolution, reference and noise", status: "published", slug: "adc-resolution-reference-and-noise" },
     ],
+    missions: [{ title: "The rail that sags", status: "published", slug: "the-rail-that-sags" }],
   },
   {
     id: "pcb",
@@ -27,9 +28,10 @@ export const curriculum: CurriculumModule[] = [
     priority: "P0",
     summary: "Schematic reading, datasheets, reference designs, component selection, layout, signal integrity, EMI/EMC, KiCad and LTspice.",
     lessons: [
-      { title: "Reading a schematic like a reviewer", status: "planned" },
-      { title: "Datasheet triage: the five numbers that matter", status: "planned" },
+      { title: "Reading a schematic like a reviewer", status: "published", slug: "reading-a-schematic-like-a-reviewer" },
+      { title: "Datasheet triage: the five numbers that matter", status: "published", slug: "datasheet-triage" },
     ],
+    missions: [{ title: "The schematic that almost shipped", status: "published", slug: "the-schematic-that-almost-shipped" }],
   },
   {
     id: "mcu",
@@ -40,7 +42,8 @@ export const curriculum: CurriculumModule[] = [
     summary: "MCU vs MPU vs SoC, Cortex-M/R/A, STM32 peripherals, interrupts, timers, DMA, memory, boot and watchdog.",
     lessons: [
       { title: "MCU board does not boot: power, reset, clock, boot pins", status: "published", slug: "mcu-board-does-not-boot" },
-      { title: "Interrupts and NVIC priorities without surprises", status: "planned" },
+      { title: "Interrupts and NVIC priorities without surprises", status: "published", slug: "interrupts-and-nvic-priorities" },
+      { title: "Low-power modes and wake-up sources", status: "planned" },
       { title: "Watchdogs and reset loops", status: "published", slug: "watchdogs-and-reset-loops" },
     ],
     missions: [
@@ -59,7 +62,7 @@ export const curriculum: CurriculumModule[] = [
       { title: "I2C sensor not acknowledging: from pull-ups to firmware", status: "published", slug: "i2c-sensor-not-acknowledging" },
       { title: "UART framing and baud tolerance", status: "published", slug: "uart-framing-and-baud" },
       { title: "SPI modes, chip select and the first byte of garbage", status: "published", slug: "spi-modes-and-chip-select" },
-      { title: "CAN: arbitration, error frames and bus-off", status: "planned" },
+      { title: "CAN: arbitration, error frames and bus-off", status: "published", slug: "can-arbitration-error-frames-and-bus-off" },
     ],
     missions: [
       { title: "The sensor that never answers", status: "published", slug: "the-sensor-that-never-answers" },
@@ -75,7 +78,7 @@ export const curriculum: CurriculumModule[] = [
     summary: "Types, functions, pointers, structures, bit manipulation, volatile/const/static, stack vs heap, registers and small firmware exercises.",
     lessons: [
       { title: "Register bit masks: read, modify and write safely", status: "published", slug: "embedded-c-register-bit-masks" },
-      { title: "Pointers to hardware: structs over memory maps", status: "planned" },
+      { title: "Pointers to hardware: structs over memory maps", status: "published", slug: "pointers-to-hardware" },
       { title: "Fixed-width integers, overflow and shifts", status: "published", slug: "fixed-width-integers-overflow-shifts" },
     ],
   },
@@ -86,7 +89,7 @@ export const curriculum: CurriculumModule[] = [
     title: "Embedded C++",
     priority: "P1",
     summary: "Classes, constructors, references, polymorphism, RAII, modular interfaces and debugging.",
-    lessons: [{ title: "RAII for peripherals and critical sections", status: "planned" }],
+    lessons: [{ title: "RAII for peripherals and critical sections", status: "published", slug: "raii-for-peripherals" }],
   },
   {
     id: "firmware-arch",
@@ -98,7 +101,7 @@ export const curriculum: CurriculumModule[] = [
     lessons: [
       { title: "From reset vector to main(): what startup code does", status: "published", slug: "from-reset-vector-to-main" },
       { title: "Bootloaders, images and recovery paths", status: "published", slug: "bootloaders-images-and-recovery" },
-      { title: "Polling, interrupts and DMA: choosing the driver model", status: "planned" },
+      { title: "Polling, interrupts and DMA: choosing the driver model", status: "published", slug: "polling-interrupts-and-dma" },
     ],
   },
   {
@@ -133,7 +136,7 @@ export const curriculum: CurriculumModule[] = [
     lessons: [
       { title: "Oscilloscope probing without lying to yourself", status: "published", slug: "oscilloscope-probing" },
       { title: "Root-cause analysis and the five whys that matter", status: "published", slug: "root-cause-analysis" },
-      { title: "Logic analysers: decoding a bus you did not design", status: "planned" },
+      { title: "Logic analysers: decoding a bus you did not design", status: "published", slug: "logic-analysers-decoding-a-bus" },
     ],
   },
   {

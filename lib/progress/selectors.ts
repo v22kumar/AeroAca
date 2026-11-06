@@ -98,6 +98,17 @@ export const skillLabels: Record<string, string> = {
   standards: "Standards and their scope",
   applications: "Cross-industry transfer",
   communication: "Engineering communication",
+  power: "Power rails and regulators",
+  analog: "Analogue front ends",
+  adc: "ADC and sampling",
+  schematic: "Schematic review",
+  datasheet: "Datasheet reading",
+  nvic: "Interrupts and priorities",
+  can: "CAN bus",
+  pointers: "Pointers to hardware",
+  cpp: "Embedded C++",
+  "driver-model": "Driver models and timers",
+  "logic-analyser": "Logic analysers",
 };
 
 export function skillLabel(skill: string): string {

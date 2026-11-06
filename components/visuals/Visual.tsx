@@ -16,6 +16,10 @@ import { ScpiConsole } from "./ScpiConsole";
 import { FmeaWorksheet } from "./FmeaWorksheet";
 import { StandardsMap } from "./StandardsMap";
 import { SensorMonitorLab } from "./SensorMonitorLab";
+import { AdcQuantisation } from "./AdcQuantisation";
+import { CanArbitration } from "./CanArbitration";
+import { PwmTimer } from "./PwmTimer";
+import { NvicPriorities } from "./NvicPriorities";
 
 /** Maps a content visual id to its interactive component. Add new visuals here and in the schema enum. */
 export function Visual({ id }: { id: VisualId }) {
@@ -50,5 +54,13 @@ export function Visual({ id }: { id: VisualId }) {
       return <StandardsMap />;
     case "sensor-monitor-lab":
       return <SensorMonitorLab />;
+    case "adc-quantisation":
+      return <AdcQuantisation />;
+    case "can-arbitration":
+      return <CanArbitration />;
+    case "pwm-timer":
+      return <PwmTimer />;
+    case "nvic-priorities":
+      return <NvicPriorities />;
   }
 }

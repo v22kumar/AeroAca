@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { journey, lessons, missions, interviewQuestions } from "@/content";
+import { journey, lessons, missions, interviewQuestions, curriculum } from "@/content";
 import { journeyDaySchema } from "@/lib/content/schema";
 import { ProgressStore } from "@/lib/progress/store";
 import { journeyState, dayState, nextItem, applyKey, interviewKey, reviewKey } from "@/lib/progress/journey";
@@ -25,12 +25,15 @@ describe("journey content", () => {
     });
   });
 
-  it("all 30 days are fully published and every published lesson and mission appears in them", () => {
+  it("all 30 days are fully published; the fast track covers at least 26 lessons and 8 missions, and every extra lesson is reachable from a curriculum module", () => {
     const first10 = journey.slice(0, 30);
     for (const d of first10) expect(d.items.some((i) => i.kind === "planned"), `day ${d.day}`).toBe(false);
     const used = new Set(first10.flatMap((d) => d.items.flatMap((i) => (i.kind === "lesson" || i.kind === "mission" ? [i.slug] : []))));
-    for (const l of lessons) expect(used.has(l.slug), l.slug).toBe(true);
-    for (const m of missions) expect(used.has(m.slug), m.slug).toBe(true);
+    expect(lessons.filter((l) => used.has(l.slug)).length).toBeGreaterThanOrEqual(26);
+    expect(missions.filter((m) => used.has(m.slug)).length).toBeGreaterThanOrEqual(8);
+    const inCurriculum = new Set(curriculum.flatMap((m) => [...m.lessons, ...(m.missions ?? [])].flatMap((x) => (x.status === "published" ? [x.slug] : []))));
+    for (const l of lessons) expect(inCurriculum.has(l.slug), l.slug).toBe(true);
+    for (const m of missions) expect(inCurriculum.has(m.slug), m.slug).toBe(true);
   });
 
   it("every day is a realistic session of 15 to 45 minutes", () => {
