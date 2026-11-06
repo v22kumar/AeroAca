@@ -150,23 +150,9 @@ test.describe("Missions", () => {
     await page.reload();
     await expect(page.getByTestId("mission-outcome")).toHaveAttribute("data-verdict", "solved");
     await expect(page.getByText("1 previous run")).toBeVisible();
-    // TEMP-DIAG: record what covers the button when the click is blocked (CI only)
-    {
-      const btn = page.getByTestId("mission-restart");
-      await btn.scrollIntoViewIfNeeded();
-      const info = await btn.evaluate((el) => {
-        const r = el.getBoundingClientRect();
-        const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
-        const chain: string[] = [];
-        for (let n: Element | null = top; n && chain.length < 8; n = n.parentElement) {
-          const cs = getComputedStyle(n);
-          const nr = n.getBoundingClientRect();
-          chain.push(`${n.tagName}.${(n.getAttribute("class") ?? "").slice(0, 50)} pos=${cs.position} z=${cs.zIndex} rect=${Math.round(nr.x)},${Math.round(nr.y)},${Math.round(nr.width)}x${Math.round(nr.height)}`);
-        }
-        return { btn: [r.x, r.y, r.width, r.height].map(Math.round), vh: innerHeight, sy: scrollY, docH: document.documentElement.scrollHeight, chain };
-      });
-      expect(info.chain[0]?.startsWith("BUTTON"), "DIAG " + JSON.stringify(info)).toBe(true);
-    }
+    // The page scrolls smoothly (globals.css). On a slow runner Playwright's hit-test can run mid-scroll and see
+    // the paragraphs the button is passing, so ask for the reduced-motion layout before clicking it.
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.getByTestId("mission-restart").click();
     await expect(page.getByTestId("bench-time")).toHaveText("0 / 45 min");
     await page.reload();
