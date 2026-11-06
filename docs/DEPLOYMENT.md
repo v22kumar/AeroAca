@@ -47,5 +47,7 @@ Releases 0.2 to 1.0 were opened as a chain of stacked pull requests, each based 
 
 Each merge is independently revertible with `git revert -m 1 <merge-sha>`, and each production deployment is a Vercel rollback candidate. Merging a later PR before an earlier one is refused by GitHub because its base branch would be unmerged; do not force it.
 
+The pre-merge state of the chain (per-PR CI runs, the local dry run of all nine merges, the rollback deployment) and the record completed during the release live in `docs/RELEASE_CANDIDATE_1.0.md`.
+
 If a fix is needed low in the stack after review, commit it on that branch and merge the branch forward into each later branch (`git merge feat/release-0.6` on `feat/release-0.7`, and so on), as was done for the scrollable-table accessibility fix.
 
