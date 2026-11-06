@@ -62,12 +62,24 @@ export function TodayView() {
       </div>
 
       {!hydrated || !js || !current ? (
-        <Card className="p-5" aria-busy="true" aria-label="Loading your next step">
-          <Skeleton className="h-3 w-24" />
-          <Skeleton className="mt-3 h-6 w-3/4" />
-          <Skeleton className="mt-3 h-4 w-full" />
-          <Skeleton className="mt-5 h-12 w-full sm:w-40" />
-        </Card>
+        <div className="flex flex-col gap-6" aria-busy="true" aria-label="Loading your next step">
+          <Card className="min-h-[13.5rem] p-5">
+            <Skeleton className="h-3 w-24" />
+            <Skeleton className="mt-3 h-7 w-3/4" />
+            <Skeleton className="mt-3 h-4 w-full" />
+            <Skeleton className="mt-2 h-4 w-5/6" />
+            <Skeleton className="mt-5 h-12 w-full sm:w-40" />
+          </Card>
+          <div>
+            <Skeleton className="mb-2 h-4 w-48" />
+            <Card className="min-h-[17rem] p-4">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="mt-4 h-10 w-full" />
+              <Skeleton className="mt-2 h-10 w-full" />
+              <Skeleton className="mt-2 h-10 w-full" />
+            </Card>
+          </div>
+        </div>
       ) : (
         <>
           <Card className="hero-glow relative overflow-hidden p-5" data-testid="next-action">

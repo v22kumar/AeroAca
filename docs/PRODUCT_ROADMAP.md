@@ -29,7 +29,7 @@ Authoritative plan toward AeroAca 1.0. Updated at the end of every increment; se
 | 0.7 | Portfolio track: STM32 sensor monitoring and fault detection, requirements → architecture → interfaces → firmware → tests → fault injection → report; simulation and hardware paths recorded separately; in-browser fault-injection lab | In PR (#7) |
 | 0.8 | Remaining curriculum depth: electronics fundamentals (power tree, op-amps, ADC), schematics/PCB, CAN arbitration and bus-off, NVIC, pointers to hardware, Embedded C++ RAII, driver models with PWM arithmetic, logic analysers; 2 missions; 4 interactives | In PR (#8) |
 | 0.9 | Learning intelligence: evidence-based recommendations (retries, same-skill lessons, grounding lessons for shaky ratings, module gaps) on Today and Progress; explained readiness by module with no percentages; Release 0.1 backup migration test; on-demand visuals | In PR (#9) |
-| 1.0 | Documented content review, real-learner feedback incorporated, final gates | Planned |
+| 1.0 | Documented content review (log and sync test), release checklist, stacked-merge procedure, Lighthouse evidence; second-reader signatures and real-learner feedback remain human gates | In PR (#10) |
 
 ## Module coverage targets
 

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { projects, getLesson, getMission } from "@/lib/content";
 import type { DeliverablePath } from "@/lib/content/schema";
 import { useProgress } from "@/lib/progress/ProgressProvider";
@@ -9,11 +9,28 @@ import { projectState, projectKey, evidenceTable, type Path } from "@/lib/progre
 import { Card } from "@/components/ui/Card";
 import { Markdown } from "@/components/ui/Markdown";
 import { Disclosure } from "@/components/ui/Disclosure";
+
 import { Visual } from "@/components/visuals/Visual";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { Icon } from "@/components/ui/Icon";
 
 const pathLabel: Record<Path, string> = { doc: "Written", sim: "Simulation", hw: "Hardware" };
+
+/** A details element whose children are rendered only after it has been opened once, so the page parses one stage's Markdown at a time. */
+function StageDisclosure({ title, defaultOpen, children }: { title: string; defaultOpen: boolean; children: ReactNode }) {
+  const [opened, setOpened] = useState(defaultOpen);
+  return (
+    <details className="group" open={defaultOpen || undefined} onToggle={(e) => { if ((e.currentTarget as HTMLDetailsElement).open) setOpened(true); }}>
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-[15px] font-semibold text-ink marker:hidden [&::-webkit-details-marker]:hidden">
+        <span>{title}</span>
+        <span aria-hidden className="text-ink-3 transition-transform group-open:rotate-180">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6l5 5 5-5" /></svg>
+        </span>
+      </summary>
+      <div className="px-4 pb-4">{opened ? children : null}</div>
+    </details>
+  );
+}
 const pathBadge: Record<DeliverablePath, string> = { doc: "Written work", sim: "Simulation path", hw: "Hardware path (optional)", both: "Simulation and hardware paths, recorded separately" };
 
 export function PortfolioView() {
@@ -59,6 +76,7 @@ export function PortfolioView() {
         <Markdown size="sm">{project.whyItMatters}</Markdown>
       </div>
 
+      <h2 className="sr-only">Project stages</h2>
       <ol className="flex flex-col gap-4" aria-label="Project stages">
         {project.stages.map((st, i) => {
           const ss = ps.stages[i]!;
@@ -66,10 +84,7 @@ export function PortfolioView() {
           return (
             <li key={st.id}>
               <Card className={`overflow-hidden ${current ? "border-accent" : ""}`} data-testid={`stage-${st.id}`}>
-                <Disclosure
-                  title={`${i + 1}. ${st.title} · ${ss.doneCount}/${ss.total}${ss.complete ? " · complete" : current ? " · current" : ""}`}
-                  defaultOpen={current}
-                >
+                <StageDisclosure title={`${i + 1}. ${st.title} · ${ss.doneCount}/${ss.total}${ss.complete ? " · complete" : current ? " · current" : ""}`} defaultOpen={current}>
                   <p className="text-sm font-semibold">{st.goal}</p>
                   <div className="mt-2">
                     <Markdown>{st.body}</Markdown>
@@ -132,7 +147,7 @@ export function PortfolioView() {
                       })}
                     </p>
                   )}
-                </Disclosure>
+                </StageDisclosure>
               </Card>
             </li>
           );

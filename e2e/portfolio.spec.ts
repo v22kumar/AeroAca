@@ -16,6 +16,7 @@ test.describe("Portfolio track", () => {
     await expect(page.getByTestId("evidence-summary")).toContainText("hardware 0/");
     await expect(page.getByTestId("evidence-summary")).toContainText("Hardware path not attempted");
     await page.reload();
+    await page.getByTestId("stage-firmware").locator("summary").click(); // stage bodies mount when opened
     await expect(page.getByTestId("tick-detect-fn-sim")).toBeChecked();
     await expect(page.getByTestId("tick-detect-fn-hw")).not.toBeChecked();
     const row = page.getByTestId("evidence-table").locator("tr", { hasText: "Detection logic as a pure, hardware-free function" });
