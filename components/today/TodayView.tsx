@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { journeyBlocks, lessons, missions } from "@/lib/content";
+import { curriculum, journeyBlocks, lessons, missions } from "@/lib/content";
 import { useProgress } from "@/lib/progress/ProgressProvider";
 import { learnerName, overallStats } from "@/lib/progress/selectors";
 import { journeyState, nextItem, type ItemState } from "@/lib/progress/journey";
@@ -188,7 +188,7 @@ export function TodayView() {
       )}
 
       <p className="text-xs text-ink-3">
-        {lessons.length} lessons and {missions.length} missions are published across the 16 modules under Learn. The 30 days are the fast track; the other lessons are reachable from their module and from your recommendations.
+        {lessons.length} lessons and {missions.length} missions are published across the {curriculum.length} modules under Learn. The 30 days are the fast track; the other lessons are reachable from their module and from your recommendations.
       </p>
 
       <Link href="/glossary" className="flex items-center gap-3 rounded-card border border-line bg-surface p-4 hover:bg-surface-2">

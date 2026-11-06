@@ -17,7 +17,7 @@ test.describe("Today and navigation", () => {
     const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
     await nav.getByRole("link", { name: "Learn" }).click();
     await expect(page).toHaveURL(/\/curriculum/);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("16 modules");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("modules, built in the order");
     await expectNoHorizontalOverflow(page);
 
     await nav.getByRole("link", { name: "Interview" }).click();

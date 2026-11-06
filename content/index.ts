@@ -13,6 +13,10 @@ import { interfaceControlAndIntegrationFaults } from "./lessons/interface-contro
 import { fromResetVectorToMain } from "./lessons/from-reset-vector-to-main";
 import { priorityInversion } from "./lessons/priority-inversion";
 import { milStd1553bTheWordAndTheMessage } from "@/content/lessons/mil-std-1553b-the-word-and-the-message";
+import { milStd1553bControllerTerminalsAndFaults } from "@/content/lessons/mil-std-1553b-controller-terminals-and-faults";
+import { arinc429WordsLabelsAndSsm } from "@/content/lessons/arinc-429-words-labels-and-ssm";
+import { rs422Rs485AndFramedSerialWithCrc } from "@/content/lessons/rs-422-rs-485-and-framed-serial-with-crc";
+import { telemetryPacketsAndParsingWithStruct } from "@/content/lessons/telemetry-packets-and-parsing-with-struct";
 import { isrToTaskHandoff } from "./lessons/isr-to-task-handoff";
 import { bootloadersImagesAndRecovery } from "./lessons/bootloaders-images-and-recovery";
 import { embeddedLinuxBootChain } from "./lessons/embedded-linux-boot-chain";
@@ -87,6 +91,10 @@ export const lessons: Lesson[] = [
   fromResetVectorToMain,
   priorityInversion,
   milStd1553bTheWordAndTheMessage,
+  milStd1553bControllerTerminalsAndFaults,
+  arinc429WordsLabelsAndSsm,
+  rs422Rs485AndFramedSerialWithCrc,
+  telemetryPacketsAndParsingWithStruct,
   isrToTaskHandoff,
   bootloadersImagesAndRecovery,
   embeddedLinuxBootChain,

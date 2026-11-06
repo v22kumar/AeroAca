@@ -1,4 +1,4 @@
-/* Lesson: RS-485 and Modbus RTU. Build: gcc -std=c11 -Wall -Wextra -o crc16 crc16.c && ./crc16 */
+/* Lesson: RS-422, RS-485 and framed serial with CRC. Build: gcc -std=c11 -Wall -Wextra -o crc16 crc16.c && ./crc16 */
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -29,9 +29,10 @@ int main(void) {
     uint16_t calc = crc16_modbus(frame, sizeof frame - 2);
     uint16_t got = (uint16_t)(frame[sizeof frame - 2] | (frame[sizeof frame - 1] << 8));
     printf("response CRC calc 0x%04X, received 0x%04X: %s\n", calc, got, calc == got ? "VALID" : "INVALID");
+    printf("registers in the good frame: %u %u %u\n", (frame[3] << 8) | frame[4], (frame[5] << 8) | frame[6], (frame[7] << 8) | frame[8]);
     frame[4] ^= 0x01;   /* one bit flipped in flight */
     calc = crc16_modbus(frame, sizeof frame - 2);
     printf("after a one-bit error: calc 0x%04X, received 0x%04X: %s\n", calc, got, calc == got ? "VALID" : "INVALID");
-    printf("registers: %u %u %u\n", (frame[3] << 8) | frame[4], (frame[5] << 8) | frame[6], (frame[7] << 8) | frame[8]);
+    printf("a master that skipped the CRC check would have used: %u %u %u (the first value is off by one)\n", (frame[3] << 8) | frame[4], (frame[5] << 8) | frame[6], (frame[7] << 8) | frame[8]);
     return 0;
 }

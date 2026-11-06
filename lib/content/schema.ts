@@ -462,7 +462,7 @@ export type MissionFix = z.infer<typeof missionFixSchema>;
 export const curriculumModuleSchema = z.object({
   id: z.string(),
   number: z.number().int().positive(),
-  section: z.enum(["A", "B", "C", "D", "E"]),
+  section: z.enum(["A", "B", "C", "D", "E", "F"]),
   title: z.string(),
   priority: z.enum(["P0", "P1", "P2"]),
   summary: z.string(),
@@ -524,6 +524,7 @@ export const sectionTitles: Record<CurriculumModule["section"], string> = {
   C: "Product R&D, integration & debugging",
   D: "Cross-industry specialisation",
   E: "Interviews & career",
+  F: "Career track: advanced avionics, verification and real time",
 };
 
 /* ---------- Portfolio track ---------- */

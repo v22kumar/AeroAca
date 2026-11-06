@@ -2,11 +2,11 @@ import type { Lesson } from "@/lib/content/schema";
 
 /**
  * Teaching format 2.0 pilot lesson: an advanced avionics topic taught from zero inside the app.
- * Lives in the interfaces module until the avionics data-bus module exists.
+ * Module 18, avionics data buses.
  */
 export const milStd1553bTheWordAndTheMessage: Lesson = {
   slug: "mil-std-1553b-the-word-and-the-message",
-  moduleId: "interfaces",
+  moduleId: "avionics-buses",
   format: "arc",
   prerequisites: ["uart-framing-and-baud", "fixed-width-integers-overflow-shifts"],
   title: "MIL-STD-1553B: the word and the message",

@@ -71,6 +71,10 @@ Review levels:
 | mission | `the-task-that-never-runs` | The task that never runs | n/a | 2 | — | — | yes | pending |
 | mission | `the-uart-that-prints-garbage` | The UART that prints garbage | n/a | 2 | — | — | yes | pending |
 | mission | `two-boards-one-bus-no-agreement` | Two boards, one bus, no agreement | n/a | 1 | — | — | yes | pending |
+| lesson | `mil-std-1553b-controller-terminals-and-faults` | 1553 on a real rig: the schedule, the load and reading a monitor log (2.0 format) | technically-reviewed | 3 | 5 | mil1553 figure, py-mon1553 lab | yes | pending |
+| lesson | `arinc-429-words-labels-and-ssm` | ARINC 429: one talker, a 32-bit word, and a field that says whether to believe it (2.0 format) | technically-reviewed | 3 | 5 | arinc429 figure, py-a429 lab | yes | pending |
+| lesson | `rs-422-rs-485-and-framed-serial-with-crc` | RS-422 and RS-485: differential links, termination, and frames you can trust (2.0 format) | technically-reviewed | 4 | 4 | c-crc16 lab | yes | pending |
+| lesson | `telemetry-packets-and-parsing-with-struct` | Telemetry packets: design the frame, then parse it so that nothing is silently lost (2.0 format) | technically-reviewed | 3 | 5 | py-telemetry lab | yes | pending |
 
 ## Items the second reader should look at first
 

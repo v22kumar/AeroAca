@@ -71,7 +71,6 @@ export const curriculum: CurriculumModule[] = [
       { title: "UART framing and baud tolerance", status: "published", slug: "uart-framing-and-baud" },
       { title: "SPI modes, chip select and the first byte of garbage", status: "published", slug: "spi-modes-and-chip-select" },
       { title: "CAN: arbitration, error frames and bus-off", status: "published", slug: "can-arbitration-error-frames-and-bus-off" },
-      { title: "MIL-STD-1553B: the word and the message", status: "published", slug: "mil-std-1553b-the-word-and-the-message" },
     ],
     missions: [
       { title: "The sensor that never answers", status: "published", slug: "the-sensor-that-never-answers" },
@@ -224,6 +223,21 @@ export const curriculum: CurriculumModule[] = [
     lessons: [
       { title: "Presenting a portfolio project without inflating it", status: "published", slug: "presenting-a-portfolio-project-honestly" },
       { title: "Telling a debugging story: evidence, decision, outcome", status: "published", slug: "telling-a-debugging-story" },
+    ],
+  },
+  {
+    id: "avionics-buses",
+    number: 18,
+    section: "F",
+    title: "Avionics data buses and telemetry",
+    priority: "P0",
+    summary: "MIL-STD-1553B from the word to the schedule and the monitor log, ARINC 429, RS-422 and RS-485 links with CRC framing, and telemetry packets you can parse without losing anything silently.",
+    lessons: [
+      { title: "MIL-STD-1553B: the word and the message", status: "published", slug: "mil-std-1553b-the-word-and-the-message" },
+      { title: "1553 on a real rig: the schedule, the load and reading a monitor log", status: "published", slug: "mil-std-1553b-controller-terminals-and-faults" },
+      { title: "ARINC 429: one talker, a 32-bit word, and a field that says whether to believe it", status: "published", slug: "arinc-429-words-labels-and-ssm" },
+      { title: "RS-422 and RS-485: differential links, termination, and frames you can trust", status: "published", slug: "rs-422-rs-485-and-framed-serial-with-crc" },
+      { title: "Telemetry packets: design the frame, then parse it so that nothing is silently lost", status: "published", slug: "telemetry-packets-and-parsing-with-struct" },
     ],
   },
 ];

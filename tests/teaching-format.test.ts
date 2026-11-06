@@ -35,7 +35,7 @@ describe("teaching format 2.0 lessons", () => {
       const first = (st: string) => stages.indexOf(st);
       expect(first("intuition"), `${l.slug}: intuition step`).toBeGreaterThan(0);
       expect(first("theory"), `${l.slug}: theory step`).toBeGreaterThan(first("intuition"));
-      expect(l.steps.some((s) => s.type === "visual" || s.type === "walkthrough"), `${l.slug}: a visual or walkthrough`).toBe(true);
+      expect(l.steps.some((s) => s.type === "visual" || s.type === "walkthrough" || s.type === "figure"), `${l.slug}: a visual, figure or walkthrough`).toBe(true);
       const firstExercise = l.steps.findIndex((s) => s.type === "exercise");
       const firstExample = l.steps.findIndex((s) => s.type === "example");
       expect(firstExample, `${l.slug}: worked example`).toBeGreaterThanOrEqual(0);
