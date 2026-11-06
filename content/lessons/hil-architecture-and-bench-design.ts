@@ -85,29 +85,6 @@ The unit under test sits between the I/O and the fault insertion. It is the one 
       body: `Trace one sensor: the model computes a value, the analogue I/O makes a voltage, fault insertion may open or corrupt it, and the unit reads it. Then trace one output the other way.`,
     },
     {
-      type: "exercise",
-      stage: "practice",
-      depth: "understand",
-      exercise: {
-        kind: "single",
-        id: "hil-real-guided",
-        skill: "hil-bench",
-        objective: "Say what is real and what is simulated on a HIL rig (guided).",
-        prompt: `On a hardware-in-the-loop rig for a flight computer, which statement is correct?`,
-        hints: [
-          `The name says it: the hardware is in the loop. Which hardware is it?`,
-          `The unit under test is the thing being judged, so it cannot be a model.`,
-          `Something must pretend to be the aircraft. Is that real or computed?`,
-        ],
-        options: [
-          { id: "a", text: "The flight computer and its real I/O are real; the aircraft, its sensors and its actuators are a real-time model.", correct: true, feedback: `Right. HIL keeps the unit and its electrical interfaces real and simulates the plant. That is why it finds wiring, timing and electrical faults that SIL cannot.` },
-          { id: "b", text: "The flight computer's code runs on a PC; everything else is real.", correct: false, feedback: `That is closer to software in the loop, and reversed: on HIL the real unit is kept and the plant is simulated.` },
-          { id: "c", text: "Everything is simulated, including the flight computer, but faster than real time.", correct: false, feedback: `That is model in the loop. HIL needs the real unit and runs the plant in real time so the unit's timing is honest.` },
-          { id: "d", text: "The plant is real and only the faults are simulated.", correct: false, feedback: `A real plant would be a flight test or an iron bird. HIL exists so that the plant can be a model that you control and break safely.` },
-        ],
-      },
-    },
-    {
       type: "concept",
       stage: "how",
       depth: "apply",
@@ -151,6 +128,29 @@ Then add the rows the ICD does not contain: the **test-only** ones, such as the 
 **Added rows, not in the ICD:** a fault insertion on rows 2, 3 and 4, a test point on row 5, and a log of the unit's serial console.
 
 Count: **five** ICD resources plus three insertion points. The ICD told us what normal looks like; the extra rows let us make it abnormal.`,
+    },
+    {
+      type: "exercise",
+      stage: "practice",
+      depth: "understand",
+      exercise: {
+        kind: "single",
+        id: "hil-real-guided",
+        skill: "hil-bench",
+        objective: "Say what is real and what is simulated on a HIL rig (guided).",
+        prompt: `On a hardware-in-the-loop rig for a flight computer, which statement is correct?`,
+        hints: [
+          `The name says it: the hardware is in the loop. Which hardware is it?`,
+          `The unit under test is the thing being judged, so it cannot be a model.`,
+          `Something must pretend to be the aircraft. Is that real or computed?`,
+        ],
+        options: [
+          { id: "a", text: "The flight computer and its real I/O are real; the aircraft, its sensors and its actuators are a real-time model.", correct: true, feedback: `Right. HIL keeps the unit and its electrical interfaces real and simulates the plant. That is why it finds wiring, timing and electrical faults that SIL cannot.` },
+          { id: "b", text: "The flight computer's code runs on a PC; everything else is real.", correct: false, feedback: `That is closer to software in the loop, and reversed: on HIL the real unit is kept and the plant is simulated.` },
+          { id: "c", text: "Everything is simulated, including the flight computer, but faster than real time.", correct: false, feedback: `That is model in the loop. HIL needs the real unit and runs the plant in real time so the unit's timing is honest.` },
+          { id: "d", text: "The plant is real and only the faults are simulated.", correct: false, feedback: `A real plant would be a flight test or an iron bird. HIL exists so that the plant can be a model that you control and break safely.` },
+        ],
+      },
     },
     {
       type: "figure",

@@ -29,7 +29,7 @@ export const votingMonitorsAndFailover: Lesson = {
       type: "scenario",
       stage: "why",
       title: "The log says B went wrong at frame 6, but flagged it at 7",
-      body: `Three channels measure the same signal. In a simulated test, channel B freezes at frame 6: it keeps repeating its last value while the real signal keeps rising. The voter output stays correct throughout, never more than 0.1 unit from the truth.
+      body: `Three channels measure the same signal. In a simulated test, a **fault injection** freezes channel B at frame 6: it keeps repeating its last value while the real signal keeps rising. The voter output stays correct throughout, never more than 0.1 unit from the truth.
 
 But the log does not flag B until frame 7, and B is not isolated until frame 9. A colleague asks: "Why the delay? Why did it not catch B at frame 6, and why did it wait three more frames to remove it?"
 
@@ -64,7 +64,7 @@ The price is time. The witness who is quietly wrong, but only a little, is not c
 
 **3. Confirm.** A **persistence** counter counts consecutive flagged frames for each channel. When it reaches the persistence count, the channel is **isolated**: ignored from then on. One good frame resets the counter.
 
-The numbers come from engineering, not taste:
+The numbers come from engineering, not taste, and from the **hazard analysis** that says how quickly a fault must be removed:
 
 - The miscompare limit must be **larger than normal disagreement**: sensor accuracy plus differences in sampling time. Too small and healthy channels are flagged.
 - The persistence must be **long enough** to ignore a transient, and **short enough** that a real fault does not stay in the loop.
@@ -204,7 +204,7 @@ Read the notes column and the summary line under each. Notice that in scenario 2
       title: "What a voter cannot do",
       body: `A voter is simple and still has limits, and a review will find them.
 
-**It cannot see faults inside the limit.** A channel that drifts by 3 tenths per frame is never flagged if the limit is 5 and the others drift with it. Slow drift is not caught by a miscompare check; plausibility checks or other monitors must catch it.
+**It cannot see faults inside the limit.** A channel that drifts by 3 tenths per frame is never flagged if the limit is 5 and the others drift with it. Slow drift is not caught by a miscompare check; a plausibility check or another monitor must catch it.
 
 **It cannot choose between two.** Two channels that disagree give fail-passive and nothing more, as scenario 4 showed. The final voted error there reached 26 tenths because the held value aged while the signal moved on.
 
@@ -212,7 +212,7 @@ Read the notes column and the summary line under each. Notice that in scenario 2
 
 **The voter is a single point of failure.** It needs its own protection: simplicity, built-in tests, or duplication with comparison.
 
-**Persistence can hide an intermittent fault.** If the fault alternates good and bad frames, the run resets and the channel is never isolated.
+**Persistence can hide an intermittent fault.** If the fault alternates good and bad frames, the run resets and the channel is never isolated. Each such failure mode in the FMEA needs its own test case.
 
 This lab is a **simulation** with invented numbers. A real design derives limits from sensor and timing analysis and proves them in test.`,
     },
@@ -247,7 +247,7 @@ This lab is a **simulation** with invented numbers. A real design derives limits
       stage: "work",
       depth: "understand",
       title: "Where you will use this",
-      body: `- **Embedded development.** A voter or a plausibility monitor is a small, testable function; counters with reset-on-good are a common pattern in any fault-detection code.
+      body: `- **Embedded development.** A voter or a plausibility monitor is a small, testable function with a clear requirement; counters with reset-on-good are a common pattern in any fault-detection code.
 - **Aerospace and UAV systems.** Cross-channel monitors, sensor voting and actuator comparison appear in flight control, engine control and air data systems.
 - **R&D and design.** Choosing the limit and the persistence from sensor accuracy and dynamics is a design calculation, defended in review.
 - **Verification and interviews.** "Walk me through the voter and the failover" is a standard question; the timeline, with the flag and isolation frames, is a convincing answer.`,
