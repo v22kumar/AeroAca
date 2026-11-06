@@ -70,6 +70,41 @@
       "language": "python",
       "file": "rc.py",
       "command": "python3 rc.py"
+    },
+    {
+      "id": "c-functions",
+      "dir": "labs/c/functions",
+      "language": "c",
+      "file": "functions.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o functions functions.c && ./functions"
+    },
+    {
+      "id": "c-memory",
+      "dir": "labs/c/memory",
+      "language": "c",
+      "file": "memory.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o memory memory.c && ./memory"
+    },
+    {
+      "id": "c-debounce",
+      "dir": "labs/c/debounce",
+      "language": "c",
+      "file": "debounce.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o debounce debounce.c && ./debounce"
+    },
+    {
+      "id": "c-ring",
+      "dir": "labs/c/ring",
+      "language": "c",
+      "file": "ring.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o ring ring.c && ./ring"
+    },
+    {
+      "id": "c-stm32-arith",
+      "dir": "labs/c/stm32arith",
+      "language": "c",
+      "file": "stm32_arith.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o stm32_arith stm32_arith.c && ./stm32_arith"
     }
   ]
 }
