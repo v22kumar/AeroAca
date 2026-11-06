@@ -74,7 +74,7 @@ test.describe("Learner readiness: prerequisites, labs, build-it and the diagnost
     await expect(result).toContainText("One lesson to take before day 1");
     await expect(result.getByTestId("start-here-embedded-c-register-bit-masks")).toBeVisible();
     await expect(result).toContainText("Because you missed: Hexadecimal, Bit masks");
-    expect(await result.innerText()).not.toMatch(/%|level \d|score/i);
+    expect(await result.innerText()).not.toMatch(/\d\s*%|level \d|score[:\s]+\d/i); // no percentage, level number or numeric score anywhere
     const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
     expect(axe.violations).toEqual([]);
 

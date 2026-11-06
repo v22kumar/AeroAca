@@ -61,7 +61,7 @@ export function TermSheet({ id, onClose, onOpen }: { id: string | null; onClose:
         </div>
         <p className="mt-3 text-[16px] font-medium leading-relaxed">{term.short}</p>
         <p className="mt-3 text-[15px] leading-relaxed text-ink-2">{term.detail}</p>
-        <div className="mt-4 rounded-xl bg-accent-soft/70 px-3 py-2.5 text-sm">
+        <div className="mt-4 rounded-xl bg-accent-soft px-3 py-2.5 text-sm">
           <span className="font-semibold text-accent">Why it matters · </span>
           <span className="text-ink">{term.why}</span>
         </div>
