@@ -33,7 +33,7 @@ export function CurriculumView() {
             Portfolio track
           </Link>
           {" · "}
-          {published} items are published and playable. {planned} are planned and shown as coming soon so you can see the shape of the whole programme. Nothing unbuilt is ever marked complete.
+          {published} lessons and missions are published and playable.{planned > 0 ? ` ${planned === 1 ? "One item is" : `${planned} items are`} still being written and ${planned === 1 ? "is" : "are"} marked coming soon.` : ""} Nothing unbuilt is ever marked complete.
         </p>
       </div>
 
