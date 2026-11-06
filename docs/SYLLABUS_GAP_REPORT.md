@@ -1,5 +1,7 @@
 # Syllabus completeness and learner-experience gap report
 
+> Historical pre-PR-13 audit. Its counts and present-tense findings are not the current state. Use [the remaining-engineering audit](ENGINEERING_GAP_AUDIT.md), [current coverage matrix](LEARNING_COVERAGE_MATRIX.md) and [implementation plan](ENGINEERING_IMPLEMENTATION_PLAN.md). Its original E–H proposals are reused; the newer plan prioritizes practical evidence and learner validation.
+
 Date: 2026-11-06. Scope: the ten points of the Product Owner's "Final syllabus completeness and learner experience audit". Evidence: `docs/LEARNING_COVERAGE_MATRIX.md` (topic by topic), the content on `main` at `d291bf5` (production), and a read-through of every learner-facing screen. This report states gaps and the plan; the corrections follow in separate, reviewable PRs, core learner-readiness first, optional enhancements last.
 
 ## 1. Headline

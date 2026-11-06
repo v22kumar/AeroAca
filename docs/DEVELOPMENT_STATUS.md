@@ -1,4 +1,4 @@
-> In progress: teaching format 2.0 pilot (ADR-16, docs/PILOT.md).
+> In progress: teaching format 2.0 pilot (ADR-16, docs/PILOT.md). The remaining-engineering audit, four-pathway specification and revised syllabus are prepared; new curriculum rollout remains gated on learner pilot evaluation and approved P0 scope. See [implementation plan](ENGINEERING_IMPLEMENTATION_PLAN.md) and [validation](ENGINEERING_VALIDATION.md).
 
 # AeroAca development status
 
@@ -8,7 +8,7 @@ Progress report against `docs/PRODUCT_ROADMAP.md`. Updated at the end of every i
 
 - **Production:** Release 1.0 candidate at https://aeroaca.vercel.app (Vercel deployment `dpl_5YtF9Jv77rmVFhrDHQkU5gX8YryN`, `main` at `d291bf5`, deployed 2026-11-06 after the Product Owner authorised the merges). Verified on production: 55 routes 200, the full 130-test browser suite green on Pixel 7 and desktop. Rollback: promote `dpl_DzDWiodmXiHacxUGqJCM5EaCSTjo` (Release 0.1) or any intermediate production deployment in the Vercel dashboard; `git revert -m 1 <merge-sha>` per increment. Record: `docs/RELEASE_CANDIDATE_1.0.md`.
 - **Merged:** PRs #2 to #10 merged into `main` in dependency order on 2026-11-06 (merge commits `a607e29`, `d388bbd`, `dbdec3d`, `557dd90`, `c731134`, `2fdf435`, `4d0e12c`, `65f64e7`, `d291bf5`), each followed by a green `main` CI run before the next merge. No conflicts, no fixes needed.
-- **Open PRs:** none from the release chain. `docs/release-1.0-record` (this record) is the only open branch.
+- **Open PRs at the engineering-audit snapshot:** #11 release record → #12 audit → #13 learner readiness → #14 fundamentals → #15 Embedded C/STM32 → #16 teaching pilot → #17 engineering audit and reconciled syllabus (documentation only). These form a dependency stack and are integrated in that order after review, each with a green CI run on the retargeted merge result before the next; source/check evidence is in [the engineering audit](ENGINEERING_GAP_AUDIT.md). Pending content is not production content.
 - **Published content (production):** 37 lessons, 10 missions, 1 portfolio project (7 stages, 19 deliverables, in-browser fault-injection lab), 42 interview questions (35 with industry notes), 211 glossary terms, 19 interactive visuals, timed mock-interview mode, all 30 journey days complete, every module with published content.
 - **Quality gates (production commit):** lint 0/0, typecheck clean, 56 unit tests (incl. a Release 0.1 backup migration test), 130 browser tests (Pixel 7 + desktop, incl. axe WCAG 2.0 A/AA), all routes static, visuals code-split.
 
@@ -37,7 +37,7 @@ Progress report against `docs/PRODUCT_ROADMAP.md`. Updated at the end of every i
 
 ## Known gaps and blockers
 
-- No journey day references planned content any more; the curriculum still lists planned lessons beyond the 30-day path.
+- The cumulative #16 curriculum has no placeholder lessons, but the full engineering syllabus still has substantial missing/shallow subjects. No journey day references planned content; [the matrix](LEARNING_COVERAGE_MATRIX.md) tracks subject gaps independently of playable lesson counts.
 - Tags: `v0.1.0` exists locally only (the git proxy in the build environment refuses tag pushes). **Human action:** create `v0.1.0` on GitHub at `3c9c722`; create `v1.0.0` at the signed-off commit after learner acceptance.
 - Physical-device PWA install was verified by the Product Owner on an iPhone; Android has not been checked.
 - No real-learner feedback incorporated yet (1.0 criterion).

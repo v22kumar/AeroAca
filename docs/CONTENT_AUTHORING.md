@@ -30,7 +30,7 @@ Prose fields are Markdown (GFM tables, code fences, inline code, bold, lists).
 
 ## Teaching format 2.0: the nine-stage arc with Understand → Apply → Master
 
-Written after the first learner's feedback on 1.0 ("it's not easy understanding"). A lesson that declares `format: "arc"` follows this structure and `tests/teaching-format.test.ts` enforces the rules below. New lessons use it; 1.0 lessons are converted in order of density.
+Written after the first learner's feedback on 1.0 ("it's not easy understanding"). A lesson that declares `format: "arc"` follows this structure and `tests/teaching-format.test.ts` enforces the rules below. Keep the rollout to the three pilot lessons until learner findings are recorded in `docs/PILOT.md` and this template is adjusted. After that gate, approved new subjects use the learner-validated format and legacy conversions proceed in small evaluated slices, not a platform-wide conversion. See `docs/ENGINEERING_IMPLEMENTATION_PLAN.md`.
 
 | Stage (`stage`) | Step types | Rule |
 |---|---|---|
