@@ -1,5 +1,7 @@
 > **Release 1.1 in production** (`main` e88c7f0, deployment `dpl_9A4aAbUDG4e3qpihS6wpXkZP1vvA`, record in `docs/RELEASE_1.1_RECORD.md`): PRs #11 to #18 merged in order and verified on production.
 >
+> **Career track (branch `content/career-track`, awaiting owner review):** modules 17 to 25 are now playable for the goal of avionics and UAV systems integration, V&V, embedded, validation and test-automation roles: 24 new lessons in the arc format, 17 new CI-verified labs, 43 diagrams, 87 interview questions, and the 30-day journey retargeted to the career goal. See `docs/CAREER_TRACK.md`. Modules 26 to 31 remain blueprints.
+>
 > **Written learning blueprint (merged in PR #18):** career-switch guide, full curriculum map for 31 modules, topic breakdown for 20 subject families at three depths, learner guide, 30/60/90 plan, 42 teaching diagrams with a generator and index. Documentation and static assets only; modules 17 to 31 remain blueprints, not playable lessons.
 >
 > In progress: teaching format 2.0 pilot (ADR-16, docs/PILOT.md). The remaining-engineering audit, four-pathway specification and revised syllabus are prepared; new curriculum rollout remains gated on learner pilot evaluation and approved P0 scope. See [implementation plan](ENGINEERING_IMPLEMENTATION_PLAN.md) and [validation](ENGINEERING_VALIDATION.md).

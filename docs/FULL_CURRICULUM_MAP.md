@@ -251,7 +251,7 @@ The authoritative written blueprint of AeroAca's learning content. It describes 
 - **Practical/lab relevance.** Timed mock-interview mode; interview bank with rubrics.
 - **Pathways.** All, Master.
 - **Suggested depth.** Master for everyone.
-- **Status.** Published: 2 lessons, mock mode, 57 interview questions. Blueprint: module 25's five lessons (shared `16;25`).
+- **Status.** Published: module 25 lessons 25.1 to 25.5 in two lessons (`career-gap-contract-and-ownership`, `claims-metrics-and-negotiation`), with four interview questions; the timed mock is day 29 of the journey.
 
 ---
 
@@ -269,7 +269,7 @@ The authoritative written blueprint of AeroAca's learning content. It describes 
 - **Practical/lab relevance.** `c-coverage` lab (gcc/gcov on a 60-line module with tests and one unreachable branch); portfolio track 2 stage 4.
 - **Pathways.** B, D core; A for 17.3 to 17.5.
 - **Suggested depth.** B: Master. D: Master. A: Apply.
-- **Status.** Blueprint (P1-4; 17.3 to 17.5 may start at P0-5). Diagram: DO-178C levels and coverage.
+- **Status.** Published: four lessons covering 17.1 to 17.6 (levels and objectives; HLR, LLR and requirements-based testing; structural coverage and MC/DC with the `c-mcdc` lab; traceability, problem reports and change impact). Blueprint: 17.7 dead and deactivated code beyond the coverage-gap analysis, 17.8 and 17.9 one-pagers. Diagrams: DO-178C levels, V-model traceability, MC/DC pairs.
 
 ### 18. Avionics data buses and telemetry
 - **Purpose.** The buses of aircraft, UAVs and industrial systems from the wire up: MIL-STD-1553B, ARINC 429, RS-232/422/485 and Modbus, telemetry packet design, Ethernet and UDP.
@@ -283,7 +283,7 @@ The authoritative written blueprint of AeroAca's learning content. It describes 
 - **Practical/lab relevance.** Labs: `c-1553-word` (published), `c-crc16` and `py-udp-echo` (drafted and verified), `py-1553-decode`, `py-a429`, `py-telemetry-parse` (planned).
 - **Pathways.** A, B core; D Understand.
 - **Suggested depth.** A: Apply. B: Master. D: Understand.
-- **Status.** Published: lesson 18.1 (in module 4 until 18 exists). Blueprint: 18.2 to 18.7. Diagrams: 1553 word, 1553 message timing, ARINC 429 word.
+- **Status.** Published: five lessons (1553 word and message; 1553 controller, terminals and faults with the monitor-log lab; ARINC 429; RS-422 and RS-485 with CRC; telemetry packets with struct). Blueprint: Ethernet and TCP/UDP for embedded engineers, Modbus RTU detail. Diagrams: 1553 word, 1553 message timing, ARINC 429 word.
 
 ### 19. Redundant flight-control architectures
 - **Purpose.** Why flight-control systems are redundant, how channels exchange data and vote, how failures are detected and isolated, and how a cross-channel link is tested.
@@ -297,7 +297,7 @@ The authoritative written blueprint of AeroAca's learning content. It describes 
 - **Practical/lab relevance.** `c-voter` lab (planned): three channels, stuck/late/corrupt injection, detection and isolation times printed; portfolio track 2 stage 3.
 - **Pathways.** B core; D Master; A Understand.
 - **Suggested depth.** B: Master. D: Master. A: Understand.
-- **Status.** Blueprint (P1-2). Diagram: redundant channels and voting.
+- **Status.** Published: three lessons (why redundancy; voting, monitors and failover with the `c-voter` simulation; testing a cross-channel link). Blueprint: dedicated channel-synchronisation lesson (covered briefly in the link-test lesson). Diagrams: redundant channels, fault-injection flow.
 
 ### 20. Deterministic timing and real-time analysis
 - **Purpose.** Prove timing instead of hoping: tasks and the tick, utilisation and response time, frame-based executives, shared-memory handshakes, measured WCET, deadlock.
@@ -311,7 +311,7 @@ The authoritative written blueprint of AeroAca's learning content. It describes 
 - **Practical/lab relevance.** `c-sched` scheduler model (verified), `c-frame-exec`, `c-dpram-handshake` (planned); GPIO-and-scope measurement on a board.
 - **Pathways.** A, B core.
 - **Suggested depth.** A: Master. B: Master. C, D: Understand.
-- **Status.** Blueprint; 20.1, 20.2 drafted with the exercise corrected. Diagrams: task states, response-time timeline, frame executive.
+- **Status.** Published: six lessons (tasks and the tick with `c-sched`; deadlines and response time; frame-based executives with `c-frame-exec`; shared memory with `c-dpram`; WCET and jitter; deadlock and lock ordering). Blueprint: the mission "The 10 ms frame that overran once an hour". Diagrams: task states, response-time timeline, frame executive.
 
 ### 21. HIL, test benches and fault injection
 - **Purpose.** Build and use benches that prove things: HIL architecture, bench design from an ICD, FMEA to fault-injection tests, protocol and power fault injection.
@@ -325,7 +325,7 @@ The authoritative written blueprint of AeroAca's learning content. It describes 
 - **Practical/lab relevance.** `py-fault-inject` (planned) against the simulated link; portfolio track 2 stage 5.
 - **Pathways.** B, D core; A Apply.
 - **Suggested depth.** B: Master. D: Master. A: Apply.
-- **Status.** Blueprint (P1-4; 21.3 to 21.4 may start at P0-5). Diagrams: HIL architecture, fault-injection flow.
+- **Status.** Published: two lessons (HIL architecture and bench design; FMEA to fault injection with the `py-fault-inject` simulation). Blueprint: 21.5 power and environment faults, the mission "The fault the bench never injected". Diagrams: HIL architecture, fault-injection flow.
 
 ### 22. Advanced Python test automation
 - **Purpose.** Turn Python from scripts into a test framework you can draw: binary data, serial and instruments, logs to evidence, `pytest`, architecture, reproducibility.
@@ -339,7 +339,7 @@ The authoritative written blueprint of AeroAca's learning content. It describes 
 - **Practical/lab relevance.** `py-struct-frames`, `py-log-report`, `py-pytest-suite` (planned); `pytest` added to the CI labs job; portfolio track 2 stage 6.
 - **Pathways.** All; C Master.
 - **Suggested depth.** A: Apply. B: Apply. C: Master. D: Understand.
-- **Status.** Blueprint (P0-1 and P0-5). Diagram: test framework layers.
+- **Status.** Published: three lessons (logs to evidence with `py-log-report`; pytest for hardware tests, no lab because pytest is not in the CI labs job; architecture of a test framework with `py-bench-framework`). Blueprint: dedicated struct and serial lessons beyond module 13 and the telemetry lesson. Diagram: test framework layers.
 
 ### 23. Production debugging on target
 - **Purpose.** Debug on the chip, not by printf: the probe, GDB, HardFault analysis, ARM9 versus Cortex-M, verifying a driver against a register specification.
@@ -353,7 +353,7 @@ The authoritative written blueprint of AeroAca's learning content. It describes 
 - **Practical/lab relevance.** `c-fault-decode` (synthetic fault registers), `c-regmap-test` (planned); a real HardFault on a Nucleo as the board path.
 - **Pathways.** A core; B, C, D Apply.
 - **Suggested depth.** A: Master. B: Apply. C: Apply. D: Understand.
-- **Status.** Blueprint (23.1 to 23.3 at P0-1b). Diagrams: debug chain, HardFault decode flow.
+- **Status.** Published: two lessons (debug probe and GDB; HardFault analysis with the synthetic-capture `c-fault-decode` lab). The frame-parser lesson `building-a-frame-parser-and-breaking-it` sits in module 5 with three labs. Blueprint: 23.4 ARM9 versus Cortex-M, 23.5 driver against a register spec. Diagrams: debug chain, HardFault decode flow.
 
 ### 24. Flight-control systems orientation
 - **Purpose.** The flight-control loop as a whole: sensors, estimation, control laws, actuators, modes; PID without mystery; what the flight computer's software looks like from outside.
@@ -367,7 +367,7 @@ The authoritative written blueprint of AeroAca's learning content. It describes 
 - **Practical/lab relevance.** `py-pid-step` (planned).
 - **Pathways.** B core; C entry.
 - **Suggested depth.** B: Apply. C: Apply. A, D: Understand.
-- **Status.** Blueprint (P1-3). Diagram: control loop with PID.
+- **Status.** Published: one lesson (control loop and PID with the simulated `py-pid` lab). Blueprint: 24.3 the flight computer's software from outside. Diagram: control loop with PID.
 
 ### 25. Interviews for experienced engineers
 - **Purpose.** The questions a two-to-four-year engineer gets that a graduate does not: the gap, the contract role, "what did you own", metrics claims, notice and negotiation; a mock panel bank drawn from modules 17 to 24.
