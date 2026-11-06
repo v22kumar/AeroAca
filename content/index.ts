@@ -21,6 +21,26 @@ import { do178cLevelsAndObjectives } from "@/content/lessons/do-178c-levels-and-
 import { requirementsBasedTestingHlrLlr } from "@/content/lessons/requirements-based-testing-hlr-llr";
 import { structuralCoverageAndMcdc } from "@/content/lessons/structural-coverage-and-mcdc";
 import { traceabilityProblemReportsAndChangeImpact } from "@/content/lessons/traceability-problem-reports-and-change-impact";
+import { whyFlightControlIsRedundant } from "@/content/lessons/why-flight-control-is-redundant";
+import { votingMonitorsAndFailover } from "@/content/lessons/voting-monitors-and-failover";
+import { testingACrossChannelLink } from "@/content/lessons/testing-a-cross-channel-link";
+import { tasksTheSchedulerAndTheTick } from "@/content/lessons/tasks-the-scheduler-and-the-tick";
+import { willItMeetItsDeadline } from "@/content/lessons/will-it-meet-its-deadline";
+import { frameBasedExecutivesAndOverruns } from "@/content/lessons/frame-based-executives-and-overruns";
+import { sharedMemoryDpramHandshakes } from "@/content/lessons/shared-memory-dpram-handshakes";
+import { measuringWcetAndJitter } from "@/content/lessons/measuring-wcet-and-jitter";
+import { deadlockAndLockOrdering } from "@/content/lessons/deadlock-and-lock-ordering";
+import { hilArchitectureAndBenchDesign } from "@/content/lessons/hil-architecture-and-bench-design";
+import { fromFmeaToFaultInjection } from "@/content/lessons/from-fmea-to-fault-injection";
+import { logsToEvidence } from "@/content/lessons/logs-to-evidence";
+import { pytestForHardwareTests } from "@/content/lessons/pytest-for-hardware-tests";
+import { architectureOfATestFramework } from "@/content/lessons/architecture-of-a-test-framework";
+import { debugProbeAndGdbOnTarget } from "@/content/lessons/debug-probe-and-gdb-on-target";
+import { hardfaultAnalysis } from "@/content/lessons/hardfault-analysis";
+import { buildingAFrameParserAndBreakingIt } from "@/content/lessons/building-a-frame-parser-and-breaking-it";
+import { controlLoopAndPid } from "@/content/lessons/control-loop-and-pid";
+import { careerGapContractAndOwnership } from "@/content/lessons/career-gap-contract-and-ownership";
+import { claimsMetricsAndNegotiation } from "@/content/lessons/claims-metrics-and-negotiation";
 import { isrToTaskHandoff } from "./lessons/isr-to-task-handoff";
 import { bootloadersImagesAndRecovery } from "./lessons/bootloaders-images-and-recovery";
 import { embeddedLinuxBootChain } from "./lessons/embedded-linux-boot-chain";
@@ -103,6 +123,26 @@ export const lessons: Lesson[] = [
   requirementsBasedTestingHlrLlr,
   structuralCoverageAndMcdc,
   traceabilityProblemReportsAndChangeImpact,
+  whyFlightControlIsRedundant,
+  votingMonitorsAndFailover,
+  testingACrossChannelLink,
+  tasksTheSchedulerAndTheTick,
+  willItMeetItsDeadline,
+  frameBasedExecutivesAndOverruns,
+  sharedMemoryDpramHandshakes,
+  measuringWcetAndJitter,
+  deadlockAndLockOrdering,
+  hilArchitectureAndBenchDesign,
+  fromFmeaToFaultInjection,
+  logsToEvidence,
+  pytestForHardwareTests,
+  architectureOfATestFramework,
+  debugProbeAndGdbOnTarget,
+  hardfaultAnalysis,
+  buildingAFrameParserAndBreakingIt,
+  controlLoopAndPid,
+  careerGapContractAndOwnership,
+  claimsMetricsAndNegotiation,
   isrToTaskHandoff,
   bootloadersImagesAndRecovery,
   embeddedLinuxBootChain,
