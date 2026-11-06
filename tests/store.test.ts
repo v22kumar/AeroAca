@@ -101,9 +101,9 @@ describe("progress store", () => {
 
   it("the journey's next step is the first lesson, and shows in-progress once started", () => {
     const s = new ProgressStore(storage, now);
-    expect(nextItem(journeyState(s.getState(), now()))?.item).toMatchObject({ item: { slug: lesson.slug }, status: "todo" });
-    s.startLesson(lesson.slug);
-    expect(nextItem(journeyState(s.getState(), now()))?.item).toMatchObject({ item: { slug: lesson.slug }, status: "in-progress" });
+    expect(nextItem(journeyState(s.getState(), now()))?.item).toMatchObject({ item: { slug: "career-gap-contract-and-ownership" }, status: "todo" });
+    s.startLesson("career-gap-contract-and-ownership");
+    expect(nextItem(journeyState(s.getState(), now()))?.item).toMatchObject({ item: { slug: "career-gap-contract-and-ownership" }, status: "in-progress" });
   });
 
   it("export, import and reset round-trip", () => {

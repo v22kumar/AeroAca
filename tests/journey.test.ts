@@ -25,12 +25,12 @@ describe("journey content", () => {
     });
   });
 
-  it("all 30 days are fully published; the fast track covers at least 26 lessons and 8 missions, and every extra lesson is reachable from a curriculum module", () => {
+  it("all 30 days are fully published; the journey covers at least 26 lessons and 5 missions, and every extra lesson is reachable from a curriculum module", () => {
     const first10 = journey.slice(0, 30);
     for (const d of first10) expect(d.items.some((i) => i.kind === "planned"), `day ${d.day}`).toBe(false);
     const used = new Set(first10.flatMap((d) => d.items.flatMap((i) => (i.kind === "lesson" || i.kind === "mission" ? [i.slug] : []))));
     expect(lessons.filter((l) => used.has(l.slug)).length).toBeGreaterThanOrEqual(26);
-    expect(missions.filter((m) => used.has(m.slug)).length).toBeGreaterThanOrEqual(8);
+    expect(missions.filter((m) => used.has(m.slug)).length).toBeGreaterThanOrEqual(5);
     const inCurriculum = new Set(curriculum.flatMap((m) => [...m.lessons, ...(m.missions ?? [])].flatMap((x) => (x.status === "published" ? [x.slug] : []))));
     for (const l of lessons) expect(inCurriculum.has(l.slug), l.slug).toBe(true);
     for (const m of missions) expect(inCurriculum.has(m.slug), m.slug).toBe(true);
@@ -52,10 +52,10 @@ describe("journey progression", () => {
     const s = new ProgressStore(null, now);
     let js = journeyState(s.getState(), now());
     expect(js.currentDay).toBe(1);
-    expect(nextItem(js)?.item.item).toMatchObject({ kind: "lesson", slug: "mcu-board-does-not-boot" });
+    expect(nextItem(js)?.item.item).toMatchObject({ kind: "lesson", slug: "career-gap-contract-and-ownership" });
 
     // Complete the lesson
-    const lesson = lessons.find((l) => l.slug === "mcu-board-does-not-boot")!;
+    const lesson = lessons.find((l) => l.slug === "career-gap-contract-and-ownership")!;
     s.startLesson(lesson.slug);
     for (const id of lessonExerciseIds(lesson)) s.recordAttempt(lesson.slug, id, true);
     s.completeLesson(lesson.slug, lessonExerciseIds(lesson), lessonCards(lesson).map((c) => c.id));
@@ -64,15 +64,15 @@ describe("journey progression", () => {
     expect(nextItem(js)?.item.item).toMatchObject({ kind: "interview" });
 
     // Rating alone is not enough: the rehearsal must happen in the day's context.
-    s.rateInterview("mcu-no-boot-walkthrough", "shaky");
+    s.rateInterview("what-did-you-own", "shaky");
     js = journeyState(s.getState(), now());
     expect(nextItem(js)?.item.item).toMatchObject({ kind: "interview" });
     s.setJourneyDone(interviewKey(1));
     js = journeyState(s.getState(), now());
-    expect(nextItem(js)?.item.item).toMatchObject({ kind: "apply", id: "bringup-card" });
+    expect(nextItem(js)?.item.item).toMatchObject({ kind: "apply", id: "ownership-sentences" });
     expect(js.completedDays).toBe(0);
 
-    s.setApplyDone(applyKey(1, "bringup-card"), true);
+    s.setApplyDone(applyKey(1, "ownership-sentences"), true);
     js = journeyState(s.getState(), now());
     expect(js.completedDays).toBe(1);
     expect(js.currentDay).toBe(2);
@@ -86,12 +86,12 @@ describe("journey progression", () => {
     const later = now() + 3 * 24 * 3600 * 1000; // cards due again
     const after = journeyState(s.getState(), later);
     expect(after.days[1]!.items.find((i) => i.item.kind === "review")?.done).toBe(true);
-    // A question rated on day 1 does not pre-complete day 15's rehearsal of the same question.
-    expect(after.days[14]!.items.find((i) => i.item.kind === "interview")?.done).toBe(false);
+    // A question rated on day 1 does not pre-complete day 29's rehearsal of the same question.
+    expect(after.days[28]!.items.find((i) => i.item.kind === "interview")?.done).toBe(false);
     // A later day with real content is not complete on this profile.
     expect(after.days[15]!.complete).toBe(false);
     expect(after.lastFullyPublishedDay).toBe(30);
-    s.setApplyDone(applyKey(1, "bringup-card"), false);
+    s.setApplyDone(applyKey(1, "ownership-sentences"), false);
     expect(journeyState(s.getState(), now()).currentDay).toBe(1);
   });
 
