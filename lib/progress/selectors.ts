@@ -85,6 +85,10 @@ export const skillLabels: Record<string, string> = {
   volatile: "volatile and memory access",
   integers: "Integer widths, overflow and shifts",
   instrumentation: "Oscilloscope and probing",
+  "bring-up-process": "Bring-up process and checklists",
+  verification: "Verification and test cases",
+  rca: "Root-cause analysis",
+  integration: "Interfaces and integration",
 };
 
 export function skillLabel(skill: string): string {

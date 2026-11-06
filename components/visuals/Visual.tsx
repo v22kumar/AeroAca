@@ -9,6 +9,7 @@ import { UartFrame } from "./UartFrame";
 import { SpiModes } from "./SpiModes";
 import { IwdgTimeout } from "./IwdgTimeout";
 import { Aliasing } from "./Aliasing";
+import { Traceability } from "./Traceability";
 
 /** Maps a content visual id to its interactive component. Add new visuals here and in the schema enum. */
 export function Visual({ id }: { id: VisualId }) {
@@ -29,5 +30,7 @@ export function Visual({ id }: { id: VisualId }) {
       return <IwdgTimeout />;
     case "aliasing":
       return <Aliasing />;
+    case "traceability":
+      return <Traceability />;
   }
 }
