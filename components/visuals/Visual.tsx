@@ -1,25 +1,30 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import type { VisualId } from "@/lib/content/schema";
-import { McuBootChain } from "./McuBootChain";
-import { I2cWaveform } from "./I2cWaveform";
-import { RegisterBits } from "./RegisterBits";
-import { RmwHazard } from "./RmwHazard";
-import { UartFrame } from "./UartFrame";
-import { SpiModes } from "./SpiModes";
-import { IwdgTimeout } from "./IwdgTimeout";
-import { Aliasing } from "./Aliasing";
-import { Traceability } from "./Traceability";
-import { StartupSequence } from "./StartupSequence";
-import { PriorityInversion } from "./PriorityInversion";
-import { ScpiConsole } from "./ScpiConsole";
-import { FmeaWorksheet } from "./FmeaWorksheet";
-import { StandardsMap } from "./StandardsMap";
-import { SensorMonitorLab } from "./SensorMonitorLab";
-import { AdcQuantisation } from "./AdcQuantisation";
-import { CanArbitration } from "./CanArbitration";
-import { PwmTimer } from "./PwmTimer";
-import { NvicPriorities } from "./NvicPriorities";
+import { Skeleton } from "@/components/ui/Skeleton";
+
+const loading = () => <Skeleton className="h-40 w-full" />;
+
+const McuBootChain = dynamic(() => import("./McuBootChain").then((m) => m.McuBootChain), { loading });
+const I2cWaveform = dynamic(() => import("./I2cWaveform").then((m) => m.I2cWaveform), { loading });
+const RegisterBits = dynamic(() => import("./RegisterBits").then((m) => m.RegisterBits), { loading });
+const RmwHazard = dynamic(() => import("./RmwHazard").then((m) => m.RmwHazard), { loading });
+const UartFrame = dynamic(() => import("./UartFrame").then((m) => m.UartFrame), { loading });
+const SpiModes = dynamic(() => import("./SpiModes").then((m) => m.SpiModes), { loading });
+const IwdgTimeout = dynamic(() => import("./IwdgTimeout").then((m) => m.IwdgTimeout), { loading });
+const Aliasing = dynamic(() => import("./Aliasing").then((m) => m.Aliasing), { loading });
+const Traceability = dynamic(() => import("./Traceability").then((m) => m.Traceability), { loading });
+const StartupSequence = dynamic(() => import("./StartupSequence").then((m) => m.StartupSequence), { loading });
+const PriorityInversion = dynamic(() => import("./PriorityInversion").then((m) => m.PriorityInversion), { loading });
+const ScpiConsole = dynamic(() => import("./ScpiConsole").then((m) => m.ScpiConsole), { loading });
+const FmeaWorksheet = dynamic(() => import("./FmeaWorksheet").then((m) => m.FmeaWorksheet), { loading });
+const StandardsMap = dynamic(() => import("./StandardsMap").then((m) => m.StandardsMap), { loading });
+const SensorMonitorLab = dynamic(() => import("./SensorMonitorLab").then((m) => m.SensorMonitorLab), { loading });
+const AdcQuantisation = dynamic(() => import("./AdcQuantisation").then((m) => m.AdcQuantisation), { loading });
+const CanArbitration = dynamic(() => import("./CanArbitration").then((m) => m.CanArbitration), { loading });
+const PwmTimer = dynamic(() => import("./PwmTimer").then((m) => m.PwmTimer), { loading });
+const NvicPriorities = dynamic(() => import("./NvicPriorities").then((m) => m.NvicPriorities), { loading });
 
 /** Maps a content visual id to its interactive component. Add new visuals here and in the schema enum. */
 export function Visual({ id }: { id: VisualId }) {

@@ -100,7 +100,7 @@ test.describe("Lesson flow", () => {
     const row = page.locator("li", { hasText: "I2C sensor not acknowledging" }).first();
     await expect(row.getByText("Completed", { exact: true })).toBeVisible();
     await expect(page.getByText(/5 cards enrolled · 5 due now/)).toBeVisible();
-    await expect(page.getByText("Shaky")).toBeVisible();
+    await expect(page.getByText("Shaky").first()).toBeVisible();
 
     // Review session works.
     await page.goto("/review");

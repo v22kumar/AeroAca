@@ -88,3 +88,19 @@ Short records of the decisions that shape the codebase, in the style of ADRs.
 
 **Consequences.** Nothing on the portfolio page is "verified by the app"; the page says so. The evidence table can be copied into the stage-7 report as it stands, including empty hardware columns, which is the honest result for a learner without a board. Adding a second project is a content file and a registry entry.
 
+## ADR-13: Recommendations and readiness are explained lists derived from recorded evidence
+
+**Context.** The mandate forbids fabricated mastery or readiness percentages and asks for adaptive revision and interview preparation driven by actual learner evidence.
+
+**Decision.** `lib/progress/recommend.ts` produces an ordered list of next steps, each carrying the facts it rests on: retries from wrong or unsolved exercises (highest priority), lessons that exercise a weak skill or ground a shaky interview rating, missions whose module lessons are all complete, and first lessons of untouched modules (lowest). `lib/progress/readiness.ts` reports per module the counts of lessons completed, missions solved with evidence, questions rated confident and open wrong answers, a status in words, and the gaps that would change it. Neither computes a score; neither predicts. Both render on Today (top three) and Progress (full list and the readiness table).
+
+**Consequences.** Every recommendation can be checked by the learner against her own history. Changing the rules is a change to two pure functions covered by unit tests. The readiness view is honest by construction: an empty profile reads "no evidence yet", and "evidence complete" requires every piece of evidence the module can hold.
+
+## ADR-14: Interactive visuals load on demand
+
+**Context.** With nineteen interactives, the static dispatcher bundled every visual into every lesson page.
+
+**Decision.** `components/visuals/Visual.tsx` resolves each visual with `next/dynamic`, so a lesson page downloads only the interactive it uses, with a skeleton while it loads. Measured on the CAN lesson: none of the other visuals' code appears in the page's initial scripts.
+
+**Consequences.** The content bundle (all lessons and the glossary as typed data, needed client-side for progress derivation under ADR-2 and ADR-10) remains the largest chunk; it is text and compresses well, and the service worker caches it after first load. A server-side split of content per route is possible later without changing the content model.
+

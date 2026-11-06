@@ -11,6 +11,8 @@ import { StatusPill } from "@/components/ui/StatusPill";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { Icon } from "@/components/ui/Icon";
+import { Recommendations } from "./Recommendations";
+import { ReadinessView } from "./ReadinessView";
 
 export function ProgressView() {
   const { state, store, hydrated } = useProgress();
@@ -125,6 +127,10 @@ export function ProgressView() {
           </ul>
         </Card>
       </section>
+
+      <Recommendations limit={6} />
+
+      <ReadinessView />
 
       <section aria-labelledby="weak-heading">
         <SectionTitle className="mb-2">
