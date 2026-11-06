@@ -17,7 +17,7 @@ test.describe("Today and navigation", () => {
     const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
     await nav.getByRole("link", { name: "Learn" }).click();
     await expect(page).toHaveURL(/\/curriculum/);
-    await expect(page.getByText("Coming soon").first()).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("16 modules");
     await expectNoHorizontalOverflow(page);
 
     await nav.getByRole("link", { name: "Interview" }).click();
@@ -28,10 +28,14 @@ test.describe("Today and navigation", () => {
     test.info().annotations.push({ type: "viewport", description: isMobile ? "mobile" : "desktop" });
   });
 
-  test("planned lessons are not playable", async ({ page }) => {
+  test("nothing on the curriculum is marked coming soon, every listed item opens, and an unknown slug is a clear not-found", async ({ page }) => {
     await page.goto("/curriculum");
-    const planned = page.locator("li", { hasText: "Coming soon" }).first();
-    await expect(planned.getByRole("link")).toHaveCount(0);
+    // Since PR D every curriculum entry is published; a planned entry would render without a link and with a "Coming soon" pill.
+    await expect(page.getByText("Coming soon")).toHaveCount(0);
+    const items = page.locator("ul.divide-y > li");
+    const n = await items.count();
+    expect(n).toBeGreaterThan(40);
+    for (let i = 0; i < n; i++) await expect(items.nth(i).getByRole("link")).toHaveCount(1);
     await page.goto("/lessons/does-not-exist");
     await expect(page.getByText("does not exist")).toBeVisible();
   });

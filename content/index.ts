@@ -41,6 +41,14 @@ import { diodesAndTransistorsAsSwitches } from "./lessons/diodes-and-transistors
 import { logicLevelsThresholdsAndOpenDrain } from "./lessons/logic-levels-thresholds-and-open-drain";
 import { groundingProtectionAndTheFirstThingThatBreaks } from "./lessons/grounding-protection-and-the-first-thing-that-breaks";
 import { theDmmAndTheBenchSupply } from "./lessons/the-dmm-and-the-bench-supply";
+import { cFoundationsForFirmware } from "./lessons/c-foundations-for-firmware";
+import { stackHeapAndWhereYourVariablesLive } from "./lessons/stack-heap-and-where-your-variables-live";
+import { stateMachinesThatSurviveReview } from "./lessons/state-machines-that-survive-review";
+import { aRingBufferForTheUartDriver } from "./lessons/a-ring-buffer-for-the-uart-driver";
+import { choosingAndReadingAnMcu } from "./lessons/choosing-and-reading-an-mcu";
+import { yourFirstStm32Project } from "./lessons/your-first-stm32-project";
+import { gpioAndTheClockTree } from "./lessons/gpio-and-the-clock-tree";
+import { lowPowerModesAndWakeUpSources } from "./lessons/low-power-modes-and-wake-up-sources";
 import { freshBoardNoSignOfLife } from "./missions/fresh-board-no-sign-of-life";
 import { theSensorThatNeverAnswers } from "./missions/the-sensor-that-never-answers";
 import { theUartThatPrintsGarbage } from "./missions/the-uart-that-prints-garbage";
@@ -106,6 +114,14 @@ export const lessons: Lesson[] = [
   logicLevelsThresholdsAndOpenDrain,
   groundingProtectionAndTheFirstThingThatBreaks,
   theDmmAndTheBenchSupply,
+  cFoundationsForFirmware,
+  stackHeapAndWhereYourVariablesLive,
+  stateMachinesThatSurviveReview,
+  aRingBufferForTheUartDriver,
+  choosingAndReadingAnMcu,
+  yourFirstStm32Project,
+  gpioAndTheClockTree,
+  lowPowerModesAndWakeUpSources,
 ];
 
 export const missions: Mission[] = [

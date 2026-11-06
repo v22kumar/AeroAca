@@ -49,6 +49,7 @@ export const visualIdSchema = z.enum([
   "nvic-priorities",
   "divider-thevenin",
   "rc-step",
+  "clock-tree",
 ]);
 export type VisualId = z.infer<typeof visualIdSchema>;
 

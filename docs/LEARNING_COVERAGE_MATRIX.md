@@ -56,20 +56,20 @@ Published: `reading-a-schematic-like-a-reviewer`, `datasheet-triage`; mission `t
 
 ### 3. Microcontrollers, processors and ARM (P0)
 
-Published: `mcu-board-does-not-boot`, `interrupts-and-nvic-priorities`, `watchdogs-and-reset-loops`; missions `fresh-board-no-sign-of-life`, `the-board-that-resets-every-second`. Planned: *Low-power modes and wake-up sources* (the only "coming soon" item in the academy).
+Published: `choosing-and-reading-an-mcu`, `mcu-board-does-not-boot`, `your-first-stm32-project`, `gpio-and-the-clock-tree`, `interrupts-and-nvic-priorities`, `watchdogs-and-reset-loops`, `low-power-modes-and-wake-up-sources` (four added in PR D, which also removed the last planned item); missions `fresh-board-no-sign-of-life`, `the-board-that-resets-every-second`.
 
 | Topic | Theory | Prereq | Example | Diagram | Guided | Assess | Trouble | Interview | Gap and plan |
 |---|---|---|---|---|---|---|---|---|---|
-| MCU vs MPU vs SoC; Cortex-M/R/A; what an STM32 part number tells you | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | **core-light**: new lesson *Choosing and reading an MCU: families, cores, part numbers* |
-| STM32 project set-up: CubeMX/CubeIDE, HAL, build, flash with ST-LINK, first GPIO toggle | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | **core** (STM32 programming priority): new lesson *Your first STM32 project: from CubeMX to a toggling pin* with a verified local workflow and a host-runnable lab for the logic |
-| GPIO modes and alternate functions; clock tree (HSE/HSI, PLL, prescalers) | ◐ (clock readiness in no-boot lesson) | ✗ | ◐ | ◐ (mcu-boot-chain) | ✗ | ◐ | ✓ | ◐ | **core**: new lesson *GPIO and the clock tree* with a clock-tree calculator interactive |
+| MCU vs MPU vs SoC; Cortex-M/R/A; what an STM32 part number tells you | ✓ [`choosing-and-reading-an-mcu`] | ✓ | ✓ | ✗ | ✗ | ✓ | – | ✓ | done in PR D |
+| STM32 project set-up: CubeMX/CubeIDE, HAL, build, flash with ST-LINK, first GPIO toggle | ✓ [`your-first-stm32-project`] | ✓ | ✓ | ✗ | ✓ (lab c-stm32-arith; board route documented, not CI-verified) | ✓ | ✓ (HardFault causes) | ✓ | done in PR D |
+| GPIO modes and alternate functions; clock tree (HSE/HSI, PLL, prescalers) | ✓ [`gpio-and-the-clock-tree`] | ✓ | ✓ | ✓ (clock-tree) | ✓ (lab) | ✓ (incl. register exercise) | ✓ | ✓ | done in PR D |
 | Interrupts and NVIC | ✓ | ◐ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | none |
 | Timers: time base, PWM, input capture | ◐ (`polling-interrupts-and-dma`) | ◐ | ✓ | ✓ (pwm-timer) | ✓ | ✓ | ◐ | ✓ | input capture: **optional** section |
 | DMA | ◐ (`polling-interrupts-and-dma`) | ◐ | ✓ | ✗ | ✗ | ✓ | ◐ | ✓ | acceptable; a DMA ring figure is core-light |
 | Memory: flash, SRAM, sections, map file | ◐ (`from-reset-vector-to-main`) | ◐ | ✓ | ✓ (startup-sequence) | ✓ | ✓ | ✓ | ✓ | map-file reading goes into the debugging lesson (module 7) |
 | Boot and reset | ✓ | ◐ | ✓ | ✓ | ✓ (mission) | ✓ | ✓ | ✓ | none |
 | Watchdog | ✓ | ◐ | ✓ | ✓ | ✓ (mission) | ✓ | ✓ | ✓ | none |
-| Low-power modes and wake-up sources | ✗ **planned** | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | **core**: write it (sleep/stop/standby, wake sources, measuring current, the debugger-keeps-it-awake trap); this removes the last placeholder |
+| Low-power modes and wake-up sources | ✓ [`low-power-modes-and-wake-up-sources`] | ✓ | ✓ | ✗ | ✗ | ✓ | ✓ | ✓ | done in PR D; the last "coming soon" item is gone |
 
 ### 4. Communication interfaces (P0)
 
@@ -91,21 +91,21 @@ Published: `i2c-sensor-not-acknowledging`, `uart-framing-and-baud`, `spi-modes-a
 
 ### 5. Embedded C (P0)
 
-Published: `embedded-c-register-bit-masks`, `pointers-to-hardware`, `fixed-width-integers-overflow-shifts`. No mission.
+Published: `embedded-c-register-bit-masks`, `c-foundations-for-firmware`, `fixed-width-integers-overflow-shifts`, `pointers-to-hardware`, `stack-heap-and-where-your-variables-live`, `state-machines-that-survive-review`, `a-ring-buffer-for-the-uart-driver` (four added in PR D). No mission.
 
 | Topic | Theory | Prereq | Example | Diagram | Guided | Assess | Trouble | Interview | Gap and plan |
 |---|---|---|---|---|---|---|---|---|---|
 | Types and fixed-width integers, promotion, overflow, shifts | ✓ | ◐ | ✓ | ✗ | ✗ | ✓ | ✓ | ✓ | add a runnable lab (wrap-around elapsed time) |
-| Functions, scope, `static`, `const`, header/source split, linkage | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | **core**: new lesson *C foundations for firmware: functions, scope, static and const* with runnable labs |
-| Pointers and arrays; pointer arithmetic; pointers to hardware | ✓ (hardware) / ◐ (arrays) | ◐ | ✓ | ✗ | ✗ | ✓ | ✓ | ✓ | arrays and pointer arithmetic go into the foundations lesson |
-| Structures, unions, bitfields, packing and alignment | ✓ (overlay) / ◐ | ◐ | ✓ | ✗ | ✗ | ✓ | ✓ | ✓ | packing/alignment lab in the foundations lesson |
+| Functions, scope, `static`, `const`, header/source split, linkage | ✓ [`c-foundations-for-firmware`] | ✓ | ✓ | ✗ | ✓ (lab c-functions) | ✓ | ✓ | ✓ | done in PR D |
+| Pointers and arrays; pointer arithmetic; pointers to hardware | ✓ [`c-foundations-for-firmware`, `pointers-to-hardware`] | ✓ | ✓ | ✗ | ✓ (lab) | ✓ | ✓ | ✓ | done in PR D |
+| Structures, unions, bitfields, packing and alignment | ✓ [`c-foundations-for-firmware`, `pointers-to-hardware`] | ✓ | ✓ | ✗ | ✓ (lab) | ✓ (struct-size exercise) | ✓ | ✓ | done in PR D; unions and bitfields remain a short optional note |
 | Bit manipulation | ✓ | ◐ | ✓ | ✓ (register-bits, rmw-hazard) | ✓ | ✓ | ✓ | ✓ | add a runnable lab (mask macros with expected output) |
 | `volatile` | ✓ | ◐ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | none |
-| Stack vs heap; memory layout (.text/.data/.bss); why firmware avoids `malloc` | ◐ (.data/.bss in startup lesson) | ◐ | ◐ | ◐ | ✗ | ◐ | ◐ | ✗ | **core**: new lesson *Stack, heap and where your variables live* with a runnable lab |
+| Stack vs heap; memory layout (.text/.data/.bss); why firmware avoids `malloc` | ✓ [`stack-heap-and-where-your-variables-live`] | ✓ | ✓ | ◐ (startup-sequence) | ✓ (lab c-memory) | ✓ | ✓ | ✓ | done in PR D |
 | Registers | ✓ | ◐ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | none |
-| State machines | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | **core**: new lesson *State machines that survive review* with a runnable lab (debounce, protocol parser) |
-| Ring buffers and ISR-safe data structures | ◐ (`isr-to-task-handoff` concept) | ◐ | ◐ | ✗ | ✗ | ◐ | ◐ | ◐ | **core**: new lesson *A ring buffer for the UART driver* with a runnable lab and a known-failing test |
-| Small firmware exercises with runnable code and expected results | ✗ (9 lessons show code; none is runnable or verified) | – | – | – | ✗ | ✗ | – | – | **core**: `labs/` with a host build, expected outputs checked in CI, and `docs/LOCAL_LAB.md` for the verified local workflow |
+| State machines | ✓ [`state-machines-that-survive-review`] | ✓ | ✓ | ✗ | ✓ (lab c-debounce) | ✓ | ✓ | ✓ | done in PR D |
+| Ring buffers and ISR-safe data structures | ✓ [`a-ring-buffer-for-the-uart-driver`] | ✓ | ✓ | ✗ | ✓ (lab c-ring, 8 checks) | ✓ | ✓ | ✓ | done in PR D |
+| Small firmware exercises with runnable code and expected results | ✓ (15 labs after PR D: 9 C, 4 Python, portfolio) | – | – | – | ✓ | ✓ | – | – | done in PRs B to D; more arrive with E to G |
 
 ### 6. Embedded C++ (P1)
 
@@ -257,7 +257,7 @@ Published: `presenting-a-portfolio-project-honestly`, `telling-a-debugging-story
 | No way for a learner to find her starting level | No diagnostic; recommendations begin only after mistakes; Today starts at day 1 for everyone | **Done in PR B.** `/start`: 14 questions over the foundations, first answer counts, no score; wrong answers become the "Start here" list on Today (foundation lesson plus the topic missed), which empties as the lessons are completed; skippable; stored under the optional `diagnostic` field so old backups import unchanged (ADR-15). Questions re-point to the new foundation lessons as PRs C to F publish them |
 | Runnable code and reproducible results | 9 lessons show C, C++, Python or DTS snippets; none has a run command or an expected output; nothing is verified | **Platform done in PR B.** `labs/` with 8 labs (4 lesson labs: bit masks, elapsed time across the wrap, bytes versus text, request-reply; 4 portfolio labs), `labs/manifest.json`, `scripts/sync-labs.mjs` that runs them and generates `lib/labs/generated.ts`, `tests/labs.test.ts` that rebuilds and reruns every lab in CI and diffs the output; `lab` step in the lesson player (source, command, expected output, copy buttons, "try next"); `docs/LOCAL_LAB.md`. Lab steps now in 3 lessons; the remaining labs arrive with their lessons in PRs C to G |
 | Diagrams | 19 lessons have an interactive; 18 have none (fixed-width integers, RCA, bring-up, ICD, ISR handoff, bootloaders, Linux boot, serial, SIL/HIL, medical standards, transfer, portfolio, story, power tree, op-amp, schematic, datasheet, pointers, RAII, logic analyser) | Static figures (SVG) for the mechanisms that benefit most: power tree, op-amp stage, bootloader slots, queue handoff, Linux boot chain, logic-analyser timing; the prose-only communication lessons do not need one |
-| "Coming soon" | One planned item (low-power modes). The Today page says "Everything else in the 16-module curriculum is listed under Learn as coming soon", which implies much more; the curriculum page says "1 are planned" | Write the low-power lesson; reword Today; make the curriculum page distinguish "planned for the next release" from "optional future topics" |
+| "Coming soon" | One planned item (low-power modes). The Today page says "Everything else in the 16-module curriculum is listed under Learn as coming soon", which implies much more; the curriculum page says "1 are planned" | **Done.** Wording corrected in PR A; the low-power lesson written in PR D, so no planned item remains; the "Optional, after the core" list for the curriculum page is PR H |
 | Portfolio teaches decisions, not implementation | Stage bodies explain design decisions well; deliverables are tick boxes with evidence instructions; there is no starter code, no host harness, no step-by-step build-and-test walkthrough; the lab visual demonstrates the detection rules but the learner never runs code | **Done in PR B.** `labs/portfolio/`: `detect.h`/`detect.c` (pure detection function, TMP102 conversion), `test_detect.c` (16 checks: golden pairs, every fault boundary, the timestamp wrap, plus a deliberate failure under `--known-failure`), `sim.c` host harness printing ICD log lines, `sensor_model.py` with deterministic fault injection, `Makefile`. Stages 4, 5 and 6 carry "Build it" steps with the commands and the CI-verified outputs |
 | Interview coverage is thin where lessons are thin | 1 question each for Embedded Linux, standards, applications, C++; none for the gap topics above | Each new lesson brings its interview step, as the schema requires |
 | Release documentation drift | PR #11 (release record) is open; `main` still reads "awaiting authorisation" in `docs/DEVELOPMENT_STATUS.md` and the roadmap; README counts will change with the new lessons | Merge #11; this audit's PR updates the status and roadmap for the audit itself; each content PR updates counts |
