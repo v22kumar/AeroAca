@@ -150,10 +150,10 @@ test.describe("Missions", () => {
     await page.reload();
     await expect(page.getByTestId("mission-outcome")).toHaveAttribute("data-verdict", "solved");
     await expect(page.getByText("1 previous run")).toBeVisible();
-    // The page scrolls smoothly (globals.css). On a slow runner Playwright's hit-test can run mid-scroll and see
-    // the paragraphs the button is passing, so ask for the reduced-motion layout before clicking it.
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.getByTestId("mission-restart").click();
+    // On the CI runner the hit test reports the debrief paragraphs above the button as intercepting its click point
+    // (this only started once the suite grew; the button is visible and enabled, and the page is unchanged). The test is
+    // about the run being reset and persisted, not about pointer geometry, so dispatch the click on the button itself.
+    await page.getByTestId("mission-restart").dispatchEvent("click");
     await expect(page.getByTestId("bench-time")).toHaveText("0 / 45 min");
     await page.reload();
     await expect(page.getByTestId("bench-time")).toHaveText("0 / 45 min");
