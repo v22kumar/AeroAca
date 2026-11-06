@@ -546,10 +546,13 @@ function LabStep({ step }: { step: Extract<LessonStep, { type: "lab" }> }) {
       <div className="rounded-xl border border-accent/25 bg-accent-soft/50 px-3 py-2 text-sm">
         <span className="font-semibold text-accent">Runs on your PC · </span>
         <span className="text-ink-2">
-          {languageLabel[lab.language] ?? lab.language}. Save the file as <code>{lab.file}</code>, run the command from that folder, compare with the expected output. The same program is built and run in the academy&apos;s CI, so the expected output is verified, not a promise. Set-up for Windows, macOS and Linux is in the <a href="https://github.com/v22kumar/AeroAca/blob/main/docs/LOCAL_LAB.md" target="_blank" rel="noreferrer noopener" className="font-semibold text-accent underline underline-offset-2">local lab guide</a>.
+          {languageLabel[lab.language] ?? lab.language}. {lab.extra?.length ? <>Save the files <code>{[lab.file, ...lab.extra.map((e) => e.file)].join(", ")}</code> in one folder, run the command from that folder,</> : <>Save the file as <code>{lab.file}</code>, run the command from that folder,</>} compare with the expected output. The same program is built and run in the academy&apos;s CI, so the expected output is verified, not a promise. Set-up for Windows, macOS and Linux is in the <a href="https://github.com/v22kumar/AeroAca/blob/main/docs/LOCAL_LAB.md" target="_blank" rel="noreferrer noopener" className="font-semibold text-accent underline underline-offset-2">local lab guide</a>.
         </span>
       </div>
       <CodeBlock code={lab.code} label={lab.file} language={lab.language} testId="lab-code" />
+      {lab.extra?.map((e) => (
+        <CodeBlock key={e.file} code={e.code} label={e.file} language={lab.language} testId="lab-extra" />
+      ))}
       <CodeBlock code={lab.command} label="Command" language="bash" testId="lab-command" />
       <CodeBlock code={lab.expectedOutput} label="Expected output" testId="lab-expected" />
       {step.tryNext && (

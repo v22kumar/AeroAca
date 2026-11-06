@@ -11,3 +11,13 @@
 *.o
 __pycache__/
 /c/word1553/word1553
+/c/crc16/crc16
+/c/sched/sched
+/c/mcdc/mcdc
+/c/voter/voter
+/c/frameexec/frameexec
+/c/dpram/dpram
+/c/faultdecode/faultdecode
+/c/frame/test_frame
+/c/frame_a/test_frame
+/c/frame_b/test_frame

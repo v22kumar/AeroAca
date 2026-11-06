@@ -112,6 +112,137 @@
       "language": "c",
       "file": "word1553.c",
       "command": "gcc -std=c11 -Wall -Wextra -o word1553 word1553.c && ./word1553"
+    },
+    {
+      "id": "c-crc16",
+      "dir": "labs/c/crc16",
+      "language": "c",
+      "file": "crc16.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o crc16 crc16.c && ./crc16"
+    },
+    {
+      "id": "c-sched",
+      "dir": "labs/c/sched",
+      "language": "c",
+      "file": "sched.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o sched sched.c && ./sched"
+    },
+    {
+      "id": "c-mcdc",
+      "dir": "labs/c/mcdc",
+      "language": "c",
+      "file": "mcdc.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o mcdc mcdc.c && ./mcdc"
+    },
+    {
+      "id": "c-voter",
+      "dir": "labs/c/voter",
+      "language": "c",
+      "file": "voter.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o voter voter.c && ./voter"
+    },
+    {
+      "id": "c-frame-exec",
+      "dir": "labs/c/frameexec",
+      "language": "c",
+      "file": "frameexec.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o frameexec frameexec.c && ./frameexec"
+    },
+    {
+      "id": "c-dpram",
+      "dir": "labs/c/dpram",
+      "language": "c",
+      "file": "dpram.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o dpram dpram.c && ./dpram"
+    },
+    {
+      "id": "c-fault-decode",
+      "dir": "labs/c/faultdecode",
+      "language": "c",
+      "file": "faultdecode.c",
+      "command": "gcc -std=c11 -Wall -Wextra -o faultdecode faultdecode.c && ./faultdecode"
+    },
+    {
+      "id": "py-mon1553",
+      "dir": "labs/python/mon1553",
+      "language": "python",
+      "file": "mon1553.py",
+      "command": "python3 mon1553.py"
+    },
+    {
+      "id": "py-a429",
+      "dir": "labs/python/a429",
+      "language": "python",
+      "file": "a429.py",
+      "command": "python3 a429.py"
+    },
+    {
+      "id": "py-telemetry",
+      "dir": "labs/python/telemetry",
+      "language": "python",
+      "file": "telemetry.py",
+      "command": "python3 telemetry.py"
+    },
+    {
+      "id": "py-fault-inject",
+      "dir": "labs/python/faultinject",
+      "language": "python",
+      "file": "faultinject.py",
+      "command": "python3 faultinject.py"
+    },
+    {
+      "id": "py-log-report",
+      "dir": "labs/python/logreport",
+      "language": "python",
+      "file": "logreport.py",
+      "command": "python3 logreport.py"
+    },
+    {
+      "id": "py-bench-framework",
+      "dir": "labs/python/benchframework",
+      "language": "python",
+      "file": "benchframework.py",
+      "command": "python3 benchframework.py"
+    },
+    {
+      "id": "py-pid",
+      "dir": "labs/python/pid",
+      "language": "python",
+      "file": "pid.py",
+      "command": "python3 pid.py"
+    },
+    {
+      "id": "c-frame",
+      "dir": "labs/c/frame",
+      "language": "c",
+      "file": "frame.c",
+      "also": [
+        "frame.h",
+        "test_frame.c"
+      ],
+      "command": "gcc -std=c11 -Wall -Wextra -Werror -o test_frame frame.c test_frame.c && ./test_frame"
+    },
+    {
+      "id": "c-frame-known-failure-a",
+      "dir": "labs/c/frame_a",
+      "language": "c",
+      "file": "frame.c",
+      "also": [
+        "frame.h",
+        "test_frame.c"
+      ],
+      "command": "gcc -std=c11 -Wall -Wextra -Werror -o test_frame frame.c test_frame.c && ./test_frame"
+    },
+    {
+      "id": "c-frame-known-failure-b",
+      "dir": "labs/c/frame_b",
+      "language": "c",
+      "file": "frame.c",
+      "also": [
+        "frame.h",
+        "test_frame.c"
+      ],
+      "command": "gcc -std=c11 -Wall -Wextra -Werror -o test_frame frame.c test_frame.c && ./test_frame"
     }
   ]
 }
