@@ -21,15 +21,15 @@ Authoritative plan toward AeroAca 1.0. Updated at the end of every increment; se
 | Release | Scope | Status |
 |---|---|---|
 | 0.1 | Vertical slice: 3 lessons, 2 missions, interview bank, device-local progress, PWA, glossary | **In production** (`v0.1.0`, `3c9c722`) |
-| 0.2 | 30-day journey (days 1–10 complete), 5 lessons, 2 missions, 4 visuals, targeted review, industry notes | PR #2, awaiting approval |
-| 0.3 | Journey days 11–15: bring-up checklist, test-case writing, root-cause analysis, interface control; 2 missions; requirements-to-test traceability interactive | In PR (#3) |
-| 0.4 | Days 16–20: startup code to main(), RTOS scheduling and priority inversion, ISR-to-task handoff, bootloaders and recovery, embedded Linux boot chain; startup-sequence and priority-inversion interactives; 1 mission |  In PR (#4) |
-| 0.5 | Days 21–25: PyVISA/SCPI with a simulated SCPI console, serial automation and test logs, SIL/HIL, FMEA with an interactive worksheet, block review; Python code-reading exercises; 1 mission | In PR (#5) |
-| 0.6 | Days 26–30: standards (DO-178C/DO-254, ISO 26262, IEC 62304/60601/61508) as scope not slogans with an interactive standards map; cross-industry transfer; portfolio presentation; debugging-story lesson; timed mock-interview mode | In PR (#6) |
-| 0.7 | Portfolio track: STM32 sensor monitoring and fault detection, requirements → architecture → interfaces → firmware → tests → fault injection → report; simulation and hardware paths recorded separately; in-browser fault-injection lab | In PR (#7) |
-| 0.8 | Remaining curriculum depth: electronics fundamentals (power tree, op-amps, ADC), schematics/PCB, CAN arbitration and bus-off, NVIC, pointers to hardware, Embedded C++ RAII, driver models with PWM arithmetic, logic analysers; 2 missions; 4 interactives | In PR (#8) |
-| 0.9 | Learning intelligence: evidence-based recommendations (retries, same-skill lessons, grounding lessons for shaky ratings, module gaps) on Today and Progress; explained readiness by module with no percentages; Release 0.1 backup migration test; on-demand visuals | In PR (#9) |
-| 1.0 | Documented content review (log and sync test), release checklist, stacked-merge procedure, Lighthouse evidence; second-reader signatures and real-learner feedback remain human gates | In PR (#10) |
+| 0.2 | 30-day journey (days 1–10 complete), 5 lessons, 2 missions, 4 visuals, targeted review, industry notes | **In production** (merged `a607e29`, 2026-11-06) |
+| 0.3 | Journey days 11–15: bring-up checklist, test-case writing, root-cause analysis, interface control; 2 missions; requirements-to-test traceability interactive | **In production** (merged 2026-11-06, PR #3) |
+| 0.4 | Days 16–20: startup code to main(), RTOS scheduling and priority inversion, ISR-to-task handoff, bootloaders and recovery, embedded Linux boot chain; startup-sequence and priority-inversion interactives; 1 mission | **In production** (merged 2026-11-06, PR #4) |
+| 0.5 | Days 21–25: PyVISA/SCPI with a simulated SCPI console, serial automation and test logs, SIL/HIL, FMEA with an interactive worksheet, block review; Python code-reading exercises; 1 mission | **In production** (merged 2026-11-06, PR #5) |
+| 0.6 | Days 26–30: standards (DO-178C/DO-254, ISO 26262, IEC 62304/60601/61508) as scope not slogans with an interactive standards map; cross-industry transfer; portfolio presentation; debugging-story lesson; timed mock-interview mode | **In production** (merged 2026-11-06, PR #6) |
+| 0.7 | Portfolio track: STM32 sensor monitoring and fault detection, requirements → architecture → interfaces → firmware → tests → fault injection → report; simulation and hardware paths recorded separately; in-browser fault-injection lab | **In production** (merged 2026-11-06, PR #7) |
+| 0.8 | Remaining curriculum depth: electronics fundamentals (power tree, op-amps, ADC), schematics/PCB, CAN arbitration and bus-off, NVIC, pointers to hardware, Embedded C++ RAII, driver models with PWM arithmetic, logic analysers; 2 missions; 4 interactives | **In production** (merged 2026-11-06, PR #8) |
+| 0.9 | Learning intelligence: evidence-based recommendations (retries, same-skill lessons, grounding lessons for shaky ratings, module gaps) on Today and Progress; explained readiness by module with no percentages; Release 0.1 backup migration test; on-demand visuals | **In production** (merged 2026-11-06, PR #9) |
+| 1.0 | Documented content review (log and sync test), release checklist, stacked-merge procedure, Lighthouse evidence; second-reader signatures and real-learner feedback remain human gates | **Candidate in production** (merged 2026-11-06, PR #10); sign-off open pending second reader and learner feedback |
 
 ## Module coverage targets
 

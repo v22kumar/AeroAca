@@ -4,11 +4,11 @@ Progress report against `docs/PRODUCT_ROADMAP.md`. Updated at the end of every i
 
 ## Current state (2026-11-06)
 
-- **Production:** Release 0.1 at https://aeroaca.vercel.app (Vercel deployment `dpl_DzDWiodmXiHacxUGqJCM5EaCSTjo`, `main` at `3c9c722`). Vercel Authentication protects previews only. Rollback via Vercel "Promote to Production" or `git revert -m 1 3c9c722`.
-- **Release candidate:** PRs #2 to #10 verified ready to merge in dependency order on 2026-11-06: every PR `mergeable_state: clean` with a green CI run on its head; a local dry run of all nine merges onto `main` applied without conflicts and produced a tree identical to `feat/release-1.0`; lint, typecheck, 56 unit tests, build, 130 browser tests and a sweep of all 57 prerendered routes pass on that tree. Record and rollback target in `docs/RELEASE_CANDIDATE_1.0.md`. **Merging and the production deploy await the Product Owner's authorisation; neither has been done.**
-- **Open PRs:** #2 Release 0.2 first increment (`feat/release-0.2` → `main`): CI green, preview re-verified after review fixes (`34fcb79`), awaiting Product Owner approval. #3 Release 0.3 (`feat/release-0.3` → `feat/release-0.2`, stacked): block 3 content, preview verified (`734ee74`). #4 Release 0.4 (`feat/release-0.4` → `feat/release-0.3`, stacked): block 4 content, preview verified (`2115f7a`). #5 Release 0.5 (`feat/release-0.5` → `feat/release-0.4`, stacked): block 5 content, preview verified (`5ac4afc`). #6 Release 0.6 (`feat/release-0.6` → `feat/release-0.5`, stacked): block 6 content; all 30 days published; preview verified (`8abfc72`). #7 Release 0.7 (`feat/release-0.7` → `feat/release-0.6`, stacked): the portfolio track; preview verified (`8ed4f7c`). #8 Release 0.8 (`feat/release-0.8` → `feat/release-0.7`, stacked): curriculum depth. #9 Release 0.9 (`feat/release-0.9` → `feat/release-0.8`, stacked): learning intelligence. #10 Release 1.0 preparation (`feat/release-1.0` → `feat/release-0.9`, stacked): content review log, release checklist, merge procedure, performance pass. Each retargets to the next base as the one below merges (`docs/DEPLOYMENT.md`).
-- **Published content (1.0 branch):** 37 lessons, 10 missions, 1 portfolio project (7 stages, 19 deliverables, in-browser fault-injection lab), 42 interview questions (35 with industry notes), 211 glossary terms, 19 interactive visuals, timed mock-interview mode, all 30 journey days complete, every module with published content.
-- **Quality gates (1.0 branch):** lint 0/0, typecheck clean, 56 unit tests (incl. a Release 0.1 backup migration test), 130 browser tests (Pixel 7 + desktop, incl. axe WCAG 2.0 A/AA), all routes static, visuals code-split.
+- **Production:** Release 1.0 candidate at https://aeroaca.vercel.app (Vercel deployment `dpl_5YtF9Jv77rmVFhrDHQkU5gX8YryN`, `main` at `d291bf5`, deployed 2026-11-06 after the Product Owner authorised the merges). Verified on production: 55 routes 200, the full 130-test browser suite green on Pixel 7 and desktop. Rollback: promote `dpl_DzDWiodmXiHacxUGqJCM5EaCSTjo` (Release 0.1) or any intermediate production deployment in the Vercel dashboard; `git revert -m 1 <merge-sha>` per increment. Record: `docs/RELEASE_CANDIDATE_1.0.md`.
+- **Merged:** PRs #2 to #10 merged into `main` in dependency order on 2026-11-06 (merge commits `a607e29`, `d388bbd`, `dbdec3d`, `557dd90`, `c731134`, `2fdf435`, `4d0e12c`, `65f64e7`, `d291bf5`), each followed by a green `main` CI run before the next merge. No conflicts, no fixes needed.
+- **Open PRs:** none from the release chain. `docs/release-1.0-record` (this record) is the only open branch.
+- **Published content (production):** 37 lessons, 10 missions, 1 portfolio project (7 stages, 19 deliverables, in-browser fault-injection lab), 42 interview questions (35 with industry notes), 211 glossary terms, 19 interactive visuals, timed mock-interview mode, all 30 journey days complete, every module with published content.
+- **Quality gates (production commit):** lint 0/0, typecheck clean, 56 unit tests (incl. a Release 0.1 backup migration test), 130 browser tests (Pixel 7 + desktop, incl. axe WCAG 2.0 A/AA), all routes static, visuals code-split.
 
 ## Done
 
@@ -26,19 +26,20 @@ Progress report against `docs/PRODUCT_ROADMAP.md`. Updated at the end of every i
 
 ## In flight
 
-- 1.0: `docs/RELEASE_1.0_CHECKLIST.md` states every gate with evidence. Two gates need people: second-reader signatures in `docs/CONTENT_REVIEW.md`, and a real learner's feedback. Everything else is in the stacked PRs awaiting merge.
+- 1.0 learner acceptance: production serves the release candidate. `docs/RELEASE_1.0_CHECKLIST.md` states every gate with evidence; two need people: second-reader signatures in `docs/CONTENT_REVIEW.md`, and Sushmita's feedback on the representative set. Sign-off and the `v1.0.0` tag wait for both. No feature development until then; only release-readiness fixes.
 
 ## Known gaps and blockers
 
 - No journey day references planned content any more; the curriculum still lists planned lessons beyond the 30-day path.
-- `v0.1.0` tag exists locally only: the git proxy in the build environment refuses tag pushes. **Human action:** create the tag on GitHub at `3c9c722`.
+- Tags: `v0.1.0` exists locally only (the git proxy in the build environment refuses tag pushes). **Human action:** create `v0.1.0` on GitHub at `3c9c722`; create `v1.0.0` at the signed-off commit after learner acceptance.
 - Physical-device PWA install was verified by the Product Owner on an iPhone; Android has not been checked.
 - No real-learner feedback incorporated yet (1.0 criterion).
 - Targeted review is not yet scheduled into journey days automatically.
 
 ## Decisions needed from the Product Owner
 
-1. Authorise merging PR #2 into `main`, then PRs #3 to #10 in order as each is retargeted to `main` (`docs/DEPLOYMENT.md`, `docs/RELEASE_CANDIDATE_1.0.md`). Production deploys from `main` automatically after each merge.
+1. Merge the release record PR (`docs/release-1.0-record`) so `main` carries the deployment evidence.
 2. Whether `main` should get branch protection (require the `CI` status check and a pull request). It currently has none; the gate today is the green CI run per PR plus the documented procedure.
 3. Whether production should be protected (currently public by URL, as requested for a working production link).
-4. Name the independent technical reader for `docs/CONTENT_REVIEW.md` and schedule Sushmita's learner feedback; 1.0 sign-off stays open until both are done.
+4. Name the independent technical reader for `docs/CONTENT_REVIEW.md` and schedule Sushmita's learner feedback on production; 1.0 sign-off and the `v1.0.0` tag stay open until both are done.
+5. Create the `v0.1.0` tag at `3c9c722` on GitHub.
