@@ -29,7 +29,7 @@ export function ReviewSession() {
   const [flipped, setFlipped] = useState(false);
   const [done, setDone] = useState<{ good: number; again: number }>({ good: 0, again: 0 });
   const targets = useMemo(() => targetedReview(state), [state]);
-  const dayParam = Number(useQueryParam("day"));
+  const sessionParam = Number(useQueryParam("session"));
 
   // A review session counts for the journey once the queue is empty with cards enrolled:
   // either the learner answered every due card, or checked in when nothing was due.
@@ -37,9 +37,9 @@ export function ReviewSession() {
     if (!hydrated) return;
     if (enrolledCards(state).length === 0 || queue[pos]) return;
     const js = journeyState(state, sessionStart);
-    const day = dayParam || js.currentDay;
-    if (js.days[day - 1]?.items.some((i) => i.item.kind === "review")) store.setJourneyDone(reviewKey(day));
-  }, [hydrated, state, queue, pos, dayParam, sessionStart, store]);
+    const session = sessionParam || js.currentSession;
+    if (js.sessions[session - 1]?.items.some((i) => i.item.kind === "review")) store.setJourneyDone(reviewKey(session));
+  }, [hydrated, state, queue, pos, sessionParam, sessionStart, store]);
 
   if (!hydrated) {
     return (

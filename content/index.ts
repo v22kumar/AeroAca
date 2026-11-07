@@ -196,7 +196,8 @@ export const missions: Mission[] = [
 ];
 
 export { curriculum } from "./curriculum";
-export { journey, journeyBlocks } from "./journey";
+export { journey, journeyStages } from "./journey";
+export { careerLadder } from "./career-ladder";
 export { interviewQuestions } from "./interview";
 
 export const projects: Project[] = [stm32SensorMonitor];

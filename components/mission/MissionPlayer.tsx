@@ -90,7 +90,7 @@ export function MissionPlayer({ mission }: { mission: Mission }) {
   const journeyNext = js ? nextItem(js) : null;
   const nextIsOther = journeyNext && !(journeyNext.item.item.kind === "mission" && journeyNext.item.item.slug === mission.slug);
   const nextHrefJ = nextIsOther ? (journeyNext.item.href ?? "/") : undefined;
-  const nextTitleJ = nextIsOther ? (journeyNext.item.href ? journeyNext.item.title : `Day ${journeyNext.day.day} checklist`) : undefined;
+  const nextTitleJ = nextIsOther ? (journeyNext.item.href ? journeyNext.item.title : `Session ${journeyNext.session.session.session} checklist`) : undefined;
 
   return (
     <div className="mx-auto max-w-2xl" ref={topRef}>

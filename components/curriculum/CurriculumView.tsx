@@ -22,7 +22,7 @@ export function CurriculumView() {
         <h1 className="mt-1 text-[26px] font-bold leading-tight tracking-tight md:text-3xl">{curriculum.length} modules, built in the order you need them.</h1>
         <p className="mt-2 text-[15px] text-ink-2">
           <Link href="/journey" className="font-semibold text-accent underline underline-offset-2">
-            30-day journey
+            Career track, stage by stage
           </Link>
           {" · "}
           <Link href="/glossary" className="font-semibold text-accent underline underline-offset-2">

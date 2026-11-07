@@ -1,4 +1,4 @@
-import { curriculum, interviewQuestions, journey, journeyBlocks, lessons, missions, projects } from "@/content";
+import { careerLadder, curriculum, interviewQuestions, journey, journeyStages, lessons, missions, projects } from "@/content";
 import type { CurriculumModule, InterviewQuestion, Lesson, Mission, Project, ReviewCard } from "./schema";
 
 export function getLesson(slug: string): Lesson | undefined {
@@ -59,4 +59,4 @@ export function learningPath(): PathItem[] {
   return items;
 }
 
-export { curriculum, interviewQuestions, journey, journeyBlocks, lessons, missions, projects };
+export { careerLadder, curriculum, interviewQuestions, journey, journeyStages, lessons, missions, projects };

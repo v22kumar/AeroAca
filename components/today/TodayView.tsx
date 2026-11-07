@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { curriculum, journeyBlocks, lessons, missions } from "@/lib/content";
+import { careerLadder, curriculum, lessons, missions } from "@/lib/content";
 import { useProgress } from "@/lib/progress/ProgressProvider";
 import { learnerName, overallStats } from "@/lib/progress/selectors";
 import { journeyState, nextItem, type ItemState } from "@/lib/progress/journey";
@@ -12,7 +12,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { InstallHint } from "@/components/pwa/InstallHint";
-import { JourneyDayChecklist } from "@/components/journey/JourneyDayCard";
+import { JourneySessionChecklist } from "@/components/journey/JourneySessionCard";
 import { Recommendations } from "@/components/progress/Recommendations";
 import { StartHereCard } from "@/components/start/StartHereCard";
 
@@ -45,9 +45,10 @@ export function TodayView() {
   const stats = overallStats(state, now);
   const hour = new Date(now).getHours();
   const js = useMemo(() => (hydrated ? journeyState(state, now) : null), [hydrated, state, now]);
-  const current = js ? js.days[js.currentDay - 1] : null;
+  const current = js ? js.sessions[js.currentSession - 1] : null;
   const next = js ? nextItem(js) : null;
-  const block = current ? journeyBlocks[current.day.block] : null;
+  const stage = js ? js.stages[js.currentStage - 1] : null;
+  const total = js ? js.sessions.length : 0;
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-6">
@@ -89,11 +90,11 @@ export function TodayView() {
             {next ? (
               <>
                 <p className="relative text-xs font-semibold uppercase tracking-[0.12em] text-accent">
-                  Day {current.day.day} of 30 · {ctaFor(next.item).eyebrow}
+                  Stage {js.currentStage} · Session {current.session.session} of {total} · {ctaFor(next.item).eyebrow}
                 </p>
                 <h2 className="relative mt-1 pr-6 text-xl font-bold leading-snug">{next.item.title}</h2>
                 <p className="relative mt-2 text-[15px] text-ink-2">
-                  {next.item.kindLabel} · about {next.item.minutes} min. Today’s session: about {current.minutes} min in total.
+                  {next.item.kindLabel} · about {next.item.minutes} min. This session: about {current.minutes} min in total.
                 </p>
                 <div className="relative mt-4">
                   {next.item.href ? (
@@ -110,9 +111,9 @@ export function TodayView() {
               </>
             ) : js.finished ? (
               <>
-                <p className="relative text-xs font-semibold uppercase tracking-[0.12em] text-accent">All 30 days complete</p>
-                <h2 className="relative mt-1 text-xl font-bold leading-snug">The fast track is done. The curriculum is not.</h2>
-                <p className="relative mt-2 text-[15px] text-ink-2">Lessons outside the 30 days wait under Learn, the portfolio track wants its evidence, and the recommendations below come from your own wrong answers. Keep the review queue warm.</p>
+                <p className="relative text-xs font-semibold uppercase tracking-[0.12em] text-accent">All six stages complete</p>
+                <h2 className="relative mt-1 text-xl font-bold leading-snug">The career track is done. The curriculum is not.</h2>
+                <p className="relative mt-2 text-[15px] text-ink-2">Lessons outside the track wait under Learn, the portfolio track wants its evidence, and the recommendations below come from your own wrong answers. Keep the review queue warm.</p>
                 <div className="relative mt-4">
                   <LinkButton href="/review" size="lg" data-testid="next-action-cta">
                     Review now <Icon name="chevron-right" size={18} />
@@ -121,33 +122,33 @@ export function TodayView() {
               </>
             ) : (
               <>
-                <p className="relative text-xs font-semibold uppercase tracking-[0.12em] text-accent">Day {current.day.day} of 30</p>
-                <h2 className="relative mt-1 text-xl font-bold leading-snug">Today’s content is still being written</h2>
+                <p className="relative text-xs font-semibold uppercase tracking-[0.12em] text-accent">Stage {js.currentStage} · Session {current.session.session} of {total}</p>
+                <h2 className="relative mt-1 text-xl font-bold leading-snug">This session’s content is still being written</h2>
                 <p className="relative mt-2 text-[15px] text-ink-2">The available parts are below. Nothing unpublished will ever be marked done.</p>
               </>
             )}
           </Card>
 
-          <section aria-labelledby="day-heading">
+          <section aria-labelledby="session-heading">
             <div className="mb-2 flex items-baseline justify-between">
               <SectionTitle>
-                <span id="day-heading">
-                  Day {current.day.day}: {current.day.title}
+                <span id="session-heading">
+                  Session {current.session.session}: {current.session.title}
                 </span>
               </SectionTitle>
               <span className="text-xs text-ink-3">
                 {current.doneCount}/{current.availableCount} done
               </span>
             </div>
-            <Card className="overflow-hidden" data-testid="day-card">
-              <p className="border-b border-line px-4 py-3 text-sm text-ink-2">{current.day.focus}</p>
-              <JourneyDayChecklist ds={current} />
+            <Card className="overflow-hidden" data-testid="session-card">
+              <p className="border-b border-line px-4 py-3 text-sm text-ink-2">{current.session.focus}</p>
+              <JourneySessionChecklist ss={current} />
               <div className="flex items-center justify-between border-t border-line px-4 py-2 text-xs text-ink-3">
-                <span data-testid="day-progress">
-                  {current.doneCount}/{current.availableCount} done today · {js.completedDays} of 30 days complete
+                <span data-testid="session-progress">
+                  {current.doneCount}/{current.availableCount} done this session · {js.completedSessions} of {total} sessions complete
                 </span>
                 <Link href="/journey" className="font-semibold text-accent underline underline-offset-2">
-                  All 30 days
+                  All stages
                 </Link>
               </div>
             </Card>
@@ -165,21 +166,33 @@ export function TodayView() {
             <Stat label="Days active, 7d" value={String(stats.activeThisWeek)} />
           </section>
 
-          {block && (
-            <section aria-labelledby="plan-heading">
+          {stage && (
+            <section aria-labelledby="plan-heading" data-testid="stage-card">
               <SectionTitle className="mb-2">
-                <span id="plan-heading">30-day interview fast track</span>
+                <span id="plan-heading">Career track, stage by stage</span>
               </SectionTitle>
               <Card className="p-4">
                 <p className="text-[15px]">
-                  <strong>Block {current.day.block}, days {block.days}:</strong> {block.focus}.
+                  <strong>Stage {stage.stage.stage} of {js.stages.length}, sessions {stage.first} to {stage.last}:</strong> {stage.stage.title}.
                 </p>
                 <div className="mt-3">
-                  <ProgressBar value={js.completedDays} max={30} label="Journey progress" />
-                  <p className="mt-1 text-xs text-ink-3">Progress counts completed days only: solved exercises, evidence-backed missions, rated questions and ticked actions.</p>
+                  <ProgressBar value={stage.completedSessions} max={stage.sessions.length} label={`Stage ${stage.stage.stage} progress`} />
+                  <p className="mt-1 text-xs text-ink-3">
+                    {stage.completedSessions} of {stage.sessions.length} sessions in this stage · {js.completedStages} of {js.stages.length} stages complete. Progress counts completed sessions only: solved exercises, evidence-backed missions, rated questions and ticked actions.
+                  </p>
                 </div>
+                <p className="mt-3 text-sm">
+                  <span className="font-semibold">After this stage:</span> <span className="text-ink-2">{stage.stage.outcome}</span>
+                </p>
+                <p className="mt-2 text-sm text-ink-2">
+                  That is evidence for {ladderName(stage.stage.ladderLevel)} on the career ladder, where public salary reports for India sit between ₹{bandFor(stage.stage.ladderLevel)} lakh a year.{" "}
+                  <Link href="/journey#ladder-heading" className="font-semibold text-accent underline underline-offset-2" data-testid="ladder-link">
+                    See the ladder, with every figure’s source
+                  </Link>
+                  . Market data, not a promise.
+                </p>
                 <p className="mt-3 text-sm text-ink-2">
-                  Apply for roles and practise interviews from day one, independently of lesson completion. Studying firmware does not create professional firmware experience; say so clearly in interviews.
+                  Apply for roles and practise interviews from the first session, independently of lesson completion. Studying firmware does not create professional firmware experience; say so clearly in interviews.
                 </p>
               </Card>
             </section>
@@ -188,7 +201,7 @@ export function TodayView() {
       )}
 
       <p className="text-xs text-ink-3">
-        {lessons.length} lessons and {missions.length} missions are published across the {curriculum.length} modules under Learn. The 30 days are the fast track; the other lessons are reachable from their module and from your recommendations.
+        {lessons.length} lessons and {missions.length} missions are published across the {curriculum.length} modules under Learn. The six stages are the career track; the other lessons are reachable from their module and from your recommendations.
       </p>
 
       <Link href="/glossary" className="flex items-center gap-3 rounded-card border border-line bg-surface p-4 hover:bg-surface-2">
@@ -207,6 +220,14 @@ export function TodayView() {
       <p className="text-xs text-ink-3">Progress is stored in this browser only. Clearing site data removes it. Export a backup from the Progress page.</p>
     </div>
   );
+}
+
+function ladderName(id: string) {
+  return careerLadder.levels.find((l) => l.id === id)?.title.toLowerCase() ?? id;
+}
+function bandFor(id: string) {
+  const l = careerLadder.levels.find((x) => x.id === id);
+  return l ? `${l.band.low} and ₹${l.band.high}` : "";
 }
 
 function Stat({ label, value, href }: { label: string; value: string; href?: string }) {

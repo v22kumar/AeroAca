@@ -64,13 +64,13 @@ test.describe("Block 3: integration, verification, root cause", () => {
     await expect(page.getByTestId("mission-outcome")).toBeVisible();
   });
 
-  test("journey day 11 is playable: the redundancy lesson and its interview question are real items", async ({ page }) => {
+  test("journey session 11 is playable: the redundancy lesson and its interview question are real items", async ({ page }) => {
     await page.goto("/journey");
-    const day11 = page.getByTestId("journey-day-11");
+    const day11 = page.getByTestId("journey-session-11");
     await expect(day11).toContainText("flight control is redundant");
     await expect(day11).not.toContainText("coming soon");
-    await page.goto("/interview?q=redundancy-architecture-explained&day=11");
-    await expect(page.getByTestId("interview-focus")).toContainText("Day 11");
+    await page.goto("/interview?q=redundancy-architecture-explained&session=11");
+    await expect(page.getByTestId("interview-focus")).toContainText("Session 11");
     await page.getByTestId("interview-redundancy-architecture-explained").getByTestId("reveal-rubric").click();
     await expect(page.getByText("The same question in other industries")).toBeVisible();
   });

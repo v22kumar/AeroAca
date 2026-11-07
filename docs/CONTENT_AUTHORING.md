@@ -116,9 +116,9 @@ Terms are matched automatically in rendered Markdown by `lib/content/glossary-ma
 
 When you introduce a new technical word in a lesson, add it to the glossary in the same change. The test suite checks ids and aliases are unique and that every lesson contains tappable terms.
 
-## The 30-day journey
+## The journey: stages and sessions
 
-`content/journey.ts` lists 30 days. Each day has a `title`, a one-sentence `focus`, a fast-track `block` (1–6) and `items`:
+`content/journey.ts` lists six `journeyStages` and thirty sessions. A stage has a `title`, a `focus`, an `outcome` (the claim the learner can defend after it, written for an interview) and a `ladderLevel` (the rung of `content/career-ladder.ts` that evidence belongs to). A session has a `title`, a one-sentence `focus`, its `stage` (contiguous, in order) and `items`:
 
 | kind | meaning | complete when |
 |---|---|---|
@@ -128,7 +128,11 @@ When you introduce a new technical word in a lesson, add it to the glossary in t
 | `apply` | a real-world career action with `id`, `title`, `detail`, `minutes` | the learner ticks it |
 | `planned` | content not yet published, with a `title` and `minutes` | never |
 
-A day is complete when every *available* item is done; planned items are shown as coming soon and are ignored for completion. Keep each day between 15 and 45 minutes (the tests check this). When a planned lesson is published, replace the `planned` item with a `lesson` item in the same day.
+A session is complete when every *available* item is done; planned items are shown as coming soon and are ignored for completion. Keep each session between 15 and 45 minutes (the tests check this). There is no calendar: a session takes as many days as it takes. Progress keys keep the historical `d<n>:` prefix so no stored progress migrates.
+
+## The career ladder
+
+`content/career-ladder.ts` holds the rungs (role titles, years, a reported pay band in lakhs per year, the evidence the market asks for, what in the academy builds it) and, behind every band, the public figures it summarises: publisher, what the figure is, the figure, the month it was read and the page. The tests require each band to lie inside its sources, bands to rise with the rungs, sources to be under a year old, and the text never to promise an outcome. Refresh the figures when the `asOf` month is more than a year old, and keep the disclaimer with the numbers.
 
 ## Interview questions
 
@@ -153,7 +157,7 @@ A stage may carry `buildIt: { intro, steps: [{ title, lab, note }] }`. Each `lab
 
 ### Timed mock interviews
 
-A journey interview item may set `mock: true`. Its link then opens the Interview page with `?mock=1`, which shows a four-minute-per-question timer above the focus set (start, pause, next, finish). The rubrics reveal afterwards as usual and nothing about the timer is stored. Day 29 uses it.
+A journey interview item may set `mock: true`. Its link then opens the Interview page with `?mock=1`, which shows a four-minute-per-question timer above the focus set (start, pause, next, finish). The rubrics reveal afterwards as usual and nothing about the timer is stored. Session 29 uses it.
 
 ## The starting-level diagnostic
 

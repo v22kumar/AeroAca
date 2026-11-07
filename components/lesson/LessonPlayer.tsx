@@ -122,7 +122,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
   const journeyNext = js ? nextItem(js) : null;
   const nextIsOther = journeyNext && !(journeyNext.item.item.kind === "lesson" && journeyNext.item.item.slug === lesson.slug);
   const nextHref = nextIsOther ? (journeyNext.item.href ?? "/") : undefined;
-  const nextTitle = nextIsOther ? (journeyNext.item.href ? journeyNext.item.title : `Day ${journeyNext.day.day} checklist`) : undefined;
+  const nextTitle = nextIsOther ? (journeyNext.item.href ? journeyNext.item.title : `Session ${journeyNext.session.session.session} checklist`) : undefined;
   const completed = Boolean(lp?.completedAt);
   const hidden = hasDepths ? hiddenAbove(lesson, depth) : [];
   const stage = stageOf(step);
@@ -197,7 +197,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
           nextTitle={nextTitle}
           interviewJourneyKey={(() => {
             if (!js) return undefined;
-            const current = js.currentDay;
+            const current = js.currentSession;
             return lesson.steps.some((s) => s.type === "interview" && interviewItemFor(js, current, s.questionId)) ? interviewKey(current) : undefined;
           })()}
         />

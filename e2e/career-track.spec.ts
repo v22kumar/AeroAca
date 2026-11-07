@@ -45,13 +45,34 @@ test.describe("Career track lessons", () => {
     });
   }
 
-  test("the journey starts with 'say what you did' and day 29 opens the timed mock", async ({ page }) => {
+  test("the journey starts with 'say what you did' and session 29 opens the timed mock", async ({ page }) => {
     await page.goto("/journey");
-    await expect(page.getByTestId("journey-day-1")).toContainText("Say exactly what you did");
-    await expect(page.getByTestId("journey-day-2")).toContainText("software level");
-    const day29 = page.getByTestId("journey-day-29");
+    await expect(page.getByTestId("journey-session-1")).toContainText("Say exactly what you did");
+    await expect(page.getByTestId("journey-session-2")).toContainText("software level");
+    const day29 = page.getByTestId("journey-session-29");
     await expect(day29).toContainText("Mock interview");
     await expect(day29.locator('a[href*="mock=1"]')).toHaveCount(1);
+  });
+
+  test("the journey is organised in stages with outcomes, and the career ladder shows sourced figures with the disclaimer", async ({ page }) => {
+    await page.goto("/journey");
+    await expect(page.getByTestId("journey-stage-1")).toContainText("Stage 1");
+    await expect(page.getByTestId("journey-stage-1")).toContainText("After this stage:");
+    await expect(page.getByTestId("journey-stage-6")).toContainText("Sessions 26 to 30");
+    const ladder = page.getByTestId("career-ladder");
+    await expect(ladder).toContainText("Where this leads");
+    await expect(ladder.getByTestId("ladder-level-1")).toContainText("You are here");
+    await expect(ladder.getByTestId("ladder-level-2")).toContainText("This track builds the evidence");
+    await expect(ladder.getByTestId("ladder-level-2")).toContainText("lakh a year");
+    await expect(ladder.getByTestId("ladder-disclaimer")).toContainText("not a promise");
+    // every figure links to its public page
+    await ladder.getByTestId("ladder-level-2").getByText(/figures behind the band/).click();
+    const links = ladder.getByTestId("ladder-level-2").locator('a[href^="https://"]');
+    expect(await links.count()).toBeGreaterThanOrEqual(5);
+    await page.goto("/");
+    await expect(page.getByTestId("stage-card")).toContainText("Stage 1 of 6, sessions 1 to 5");
+    await expect(page.getByTestId("stage-card")).toContainText("Market data, not a promise");
+    await expect(page.getByTestId("ladder-link")).toHaveAttribute("href", "/journey#ladder-heading");
   });
 
   test("the curriculum lists the career track modules", async ({ page }) => {

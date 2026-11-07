@@ -478,7 +478,7 @@ export const curriculumModuleSchema = z.object({
 });
 export type CurriculumModule = z.infer<typeof curriculumModuleSchema>;
 
-/* ---------- 30-day guided journey ---------- */
+/* ---------- Guided journey: stages made of sessions ---------- */
 
 export const journeyItemSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("lesson"), slug }),
@@ -507,16 +507,77 @@ export const journeyItemSchema = z.discriminatedUnion("kind", [
 ]);
 export type JourneyItem = z.infer<typeof journeyItemSchema>;
 
-export const journeyDaySchema = z.object({
-  day: z.number().int().min(1).max(30),
+/**
+ * One sitting of 15 to 45 minutes. Sessions are numbered in order and grouped into stages; there is
+ * no calendar: the learner moves on when a session is complete, however long that takes.
+ */
+export const journeySessionSchema = z.object({
+  session: z.number().int().min(1),
   title: z.string(),
-  /** One sentence on what this day is for, in interview-readiness terms. */
+  /** One sentence on what this session is for, in career-readiness terms. */
   focus: z.string(),
-  /** Fast-track block 1–6 (days 1–5, 6–10, ...). */
-  block: z.number().int().min(1).max(6),
+  /** The stage this session belongs to (1-based, contiguous). */
+  stage: z.number().int().min(1),
   items: z.array(journeyItemSchema).min(1),
 });
-export type JourneyDay = z.infer<typeof journeyDaySchema>;
+export type JourneySession = z.infer<typeof journeySessionSchema>;
+
+/** A stage: a group of sessions with one outcome the learner can claim once it is complete. */
+export const journeyStageSchema = z.object({
+  stage: z.number().int().min(1),
+  title: z.string(),
+  /** What the stage is about, one line. */
+  focus: z.string(),
+  /** What the learner can do or defend after the stage, written as a claim she could make in an interview. */
+  outcome: z.string(),
+  /** Which rung of the career ladder this evidence belongs to (see content/career-ladder.ts). */
+  ladderLevel: z.string(),
+});
+export type JourneyStage = z.infer<typeof journeyStageSchema>;
+
+/* ---------- Career ladder: public market data, labelled, never a promise ---------- */
+
+export const salarySourceSchema = z.object({
+  /** Who published the figure, for example "Glassdoor (India)". */
+  publisher: z.string(),
+  /** What the figure is, in words, for example "Lead Engineer at a large avionics supplier, 147 reports". */
+  what: z.string(),
+  /** The figure as quoted, in lakhs per year; a range when the source gives one. */
+  low: z.number().positive(),
+  high: z.number().positive().optional(),
+  /** Month the figure was read or dated, for example "2026-06". */
+  dated: z.string().regex(/^\d{4}-\d{2}$/),
+  url: z.string().url(),
+});
+
+export const careerLevelSchema = z.object({
+  id: z.string().regex(/^[a-z0-9-]+$/),
+  /** For example "Level 2: Senior or lead engineer". */
+  title: z.string(),
+  /** Typical years of experience at this rung, as the market describes it. */
+  years: z.string(),
+  /** Role titles that sit on this rung in the target industries. */
+  roles: z.array(z.string()).min(1),
+  /** The typical reported total pay band in lakhs per year, summarising the sources below. */
+  band: z.object({ low: z.number().positive(), high: z.number().positive() }),
+  /** What the market asks for before it pays at this rung: evidence, not years. */
+  evidence: z.array(z.string()).min(2),
+  /** The modules and stages in this academy that build that evidence. */
+  builtBy: z.string(),
+  sources: z.array(salarySourceSchema).min(2),
+});
+export type CareerLevel = z.infer<typeof careerLevelSchema>;
+
+export const careerLadderSchema = z.object({
+  /** Month the numbers were collected. */
+  asOf: z.string().regex(/^\d{4}-\d{2}$/),
+  /** The sentence shown wherever a number is shown. */
+  disclaimer: z.string().min(40),
+  /** Where the learner is now, by the ladder's own definition. */
+  startingLevel: z.string(),
+  levels: z.array(careerLevelSchema).min(3),
+});
+export type CareerLadder = z.infer<typeof careerLadderSchema>;
 
 export const sectionTitles: Record<CurriculumModule["section"], string> = {
   A: "Electronics & hardware engineering",

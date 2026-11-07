@@ -42,11 +42,11 @@ describe("progress backups from earlier releases", () => {
     expect(st.activeRuns).toBeUndefined();
     expect(st.applyDone).toBeUndefined();
     // The journey derives from the stored facts without a migration step. The career-track journey
-    // (Release 1.2) starts elsewhere, so the old bring-up lesson no longer completes day 1, but it stays
+    // (Release 1.2) starts elsewhere, so the old bring-up lesson no longer completes session 1, but it stays
     // recorded and counted: nothing the learner did is lost.
     const js = journeyState(st, now());
-    expect(js.days[0]!.items[0]).toMatchObject({ done: false });
-    expect(js.completedDays).toBe(0);
+    expect(js.sessions[0]!.items[0]).toMatchObject({ done: false });
+    expect(js.completedSessions).toBe(0);
     // Targeted review and recommendations (0.2, 0.9) see the old wrong attempt.
     const recs = recommendations(st, 10);
     expect(recs.some((r) => r.kind === "retry" && r.href.includes("i2c-sensor-not-acknowledging"))).toBe(true);

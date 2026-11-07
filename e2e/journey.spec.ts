@@ -1,34 +1,34 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("30-day journey", () => {
-  test("Today shows day 1 with a checklist; ticking a career action persists; the journey page lists 30 days", async ({ page }) => {
+test.describe("Career track journey", () => {
+  test("Today shows session 1 with a checklist; ticking a career action persists; the journey page lists six stages and 30 sessions", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByTestId("next-action")).toContainText("Day 1 of 30");
+    await expect(page.getByTestId("next-action")).toContainText("Stage 1 · Session 1 of 30");
     await expect(page.getByTestId("next-action-cta")).toHaveText(/Start lesson/);
-    const items = page.getByTestId("day-1-items");
+    const items = page.getByTestId("session-1-items");
     await expect(items.locator("li")).toHaveCount(3);
     await page.getByTestId("apply-ownership-sentences").check();
     await page.reload();
     await expect(page.getByTestId("apply-ownership-sentences")).toBeChecked();
-    await expect(page.getByTestId("day-progress")).toContainText("1/3 done today · 0 of 30 days complete");
+    await expect(page.getByTestId("session-progress")).toContainText("1/3 done this session · 0 of 30 sessions complete");
 
-    await page.getByRole("link", { name: "All 30 days" }).click();
+    await page.getByRole("link", { name: "All stages" }).click();
     await expect(page).toHaveURL(/\/journey/);
-    await expect(page.getByTestId("journey-day-30")).toBeVisible();
-    await expect(page.getByTestId("journey-day-11")).not.toContainText("coming soon");
-    await expect(page.getByTestId("journey-day-30")).not.toContainText("coming soon");
-    await expect(page.getByText("All 30 days are fully published.")).toBeVisible();
+    await expect(page.getByTestId("journey-session-30")).toBeVisible();
+    await expect(page.getByTestId("journey-session-11")).not.toContainText("coming soon");
+    await expect(page.getByTestId("journey-session-30")).not.toContainText("coming soon");
+    await expect(page.getByText("All 30 sessions are published.")).toBeVisible();
   });
 
-  test("journey interview items open a focused question set and complete the day item when all are rated", async ({ page }) => {
-    await page.goto("/interview?q=mcu-no-boot-walkthrough,swd-vs-crystal&day=3");
-    await expect(page.getByTestId("interview-focus")).toContainText("Day 3: 2 questions");
+  test("journey interview items open a focused question set and complete the session item when all are rated", async ({ page }) => {
+    await page.goto("/interview?q=mcu-no-boot-walkthrough,swd-vs-crystal&session=3");
+    await expect(page.getByTestId("interview-focus")).toContainText("Session 3: 2 questions");
     await page.getByTestId("interview-mcu-no-boot-walkthrough").getByTestId("reveal-rubric").click();
     await page.getByTestId("interview-mcu-no-boot-walkthrough").getByTestId("rate-shaky").click();
     await page.getByTestId("interview-swd-vs-crystal").getByTestId("reveal-rubric").click();
     await page.getByTestId("interview-swd-vs-crystal").getByTestId("rate-confident").click();
     await page.goto("/journey");
-    await expect(page.getByTestId("journey-day-3")).toContainText("1/3 done");
+    await expect(page.getByTestId("journey-session-3")).toContainText("1/3 done");
     await page.goto("/interview?q=mcu-no-boot-walkthrough,swd-vs-crystal");
     await expect(page.getByTestId("interview-focus")).toContainText("2 questions");
     await expect(page.getByTestId("interview-mcu-no-boot-walkthrough")).toBeVisible();

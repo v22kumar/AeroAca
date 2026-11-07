@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { DayState, ItemState } from "@/lib/progress/journey";
+import type { SessionState, ItemState } from "@/lib/progress/journey";
 import { applyKey } from "@/lib/progress/journey";
 import { useProgress } from "@/lib/progress/ProgressProvider";
 import { Icon } from "@/components/ui/Icon";
@@ -13,12 +13,12 @@ const statusIcon: Record<ItemState["status"], { cls: string; icon?: "check" }> =
   planned: { cls: "border border-dashed border-line-2 text-ink-3" },
 };
 
-/** The checklist for one journey day. Career actions are ticked here; everything else links to its screen. */
-export function JourneyDayChecklist({ ds, compact = false }: { ds: DayState; compact?: boolean }) {
+/** The checklist for one journey session. Career actions are ticked here; everything else links to its screen. */
+export function JourneySessionChecklist({ ss, compact = false }: { ss: SessionState; compact?: boolean }) {
   const { store } = useProgress();
   return (
-    <ol className="divide-y divide-line" data-testid={`day-${ds.day.day}-items`}>
-      {ds.items.map((it, i) => {
+    <ol className="divide-y divide-line" data-testid={`session-${ss.session.session}-items`}>
+      {ss.items.map((it, i) => {
         const s = statusIcon[it.status];
         const isApply = it.item.kind === "apply";
         const body = (
@@ -45,7 +45,7 @@ export function JourneyDayChecklist({ ds, compact = false }: { ds: DayState; com
           </>
         );
         if (it.item.kind === "apply") {
-          const key = applyKey(ds.day.day, it.item.id);
+          const key = applyKey(ss.session.session, it.item.id);
           return (
             <li key={it.key}>
               <label className="flex cursor-pointer items-start gap-3 px-4 py-3 hover:bg-surface-2">
