@@ -4,7 +4,7 @@ import AxeBuilder from "@axe-core/playwright";
 test.describe("Learning intelligence from evidence", () => {
   test("a fresh profile sees module-gap suggestions and a readiness list with no percentages", async ({ page }) => {
     await page.goto("/progress");
-    await expect(page.getByTestId("readiness-summary")).toContainText("0 of 16 modules have complete evidence");
+    await expect(page.getByTestId("readiness-summary")).toContainText("0 of 25 modules have complete evidence");
     await expect(page.getByTestId("readiness-fundamentals")).toContainText("no evidence yet");
     await expect(page.getByTestId("readiness-fundamentals")).toContainText("Missing:");
     const text = await page.getByTestId("readiness").innerText();

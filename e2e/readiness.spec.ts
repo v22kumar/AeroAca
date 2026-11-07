@@ -71,7 +71,7 @@ test.describe("Learner readiness: prerequisites, labs, build-it and the diagnost
     }
     const result = page.getByTestId("diagnostic-result");
     await expect(result).toContainText("12 of 14 answered correctly");
-    await expect(result).toContainText("One lesson to take before day 1");
+    await expect(result).toContainText("One lesson to take before stage 1");
     await expect(result.getByTestId("start-here-embedded-c-register-bit-masks")).toBeVisible();
     await expect(result).toContainText("Because you missed: Hexadecimal, Bit masks");
     expect(await result.innerText()).not.toMatch(/\d\s*%|level \d|score[:\s]+\d/i); // no percentage, level number or numeric score anywhere
@@ -83,16 +83,16 @@ test.describe("Learner readiness: prerequisites, labs, build-it and the diagnost
     await expect(card).toContainText("Start here");
     await expect(card.getByTestId("start-here-embedded-c-register-bit-masks")).toBeVisible();
     await expect(page.getByTestId("start-here-offer")).toHaveCount(0);
-    // the day-1 next action is still offered; nothing is gated
-    await expect(page.getByTestId("next-action")).toContainText("Day 1 of 30");
+    // the session-1 next action is still offered; nothing is gated
+    await expect(page.getByTestId("next-action")).toContainText("Stage 1 · Session 1 of 30");
   });
 
-  test("skipping the diagnostic removes the offer and keeps day 1 as the start", async ({ page }) => {
+  test("skipping the diagnostic removes the offer and keeps session 1 as the start", async ({ page }) => {
     await page.goto("/");
     await page.getByTestId("start-here-offer").getByTestId("start-here-skip").click();
     await expect(page.getByTestId("start-here-offer")).toHaveCount(0);
     await page.reload();
-    await expect(page.getByTestId("next-action")).toContainText("Day 1 of 30");
+    await expect(page.getByTestId("next-action")).toContainText("Stage 1 · Session 1 of 30");
     await expect(page.getByTestId("start-here-offer")).toHaveCount(0);
   });
 });

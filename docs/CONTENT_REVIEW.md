@@ -71,6 +71,34 @@ Review levels:
 | mission | `the-task-that-never-runs` | The task that never runs | n/a | 2 | — | — | yes | pending |
 | mission | `the-uart-that-prints-garbage` | The UART that prints garbage | n/a | 2 | — | — | yes | pending |
 | mission | `two-boards-one-bus-no-agreement` | Two boards, one bus, no agreement | n/a | 1 | — | — | yes | pending |
+| lesson | `mil-std-1553b-controller-terminals-and-faults` | 1553 on a real rig: the schedule, the load and reading a monitor log (2.0 format) | technically-reviewed | 3 | 5 | mil1553 figure, py-mon1553 lab | yes | pending |
+| lesson | `arinc-429-words-labels-and-ssm` | ARINC 429: one talker, a 32-bit word, and a field that says whether to believe it (2.0 format) | technically-reviewed | 3 | 5 | arinc429 figure, py-a429 lab | yes | pending |
+| lesson | `rs-422-rs-485-and-framed-serial-with-crc` | RS-422 and RS-485: differential links, termination, and frames you can trust (2.0 format) | technically-reviewed | 4 | 4 | c-crc16 lab | yes | pending |
+| lesson | `telemetry-packets-and-parsing-with-struct` | Telemetry packets: design the frame, then parse it so that nothing is silently lost (2.0 format) | technically-reviewed | 3 | 5 | py-telemetry lab | yes | pending |
+| lesson | `do-178c-levels-and-objectives` | DO-178C: what a software level really changes | technically-reviewed | 4 | 5 | figure (do178-levels) | yes | pending |
+| lesson | `requirements-based-testing-hlr-llr` | Requirements-based testing: HLR, LLR, normal-range and robustness | technically-reviewed | 3 | 3 + 1 ordering | figure (v-model), walkthrough | yes | pending |
+| lesson | `structural-coverage-and-mcdc` | Structural coverage and MC/DC | technically-reviewed | 3 | 4 | figure (mcdc-pairs), lab c-mcdc | yes | pending |
+| lesson | `traceability-problem-reports-and-change-impact` | Traceability, problem reports and change impact | technically-reviewed | 3 | 3 | traceability visual | yes | pending |
+| lesson | `why-flight-control-is-redundant` | Why flight control is redundant | technically-reviewed | 4 | 4 | figure (redundant-channels) | yes | pending |
+| lesson | `voting-monitors-and-failover` | Voting, monitors and failover | technically-reviewed | 3 | 3 | lab c-voter, walkthrough | yes | pending |
+| lesson | `testing-a-cross-channel-link` | Testing a cross-channel link | technically-reviewed | 3 | 3 | figure (fault-injection-flow), lab py-fault-inject | yes | pending |
+| lesson | `tasks-the-scheduler-and-the-tick` | Tasks, the scheduler and the tick | technically-reviewed | 3 | 3 | figure (rtos-task-states), lab c-sched, walkthrough | yes | pending |
+| lesson | `will-it-meet-its-deadline` | Will it meet its deadline? Utilisation, response time and blocking | technically-reviewed | 3 | 4 | figure (response-time), walkthrough, lab c-sched | yes | pending |
+| lesson | `frame-based-executives-and-overruns` | Frame-based executives: minor frames, rate groups and the frame that overran | technically-reviewed | 3 | 4 | figure (frame-executive), walkthrough, lab c-frame-exec | yes | pending |
+| lesson | `shared-memory-dpram-handshakes` | Shared memory between processors: torn reads and the sequence-counter handshake | technically-reviewed | 3 | 3 | walkthrough, lab c-dpram | yes | pending |
+| lesson | `measuring-wcet-and-jitter` | Measuring worst-case time and jitter on the target | technically-reviewed | 3 | 4 | walkthrough | no | pending |
+| lesson | `deadlock-and-lock-ordering` | Deadlock and lock ordering: two tasks, two locks, no way out | technically-reviewed | 4 | 3 | walkthrough | no | pending |
+| lesson | `hil-architecture-and-bench-design` | HIL architecture and bench design | technically-reviewed | 4 | 3 + 1 numeric | figures (hil-architecture, test-bench-automation) | yes | pending |
+| lesson | `from-fmea-to-fault-injection` | From an FMEA to fault injection | technically-reviewed | 4 | 3 + 1 numeric | figure (fault-injection-flow), lab py-fault-inject | yes | pending |
+| lesson | `logs-to-evidence` | From logs to evidence | technically-reviewed | 3 | 3 + 1 numeric | walkthrough, lab py-log-report | yes | pending |
+| lesson | `pytest-for-hardware-tests` | pytest for hardware tests | technically-reviewed | 3 | 4 | walkthroughs (code shown, not run in CI; no lab) | yes | pending |
+| lesson | `architecture-of-a-test-framework` | The architecture of a test framework | technically-reviewed | 3 | 4 + 1 numeric | figure (test-framework-layers), lab py-bench-framework | yes | pending |
+| lesson | `debug-probe-and-gdb-on-target` | The debug probe and GDB: stopping the chip instead of printing at it | technically-reviewed | 4 | 3 | figure (debug-chain), walkthrough (illustrative GDB session, not captured) | no | pending |
+| lesson | `hardfault-analysis` | HardFault analysis: from a stopped core to the line that caused it | technically-reviewed | 4 | 3 | figure (hardfault-decode), walkthrough, lab c-fault-decode (synthetic captures) | yes | pending |
+| lesson | `building-a-frame-parser-and-breaking-it` | A frame parser in C, and the two bugs that only a careful test finds | technically-reviewed | 4 | 3 | walkthrough, labs c-frame, c-frame-known-failure-a, c-frame-known-failure-b | yes | pending |
+| lesson | `control-loop-and-pid` | The control loop and PID without mystery | technically-reviewed | 3 | 3 | figure (control-loop-pid), walkthrough, lab py-pid (simulation) | yes | pending |
+| lesson | `career-gap-contract-and-ownership` | The gap, the short contract, and 'what did you own?' | technically-reviewed | 3 | 4 | walkthrough | yes | pending |
+| lesson | `claims-metrics-and-negotiation` | Claims, metrics and negotiation: say only what you can back up | technically-reviewed | 3 | 5 | walkthrough | no | pending |
 
 ## Items the second reader should look at first
 

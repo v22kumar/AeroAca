@@ -41,10 +41,12 @@ describe("progress backups from earlier releases", () => {
     expect(st.lessons["mcu-board-does-not-boot"]?.completedAt).toBeDefined();
     expect(st.activeRuns).toBeUndefined();
     expect(st.applyDone).toBeUndefined();
-    // Journey (0.2) derives from the old facts: day 1's lesson is done, the rest is not.
+    // The journey derives from the stored facts without a migration step. The career-track journey
+    // (Release 1.2) starts elsewhere, so the old bring-up lesson no longer completes session 1, but it stays
+    // recorded and counted: nothing the learner did is lost.
     const js = journeyState(st, now());
-    expect(js.days[0]!.items[0]).toMatchObject({ done: true });
-    expect(js.completedDays).toBe(0);
+    expect(js.sessions[0]!.items[0]).toMatchObject({ done: false });
+    expect(js.completedSessions).toBe(0);
     // Targeted review and recommendations (0.2, 0.9) see the old wrong attempt.
     const recs = recommendations(st, 10);
     expect(recs.some((r) => r.kind === "retry" && r.href.includes("i2c-sensor-not-acknowledging"))).toBe(true);

@@ -23,8 +23,8 @@ Other scripts: `npm run build`, `npm start`, `npm test` (Vitest), `npm run icons
 
 | Screen | Route | What it does |
 |---|---|---|
-| Today | `/` | The current journey day: one obvious next step, the day's checklist (lessons, missions, interview rehearsal, spaced review, career actions she ticks herself), realistic minutes, this week's numbers |
-| Journey | `/journey` | All 30 days in six blocks, with real statuses; days whose content is not yet published are marked and never counted as done |
+| Today | `/` | The current session of the career track: one obvious next step, the session's checklist (lessons, missions, interview rehearsal, spaced review, career actions she ticks herself), realistic minutes, the stage's outcome and the ladder rung it builds, this week's numbers |
+| Journey | `/journey` | Six stages of five sessions each, with real statuses and an outcome per stage, then the career ladder: roles, reported pay bands with every figure's public source and date, and the evidence that moves an engineer up |
 | Learn | `/curriculum` | All 16 modules from [docs/CURRICULUM.md](docs/CURRICULUM.md); published items are playable, planned ones are marked *Coming soon* and are not links |
 | Lesson | `/lessons/[slug]` | Scenario → concept → interactive visual → example → exercises → interview question → recap, with per-answer feedback. Completion requires every exercise solved |
 | Mission | `/missions/[slug]` | Fault isolation with a simulated bench: actions cost minutes, unlock other actions, and are judged; a diagnosis must be backed by evidence; a fix is graded; a debrief compares your path with an efficient one |
@@ -43,7 +43,7 @@ The authoritative list is the Curriculum page in the app (every module, every le
 - **Interactives** on boot chains, I2C, registers, UART, SPI, watchdog timing, aliasing, traceability, startup, priority inversion, a SCPI console, FMEA, standards, the sensor-monitor lab, ADC quantisation, CAN arbitration, PWM timers, NVIC priorities, dividers and RC response.
 - **Runnable labs** under `labs/` with CI-verified expected output (see "Running the labs").
 - **Portfolio track**: the STM32 sensor monitor in seven stages with Build-it steps.
-- **Interview bank** with rubrics and cross-industry notes; **glossary** of tappable terms; **30-day journey** as the fast track; a **starting-level diagnostic** at `/start`.
+- **Interview bank** with rubrics and cross-industry notes; **glossary** of tappable terms; **career track** in six stages with a sourced **career ladder**; a **starting-level diagnostic** at `/start`.
 
 Exact counts live in `docs/DEVELOPMENT_STATUS.md` and change with every content PR; the lesson counts shown on the Today page are computed from the content at build time.
 
@@ -69,7 +69,7 @@ Key decisions, with reasoning, are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.m
 - **Next.js 16 + TypeScript + Tailwind v4**, fully static output, no server code, no API keys, no database.
 - **Content is typed data, not MDX.** Lessons are step sequences with structured exercises, validated by zod at test time. Prose fields are Markdown. See [docs/CONTENT_AUTHORING.md](docs/CONTENT_AUTHORING.md).
 - **Progress is device-local** (localStorage, schema-versioned). The UI says so wherever it matters and offers export/import.
-- **Grading, mission and journey logic are pure functions** with unit tests; the UI only renders their results. Journey days complete only when every available item is genuinely done; planned items never count.
+- **Grading, mission and journey logic are pure functions** with unit tests; the UI only renders their results. Journey sessions complete only when every available item is genuinely done; planned items never count.
 - **Definitions on demand.** A remark plugin links the first occurrence of each glossary term per block of Markdown; a shared bottom sheet shows a plain-language definition, the precise detail, why it matters for her work, related terms and the lesson it comes from.
 - **Personal, warm, adult.** Greeting by name (editable on Progress), "why this matters for your next role" on every lesson and mission, encouraging feedback copy. No badges, streaks or confetti.
 

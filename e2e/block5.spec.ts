@@ -71,9 +71,9 @@ test.describe("Block 5: automation, HIL, FMEA", () => {
     await expect(page.getByTestId("mission-outcome")).toBeVisible();
   });
 
-  test("journey days 21 to 25 are playable", async ({ page }) => {
+  test("journey sessions 21 to 25 are playable", async ({ page }) => {
     await page.goto("/journey");
-    await expect(page.getByTestId("journey-day-22")).toContainText("flaky automated test");
-    await expect(page.getByTestId("journey-day-25")).not.toContainText("coming soon");
+    await expect(page.getByTestId("journey-session-24")).toContainText("flaky automated test");
+    await expect(page.getByTestId("journey-session-25")).not.toContainText("coming soon");
   });
 });

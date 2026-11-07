@@ -11,7 +11,7 @@ import { Icon } from "@/components/ui/Icon";
 
 export function CurriculumView() {
   const { state, hydrated } = useProgress();
-  const sections = (["A", "B", "C", "D", "E"] as const).map((s) => ({ id: s, title: sectionTitles[s], modules: curriculum.filter((m) => m.section === s) }));
+  const sections = (["A", "B", "C", "D", "E", "F"] as const).map((s) => ({ id: s, title: sectionTitles[s], modules: curriculum.filter((m) => m.section === s) }));
   const published = curriculum.reduce((n, m) => n + m.lessons.filter((l) => l.status === "published").length + (m.missions ?? []).filter((x) => x.status === "published").length, 0);
   const planned = curriculum.reduce((n, m) => n + m.lessons.filter((l) => l.status === "planned").length + (m.missions ?? []).filter((x) => x.status === "planned").length, 0);
 
@@ -19,10 +19,10 @@ export function CurriculumView() {
     <div className="mx-auto flex max-w-2xl flex-col gap-8">
       <div>
         <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">Curriculum</p>
-        <h1 className="mt-1 text-[26px] font-bold leading-tight tracking-tight md:text-3xl">16 modules, built in the order you need them.</h1>
+        <h1 className="mt-1 text-[26px] font-bold leading-tight tracking-tight md:text-3xl">{curriculum.length} modules, built in the order you need them.</h1>
         <p className="mt-2 text-[15px] text-ink-2">
           <Link href="/journey" className="font-semibold text-accent underline underline-offset-2">
-            30-day journey
+            Career track, stage by stage
           </Link>
           {" · "}
           <Link href="/glossary" className="font-semibold text-accent underline underline-offset-2">

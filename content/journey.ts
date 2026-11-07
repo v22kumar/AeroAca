@@ -1,156 +1,390 @@
-import type { JourneyDay } from "@/lib/content/schema";
+import type { JourneySession, JourneyStage } from "@/lib/content/schema";
 
 /**
- * The 30-day interview fast track as a guided journey.
- * Days 1–10 are fully specified from published content. Days 11–30 follow the
- * fast-track plan (docs/CURRICULUM.md) and reference planned content, which is
- * shown as coming soon and can never be marked complete.
+ * The career track as a guided journey: six stages, thirty sessions, no calendar. Each session is one
+ * sitting of 15 to 45 minutes built only from published content; the learner moves to the next when
+ * the current one is complete, however many days that takes. The stages follow modules 17 to 25: say
+ * what you did, DO-178C verification, avionics buses, redundancy, real-time analysis, benches and
+ * fault injection, test automation, on-target debugging, control basics, then a mock interview and a
+ * plan. Each stage ends with an outcome the learner can defend and names the rung of the career
+ * ladder (content/career-ladder.ts) that evidence belongs to.
  *
- * Each day is a realistic 20–40 minute session. The learner moves to the next
- * day when the current one is complete; there is no calendar pressure.
+ * Embedded and electronics foundations (modules 1 to 9) are not in these stages; the diagnostic
+ * points to them where needed and the last session plans them.
  */
-export const journey: JourneyDay[] = [
+export const journeyStages: JourneyStage[] = [
   {
-    day: 1,
-    title: "A dead board, in order",
-    focus: "The bring-up checklist every interviewer asks about, learned from first principles.",
-    block: 1,
-    items: [
-      { kind: "lesson", slug: "mcu-board-does-not-boot" },
-      { kind: "interview", questionIds: ["mcu-no-boot-walkthrough"] },
-      { kind: "apply", id: "bringup-card", title: "Write your bring-up order on an index card", detail: "Power at the pins, reset, clock, boot, debugger, firmware. Keep it by your desk and say it out loud once.", minutes: 5 },
-    ],
+    stage: 1,
+    title: "Say what you did, and what a software level means",
+    focus: "Ownership and gaps in under a minute; DO-178C levels, requirements-based tests, MC/DC, traceability and change impact.",
+    outcome: "You can describe your own work at the right ownership level without inflating it, and explain what a software level changes, how tests come from requirements, what MC/DC shows and what a late change makes you redo.",
+    ladderLevel: "level-1",
   },
   {
-    day: 2,
-    title: "Reset: held, pulsed, or self-inflicted",
-    focus: "Diagnose a held reset on the bench, then learn what makes a chip reset itself.",
-    block: 1,
-    items: [
-      { kind: "mission", slug: "fresh-board-no-sign-of-life" },
-      { kind: "lesson", slug: "watchdogs-and-reset-loops" },
-      { kind: "review" },
-    ],
+    stage: 2,
+    title: "Avionics buses and telemetry",
+    focus: "MIL-STD-1553B from the word to the monitor log, ARINC 429, RS-422 and RS-485 with CRC, telemetry parsing.",
+    outcome: "You can read a 1553 monitor log and say which messages need explaining, decode a 429 word and its status, place termination and bias on a 485 link, and parse a telemetry stream without losing frames silently.",
+    ladderLevel: "level-1",
   },
   {
-    day: 3,
-    title: "Trust your scope",
-    focus: "Know what the probe adds before you believe a waveform.",
-    block: 1,
-    items: [
-      { kind: "lesson", slug: "oscilloscope-probing" },
-      { kind: "interview", questionIds: ["reset-loop-cause", "swd-vs-crystal"] },
-      { kind: "apply", id: "debug-story-60s", title: "Draft the 60-second version of one real debugging story", detail: "Symptom, the measurement that decided it, the fix. Your own work only; no study project dressed up as experience.", minutes: 8 },
-    ],
+    stage: 3,
+    title: "Redundancy and real-time analysis",
+    focus: "Why flight control is redundant, voting and isolation, cross-channel link tests, the scheduler and the tick, schedulability.",
+    outcome: "You can draw a redundant architecture, explain the voter and what happens on disagreement, design the test matrix for a cross-channel link, and decide whether a task set meets its deadlines with a calculation, not a feeling.",
+    ladderLevel: "level-2",
   },
   {
-    day: 4,
-    title: "What a NACK proves",
-    focus: "I2C from the wire up: idle levels, the address byte, the ninth clock.",
-    block: 1,
-    items: [
-      { kind: "lesson", slug: "i2c-sensor-not-acknowledging" },
-      { kind: "review" },
-      { kind: "interview", questionIds: ["i2c-nack-systematic"] },
-    ],
+    stage: 4,
+    title: "Timing, shared memory and parsers",
+    focus: "Frame-based executives and overruns, DPRAM handshakes, measured WCET and jitter, a frame parser built and broken, deadlock.",
+    outcome: "You can explain how a 10 ms frame overruns and what a shed policy trades, design a handshake that cannot tear a read, say how you would measure a sub-millisecond claim, and find the bug in a parser from its code.",
+    ladderLevel: "level-2",
   },
   {
-    day: 5,
-    title: "Look at the wire first",
-    focus: "Solve an I2C fault with evidence, then learn the serial link every board starts with.",
-    block: 1,
-    items: [
-      { kind: "mission", slug: "the-sensor-that-never-answers" },
-      { kind: "lesson", slug: "uart-framing-and-baud" },
-      { kind: "review" },
-    ],
+    stage: 5,
+    title: "Benches, fault injection and test automation",
+    focus: "HIL architecture and bench design, FMEA to fault injection, logs to evidence, pytest for hardware, framework architecture.",
+    outcome: "You can describe a rig and what it does not prove, turn an FMEA row into an injected fault with a detection assertion, and draw the layers of a test framework you wrote part of, with the time it saved measured honestly.",
+    ladderLevel: "level-2",
   },
   {
-    day: 6,
-    title: "A number, not a guess",
-    focus: "Turn garbage on a console into a ratio, then into a one-line cause.",
-    block: 2,
-    items: [
-      { kind: "mission", slug: "the-uart-that-prints-garbage" },
-      { kind: "interview", questionIds: ["uart-garbage-diagnosis", "i2c-pullup-sizing"] },
-      { kind: "apply", id: "application-1", title: "Send one application today", detail: "Pick a role that lists bring-up, test or integration. Applications run in parallel with learning, not after it.", minutes: 20 },
-    ],
+    stage: 6,
+    title: "On-target debugging, control basics, interviews and your plan",
+    focus: "The probe and GDB, HardFault to a line of source, PID in plain words, claims and negotiation, a timed mock, the next plan.",
+    outcome: "You can find the line behind a HardFault, explain PID to a new graduate, audit every claim on your own CV, state a metric with its method, and negotiate from facts. Then you choose the next pathway from your own evidence.",
+    ladderLevel: "level-2",
   },
-  {
-    day: 7,
-    title: "Four modes, one edge",
-    focus: "SPI polarity and phase, read from a datasheet and from a shifted byte.",
-    block: 2,
-    items: [
-      { kind: "lesson", slug: "spi-modes-and-chip-select" },
-      { kind: "review" },
-      { kind: "interview", questionIds: ["spi-first-byte-shifted"] },
-    ],
-  },
-  {
-    day: 8,
-    title: "Say exactly what you mean to hardware",
-    focus: "Masks, fields, volatile and the read-modify-write hazard.",
-    block: 2,
-    items: [
-      { kind: "lesson", slug: "embedded-c-register-bit-masks" },
-      { kind: "interview", questionIds: ["volatile-rmw-explained"] },
-      { kind: "review" },
-    ],
-  },
-  {
-    day: 9,
-    title: "Integers with sharp edges",
-    focus: "Promotion, wrap-around, undefined shifts and the 49-day bug.",
-    block: 2,
-    items: [
-      { kind: "lesson", slug: "fixed-width-integers-overflow-shifts" },
-      { kind: "interview", questionIds: ["bit-field-write", "overflow-elapsed-time"] },
-      { kind: "review" },
-    ],
-  },
-  {
-    day: 10,
-    title: "Prove the reset source",
-    focus: "Close the first block with a reset-loop investigation and an honest story about your experience.",
-    block: 2,
-    items: [
-      { kind: "mission", slug: "the-board-that-resets-every-second" },
-      { kind: "interview", questionIds: ["watchdog-strategy", "debugging-story", "honest-experience"] },
-      { kind: "apply", id: "mock-interview-1", title: "Record yourself answering two questions", detail: "Phone voice memo, 90 seconds each: the bring-up walkthrough and the I2C NACK question. Listen back once and note one thing to tighten.", minutes: 15 },
-    ],
-  },
-  // ---- Block 3: integration, verification, RCA (days 11–15) ----
-  { day: 11, title: "A bring-up checklist that gets used", focus: "Turn the method into a document a team will follow, with numbers in every line.", block: 3, items: [{ kind: "lesson", slug: "board-bring-up-checklist" }, { kind: "interview", questionIds: ["bringup-checklist-design", "probe-loading"] }, { kind: "review" }] },
-  { day: 12, title: "Requirements to test cases", focus: "Traceability from a requirement to a test a reviewer can trust, and where the number comes from.", block: 3, items: [{ kind: "lesson", slug: "writing-a-trustworthy-test-case" }, { kind: "mission", slug: "the-requirement-nobody-could-test" }, { kind: "review" }] },
-  { day: 13, title: "Root-cause analysis, written down", focus: "From symptom to cause to prevention, in a form a design review accepts.", block: 3, items: [{ kind: "lesson", slug: "root-cause-analysis" }, { kind: "interview", questionIds: ["rca-intermittent"] }, { kind: "apply", id: "application-2", title: "Send one application", detail: "Integration or verification role this time. Use a real debugging story from your own work in the cover note.", minutes: 20 }, { kind: "review" }] },
-  { day: 14, title: "Integration day", focus: "Interfaces, ICDs and what goes wrong between subsystems that each pass their own tests.", block: 3, items: [{ kind: "lesson", slug: "interface-control-and-integration-faults" }, { kind: "mission", slug: "two-boards-one-bus-no-agreement" }, { kind: "interview", questionIds: ["icd-contents-question"] }, { kind: "review" }] },
-  { day: 15, title: "Block review", focus: "Consolidate blocks 1 to 3 with targeted review and three mock questions.", block: 3, items: [{ kind: "review" }, { kind: "interview", questionIds: ["mcu-no-boot-walkthrough", "i2c-nack-systematic", "test-case-timing-requirement"] }, { kind: "apply", id: "mock-interview-2", title: "Record three answers and compare with day 10", detail: "Two repeated questions and one new one. Are they shorter, more ordered, more measured?", minutes: 15 }] },
-  // ---- Block 4: RTOS, boot, firmware, Linux (days 16–20) ----
-  { day: 16, title: "From reset vector to main()", focus: "What startup code does before your first line runs, and the three faults when it is skipped.", block: 4, items: [{ kind: "lesson", slug: "from-reset-vector-to-main" }, { kind: "interview", questionIds: ["startup-before-main", "reset-loop-cause"] }, { kind: "review" }] },
-  { day: 17, title: "Tasks and priorities", focus: "RTOS scheduling and why the high-priority task starved.", block: 4, items: [{ kind: "lesson", slug: "priority-inversion" }, { kind: "mission", slug: "the-task-that-never-runs" }, { kind: "review" }] },
-  { day: 18, title: "ISR to task handoff", focus: "Queues, semaphores and the data race you cannot see.", block: 4, items: [{ kind: "lesson", slug: "isr-to-task-handoff" }, { kind: "interview", questionIds: ["isr-task-handoff", "volatile-rmw-explained"] }, { kind: "review" }] },
-  { day: 19, title: "Bootloaders and recovery", focus: "Updating firmware safely and getting a bricked unit back.", block: 4, items: [{ kind: "lesson", slug: "bootloaders-images-and-recovery" }, { kind: "interview", questionIds: ["bootloader-safe-update"] }, { kind: "apply", id: "application-3", title: "Send one application", detail: "Firmware or embedded software role. Mention the update and recovery design you can now describe.", minutes: 20 }, { kind: "review" }] },
-  { day: 20, title: "Embedded Linux in a day", focus: "Boot chain, device tree, kernel versus user space, enough to converse and to find a missing device.", block: 4, items: [{ kind: "lesson", slug: "embedded-linux-boot-chain" }, { kind: "interview", questionIds: ["linux-boot-chain"] }, { kind: "review" }] },
-  // ---- Block 5: ATE, HIL, Python, reliability (days 21–25) ----
-  { day: 21, title: "Talk to an instrument", focus: "PyVISA and SCPI: automate one measurement and log it so a reviewer can trust it.", block: 5, items: [{ kind: "lesson", slug: "talking-to-an-instrument-with-pyvisa" }, { kind: "interview", questionIds: ["automate-a-measurement"] }, { kind: "review" }] },
-  { day: 22, title: "Serial from Python", focus: "pyserial, framing, stale buffers and a request-reply exchange that cannot drift.", block: 5, items: [{ kind: "lesson", slug: "serial-automation-and-test-logs" }, { kind: "mission", slug: "the-flaky-automated-test" }, { kind: "review" }] },
-  { day: 23, title: "HIL and SIL", focus: "What hardware-in-the-loop proves that a bench cannot, and what it cannot prove either.", block: 5, items: [{ kind: "lesson", slug: "sil-hil-what-each-proves" }, { kind: "interview", questionIds: ["sil-vs-hil", "watchdog-strategy"] }, { kind: "review" }] },
-  { day: 24, title: "Reliability and FMEA", focus: "Failure modes, effects and the evidence behind a reliability claim.", block: 5, items: [{ kind: "lesson", slug: "fmea-for-a-small-embedded-product" }, { kind: "interview", questionIds: ["fmea-walkthrough"] }, { kind: "apply", id: "application-4", title: "Send one application", detail: "Test automation or reliability role. Mention a measurement you have automated, even if it was the simulated DMM here, and say so honestly.", minutes: 20 }, { kind: "review" }] },
-  { day: 25, title: "Block review", focus: "Targeted review of blocks 4 and 5, plus a Python read-through.", block: 5, items: [{ kind: "review" }, { kind: "interview", questionIds: ["overflow-elapsed-time", "spi-first-byte-shifted", "bit-field-write", "flaky-test-diagnosis"] }] },
-  // ---- Block 6: cross-industry cases and mock interviews (days 26–30) ----
-  { day: 26, title: "Avionics and automotive", focus: "DO-178C/DO-254 and ISO 26262: scope, not slogans, and your honest involvement.", block: 6, items: [{ kind: "lesson", slug: "avionics-and-automotive-standards-scope" }, { kind: "interview", questionIds: ["standards-scope"] }, { kind: "review" }] },
-  { day: 27, title: "Medical and industrial", focus: "IEC 62304, IEC 60601, IEC 61508: how the same skills transfer, and how to say so.", block: 6, items: [{ kind: "lesson", slug: "medical-and-industrial-standards-scope" }, { kind: "lesson", slug: "same-skills-different-industries" }, { kind: "interview", questionIds: ["transfer-across-industries", "probe-loading", "uart-garbage-diagnosis"] }, { kind: "review" }] },
-  { day: 28, title: "Your portfolio exercise", focus: "The STM32 sensor-monitoring project, described truthfully.", block: 6, items: [{ kind: "lesson", slug: "presenting-a-portfolio-project-honestly" }, { kind: "interview", questionIds: ["portfolio-honest"] }, { kind: "apply", id: "portfolio-outline", title: "Write a one-page outline of your portfolio project", detail: "Six headings: problem and scope, constraints and decisions, what was built, simulated versus hardware (as a table), evidence, what is next. The portfolio track page builds the simulated-versus-hardware table from what you have actually ticked.", minutes: 25, href: "/portfolio" }] },
-  { day: 29, title: "Mock interview", focus: "A timed technical interview from the question bank, after one lesson on telling the story.", block: 6, items: [{ kind: "lesson", slug: "telling-a-debugging-story" }, { kind: "interview", questionIds: ["mcu-no-boot-walkthrough", "i2c-nack-systematic", "watchdog-strategy", "debugging-story"], mock: true }, { kind: "apply", id: "mock-interview-3", title: "Score your timed mock with the rubrics", detail: "Four questions, four minutes each, no notes, using the in-app timer. Afterwards rate each honestly and write one line per question on what to fix.", minutes: 15 }] },
-  { day: 30, title: "Review and plan the next 30", focus: "What is solid, what is shaky, and what the next month should contain.", block: 6, items: [{ kind: "review" }, { kind: "apply", id: "next-30-plan", title: "Write your next 30-day plan from the weak-area list", detail: "Use the Progress page: every wrong attempt and every 'shaky' rating is a line in the plan.", minutes: 15 }] },
 ];
 
-export const journeyBlocks: Record<number, { days: string; focus: string }> = {
-  1: { days: "1–5", focus: "Circuit fundamentals, schematics, MCU and measurements" },
-  2: { days: "6–10", focus: "Embedded C, UART, SPI, I2C and CAN" },
-  3: { days: "11–15", focus: "Integration, verification, RCA and traceability" },
-  4: { days: "16–20", focus: "RTOS, boot, firmware, Linux and driver concepts" },
-  5: { days: "21–25", focus: "ATE, HIL, Python and reliability" },
-  6: { days: "26–30", focus: "Cross-industry cases and mock interviews" },
-};
+export const journey: JourneySession[] = [
+  {
+    session: 1,
+    title: "Say exactly what you did",
+    focus: "Answer 'what did you own?' and explain a gap or a short contract in under a minute, truthfully.",
+    stage: 1,
+    items: [
+      {"kind": "lesson", "slug": "career-gap-contract-and-ownership"},
+      {"kind": "interview", "questionIds": ["what-did-you-own", "career-gap-or-short-contract"]},
+      {"kind": "apply", "id": "ownership-sentences", "title": "Write three sentences that say what you did, contributed to, and owned", "detail": "One sentence per level on your most recent project: did, contributed to, owned. Use the verbs you can defend with an example. No numbers you cannot explain.", "minutes": 8},
+    ],
+  },
+  {
+    session: 2,
+    title: "What a software level changes",
+    focus: "DO-178C levels A to E: who sets them, what an objective is, what changes on your desk.",
+    stage: 1,
+    items: [
+      {"kind": "lesson", "slug": "do-178c-levels-and-objectives"},
+      {"kind": "interview", "questionIds": ["do-178c-levels-explained"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 3,
+    title: "From one requirement to the right tests",
+    focus: "Equivalence classes, boundaries and robustness cases from a single requirement, and why expected results never come from the code.",
+    stage: 1,
+    items: [
+      {"kind": "lesson", "slug": "requirements-based-testing-hlr-llr"},
+      {"kind": "mission", "slug": "the-requirement-nobody-could-test"},
+      {"kind": "interview", "questionIds": ["requirements-based-testing-explained"]},
+    ],
+  },
+  {
+    session: 4,
+    title: "Show MC/DC on a whiteboard",
+    focus: "Statement, decision and MC/DC, with the independence pairs for a three-condition decision and what to do with an uncovered line.",
+    stage: 1,
+    items: [
+      {"kind": "lesson", "slug": "structural-coverage-and-mcdc"},
+      {"kind": "interview", "questionIds": ["structural-coverage-mcdc-explained"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 5,
+    title: "A requirement changed late: what do you redo?",
+    focus: "Traceability, problem reports and change impact, written down so an auditor can follow it.",
+    stage: 1,
+    items: [
+      {"kind": "lesson", "slug": "traceability-problem-reports-and-change-impact"},
+      {"kind": "interview", "questionIds": ["change-impact-and-traceability"]},
+      {"kind": "apply", "id": "application-1", "title": "Send one application today", "detail": "Pick a role that lists systems integration, V&V, test automation or embedded. Applications run in parallel with learning, not after it.", "minutes": 20},
+    ],
+  },
+  {
+    session: 6,
+    title: "The 1553 word and the message",
+    focus: "The command, status and data words, the three message formats and what the bus controller does.",
+    stage: 2,
+    items: [
+      {"kind": "lesson", "slug": "mil-std-1553b-the-word-and-the-message"},
+      {"kind": "interview", "questionIds": ["mil-1553-word-walk"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 7,
+    title: "1553 on a real rig",
+    focus: "Schedule, bus load and reading a monitor log: which of eight messages needs explaining and why.",
+    stage: 2,
+    items: [
+      {"kind": "lesson", "slug": "mil-std-1553b-controller-terminals-and-faults"},
+      {"kind": "interview", "questionIds": ["mil-1553-bus-fault-triage"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 8,
+    title: "ARINC 429: believe the status first",
+    focus: "One transmitter, a 32-bit word, labels and the sign/status matrix that says whether to use the number.",
+    stage: 2,
+    items: [
+      {"kind": "lesson", "slug": "arinc-429-words-labels-and-ssm"},
+      {"kind": "interview", "questionIds": ["arinc-429-word-and-ssm"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 9,
+    title: "Differential links and frames you can trust",
+    focus: "RS-422 and RS-485: termination, bias, turnaround and a CRC that the receiver must act on.",
+    stage: 2,
+    items: [
+      {"kind": "lesson", "slug": "rs-422-rs-485-and-framed-serial-with-crc"},
+      {"kind": "mission", "slug": "two-boards-one-bus-no-agreement"},
+      {"kind": "interview", "questionIds": ["rs-422-485-link-design"]},
+    ],
+  },
+  {
+    session: 10,
+    title: "Telemetry you can audit",
+    focus: "Design a frame, parse it with struct, and count what you lose. Then say it aloud.",
+    stage: 2,
+    items: [
+      {"kind": "lesson", "slug": "telemetry-packets-and-parsing-with-struct"},
+      {"kind": "interview", "questionIds": ["telemetry-packet-design"]},
+      {"kind": "apply", "id": "mock-interview-1", "title": "Record yourself answering two questions", "detail": "Phone voice memo, 90 seconds each: the DO-178C level question and the 1553 monitor-log question. Listen back once and note one thing to tighten.", "minutes": 15},
+    ],
+  },
+  {
+    session: 11,
+    title: "Why flight control is redundant",
+    focus: "Fail-operational, fail-passive and fail-safe; duplex, triplex, quad; and the common-mode fault that redundancy does not cure.",
+    stage: 3,
+    items: [
+      {"kind": "lesson", "slug": "why-flight-control-is-redundant"},
+      {"kind": "interview", "questionIds": ["redundancy-architecture-explained"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 12,
+    title: "The voter and the monitor",
+    focus: "Mid-value voting, miscompare limits, persistence and isolation, run on a simulated three-channel voter.",
+    stage: 3,
+    items: [
+      {"kind": "lesson", "slug": "voting-monitors-and-failover"},
+      {"kind": "interview", "questionIds": ["voter-miscompare-and-isolation"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 13,
+    title: "Test the cross-channel link",
+    focus: "Integrity, latency, dropout and failover: the test matrix, and what a pulled cable alone does not prove.",
+    stage: 3,
+    items: [
+      {"kind": "lesson", "slug": "testing-a-cross-channel-link"},
+      {"kind": "interview", "questionIds": ["cross-channel-link-test-plan"]},
+      {"kind": "apply", "id": "application-2", "title": "Send one application", "detail": "Aim at a systems-integration, flight-control test or hardware-validation role. Tailor one line to the role, using only work you can defend.", "minutes": 20},
+    ],
+  },
+  {
+    session: 14,
+    title: "Tasks, priorities and the tick",
+    focus: "What the scheduler does, and why the high-priority task never ran.",
+    stage: 3,
+    items: [
+      {"kind": "lesson", "slug": "tasks-the-scheduler-and-the-tick"},
+      {"kind": "mission", "slug": "the-task-that-never-runs"},
+      {"kind": "interview", "questionIds": ["scheduler-tick-and-task-states"]},
+    ],
+  },
+  {
+    session: 15,
+    title: "Will it meet its deadline?",
+    focus: "Utilisation, the rate-monotonic bound and a response-time iteration with blocking, then a first block review.",
+    stage: 3,
+    items: [
+      {"kind": "lesson", "slug": "will-it-meet-its-deadline"},
+      {"kind": "interview", "questionIds": ["is-it-schedulable", "do-178c-levels-explained"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 16,
+    title: "The 10 ms frame and what overran",
+    focus: "Minor and major frames, rate groups, overrun detection and a shed policy that is a decision, not a fix.",
+    stage: 4,
+    items: [
+      {"kind": "lesson", "slug": "frame-based-executives-and-overruns"},
+      {"kind": "interview", "questionIds": ["frame-overrun-handling"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 17,
+    title: "Shared memory without tearing",
+    focus: "Dual-port RAM, sequence-counter handshakes and the torn read a naive write allows.",
+    stage: 4,
+    items: [
+      {"kind": "lesson", "slug": "shared-memory-dpram-handshakes"},
+      {"kind": "interview", "questionIds": ["dpram-handshake-design"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 18,
+    title: "Prove the timing, do not hope",
+    focus: "Measuring WCET and jitter on a target, and why average CPU load proves nothing.",
+    stage: 4,
+    items: [
+      {"kind": "lesson", "slug": "measuring-wcet-and-jitter"},
+      {"kind": "interview", "questionIds": ["wcet-measurement-claim"]},
+      {"kind": "apply", "id": "application-3", "title": "Send one application", "detail": "Roles that mention real-time, determinism or on-target test. Name the one measurement from this block you could explain at a whiteboard.", "minutes": 20},
+    ],
+  },
+  {
+    session: 19,
+    title: "Build a frame parser, then break it",
+    focus: "A parser written clean, then two broken variants you diagnose from the code before you run them.",
+    stage: 4,
+    items: [
+      {"kind": "lesson", "slug": "building-a-frame-parser-and-breaking-it"},
+      {"kind": "interview", "questionIds": ["frame-parser-robustness"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 20,
+    title: "Deadlock and lock ordering",
+    focus: "Four conditions, lock ordering and a mock interview that starts the second half.",
+    stage: 4,
+    items: [
+      {"kind": "lesson", "slug": "deadlock-and-lock-ordering"},
+      {"kind": "interview", "questionIds": ["deadlock-lock-ordering"]},
+      {"kind": "apply", "id": "mock-interview-2", "title": "Record yourself answering two more questions", "detail": "Voice memo, 90 seconds each: the voter question and the schedulability question. Compare with the rubric after you listen.", "minutes": 15},
+    ],
+  },
+  {
+    session: 21,
+    title: "What the rig is and what it is not",
+    focus: "HIL architecture and bench design from an interface document, and what is simulated.",
+    stage: 5,
+    items: [
+      {"kind": "lesson", "slug": "hil-architecture-and-bench-design"},
+      {"kind": "interview", "questionIds": ["hil-rig-describe-and-limits"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 22,
+    title: "From an FMEA to fault injection",
+    focus: "Turn failure modes into injected CRC, timing, stuck-at and babbling faults, and assert detection.",
+    stage: 5,
+    items: [
+      {"kind": "lesson", "slug": "from-fmea-to-fault-injection"},
+      {"kind": "interview", "questionIds": ["fmea-to-fault-injection-test-plan"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 23,
+    title: "Logs to evidence",
+    focus: "Parse a bench log, count what passed, failed and was missing, and write a report a reviewer can read.",
+    stage: 5,
+    items: [
+      {"kind": "lesson", "slug": "logs-to-evidence"},
+      {"kind": "interview", "questionIds": ["logs-to-evidence-report"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 24,
+    title: "pytest for hardware tests",
+    focus: "Fixtures, parametrisation and markers for hardware versus simulation, then a flaky test diagnosis.",
+    stage: 5,
+    items: [
+      {"kind": "lesson", "slug": "pytest-for-hardware-tests"},
+      {"kind": "mission", "slug": "the-flaky-automated-test"},
+      {"kind": "interview", "questionIds": ["pytest-hardware-test-structure"]},
+    ],
+  },
+  {
+    session: 25,
+    title: "Draw the architecture of your automation",
+    focus: "Layers of a test framework and the honest way to measure the time it saved.",
+    stage: 5,
+    items: [
+      {"kind": "lesson", "slug": "architecture-of-a-test-framework"},
+      {"kind": "interview", "questionIds": ["test-framework-architecture-draw-it"]},
+      {"kind": "apply", "id": "application-4", "title": "Send one application", "detail": "Test-automation and validation roles. Keep one sentence ready that says which layer of a framework you wrote and which you used.", "minutes": 20},
+    ],
+  },
+  {
+    session: 26,
+    title: "Debug on the chip",
+    focus: "The debug probe, breakpoints and watchpoints, and reading a peripheral under GDB.",
+    stage: 6,
+    items: [
+      {"kind": "lesson", "slug": "debug-probe-and-gdb-on-target"},
+      {"kind": "interview", "questionIds": ["debug-probe-gdb-explained"]},
+      {"kind": "review"},
+    ],
+  },
+  {
+    session: 27,
+    title: "From a HardFault to a line of source",
+    focus: "Decode the fault registers and the stacked PC, then investigate a board that resets every second.",
+    stage: 6,
+    items: [
+      {"kind": "lesson", "slug": "hardfault-analysis"},
+      {"kind": "mission", "slug": "the-board-that-resets-every-second"},
+      {"kind": "interview", "questionIds": ["hardfault-analysis-explained"]},
+    ],
+  },
+  {
+    session: 28,
+    title: "The control loop in plain words",
+    focus: "PID without mystery on a simulated plant, and a portfolio outline you can defend.",
+    stage: 6,
+    items: [
+      {"kind": "lesson", "slug": "control-loop-and-pid"},
+      {"kind": "interview", "questionIds": ["pid-explained-to-a-new-graduate"]},
+      {"kind": "apply", "id": "portfolio-outline", "title": "Write a one-page outline of the portfolio project", "detail": "Problem, what you built, what is simulated and what is hardware, one result with how it was measured. Use the portfolio screen. Label simulation as simulation.", "minutes": 12, "href": "/portfolio"},
+    ],
+  },
+  {
+    session: 29,
+    title: "Mock interview",
+    focus: "Claims, metrics and negotiation, then a timed mock across the whole track.",
+    stage: 6,
+    items: [
+      {"kind": "lesson", "slug": "claims-metrics-and-negotiation"},
+      {"kind": "interview", "questionIds": ["how-did-you-measure-it", "do-178c-levels-explained", "voter-miscompare-and-isolation", "what-did-you-own"], "mock": true},
+    ],
+  },
+  {
+    session: 30,
+    title: "Review and plan the next 30",
+    focus: "What is solid, what is shaky, and what comes next: embedded foundations, real-time depth or control, chosen from your own evidence.",
+    stage: 6,
+    items: [
+      {"kind": "review"},
+      {"kind": "apply", "id": "next-30-plan", "title": "Write your next 30-day plan from the weak-area list", "detail": "Use the Progress page: every wrong attempt and every shaky rehearsal is a candidate. Pick the pathway you want (embedded and electronics R&D, or aerospace and systems) and choose the modules from the curriculum.", "minutes": 15},
+    ],
+  },
+];
+

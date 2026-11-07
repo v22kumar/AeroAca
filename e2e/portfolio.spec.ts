@@ -42,7 +42,7 @@ test.describe("Portfolio track", () => {
     await expect(page.getByText("Simulation. This models the detection rules")).toBeVisible();
   });
 
-  test("journey day 28 links to the portfolio track and the curriculum header links to it", async ({ page }) => {
+  test("journey session 28 links to the portfolio track and the curriculum header links to it", async ({ page }) => {
     await page.goto("/journey");
     await expect(page.getByTestId("apply-link-portfolio-outline")).toHaveAttribute("href", "/portfolio");
     await page.goto("/curriculum");

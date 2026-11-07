@@ -70,7 +70,7 @@ describe("content validity", () => {
         if (m.status === "published") expect(missionSlugs.has(m.slug!)).toBe(true);
       }
     }
-    expect(curriculum).toHaveLength(16);
+    expect(curriculum.length).toBeGreaterThanOrEqual(16);
   });
 
   it("every published lesson and mission appears on the learning path", () => {

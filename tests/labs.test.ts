@@ -33,8 +33,10 @@ describe("labs: runnable programs with verified expected output", () => {
 
   it("every lab source file is tracked by git (a .gitignore pattern once hid two lab folders from CI)", () => {
     for (const lab of manifest.labs) {
-      const tracked = run(`git ls-files --error-unmatch ${lab.dir}/${lab.file}`, root);
-      expect(tracked.code, `${lab.dir}/${lab.file} is not tracked by git`).toBe(0);
+      for (const f of [lab.file, ...(((lab as { also?: string[] }).also) ?? [])]) {
+        const tracked = run(`git ls-files --error-unmatch ${lab.dir}/${f}`, root);
+        expect(tracked.code, `${lab.dir}/${f} is not tracked by git`).toBe(0);
+      }
     }
   });
 
@@ -46,6 +48,9 @@ describe("labs: runnable programs with verified expected output", () => {
       expect(existsSync(file), file).toBe(true);
       expect(g.code).toBe(readFileSync(file, "utf8").replace(/\r\n/g, "\n").trimEnd());
       expect(g.command).toBe(lab.command);
+      const also = (lab as { also?: string[] }).also ?? [];
+      expect((g.extra ?? []).map((e) => e.file)).toEqual(also);
+      for (const e of g.extra ?? []) expect(e.code).toBe(readFileSync(join(root, lab.dir, e.file), "utf8").replace(/\r\n/g, "\n").trimEnd());
     }
   });
 

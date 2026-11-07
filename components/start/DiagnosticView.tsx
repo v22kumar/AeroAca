@@ -37,7 +37,7 @@ export function DiagnosticView() {
         <Card className="p-5" data-testid="diagnostic-result">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">Your starting point</p>
           <h2 className="mt-1 text-xl font-bold leading-snug">
-            {sh.lessons.length === 0 ? "Day 1 of the fast track is the right start." : `${sh.lessons.length === 1 ? "One lesson" : `${sh.lessons.length} lessons`} to take before day 1.`}
+            {sh.lessons.length === 0 ? "Stage 1 of the career track is the right start." : `${sh.lessons.length === 1 ? "One lesson" : `${sh.lessons.length} lessons`} to take before stage 1.`}
           </h2>
           <p className="mt-2 text-sm text-ink-2">
             {sh.correct} of {sh.questions} answered correctly on the first try. The list below comes only from the questions you missed; each line names the foundation the question tested. Nothing here is a score or a level.
@@ -126,7 +126,7 @@ function Header() {
       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">Find your starting level</p>
       <h1 className="mt-1 text-[26px] font-bold leading-tight tracking-tight md:text-3xl">Fourteen questions, then a starting point.</h1>
       <p className="mt-2 text-[15px] text-ink-2">
-        The 30-day fast track assumes some foundations: circuit laws, logic levels, C integers and pointers, UART and I2C basics, the two bench instruments, what a testable requirement is. This checks each one once. Wrong answers point at the lesson that teaches that foundation; right answers mean day 1 is your start.
+        The career track assumes some foundations: circuit laws, logic levels, C integers and pointers, UART and I2C basics, the two bench instruments, what a testable requirement is. This checks each one once. Wrong answers point at the lesson that teaches that foundation; right answers mean day 1 is your start.
       </p>
     </div>
   );

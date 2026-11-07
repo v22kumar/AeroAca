@@ -22,8 +22,8 @@ test.describe("Block 6: standards, transfer, portfolio, mock interview", () => {
   });
 
   test("timed mock interview: timer runs, advances and finishes; rubric still reveals", async ({ page }) => {
-    await page.goto("/interview?q=debugging-story,watchdog-strategy&day=29&mock=1");
-    await expect(page.getByTestId("interview-focus")).toContainText("Day 29: 2 questions");
+    await page.goto("/interview?q=debugging-story,watchdog-strategy&session=29&mock=1");
+    await expect(page.getByTestId("interview-focus")).toContainText("Session 29: 2 questions");
     await expect(page.getByTestId("mock-clock")).toHaveText("4:00");
     await page.getByTestId("mock-start").click();
     await expect(page.getByTestId("mock-clock")).toHaveText(/3:5[0-9]/);
@@ -37,10 +37,10 @@ test.describe("Block 6: standards, transfer, portfolio, mock interview", () => {
     await expect(page.getByTestId("interview-debugging-story")).toContainText("Shaky");
   });
 
-  test("journey: all 30 days are published and day 29 opens the mock", async ({ page }) => {
+  test("journey: all 30 sessions are published and session 29 opens the mock", async ({ page }) => {
     await page.goto("/journey");
-    await expect(page.getByText("All 30 days are fully published.")).toBeVisible();
-    const day29 = page.getByTestId("journey-day-29");
+    await expect(page.getByText("All 30 sessions are published.")).toBeVisible();
+    const day29 = page.getByTestId("journey-session-29");
     await expect(day29).toContainText("Mock interview");
     await expect(day29.locator('a[href*="mock=1"]')).toHaveCount(1);
   });
